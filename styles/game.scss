@@ -1,0 +1,116 @@
+$success: #90d2ce;
+$info: #a4c6e9;
+$secondary: #f7bcc5;
+
+h3 {
+  position: relative;
+  margin-top: 25px;
+  color: #f8723f;
+  display: flex;
+  justify-content:center;
+  align-items:center;
+  
+}
+.rect {
+  position: relative;
+  width: 550px;
+  height: 600px;
+  /* background-color: #90d2ce; */
+  border: 1px solid #cccccc;
+  border-radius: 2%;
+  margin: auto;
+  margin-top: 40px;
+  margin-bottom: 60px;
+
+  &.success {
+    background-color: #{$success}; // 使用 #{} 引用 SCSS 变量
+  }
+  &.info {
+    background-color: $info;
+  }
+
+  &.secondary {
+    background-color: $secondary;
+  }
+
+  /* box-shadow: 3px 3px 3px rgb(145, 198, 192); */
+}
+.rect2 {
+  position: relative;
+  background-color: #fabc81;
+  width: 500px;
+  height: 350px;
+  margin: auto;
+  margin-top: 50px;
+  border-radius: 2%;
+  margin-bottom: 10px;
+  border: 7px solid #401e11;
+}
+.rect3 {
+  position: relative;
+  background-color: #f6e7d0;
+  width: 470px;
+  height: 280px;
+  margin: auto;
+  margin-top: 15px;
+  border-radius: 8px 8px 0 0;
+}
+.rect4 {
+  position: relative;
+  background-color: #170b06;
+  width: 470px;
+  height: 280px;
+  margin: auto;
+  margin-top: 15px;
+  border-radius: 8px 8px 0 0;
+}
+#dogImage {
+  position: absolute;
+  left: 0px;
+  top: 270px;
+  
+}
+.start {
+  width: 160px;
+  height: 40px;
+  color: #ca9145;
+  // background-color: ;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 40px;
+  border-radius: 10px;
+  display: block;
+  margin: auto;
+  border: 1px solid #ca9145;
+  line-height: normal;
+}
+
+.end {
+  width: 160px;
+  height: 40px;
+  font-size: 18px;
+  font-weight: 700;
+  // background-color: #ebebd2;
+  line-height: 40px;
+  color: #ca9145;
+  border: 1px solid #ca9145;
+  border-radius: 10px;
+  margin: auto;
+  display: block;
+  margin-top: 25px;
+  line-height: normal;
+
+  &.success {
+    background-color: #{$success}; // 使用 #{} 引用 SCSS 变量
+  }
+  &.info {
+    background-color: $info;
+  }
+
+  &.secondary {
+    background-color: $secondary;
+  }
+}
+.randomImage {
+  position: absolute;
+}

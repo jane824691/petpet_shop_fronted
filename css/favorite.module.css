@@ -1,0 +1,245 @@
+.main {
+  height: 1300px;
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.leftList {
+  /* border: 5px solid pink; */
+  /* background-color: #f1cdd3; */
+
+  /* border: 2px solid #CA9145 ; */
+  width: 230px;
+  height: 500px;
+  border-radius: 10px;
+  display: inline-block;
+  justify-content: center;
+  margin-top: 50px;
+}
+.leftListTop {
+  display: inline-block;
+  justify-content: center;
+  border: 5px solid rgb(18, 31, 213);
+}
+.memberPicOut {
+  width: 100%;
+  /* border: 5px solid rgb(227, 72, 20); */
+  display: flex;
+  justify-content: center;
+}
+.memberPic {
+  width: 140px;
+  height: 140px;
+  border-radius: 100px;
+  /*border: 5px solid rgb(237, 10, 48); */
+}
+.memberItems {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-bottom: 5px solid #ca9145;
+  padding-bottom: 8px;
+}
+
+/* 大頭貼icons */
+.memberPicContainer {
+  position: relative;
+  display: inline-block; /* 讓元素以行內元素呈現 */
+}
+
+.camera-icon {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  cursor: pointer;
+}
+
+.cameraIcon {
+  position: relative;
+  bottom: -125px; /* 調整此值以控制向下移動的距離 */
+  right: 20px;
+}
+/* 大頭貼icons */
+
+.name {
+  color: #845f2d;
+  font-weight: 600;
+}
+.nowLocationOut {
+  color: #ca9145;
+  background-color: #f6e7d0;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.nowLocation {
+  /* display: flex;
+ align-items: center; */
+  width: 200px;
+  height: 50px;
+  line-height: 50px;
+  display: flex;
+  align-content: center;
+  justify-content: center;
+  font-size: 22px;
+}
+.iconsOut {
+  display: flex;
+  justify-content: center;
+}
+.icons {
+  /* width: 150px; */
+  text-decoration: none;
+  padding-right: 20px;
+}
+.icon {
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  border: 1px;
+}
+.icon:hover {
+  background-color: #f8723f;
+  border-radius: 10px;
+}
+.iconSick {
+  width: 15px;
+  height: 15px;
+  /* padding: 20px; */
+  color: #ffb44f;
+  margin-right: 5px;
+}
+.iconSick:hover {
+  color: white;
+}
+.iconLink {
+  text-decoration: none;
+  font-size: 20px;
+}
+
+/* 為了那個hover */
+.iconLink:hover {
+  color: white;
+}
+
+.iconLink:hover .iconSick {
+  color: white;
+}
+.icon:hover .iconSick {
+  color: white;
+}
+.icon:hover .iconLink {
+  color: white;
+}
+/* 為了那個hover */
+
+.article {
+  /* border: 1px solid #1fcb1f; */
+  width: 600px;
+  margin-top: 30px;
+  margin-left: 50px;
+}
+
+.articleTitle {
+  display: flex;
+}
+
+.articleCard {
+  width: 580px;
+  height: 150px;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding-left: 15px;
+  border: #f6e7d0 1px solid;
+  border-radius: 10px;
+  box-shadow: 1px 1px 3px 0px gray;
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+.articleCard:hover {
+  background-color: #fff6f6;
+}
+.articleCardIcMe {
+  display: flex;
+  /* border: 1px solid yellow; */
+}
+
+.articleCardMemberIcon {
+  height: 25px;
+  width: 25px;
+  margin-bottom: 10px;
+}
+.articleCardWriter {
+  font-size: 18px;
+  color: #a7a0a0;
+  /* border: #F8723F 2px solid; */
+}
+.articleCardTime {
+  font-size: 12px;
+  color: #151515;
+  /* border: 1px solid red; */
+  line-height: 30px;
+}
+.articleCardTitle {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 5px;
+  /* 讓標題不要超過一行 */
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  line-clamp: 1;
+  -webkit-box-orient: vertical;
+  /* 讓標題不要超過一行 */
+
+  /* border: greenyellow 2px solid; */
+}
+
+.articleCardContent {
+  font-size: 14px;
+  font-weight: normal;
+  margin-bottom: 5px;
+  /* border: palegreen 2px solid; */
+
+  /* 讓內文不要超過兩行 */
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  /* 讓內文不要超過兩行 */
+}
+.articleCardLCS {
+  display: flex;
+  align-items: center;
+  /* border: #F8723F 2px solid; */
+}
+.like {
+  width: 16px;
+  height: 16px;
+  margin-right: 7px;
+  color: red;
+}
+.chat {
+  width: 16px;
+  height: 16px;
+  margin-right: 7px;
+  margin-left: 25px;
+}
+
+.save {
+  width: 16px;
+  height: 16px;
+  margin-right: 7px;
+  margin-left: 25px;
+}
+.newsPic {
+  width: 100px;
+  height: 90px;
+  margin-right: 7px;
+  margin-left: 25px;
+}

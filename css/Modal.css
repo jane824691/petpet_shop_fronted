@@ -1,0 +1,21 @@
+.modal-form {
+  color: rgba(72, 3, 142, 0.5);
+  font-size: 26px;
+  text-align: center;
+  font-weight: 600;
+  line-height: 42px;
+  width: 400px;
+  height: 90px;
+  border: none;
+  background-color: #DAECFF;
+}
+
+.modal-body {
+  font-size: 18px;
+}
+
+.modal-content {
+  border: 5px solid #90D2CE;
+  border-radius: 15px;
+  width: 410px;
+}/*# sourceMappingURL=Modal.css.map */

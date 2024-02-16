@@ -1,0 +1,45 @@
+@charset "UTF-8";
+select {
+  color: #5b5959;
+  width: 280px;
+  height: 40px;
+  cursor: pointer;
+  border-radius: 20px;
+  padding-left: 10px;
+  border: 1px solid #FFB44F;
+}
+
+input {
+  border: 1px solid #FFB44F;
+}
+
+option {
+  width: 280px;
+  border: 1px solid #FFB44F;
+}
+
+option:checked {
+  background-color: #f7bcc5; /* 設置被選擇的選項背景色 */
+}
+
+select:hover {
+  border-color: #a4c6e9; /* 設置滑鼠懸停時的邊框顏色 */
+}
+
+select:focus {
+  outline: none;
+}
+
+.form-control {
+  padding: 0.35rem 1.75rem 0.375rem 0.75rem;
+  border-color: #FFB44F;
+}
+
+.form-select {
+  padding: 0.35rem 5.75rem 0.375rem 0.75rem;
+  border-color: #FFB44F;
+}
+
+.zip-css {
+  padding-right: 6rem;
+}/*# sourceMappingURL=TWZipCode.css.map */
