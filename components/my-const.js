@@ -28,7 +28,6 @@ export const COUPON = API_SERVER + '/favorite/coupon2' // method: POST, 取得�
 //檢查帳號不重複
 export const CHECK = API_SERVER + '/member/check' // method: POST, 取得用戶資料
 export const PRODUCT = API_SERVER + '/product/api'
-export const PRODUCT_BY_CHEAP = API_SERVER + '/product/api_orderByCheap' // 依照價格低到高-排序
 export const ONE_PRODUCT = API_SERVER + '/product/one' // /product/one/2
 export const ORDER_LIST_ADD = API_SERVER + '/order-list/add'
 export const ORDER_LIST = API_SERVER + '/order-list/api'

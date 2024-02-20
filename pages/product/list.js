@@ -17,15 +17,18 @@ export default function List() {
   const [searchWord, setSearchWord] = useState('') // 搜尋關鍵字狀態
   const [priceHigh, setPriceHigh] = useState() //價格區間
   const [priceLow, setPriceLow] = useState()
+  const [sortBy, setSortBy] = useState('') // 價格排序
 
-  //取後端page資料
+  // 取後端page資料
   const getListData = async () => {
     let page = +router.query.page || 1
     if (page < 1) page = 1
     try {
+      const sortByParam =
+        sortBy === 'cheap' ? 'cheap' : sortBy === 'expensive' ? 'expensive' : ''
       const r = await fetch(
         PRODUCT +
-          `?page=${page}&searchWord=${searchWord}&priceLow=${priceLow}&priceHigh=${priceHigh}`
+          `?page=${page}&searchWord=${searchWord}&priceLow=${priceLow}&priceHigh=${priceHigh}&sortBy=${sortByParam}`
       )
       const d = await r.json()
       setData(d)
@@ -34,7 +37,7 @@ export default function List() {
 
   useEffect(() => {
     getListData()
-  }, [router.query.page, searchWord, priceLow, priceHigh])
+  }, [router.query.page, searchWord, priceLow, priceHigh, sortBy])
 
   console.log(data)
   console.log(data.rows)
@@ -122,8 +125,6 @@ export default function List() {
     return newProducts
   }
 
-  const [sortBy, setSortBy] = useState('')
-
   //處理價格排序
   const handleSort = (products, sortBy) => {
     let newProducts = [...products]
@@ -133,13 +134,13 @@ export default function List() {
     )
 
     // 以價格排序-由少至多
-    if (sortBy === '1') {
+    if (sortBy === 'cheap') {
       newProducts = [...newProducts].sort(
         (a, b) => a.product_price - b.product_price
       )
     }
 
-    if (sortBy === '2') {
+    if (sortBy === 'expensive') {
       newProducts = [...newProducts].sort(
         (a, b) => b.product_price - a.product_price
       )
@@ -153,6 +154,7 @@ export default function List() {
     return newProducts
   }
 
+  // 商品篩選種類選項
   const handleTags = (products, tags) => {
     let newProducts = [...products]
     console.log([...products])
@@ -200,7 +202,6 @@ export default function List() {
       case '所有':
         newPriceLow = ''
         newPriceHigh = ''
-
         break
       case '$1 - $499':
         newPriceLow = 1

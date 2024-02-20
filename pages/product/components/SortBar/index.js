@@ -13,8 +13,8 @@ function SortBar(props) {
             onChange={(e) => setSortBy(e.target.value)}
           >
             <option value="">請選擇排序</option>
-            <option value="1">價格：由低至高</option>
-            <option value="2">價格：由高至低</option>
+            <option value="cheap">價格：由低至高</option>
+            <option value="expensive">價格：由高至低</option>
           </select>
         </div>
       </div>
