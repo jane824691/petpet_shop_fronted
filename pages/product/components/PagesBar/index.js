@@ -1,19 +1,24 @@
-import React from 'react';
-import Link from 'next/link';
+import React from 'react'
+import Link from 'next/link'
 import {
   BsChevronDoubleLeft,
   BsChevronLeft,
   BsChevronRight,
   BsChevronDoubleRight,
-} from 'react-icons/bs';
+} from 'react-icons/bs'
 
 function PagesBar({ data }) {
+  // 若 data 為空或不存在，則返回 null
+  if (!data || Object.keys(data).length === 0) {
+    return null
+  }
   const renderPageLink = (page) => (
     <li
       key={page}
       className={page === data.page ? 'page-item active' : 'page-item'}
       style={{ marginRight: '6px' }}
     >
+      {/* 調整css樣式無效的頁數變灰色 */}
       <Link
         className={`page-link ${page === data.page ? 'active-link' : ''}`}
         href={`?page=${page}`}
@@ -29,14 +34,14 @@ function PagesBar({ data }) {
         {page}
       </Link>
     </li>
-  );
+  )
 
   return (
-    <div className="pages" style={{marginLeft: '18vw', marginTop: '5vh'}}>
+    <div className="pages" style={{ marginTop: '5vh' }}>
       <div className="row">
         <div className="col">
           <nav aria-label="Page navigation example">
-            <ul className="pagination">
+            <ul className="pagination d-flex justify-content-center">
               <li>
                 <Link
                   className={`page-link ${data.page === 1 ? 'disabled' : ''}`}
@@ -67,9 +72,9 @@ function PagesBar({ data }) {
                 ? Array(7)
                     .fill(1)
                     .map((_, i) => {
-                      const page = data.page - 3 + i;
-                      if (page < 1 || page > data.totalPages) return null;
-                      return renderPageLink(page);
+                      const page = data.page - 3 + i
+                      if (page < 1 || page > data.totalPages) return null
+                      return renderPageLink(page)
                     })
                 : null}
               <li>
@@ -79,7 +84,10 @@ function PagesBar({ data }) {
                   }`}
                   href={`?page=${data.page + 1}`}
                   style={{
-                    background: data.page === data.totalPages ? 'transparent' : 'transparent',
+                    background:
+                      data.page === data.totalPages
+                        ? 'transparent'
+                        : 'transparent',
                     border: 'none',
                     color: data.page === data.totalPages ? '#B0B7C3' : '',
                   }}
@@ -98,9 +106,12 @@ function PagesBar({ data }) {
                       : '#'
                   }
                   style={{
-                    background: data.page === data.totalPages ? 'transparent' : 'transparent',
+                    background:
+                      data.page === data.totalPages
+                        ? 'transparent'
+                        : 'transparent',
                     border: 'none',
-                    color: data.page === data.totalPages ? '#B0B7C3' : '', 
+                    color: data.page === data.totalPages ? '#B0B7C3' : '',
                   }}
                 >
                   <BsChevronDoubleRight />
@@ -111,7 +122,7 @@ function PagesBar({ data }) {
         </div>
       </div>
     </div>
-  );
+  )
 }
 
-export default PagesBar;
+export default PagesBar

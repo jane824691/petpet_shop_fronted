@@ -11,7 +11,7 @@ function SearchBar(props) {
           <div className="search-group">
             <h5 className="mb-3">篩選</h5>
             <input
-              type="text"
+              type="search"
               className="form-control rounded-5 search-input search-bar mb-3"
               placeholder="以商品名稱搜尋"
               value={searchWord}

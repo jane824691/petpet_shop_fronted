@@ -11,26 +11,22 @@ import { PRODUCT } from '@/components/my-const'
 import PagesBar from './components/PagesBar'
 import { CatLoader } from '@/components/hooks/use-loader/components'
 
-//import PagesBar from './components/ProductList/PagesBarTest'
-
-import Link from 'next/link'
-import {
-  BsChevronRight,
-  BsChevronDoubleRight,
-  BsChevronDoubleLeft,
-  BsChevronLeft,
-} from 'react-icons/bs'
-
 export default function List() {
   const [data, setData] = useState({})
   const router = useRouter()
+  const [searchWord, setSearchWord] = useState('') // 搜尋關鍵字狀態
+  const [priceHigh, setPriceHigh] = useState() //價格區間
+  const [priceLow, setPriceLow] = useState()
 
-  //取page資料
+  //取後端page資料
   const getListData = async () => {
     let page = +router.query.page || 1
     if (page < 1) page = 1
     try {
-      const r = await fetch(PRODUCT + `?page=${page}`)
+      const r = await fetch(
+        PRODUCT +
+          `?page=${page}&searchWord=${searchWord}&priceLow=${priceLow}&priceHigh=${priceHigh}`
+      )
       const d = await r.json()
       setData(d)
     } catch (ex) {}
@@ -38,12 +34,20 @@ export default function List() {
 
   useEffect(() => {
     getListData()
-  }, [router.query.page])
+  }, [router.query.page, searchWord, priceLow, priceHigh])
 
   console.log(data)
   console.log(data.rows)
 
-  // 產品用的資料
+  // 當搜尋關鍵字改變時重設頁數並取得資料
+  useEffect(() => {
+    // 當 searchWord、priceLow 或 priceHigh 有變動時，將頁面重設為第 1 頁
+    router.push({ pathname: router.pathname, query: { page: 1 } }, undefined, {
+      shallow: true,
+    })
+  }, [searchWord, priceLow, priceHigh])
+
+  // 設定四種搜尋方式
   // 1. 從伺服器來的原始資料
   const [products, setProducts] = useState([])
 
@@ -64,8 +68,9 @@ export default function List() {
     '寵物外出包',
   ]
 
-  // radio
+  // radio選項
   const [priceRange, setPriceRange] = useState('所有')
+
   const priceRangeTypes = [
     '所有',
     '$1 - $499',
@@ -96,7 +101,7 @@ export default function List() {
     setDisplayProducts(data.rows)
   }, [data.rows])
 
-  // 四個表單元素的處理方法
+  // 四種搜尋表單的處理方法
   const handleSearch = (products, searchWord) => {
     // 確保 products 是陣列
     if (!Array.isArray(products)) {
@@ -117,7 +122,6 @@ export default function List() {
     return newProducts
   }
 
-  const [searchWord, setSearchWord] = useState('')
   const [sortBy, setSortBy] = useState('')
 
   //處理價格排序
@@ -175,7 +179,7 @@ export default function List() {
         const productTags = String(product.category_id).split(',')
         console.log(productTags)
 
-        // 将 category_id 转换为对应的标签
+        // 将 category_id 轉換為對應的標籤
         const mappedTags = productTags.map(
           (categoryId) => categoryTagMap[categoryId] || categoryId
         )
@@ -188,36 +192,53 @@ export default function List() {
     return newProducts
   }
 
+  // 處理價格區間選項
   const handlePriceRange = (products, priceRange) => {
     let newProducts = [...products]
-
-    // 處理價格區間選項
+    let newPriceLow, newPriceHigh
     switch (priceRange) {
+      case '所有':
+        newPriceLow = ''
+        newPriceHigh = ''
+
+        break
       case '$1 - $499':
+        newPriceLow = 1
+        newPriceHigh = 499
         newProducts = products.filter((p) => {
           return p.product_price <= 499
         })
         break
       case '$500 - $999':
+        newPriceLow = 500
+        newPriceHigh = 999
         newProducts = products.filter((p) => {
           return p.product_price >= 500 && p.product_price <= 999
         })
         break
       case '$1000 - $1999':
+        newPriceLow = 1000
+        newPriceHigh = 1999
         newProducts = products.filter((p) => {
           return p.product_price >= 1000 && p.product_price <= 1999
         })
         break
       case '$2000 - $2999':
+        newPriceLow = 2000
+        newPriceHigh = 2999
         newProducts = products.filter((p) => {
           return p.product_price >= 2000 && p.product_price <= 2999
         })
         break
       // 指所有的產品都出現
       default:
+        newPriceLow = ''
+        newPriceHigh = ''
         break
     }
-
+    setPriceLow(newPriceLow)
+    setPriceHigh(newPriceHigh)
+    console.log(newPriceLow)
     return newProducts
   }
 
@@ -247,6 +268,22 @@ export default function List() {
 
     setDisplayProducts(newProducts)
   }, [searchWord, products, sortBy, tags, priceRange])
+
+  // 當價格區間條件被清空時, 仍正常帶出所有資料
+  useEffect(() => {
+    if (priceLow !== '' && priceHigh !== '') {
+      getListData()
+    }
+  }, [priceLow, priceHigh, router.query.page])
+
+  // 當關鍵字清空, 仍帶出所有資料
+  useEffect(() => {
+    if (searchWord === '') {
+      getListData()
+    } else if (searchWord !== '' && searchWord.length < 2) {
+      getListData()
+    }
+  }, [searchWord, priceLow, priceHigh])
 
   return (
     <>
@@ -286,25 +323,25 @@ export default function List() {
                   </div>
                 </div>
               </div>
+              {isLoading ? (
+                <CatLoader />
+              ) : (
+                <>
+                  <div id="page-content-wrapper">
+                    <div className="container-fluid">
+                      <div className="row row-cols-1 row-cols-md-3 g-4">
+                        {/* 如果想看純前端畫面(no後端)可解開以下帶JSON假資料 */}
+                        {/* {data.map((v, i) => { */}
 
-              <div id="page-content-wrapper">
-                <div className="container-fluid">
-                  <div className="row row-cols-1 row-cols-md-3 g-4">
-                    {/* 如果想看純前端畫面(no後端)可解開以下帶JSON假資料 */}
-                    {/* {data.map((v, i) => { */}
-                    {isLoading ? (
-                      <CatLoader />
-                    ) : (
-                      <>
                         <ProductList products={displayProducts} />
-                        <PagesBar data={data} />
-                      </>
-                    )}
 
-                    {/* 頁碼 */}
+                        {/* 頁碼 */}
+                      </div>
+                    </div>
+                    <PagesBar data={data} />
                   </div>
-                </div>
-              </div>
+                </>
+              )}
             </div>
           </div>
         </div>
