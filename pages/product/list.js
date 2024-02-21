@@ -15,9 +15,23 @@ export default function List() {
   const [data, setData] = useState({})
   const router = useRouter()
   const [searchWord, setSearchWord] = useState('') // 搜尋關鍵字狀態
+  const [priceRange, setPriceRange] = useState('所有') // radio選項
   const [priceHigh, setPriceHigh] = useState() //價格區間
   const [priceLow, setPriceLow] = useState()
   const [sortBy, setSortBy] = useState('') // 價格排序
+  // 下面tagTypes是對應到checkbox表單元素
+  const [tags, setTags] = useState([])
+  const tagTypes = [
+    '乾飼料',
+    '罐頭',
+    '保健食品',
+    '寵物衣裝',
+    '美容護理',
+    '抓板玩具',
+    '生活用品',
+    '溜繩',
+    '寵物外出包',
+  ]
 
   // 取後端page資料
   const getListData = async () => {
@@ -26,6 +40,13 @@ export default function List() {
     try {
       const sortByParam =
         sortBy === 'cheap' ? 'cheap' : sortBy === 'expensive' ? 'expensive' : ''
+      // 使用 Set 來排除重複的標籤，然後轉換為陣列
+      // const uniqueTags = Array.from(new Set(tags))
+
+      // 將複選標籤轉換為以逗號分隔的字串格式 &tag=${tagParam}
+      // const tagParam = uniqueTags.join(',')
+
+      // 實際呼叫後端api
       const r = await fetch(
         PRODUCT +
           `?page=${page}&searchWord=${searchWord}&priceLow=${priceLow}&priceHigh=${priceHigh}&sortBy=${sortByParam}`
@@ -48,7 +69,7 @@ export default function List() {
     router.push({ pathname: router.pathname, query: { page: 1 } }, undefined, {
       shallow: true,
     })
-  }, [searchWord, priceLow, priceHigh])
+  }, [searchWord, priceLow, priceHigh, sortBy])
 
   // 設定四種搜尋方式
   // 1. 從伺服器來的原始資料
@@ -57,22 +78,6 @@ export default function List() {
   // 2. 用於網頁上經過各種處理(排序、搜尋、過濾)後的資料
   const [displayProducts, setDisplayProducts] = useState([])
 
-  // 下面tagTypes是對應到checkbox表單元素
-  const [tags, setTags] = useState([])
-  const tagTypes = [
-    '乾飼料',
-    '罐頭',
-    '保健食品',
-    '寵物衣裝',
-    '美容護理',
-    '抓板玩具',
-    '生活用品',
-    '溜繩',
-    '寵物外出包',
-  ]
-
-  // radio選項
-  const [priceRange, setPriceRange] = useState('所有')
 
   const priceRangeTypes = [
     '所有',
@@ -157,9 +162,9 @@ export default function List() {
   // 商品篩選種類選項
   const handleTags = (products, tags) => {
     let newProducts = [...products]
-    console.log([...products])
+    // console.log([...products])
     // tags = 代表使用者目前勾選的標籤陣列
-    //console.log(tags)
+    console.log(tags)
     const categoryTagMap = {
       5: '乾飼料',
       6: '罐頭',
@@ -177,16 +182,15 @@ export default function List() {
         let isFound = false
 
         // 原本資料裡的tags字串轉為陣列
-        // 将category_id转换为字符串再转为数组
+        // 将category_id轉換為字串再轉為數字
         const productTags = String(product.category_id).split(',')
-        console.log(productTags)
 
         // 将 category_id 轉換為對應的標籤
         const mappedTags = productTags.map(
-          (categoryId) => categoryTagMap[categoryId] || categoryId
+          (category_id) => categoryTagMap[category_id] || category_id
         )
 
-        // 用目前使用者勾選的標籤用迴圈找，有找到就回傳true
+        // 用目前使用者勾選的標籤找
         return tags.some((tag) => mappedTags.includes(tag))
       })
     }

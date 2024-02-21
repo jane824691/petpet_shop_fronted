@@ -40,7 +40,7 @@ function FilterBar(props) {
       <div className="search-group">
         {' '}
         <h5>
-          標籤
+          種類
           <button
             className="btn btn-link btn-sm"
             onClick={() => setTags([])}
@@ -54,7 +54,7 @@ function FilterBar(props) {
             重設
           </button>
         </h5>
-        <p>有包含勾選標籤均會顯示</p>
+        <p>有包含勾選種類均會顯示</p>
         {tagTypes.map((value, i) => (
           <TagCheckbox
             value={value}
