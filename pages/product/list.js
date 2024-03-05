@@ -21,6 +21,7 @@ export default function List() {
   const [sortBy, setSortBy] = useState('') // 價格排序
   // 下面tagTypes是對應到checkbox表單元素
   const [tags, setTags] = useState([])
+  const [tagsNum, setTagsNum] = useState([])
   const tagTypes = [
     '乾飼料',
     '罐頭',
@@ -32,6 +33,17 @@ export default function List() {
     '溜繩',
     '寵物外出包',
   ]
+  const categoryTagMap = {
+    5: '乾飼料',
+    6: '罐頭',
+    7: '保健食品',
+    8: '寵物衣裝',
+    9: '美容護理',
+    10: '抓板玩具',
+    11: '生活用品',
+    12: '溜繩',
+    13: '寵物外出包',
+  }
 
   // 取後端page資料
   const getListData = async () => {
@@ -40,16 +52,25 @@ export default function List() {
     try {
       const sortByParam =
         sortBy === 'cheap' ? 'cheap' : sortBy === 'expensive' ? 'expensive' : ''
-      // 使用 Set 來排除重複的標籤，然後轉換為陣列
-      // const uniqueTags = Array.from(new Set(tags))
 
-      // 將複選標籤轉換為以逗號分隔的字串格式 &tag=${tagParam}
-      // const tagParam = uniqueTags.join(',')
+      // 根據使用者選擇的標籤(tags)查找對應的標籤 種類id
+      const currentTagsNum = tags
+        .map((tag) => {
+          // 在 categoryTagMap 中查找標籤對應的 種類id
+          for (const [id, name] of Object.entries(categoryTagMap)) {
+            if (name === tag) {
+              return parseInt(id) // 將 種類id 轉換為數字
+            }
+          }
+          return null
+        })
+        .filter((id) => id !== null)
+        .join(',') // 過濾空值並將 種類id 陣列轉換為逗號分隔的字串
 
       // 實際呼叫後端api
       const r = await fetch(
         PRODUCT +
-          `?page=${page}&searchWord=${searchWord}&priceLow=${priceLow}&priceHigh=${priceHigh}&sortBy=${sortByParam}`
+          `?page=${page}&searchWord=${searchWord}&priceLow=${priceLow}&priceHigh=${priceHigh}&sortBy=${sortByParam}&tag=${currentTagsNum}`
       )
       const d = await r.json()
       setData(d)
@@ -58,18 +79,17 @@ export default function List() {
 
   useEffect(() => {
     getListData()
-  }, [router.query.page, searchWord, priceLow, priceHigh, sortBy])
+  }, [router.query.page, searchWord, priceLow, priceHigh, sortBy, tags])
 
-  console.log(data)
-  console.log(data.rows)
+  // console.log(data)
+  // console.log(data.rows)
 
-  // 當搜尋關鍵字改變時重設頁數並取得資料
+  // 當搜尋關鍵字改變時將頁面重設為第 1 頁
   useEffect(() => {
-    // 當 searchWord、priceLow 或 priceHigh 有變動時，將頁面重設為第 1 頁
     router.push({ pathname: router.pathname, query: { page: 1 } }, undefined, {
       shallow: true,
     })
-  }, [searchWord, priceLow, priceHigh, sortBy])
+  }, [searchWord, priceLow, priceHigh, sortBy, tags])
 
   // 設定四種搜尋方式
   // 1. 從伺服器來的原始資料
@@ -77,7 +97,6 @@ export default function List() {
 
   // 2. 用於網頁上經過各種處理(排序、搜尋、過濾)後的資料
   const [displayProducts, setDisplayProducts] = useState([])
-
 
   const priceRangeTypes = [
     '所有',
@@ -162,39 +181,29 @@ export default function List() {
   // 商品篩選種類選項
   const handleTags = (products, tags) => {
     let newProducts = [...products]
-    // console.log([...products])
-    // tags = 代表使用者目前勾選的標籤陣列
-    console.log(tags)
-    const categoryTagMap = {
-      5: '乾飼料',
-      6: '罐頭',
-      7: '保健食品',
-      8: '寵物衣裝',
-      9: '美容護理',
-      10: '抓板玩具',
-      11: '生活用品',
-      12: '溜繩',
-      13: '寵物外出包',
-    }
-    // 處理勾選標記
+    let allTags = []
+
     if (tags.length > 0) {
-      newProducts = [...newProducts].filter((product) => {
-        let isFound = false
-
-        // 原本資料裡的tags字串轉為陣列
-        // 将category_id轉換為字串再轉為數字
-        const productTags = String(product.category_id).split(',')
-
-        // 将 category_id 轉換為對應的標籤
+      newProducts = newProducts.filter((product) => {
+        const productTags = String(product.category_id).split(',').map(Number)
         const mappedTags = productTags.map(
           (category_id) => categoryTagMap[category_id] || category_id
         )
+        console.log(tags)
+        console.log(productTags)
+        console.log(mappedTags)
+        if (tags.some((tag) => mappedTags.includes(tag))) {
+          allTags.push(product.category_id)
+          return true
+        }
 
-        // 用目前使用者勾選的標籤找
-        return tags.some((tag) => mappedTags.includes(tag))
+        return false
       })
+    } else {
+      newProducts = [...products] // 如果没有选择任何标签，则显示所有产品
     }
 
+    setTagsNum([...new Set(allTags)]) // 用 Set 排除重複值
     return newProducts
   }
 
