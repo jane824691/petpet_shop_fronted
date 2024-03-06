@@ -37,8 +37,8 @@ export function CatLoader({ text = 'Loading', show = false }) {
           width: '400px',
           height: '100%',
           position: 'relative',
-          top: '40%',
-          left: '400%',
+          top: '15%',
+          left: '120%',
           transform: 'translate(-50%, -50%)',
         }}
       />
@@ -48,8 +48,8 @@ export function CatLoader({ text = 'Loading', show = false }) {
           width: '400px',
           height: '100%',
           position: 'relative',
-          top: '20%',
-          left: '510%',
+          bottom: '20%',
+          left: '150%',
           transform: 'translate(-50%, -50%)',
           color: '#112344',
         }}

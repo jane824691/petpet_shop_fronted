@@ -81,8 +81,8 @@ export default function List() {
     getListData()
   }, [router.query.page, searchWord, priceLow, priceHigh, sortBy, tags])
 
-  // console.log(data)
-  // console.log(data.rows)
+  console.log(data)
+  console.log(data.rows)
 
   // 當搜尋關鍵字改變時將頁面重設為第 1 頁
   useEffect(() => {
@@ -105,28 +105,6 @@ export default function List() {
     '$1000 - $1999',
     '$2000 - $2999',
   ]
-  // 載入指示的spinner動畫用的
-  const [isLoading, setIsLoading] = useState(false)
-
-  //x秒後自動關掉spinner(設定isLoading為false)
-  useEffect(() => {
-    if (isLoading) {
-      setTimeout(() => {
-        setIsLoading(false)
-      }, 1000)
-    }
-  }, [isLoading])
-
-  // 初始化資料-didMount
-  useEffect(() => {
-    // 先開起載入指示器
-    setIsLoading(true)
-
-    // 模擬和伺服器要資料
-    // 最後設定到狀態中
-    setProducts(data.rows)
-    setDisplayProducts(data.rows)
-  }, [data.rows])
 
   // 四種搜尋表單的處理方法
   const handleSearch = (products, searchWord) => {
@@ -255,6 +233,29 @@ export default function List() {
     console.log(newPriceLow)
     return newProducts
   }
+
+  // 載入指示的spinner動畫用的
+  const [isLoading, setIsLoading] = useState(false)
+
+  //x秒後自動關掉spinner(設定isLoading為false)
+  useEffect(() => {
+    if (isLoading) {
+      setTimeout(() => {
+        setIsLoading(false)
+      }, 1000)
+    }
+  }, [isLoading])
+
+  // 初始化資料-didMount
+  useEffect(() => {
+    // 先開起載入指示器
+    setIsLoading(true)
+
+    // 模擬和伺服器要資料
+    // 最後設定到狀態中
+    setProducts(data.rows)
+    setDisplayProducts(data.rows)
+  }, [data.rows])
 
   // 當四個過濾表單元素有更動時
   // componentDidUpdate + didMount
