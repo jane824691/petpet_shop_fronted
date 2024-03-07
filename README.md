@@ -8,4 +8,8 @@ Illustrated Version
 
 2. Shopping Cart
 
-![shopping cart-ezgif com-video-to-gif-converter](https://github.com/jane824691/petpet_shop_fronted/assets/147688970/9d438ce5-56f7-4fea-bbb9-2fdb962c28e5)
+![shopping cart-ezgif com-video-to-gif-converter](https://github.com/jane824691/petpet_shop_fronted/assets/147688970/9d438ce5-56f7-4fea-bbb9-2fdb962c28e5)ing
+
+3. Completing pay procedure and view the order
+
+![Pay-ezgif com-video-to-gif-converter](https://github.com/jane824691/petpet_shop_fronted/assets/147688970/e08b4602-df17-4344-a371-f4803daaaa51)
