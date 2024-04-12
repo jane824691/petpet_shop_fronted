@@ -30,5 +30,7 @@ export const CHECK = API_SERVER + '/member/check' // method: POST, 取得用戶�
 export const PRODUCT = API_SERVER + '/product/api'
 export const ONE_PRODUCT = API_SERVER + '/product/one' // /product/one/2
 export const ORDER_LIST_ADD = API_SERVER + '/order-list/add'
-export const ORDER_LIST = API_SERVER + '/order-list/api'
-export const ONE_ORDER = API_SERVER + '/order-list/one' // /order-list/one/2
+export const ORDER_LIST_ALL = API_SERVER + '/order-list/api' // 所有會員所有訂單資料
+export const ORDER_LIST = API_SERVER + '/order-list/person' // 某筆會員底下的所有訂單資料
+
+export const ONE_ORDER = API_SERVER + '/order-list/one' // /order-list/one/2 某筆會員底下的某筆訂單, 詳細品項

@@ -6,7 +6,9 @@ import { useState } from 'react'
 // 註冊第一步
 function Step1(props) {
   const { step1, setStep1 } = props
-
+  const [successMessage, setSuccessMessage] = useState('')
+  const [errorMessage, setErrorMessage] = useState('')
+  
   // 欄位檢查
   const [errors, setErrors] = useState({})
 
@@ -137,8 +139,7 @@ function Step1(props) {
   // }
 
   // 在這裡新增 state
-  const [successMessage, setSuccessMessage] = useState('')
-  const [errorMessage, setErrorMessage] = useState('')
+
   //成功或失敗顯示不同的<div>內容
   {
     successMessage && <div className="success-message">{successMessage}</div>

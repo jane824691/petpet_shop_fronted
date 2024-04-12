@@ -42,6 +42,9 @@ export default function MemberOrderList() {
     district: '',
   })
   const { auther } = useContext(AuthContext)
+
+  const [sid, setSid] = useState('') //抓到sid後存起來給後面抓取會員訂單資料用
+console.log(sid)
   // 去抓後端處理好的單筆資料(顯示在會員中心)
   useEffect(() => {
     const fetchData = async () => {
@@ -60,6 +63,7 @@ export default function MemberOrderList() {
         }
         const sid = authData.sid
         console.log('sid', sid)
+        setSid(sid)
         const response = await fetch(GET_MEMBER_DATA, {
           body: JSON.stringify({ sid: sid }),
           headers: {
@@ -87,23 +91,26 @@ export default function MemberOrderList() {
 
   //取page資料
   const getListData = async () => {
+    if (!sid) return // 如果 sid 不存在則不發request
     let page = +router.query.page || 1
     if (page < 1) page = 1
     try {
-      const r = await fetch(ORDER_LIST + `?page=${page}`)
+      const r = await fetch(ORDER_LIST + `/${sid}` + `?page=${page}`) // 使用當前會員的sid抓訂單資訊
       const d = await r.json()
       setData(d)
-    } catch (ex) {'eror:'}
+    } catch (ex) {
+      console.error('error:', ex)
+    }
   }
 
   useEffect(() => {
     getListData()
-  }, [router.query.page])
+  }, [router.query.page, sid])
   return (
     <>
       <div className="container d-flex">
         {/* 左邊欄位 */}
-        <div style={{marginLeft: '100px'}}>
+        <div style={{ marginLeft: '100px' }}>
           <div className={styles.leftList}>
             <div className={styles.memberPicOut}>
               <Image
