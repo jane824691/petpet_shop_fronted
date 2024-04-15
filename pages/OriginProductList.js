@@ -70,8 +70,7 @@ function ProductList() {
           style={{ width: 250 }}
           onClick={() => {
             router.push('../product/list')
-          }}
-        >
+          }}>
           商城購物去
         </button>
       </div>

@@ -44,7 +44,7 @@ export default function MemberOrderList() {
   const { auther } = useContext(AuthContext)
 
   const [sid, setSid] = useState('') //抓到sid後存起來給後面抓取會員訂單資料用
-console.log(sid)
+  console.log(sid)
   // 去抓後端處理好的單筆資料(顯示在會員中心)
   useEffect(() => {
     const fetchData = async () => {
@@ -183,7 +183,7 @@ console.log(sid)
 
         <div className="mx-auto">
           <h3>購物清單</h3>
-          {data.rows &&
+          {data.rows && data.rows.length > 0 ? (
             data.rows.map((v, i) => {
               const handleItemClick = () => {
                 router.push(`../../cart/${v.oid}`)
@@ -249,7 +249,10 @@ console.log(sid)
                   </div>
                 </form>
               )
-            })}
+            })
+          ) : (
+            <h5 className='m-5'>目前尚未成立訂單</h5>
+          )}
           {/* 頁碼 */}
           <div
             style={{ display: 'flex', justifyContent: 'center' }}

@@ -1,23 +1,19 @@
-import { useState } from 'react'
-
 // 子頁面(區域)
+import { useState, useEffect } from 'react'
+import { useRouter } from 'next/router'
 import Cart from './sub-pages/Cart'
 import Payment from './sub-pages/Payment'
 import OrderDetail from './sub-pages/OrderDetail'
-import { useRouter } from 'next/router'
 import toast, { Toaster } from 'react-hot-toast'
 import { ORDER_LIST_ADD } from '@/components/my-const'
+import { GET_MEMBER_DATA } from '@/components/my-const'
 import { useCart } from '@/components/hooks/use-cart-state'
 import { totalPrice } from '@/components/hooks/cart-reducer-state'
 
 // 進度條
 import ProgressBar from './components/ProgressBar'
 
-// css樣式
-//import '@/styles/OrderSteps.css'
-
 function OrderSteps() {
-
   const { items, clearCart } = useCart()
 
   //跳轉用
@@ -37,6 +33,7 @@ function OrderSteps() {
 
   // console.log(selectedProducts);
   const [payment, setPaymentData] = useState({
+    sid: '',
     name: '',
     phone: '',
     email: '',
@@ -45,6 +42,35 @@ function OrderSteps() {
     pay_way: '',
   })
   const [netTotal, setNetTotal] = useState(0)
+  console.log(payment)
+
+  const [sid, setSid] = useState('') //抓到sid後存起來給後面抓取會員訂單資料用
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        // 檢查 localStorage 中是否存在 'auther'，以及 'auther' 是否有有效的 sid
+        const authDataString = localStorage.getItem('auther')
+        if (!authDataString) {
+          console.log('No "auther" data found.')
+          return
+        }
+        const authData = JSON.parse(authDataString)
+        if (!authData || !authData.sid) {
+          console.log('No valid "auther" data found.')
+          return
+        }
+        const sid = authData.sid
+        console.log('sid', sid)
+        setSid(sid)
+      } catch (error) {
+        console.error('Error fetching mydata:', error)
+      }
+    }
+
+    // 呼叫 fetchData 以觸發資料載入
+    fetchData()
+  }, [router.query.sid])
 
   // 動態元件語法
   const components = [Cart, Payment, OrderDetail]
@@ -102,12 +128,14 @@ function OrderSteps() {
 
   const requestData = {
     ...payment,
+    sid: sid,
     netTotal: netTotal,
     pid: selectedProducts.pid,
     sale_price: selectedProducts.sale_price,
     actual_amount: selectedProducts.actual_amount,
     email: payment.email,
   }
+  console.log(requestData)
 
   const onSubmit = async () => {
     const r = await fetch(ORDER_LIST_ADD, {
