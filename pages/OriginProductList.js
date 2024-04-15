@@ -40,10 +40,7 @@ function ProductList() {
                   href={`/product/${v.pid}`}
                   style={{ textDecoration: 'none' }}
                 >
-                  <span
-                    className="card border-primary col"
-
-                  >
+                  <span className="card border-primary col">
                     <img
                       src={`/image/product/${v.product_img}`}
                       alt="name of product"

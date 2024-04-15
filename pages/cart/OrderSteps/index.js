@@ -100,10 +100,6 @@ function OrderSteps() {
     if (step === 1) router.push('../../product')
   }
 
-  //  const [displayInfo, setDisplayInfo] = useState('') // "", "succ", "fail"
-
-  // console.log({items,netTotal});
-
   const requestData = {
     ...payment,
     netTotal: netTotal,
