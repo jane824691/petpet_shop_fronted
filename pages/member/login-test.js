@@ -1,6 +1,5 @@
 import { useContext, useState } from 'react'
 import Image from 'next/image'
-//import styles from '@/css/home.module.css'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { LOGIN } from '@/components/my-const'

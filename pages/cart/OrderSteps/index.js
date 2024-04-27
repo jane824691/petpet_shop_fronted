@@ -10,8 +10,6 @@ import { GET_MEMBER_DATA } from '@/components/my-const'
 import { useCart } from '@/components/hooks/use-cart-state'
 import { totalPrice } from '@/components/hooks/cart-reducer-state'
 
-// 進度條
-import ProgressBar from './components/ProgressBar'
 
 function OrderSteps() {
   const { items, clearCart } = useCart()
@@ -40,9 +38,12 @@ function OrderSteps() {
     address: '',
     postcode: '',
     pay_way: '',
+    pid: '',
+    sale_price: '',
+    actual_amount: '',
   })
   const [netTotal, setNetTotal] = useState(0)
-  console.log(payment)
+  // console.log(payment)
 
   const [sid, setSid] = useState('') //抓到sid後存起來給後面抓取會員訂單資料用
 
@@ -61,7 +62,6 @@ function OrderSteps() {
           return
         }
         const sid = authData.sid
-        console.log('sid', sid)
         setSid(sid)
       } catch (error) {
         console.error('Error fetching mydata:', error)
@@ -130,9 +130,10 @@ function OrderSteps() {
     ...payment,
     sid: sid,
     netTotal: netTotal,
-    pid: selectedProducts.pid,
-    sale_price: selectedProducts.sale_price,
-    actual_amount: selectedProducts.actual_amount,
+    pid: selectedProducts.pid ? selectedProducts.pid : '',
+    sale_price: selectedProducts.sale_price ? selectedProducts.sale_price : '',
+    actual_amount: selectedProducts.actual_amount ? selectedProducts.actual_amount : '',
+    
     email: payment.email,
   }
   console.log(requestData)

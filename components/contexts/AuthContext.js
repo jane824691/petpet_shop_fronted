@@ -15,7 +15,7 @@ export const initAuth = {
 export const AuthContextProvider = ({ children }) => {
   const [auther, setAuther] = useState(initAuth)
   useEffect(() => {
-    //登入資料放在localstorage,getItem自定義key名稱(auth要改名)
+    // 登入資料放在localstorage, getItem自定義key名稱(auth要改名)
     const str = localStorage.getItem('auther')
     if (str) {
       try {

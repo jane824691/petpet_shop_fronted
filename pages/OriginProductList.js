@@ -16,7 +16,9 @@ function ProductList() {
       const r = await fetch(PRODUCT + `?page=${page}`)
       const d = await r.json()
       setData(d)
-    } catch (ex) {}
+    } catch (error) {
+      console.error('Error fetching data:', error)
+    }
   }
 
   useEffect(() => {
@@ -36,10 +38,7 @@ function ProductList() {
                 key={v.pid}
                 style={{ width: '13rem', marginRight: '10px', display: 'flex' }}
               >
-                <Link
-                  href={`/product/${v.pid}`}
-                  style={{ textDecoration: 'none' }}
-                >
+                <Link href={`/product/${v.pid}`} className="no-line">
                   <span className="card border-primary col">
                     <img
                       src={`/image/product/${v.product_img}`}
@@ -70,7 +69,8 @@ function ProductList() {
           style={{ width: 250 }}
           onClick={() => {
             router.push('../product/list')
-          }}>
+          }}
+        >
           商城購物去
         </button>
       </div>

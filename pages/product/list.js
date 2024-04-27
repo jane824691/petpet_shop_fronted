@@ -74,7 +74,9 @@ export default function List() {
       )
       const d = await r.json()
       setData(d)
-    } catch (ex) {}
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
   }
 
   useEffect(() => {

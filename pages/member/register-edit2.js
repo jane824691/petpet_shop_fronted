@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import Image from 'next/image'
-//import styles from '@/css/home.module.css'
-import TWZipCode from './TWZipCode'
+import TWZipCode from '@/components/tw-zipcode'
 import Link from 'next/link'
 import Button from 'react-bootstrap/Button'
 import Modal from 'react-bootstrap/Modal'

@@ -11,8 +11,8 @@ import { BsFillTrophyFill } from 'react-icons/bs'
 import { BsBagHeartFill } from 'react-icons/bs'
 import styles from '@/css/favorite.module.css'
 import Image from 'next/image'
-import Router from 'next/router'
 import { BsArrowRight } from 'react-icons/bs'
+
 
 import {
   BsChevronRight,
@@ -110,7 +110,7 @@ export default function MemberOrderList() {
     <>
       <div className="container d-flex">
         {/* 左邊欄位 */}
-        <div style={{ marginLeft: '100px' }}>
+        <div className="mx-5 mb-5">
           <div className={styles.leftList}>
             <div className={styles.memberPicOut}>
               <Image
@@ -251,7 +251,7 @@ export default function MemberOrderList() {
               )
             })
           ) : (
-            <h5 className='m-5'>目前尚未成立訂單</h5>
+            <h5 className="m-5">目前尚未成立訂單</h5>
           )}
           {/* 頁碼 */}
           <div
@@ -325,7 +325,7 @@ export default function MemberOrderList() {
                                       backgroundColor:
                                         p === data.page
                                           ? '#f8723f'
-                                          : 'transparent', // 新增此行
+                                          : 'transparent',
                                       color: p === data.page ? '#fff' : '',
                                       width: '38px',
                                       textAlign: 'center',

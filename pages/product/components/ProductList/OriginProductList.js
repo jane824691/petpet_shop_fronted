@@ -23,8 +23,10 @@ function ProductList() {
       const r = await fetch(PRODUCT + `?page=${page}`)
       const d = await r.json()
       setData(d)
-    } catch (ex) {}
-  }
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  };
 
   useEffect(() => {
     getListData()

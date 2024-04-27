@@ -1,5 +1,5 @@
 import { useState, useRef } from 'react'
-import TWZipCode from './TWZipCode'
+import TWZipCode from '@/components/tw-zipcode'
 import { z } from 'zod'
 
 export default function Payment(props) {
@@ -12,7 +12,17 @@ export default function Payment(props) {
     const { name, id, value } = e.target
     console.log({ name, id, value })
     setDisplayInfo('')
-    setPaymentData({ ...payment, [id]: value, postcode: postcodeValue })
+    // setPaymentData({ ...payment, [id]: value, postcode: postcodeValue })
+    setPaymentData((prevPayment) => ({
+      ...prevPayment,
+      [id]: value,
+      postcode: postcodeValue,
+      // 在這裡添加代碼以保留未更新的屬性
+      pid: prevPayment.pid,
+      sale_price: prevPayment.sale_price,
+      actual_amount: prevPayment.actual_amount,
+    }))
+
   }
 
   // 欄位檢查
@@ -20,7 +30,7 @@ export default function Payment(props) {
 
   // 檢查機制
   const onBlurHandler = (fieldName) => {
-    const newErrors = validateFields({ ...payment, [fieldName]: fieldName })
+    const newErrors = validateFields({ ...payment }) // 正確傳遞 payment 物件
     setErrors((prevErrors) => ({
       ...prevErrors,
       [fieldName]: newErrors[fieldName],

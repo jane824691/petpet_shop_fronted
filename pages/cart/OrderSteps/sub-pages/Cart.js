@@ -1,5 +1,4 @@
 import List from '@/components/cart/list'
-import Link from 'next/link'
 import toast, { Toaster } from 'react-hot-toast'
 import { useState } from 'react'
 import { useCart } from '@../../../components/hooks/use-cart-state'

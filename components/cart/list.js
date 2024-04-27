@@ -102,10 +102,7 @@ export default function CartList() {
                 </div>
                 <div className="col-md-10">
                   <h5 className="card-body to-middle-title row">
-                    <div className="col-5 text-center">
-
-                      品名
-                    </div>
+                    <div className="col-5 text-center">品名</div>
                     <div className="col-2 text-end">數量</div>
                     <div className="col-2 text-end">價格</div>
                     <div className="col-2 text-end">小計</div>

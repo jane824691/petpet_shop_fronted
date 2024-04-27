@@ -25,18 +25,6 @@ export default function OrderDetail({
   const [selectedCouponId, setSelectedCouponId] = useState(0)
   console.log(items)
 
-  // 解析郵遞區號數字回文字資訊
-  const data = {
-    // ...你的資料
-  }
-
-  const countries = Object.getOwnPropertyNames(data)
-  const townships = countries.map((v, i, array) =>
-    Object.getOwnPropertyNames(data[array[i]])
-  )
-  const postcodes = countries.map((v, i, array) =>
-    Object.values(data[array[i]])
-  )
 
   // 確認出正確後端可接收到的格式才考慮怎麼包陣列還物件, 帶出商品資訊
   useEffect(() => {

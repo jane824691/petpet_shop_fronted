@@ -106,14 +106,14 @@ function PagesBar({ data }) {
                       ? `?page=${data.totalPages}`
                       : '#'
                   }
-                  style={{
-                    background:
-                      data.page === data.totalPages
-                        ? 'transparent'
-                        : 'transparent',
-                    border: 'none',
-                    color: data.page === data.totalPages ? '#B0B7C3' : '',
-                  }}
+                  // style={{
+                  //   background:
+                  //     data.page === data.totalPages
+                  //       ? 'transparent'
+                  //       : 'transparent',
+                  //   border: 'none',
+                  //   color: data.page === data.totalPages ? '#B0B7C3' : '',
+                  // }}
                 >
                   <BsChevronDoubleRight />
                 </Link>

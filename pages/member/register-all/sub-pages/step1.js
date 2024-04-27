@@ -240,7 +240,7 @@ function Step1(props) {
                     </div>
                   </div>
                 </div>
-                <br></br>
+                <br />
                 <div className="row">
                   <div className="col">
                     <h6 className="card-title font-grey-title">
@@ -286,7 +286,7 @@ function Step1(props) {
                     )}
                   </div>
                 </div>
-                <br></br>
+                <br />
                 <div className="row">
                   <div className="col">
                     <h6 className="card-title font-grey-title">
@@ -325,7 +325,7 @@ function Step1(props) {
                     )}
                   </div>
                 </div>
-                <br></br>
+                <br />
                 <div className="row">
                   <div className="col">
                     <h6 className="card-title font-grey-title">
@@ -373,7 +373,7 @@ function Step1(props) {
                     </div>
                   </div>
                 </div>
-                <br></br>
+                <br />
               </div>
             </div>
           </div>

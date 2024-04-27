@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import Image from 'next/image'
-import TWZipCode from '@/pages/member/TWZipCode'
+// import TWZipCode from '@/pages/member/TWZipCode'
+import TWZipCode from '@/components/tw-zipcode'
 import { BsCameraFill } from 'react-icons/bs'
 import styles from '@/css/favorite.module.css'
 

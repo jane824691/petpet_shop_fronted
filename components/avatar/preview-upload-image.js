@@ -47,8 +47,9 @@ export default function PreviewUploadImage({
   }
 
   return (
-    <div className="image-upload" >
-      <label for="file-input">
+    <div className="image-upload">
+    {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
+      <label htmlFor="file-input">
         <img src={showImg()} alt="" width="470" height="280" style={{ borderRadius: '20px' }}/>
       </label>
       <input

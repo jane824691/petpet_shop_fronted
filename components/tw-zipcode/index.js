@@ -51,21 +51,17 @@ export default function TWZipCode({
 
   return (
     <>
-      <div className="d-flex country-list-gap">
-        <span>
-          <label
-            htmlFor="exampleDataList"
-            className="form-label font-grey-title"
-          >
+      <div className="row">
+        <div className="col-4">
+          <div>
             縣市<span className="text-danger">*</span>
-          </label>
+          </div>
           <select
-            className="form-select rounded-5"
+            className="w-100"
             value={countryIndex}
             onChange={(e) => {
               // 將字串轉成數字
               setCountryIndex(+e.target.value)
-              console.log('縣市', +e.target.value, countries[+e.target.value])
               // 重置townshipIndex的值
               setTownshipIndex(-1)
               // 重置postcode的值
@@ -78,17 +74,15 @@ export default function TWZipCode({
                 {value}
               </option>
             ))}
-          </select>
-        </span>
-        <span>
-          <label
-            htmlFor="exampleDataList"
-            className="form-label font-grey-title"
-          >
+          </select>{' '}
+        </div>
+
+        <div className="col-4">
+          <div>
             鄉鎮縣市<span className="text-danger">*</span>
-          </label>
+          </div>
           <select
-            className="form-select rounded-5"
+            className="w-100"
             value={townshipIndex}
             onChange={(e) => {
               // 將字串轉成數字
@@ -103,24 +97,17 @@ export default function TWZipCode({
                 </option>
               ))}
           </select>
-        </span>
-
-        <span>
-          <label
-            htmlFor="exampleDataList"
-            className="form-label font-grey-title"
-          >
-            郵遞區號
-          </label>
+        </div>
+        <div className="col-4">
+          <div>
+            郵遞區號<span className="text-danger">*</span>
+          </div>
           <input
-            className="form-control rounded-5"
-            type="text"
-            placeholder="郵遞區號"
-            aria-label="default input example"
-            value={postcode}
-            onChange={(e) => setPostcode(e.target.value)}
+            value={postcode ? postcode : '郵遞區號'}
+            className="rounded-5 p-2 w-100"
+            style={{ color: postcode ? 'black' : 'gray' }}
           />
-        </span>
+        </div>
       </div>
     </>
   )
