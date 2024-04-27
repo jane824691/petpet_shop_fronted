@@ -2,22 +2,18 @@
 import Step1 from './sub-pages/step1'
 import Step2 from './sub-pages/step2'
 import React, { useState } from 'react'
-import Link from 'next/link'
 import Button from 'react-bootstrap/Button'
 import Modal from 'react-bootstrap/Modal'
 import { register_ADD } from '@/components/my-const'
 import Image from 'next/image'
-import AuthContext from '@/components/contexts/AuthContext'
-import { useContext } from 'react'
-import toast, { Toaster } from 'react-hot-toast'
 import { useRouter } from 'next/router'
 
 //同時兩個表單的新增(主畫面)
 function RegisterSteps() {
   const router = useRouter()
-  const { auther } = useContext(AuthContext)
   const maxSteps = 2
   const [step, setStep] = useState(1)
+  const [isStep1Valid, setIsStep1Valid] = useState(false)
   const [progressImage, setProgressImage] = useState('/pics/sleepcat.png')
 
   const [step1, setStep1] = useState({
@@ -40,9 +36,16 @@ function RegisterSteps() {
 
   const [autoAddress, setAutoAddress] = useState('復興南路1段390號2樓')
 
-  const [show, setShow] = useState(false)
-  const handleClose = () => setShow(false)
-  const handleShow = () => setShow(true)
+  const [showSuccessModal, setShowSuccessModal] = useState(false)
+  const [showFailureModal, setShowFailureModal] = useState(false)
+
+  const handleClose = () => {
+    setShowSuccessModal(false)
+    setShowFailureModal(false)
+  }
+
+  const handleShowSuccessModal = () => setShowSuccessModal(true)
+  const handleShowFailureModal = () => setShowFailureModal(true)
 
   // 一次提交 Step1 和 Step2表單
   const onSubmitSteps = async (e) => {
@@ -50,18 +53,10 @@ function RegisterSteps() {
       e.preventDefault()
     }
 
-    const errors = []
-    if (!step2.zipcode) errors.push('郵遞區號沒填~ ')
-    console.log('郵遞區號沒填~ ')
-    if (errors.length > 0) {
-      toast.error(errors.join(', '))
-      return
-    }
-
     // console.log('Step 1 data:', step1)
     // console.log('Step 2 data:', step2)
 
-    //處理圖片上傳&step1&step2
+    //處理圖片上傳&step1&step2(multipart/form-data)
     const formData = new FormData()
     formData.append('lastname', step1.lastname)
     formData.append('firstname', step1.firstname)
@@ -89,19 +84,17 @@ function RegisterSteps() {
         method: 'POST',
         body: formData,
       })
-      console.log('autoAddress:', autoAddress)
-      console.log('表單提交:沒跳出視窗表示失敗')
 
       const responseDataSteps = await responseSteps.json()
 
       // 根據第二個表單的提交結果執行相應的操作
       if (responseDataSteps.success) {
-        // 檢查 step2.postcode 是否有值
-        if (step2.zipcode) {
-          handleShow() // 使用狀態控制 Modal 顯示
+        // 檢查 step2內容是否有填寫
+        if (step2.zipcode && step2.country && step2.township && step2.photo) {
+          handleShowSuccessModal() // 使用狀態控制 Modal 顯示
         }
       } else {
-        toast.error('資料提交失敗')
+        handleShowFailureModal()
         return
       }
     } catch (error) {
@@ -113,23 +106,17 @@ function RegisterSteps() {
   const next = () => {
     // 運送表單用檢查
     if (step === 1) {
-      const {
-        lastname,
-        firstname,
-        mobile,
-        birthday,
-        account,
-        password,
-        identification,
-        email,
-      } = step1
-      setProgressImage('/pics/sleepcat2.png')
+      // 驗證第一步是否通過
+      if (isStep1Valid) {
+        setStep(step + 1)
+      }
 
       setStep2({
         country: '',
         township: '',
         postcode: '',
       })
+      setProgressImage('/pics/sleepcat2.png')
     }
 
     // 沒錯誤才會到下一步
@@ -150,7 +137,13 @@ function RegisterSteps() {
       {/* 子頁面區域 */}
       <div className="register-steps">
         {/* 在 RegisterSteps 父元件中，與子女元件進行傳遞。 */}
-        {step === 1 && <Step1 step1={step1} setStep1={setStep1} />}
+        {step === 1 && (
+          <Step1
+            step1={step1}
+            setStep1={setStep1}
+            setIsStep1Valid={setIsStep1Valid}
+          />
+        )}
         {step === 2 && (
           <Step2 step1={step1} step2={step2} setStep2={setStep2} />
         )}
@@ -179,18 +172,26 @@ function RegisterSteps() {
           className="btn btn-outline-primary btn-lg pro-shadow mx-5"
           style={{ width: 250 }}
           onClick={next}
-          // disabled={step === maxSteps}
+          disabled={!isStep1Valid}
         >
           {step === maxSteps ? '完成註冊' : '繼續註冊'}
         </button>
-        <Modal show={show} onHide={handleClose}>
-          <Modal.Header className="modal-form">
+        <Modal show={showSuccessModal || showFailureModal} onHide={handleClose}>
+          <Modal.Header
+            className={`modal-form ${
+              showSuccessModal ? 'modal-header-success' : 'modal-header-failure'
+            }`}
+          >
             <Modal.Title className="modal-form">
-              註冊成功!!
-              <div>恭喜您成為佩佩星球的成員~</div>
+              {showSuccessModal ? '註冊成功!!' : '註冊失敗'}
+              {showSuccessModal ? (
+                <div>恭喜成為佩佩星球的成員~</div>
+              ) : (
+                <div>請填寫完整資料~</div>
+              )}
             </Modal.Title>
             <Image
-              src="/pics/close.png"
+              src={showSuccessModal ? '/pics/close.png' : '/pics/close2.png'}
               alt="叉叉"
               width="40"
               height="30"
@@ -204,27 +205,40 @@ function RegisterSteps() {
               onClick={handleClose}
             />
           </Modal.Header>
-          <Modal.Body className="modal-form" style={{ height: 130 }}>
+          <Modal.Body
+            className={`modal-form ${
+              showSuccessModal ? 'modal-body-success' : 'modal-body-failure'
+            }`}
+            style={{ height: 130 }}
+          >
             <Image
-              src="/pics/nike.png"
+              src={showSuccessModal ? '/pics/nike.png' : '/pics/error.png'}
               alt="打勾"
               width="100"
               height="100"
               className="mx-auto"
             />
           </Modal.Body>
-          <Modal.Footer className="modal-form">
+          <Modal.Footer
+            className={`modal-form ${
+              showSuccessModal ? 'modal-footer-success' : 'modal-footer-failure'
+            }`}
+            style={{ height: 130 }}
+          >
             <Button
-              variant="info"
+              variant={showSuccessModal ? 'info' : 'secondary'}
               className="mx-auto"
               style={{
                 width: '120px',
                 cursor: 'pointer',
                 boxShadow: 'none',
               }}
+              //資料正確才跳轉
               onClick={() => {
                 handleClose()
-                router.push('/member/login')
+                if (showSuccessModal) {
+                  router.push('/member/login')
+                }
               }}
             >
               確定

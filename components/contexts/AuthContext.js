@@ -1,4 +1,4 @@
-import Link from 'next/link'
+import { useRouter } from 'next/router'
 import React, { createContext, useEffect, useState } from 'react'
 
 const AuthContext = createContext({})
@@ -14,8 +14,9 @@ export const initAuth = {
 
 export const AuthContextProvider = ({ children }) => {
   const [auther, setAuther] = useState(initAuth)
+  const router = useRouter()
   useEffect(() => {
-    // 登入資料放在localstorage, getItem自定義key名稱(auth要改名)
+    //登入資料放在localstorage,getItem自定義key名稱(auth要改名)
     const str = localStorage.getItem('auther')
     if (str) {
       try {
@@ -35,6 +36,7 @@ export const AuthContextProvider = ({ children }) => {
     // 登出時, 清除 localStorage 的記錄
     localStorage.removeItem('auther')
     setAuther(initAuth)
+    router.push('/')
   }
 
   return (

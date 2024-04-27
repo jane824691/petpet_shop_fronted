@@ -13,10 +13,10 @@ import { couponUse_ADD } from '@/components/my-const'
 import { useRouter } from 'next/router'
 import AuthContext from '@/components/contexts/AuthContext'
 import GameContext, { themes } from '@/components/contexts/GameContext'
+import dayjs from 'dayjs'
 
 const jumpDistance = 150 // 空白鍵的移動距離
 
-//方向鍵換圖測試(左右已完成，缺連續動作的移動)
 export default function Game() {
   const { theme, setTheme } = useContext(GameContext) //背景切換
   const [buttonImage, setButtonImage] = useState('/pics/keyboard.png') //方向鍵切換
@@ -35,19 +35,47 @@ export default function Game() {
   const [gameStarted, setGameStarted] = useState(false) //遊戲開始才抓座標
   const router = useRouter()
   const [dogImageSrc, setDogImageSrc] = useState('/pics/dogImage.png')
+  const [showModal, setShowModal] = useState(false) //觸發Modal
+  const { auther } = useContext(AuthContext)
+
+  //隨機優惠券編號
+  const hashTypes = () => {
+    const characters = 'ABCDE123456789'
+    const length = 8
+    let hash = '' //hash變數之後被重新設定(let)
+    for (let i = 0; i < length; i++) {
+      const randomIndex = Math.floor(Math.random() * characters.length)
+      hash += characters[randomIndex]
+    }
+    return hash
+  }
+  //隨機優惠折扣
+  const randomdiscount_type = () => {
+    const discountTypes = ['折價30元', '折價50元']
+    const randomIndex = Math.floor(Math.random() * discountTypes.length)
+    return discountTypes[randomIndex]
+  }
   //優惠券
   const [coupondata, setCoupondata] = useState({
-    hash: 'HAPPY2024',
-    discount_type: '折價50元',
-    expiry_date: '2024-01-27', //這欄位會與當前時間比對，大於才會變色
+    hash: hashTypes(),
+    discount_type: randomdiscount_type(),
+    expiry_date: dayjs().add(30, 'day').format('YYYY-MM-DD'), //這欄位會與當前時間比對，大於才會變色
     coupon_status: '可使用',
   })
 
-  const [showModal, setShowModal] = useState(false) //觸發Modal
+  //比對優惠券過期時間
+  useEffect(() => {
+    const expiry = dayjs(coupondata.expiry_date).add(30, 'day')
+    const today = dayjs()
+    if (today.isAfter(expiry)) {
+      setCoupondata((prevCouponData) => ({
+        ...prevCouponData,
+        coupon_status: '已使用',
+      }))
+    }
+  }, [coupondata.expiry_date])
 
-  const { auther } = useContext(AuthContext)
-
-  // 在组件加載时，使用 useEffect 設置 buttonImage 的初始值
+  // 在组件加載時，使用 useEffect 設置 buttonImage 的初始值
   useEffect(() => {
     // 根據當前 theme 的值設置 buttonImage 的初始值
     //避免theme顏色與方向鍵圖片不一致
@@ -82,10 +110,10 @@ export default function Game() {
 
       if (response.ok) {
         const responseData = await response.json()
-        // 在這里處理 coupon 表的後端回傳数據，如果需要的话
+        // 在這里處理 coupon 表的後端回傳數據
         console.log('Coupon 資料新增成功:', responseData)
 
-        // 同时發起 coupon_use 表的请求
+        // 同時發起 coupon_use 表的請求
         const couponUseRequestData = {
           coupon_id: responseData.couponResult.insertId,
           sid: auther.sid,
@@ -102,7 +130,7 @@ export default function Game() {
 
         if (couponUseResponse.ok) {
           const couponUseResponseData = await couponUseResponse.json()
-          // 在這裡處理 coupon_use 表的後端回傳数據，如果需要的话
+          // 在這裡處理 coupon_use 表的後端回傳數據
           console.log('Coupon Use 資料新增成功:', couponUseResponseData)
         } else {
           console.log('Coupon Use 資料新增失敗:', couponUseResponse.status)
@@ -115,21 +143,21 @@ export default function Game() {
     }
   }
   const easeInOutQuad = (t) =>
-    t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2
+    t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 5
 
   const handleJump = () => {
     const originalTop = position.top
     const jumpStartTime = performance.now()
 
     const jumpFrame = () => {
-      const currentTime = performance.now()
-      const progress = (currentTime - jumpStartTime) / 500
+      const currentTime = performance.now() //當前時間(毫秒)
+      const progress = (currentTime - jumpStartTime) / 1000
 
       setPosition((prevPosition) => ({
         ...prevPosition,
         top: originalTop - easeInOutQuad(progress) * jumpDistance,
       }))
-
+      //時間差的百分比(0~1)
       if (progress < 1) {
         requestAnimationFrame(jumpFrame)
       } else {
@@ -138,7 +166,7 @@ export default function Game() {
           top: originalTop,
         }))
         eatFood() // 在跳躍結束後進行碰撞檢測
-        setIsJumping(false)
+        setIsJumping(false) //跳躍完成
       }
     }
 
@@ -148,23 +176,32 @@ export default function Game() {
   const handleMovement = useCallback(() => {
     setPosition((prevPosition) => {
       let { left, top } = prevPosition
+      let newDogImageSrc = dogImageSrc //方向鍵的圖片切換
 
       if (keyStates.ArrowRight) {
-        setDogImageSrc('/pics/dogImage.png')
+        //setDogImageSrc('/pics/dogImage.png')
+        if (dogImageSrc === '/pics/dogImage.png') {
+          newDogImageSrc = '/pics/dogrun.png'
+        } else {
+          newDogImageSrc = '/pics/dogImage.png'
+        }
         left = Math.min(left + 10, 375)
+        setDogImageSrc(newDogImageSrc)
       }
       if (keyStates.ArrowLeft) {
-        setDogImageSrc('/pics/dogwalk.png')
+        //newDogImageSrc = ('/pics/dogwalk.png')
+        if (dogImageSrc === '/pics/dogwalk.png') {
+          newDogImageSrc = '/pics/dogrun2.png'
+        } else {
+          newDogImageSrc = '/pics/dogwalk.png'
+        }
         left = Math.max(left - 10, 0)
+        setDogImageSrc(newDogImageSrc)
       }
       if (keyStates.ArrowUp) {
-        setDogImageSrc('/pics/dogrun.png')
-        left = Math.min(left + 10, 375)
         // top = Math.max(top - 10, 0)
       }
       if (keyStates.ArrowDown) {
-        setDogImageSrc('/pics/dogrun2.png')
-        left = Math.max(left - 10, 0)
         // top = Math.min(top + 10, 208)
       }
 
@@ -172,9 +209,6 @@ export default function Game() {
         setIsJumping(true)
         handleJump()
       }
-      // if (keyStates.ArrowDown) {
-      //   top += 2
-      // }
       console.log({ left, top })
       eatFood() //呼叫，不可刪除
       return { left, top }
@@ -194,7 +228,7 @@ export default function Game() {
         handleJump()
       }
     },
-    [setKeyStates, setIsJumping]
+    [isJumping, setKeyStates, setIsJumping]
   )
 
   const upHandler = useCallback(
@@ -272,8 +306,6 @@ export default function Game() {
     let newTop
     setPosition((prevPosition) => {
       let { left, top } = prevPosition
-
-      // ...其他移動邏輯
 
       eatFood()
       newTop = top
@@ -455,7 +487,7 @@ export default function Game() {
 
       {/* Modal 範例 */}
       <Modal show={showModal} onHide={() => setShowModal(false)}>
-        <Modal.Header className="modal-form">
+        <Modal.Header className="modal-header-success">
           <Modal.Title className="modal-form py-3">遊戲獎勵!!</Modal.Title>
           <Image
             src="/pics/close.png"
@@ -472,17 +504,19 @@ export default function Game() {
             onClick={() => setShowModal(false)}
           />
         </Modal.Header>
-        <Modal.Body className="modal-form">
-          恭喜獲得商品折價50元的優惠券~
+        <Modal.Body className="modal-body-success">
+          恭喜獲得商品優惠券~
         </Modal.Body>
 
-        <Modal.Footer className="modal-form">
+        <Modal.Footer className="modal-footer-success">
           <Button
             variant="success"
             onClick={() => {
               setShowModal(false)
               modalShow()
-              router.push('/favorite/coupon2')
+              setTimeout(() => {
+                router.push('/favorite/coupon2')
+              }, 1000)
             }}
             className="pro-shadow" //profile.scss的屬性
           >

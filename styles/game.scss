@@ -23,7 +23,7 @@ h3 {
   margin-bottom: 60px;
 
   &.success {
-    background-color: #{$success}; // 使用 #{} 引用 SCSS 变量
+    background-color: #{$success}; // 使用 #{} 引用 SCSS 變量
   }
   &.info {
     background-color: $info;
@@ -101,7 +101,7 @@ h3 {
   line-height: normal;
 
   &.success {
-    background-color: #{$success}; // 使用 #{} 引用 SCSS 变量
+    background-color: #{$success}; // 使用 #{} 引用 SCSS 1變量
   }
   &.info {
     background-color: $info;

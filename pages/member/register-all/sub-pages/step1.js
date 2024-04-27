@@ -1,14 +1,12 @@
 import Image from 'next/image'
 import { z } from 'zod'
-import { register_ADD } from '@/components/my-const'
 import { useState } from 'react'
+// import { register_ADD } from '@/components/my-const'
 
 // 註冊第一步
 function Step1(props) {
-  const { step1, setStep1 } = props
-  const [successMessage, setSuccessMessage] = useState('')
-  const [errorMessage, setErrorMessage] = useState('')
-  
+  const { step1, setStep1, setIsStep1Valid } = props // 接收驗證函數
+
   // 欄位檢查
   const [errors, setErrors] = useState({})
 
@@ -27,15 +25,10 @@ function Step1(props) {
       ...prevErrors,
       [fieldName]: newErrors[fieldName],
     }))
-    if (newErrors[fieldName] === '' && successMessage !== '') {
-      setSuccessMessage('') // 在 onBlur 時，如果格式正確且成功訊息存在，則清空成功訊息
-    }
-  }
-
-  const onFocusHandler = () => {
-    if (successMessage !== '') {
-      setSuccessMessage('') // 在 onFocus 時，如果成功訊息存在，則清空成功訊息
-    }
+    // 更新父组件中的格式驗證狀態(格式正確才能繼續註冊)
+    setIsStep1Valid(
+      Object.keys(newErrors).every((key) => newErrors[key] === '')
+    ) // 更新為所有欄位驗證通過時才為 true
   }
 
   const validateFields = (step1) => {
@@ -54,14 +47,30 @@ function Step1(props) {
     } else {
       newErrors.firstname = '' // 清空錯誤訊息
     }
-
+    // 檢查帳號格式
+    if (!/^[a-zA-Z][a-zA-Z0-9]{5}$/.test(step1.account.trim())) {
+      newErrors.account = '首字英文，加數字共需6碼'
+    } else {
+      newErrors.account = '' // 清空錯誤訊息
+    }
+    // 檢查密碼格式
+    if (!/^[A-Z][a-zA-Z0-9]{5,7}$/.test(step1.password.trim())) {
+      newErrors.password = '首字英文大寫，含數字且至少需6碼'
+    } else {
+      newErrors.password = '' // 清空錯誤訊息
+    }
     // 檢查電話號碼格式
     if (!/^(09\d{2}-?\d{3}-?\d{3})$/.test(step1.mobile.trim())) {
       newErrors.mobile = '電話號碼格式錯誤'
     } else {
       newErrors.mobile = '' // 清空錯誤訊息
     }
-
+    // 檢查身分證字號格式
+    if (!/^([a-zA-Z][12]\d{8})$/.test(step1.identification.trim())) {
+      newErrors.identification = '身分證字號格式錯誤'
+    } else {
+      newErrors.identification = '' // 清空錯誤訊息
+    }
     // 檢查 Email 格式
     if (
       !/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/.test(
@@ -118,41 +127,17 @@ function Step1(props) {
     }
   }
 
-  // 不送單一表單
-  // 串接資料庫:fetch(url)
-  // const response = await fetch(register_ADD, {
-  //   method: 'POST',
-  //   body: JSON.stringify(step1),
-  //   headers: {
-  //     'Content-Type': 'application/json',
-  //   },
-  // })
-
-  // const responseData = await response.json()
-
-  // if (responseData.success) {
-  //   // alert('註冊成功');
-  //   setSuccessMessage('註冊成功')
-  // } else {
-  //   // alert('格式錯誤或未填寫');
-  //   setErrorMessage('格式錯誤或未填寫')
-  // }
-
-  // 在這裡新增 state
-
-  //成功或失敗顯示不同的<div>內容
-  {
-    successMessage && <div className="success-message">{successMessage}</div>
-  }
-  {
-    errorMessage && <div className="error-message">{errorMessage}</div>
-  }
-
   return (
     <>
       <h3 className="mx-5 py-3">會員註冊</h3>
       <div className="d-flex justify-content-center">
-        <Image src="/pics/sleepcat.png" width="500" height="100" alt="懶懶貓" />
+        <Image
+          src="/pics/sleepcat.png"
+          width="500"
+          height="100"
+          alt="懶懶貓"
+          priority
+        />
       </div>
       <form className="list-form" onSubmit={onSubmit}>
         <div className="d-flex justify-content-center">
@@ -178,11 +163,11 @@ function Step1(props) {
                       lastname: '林',
                       firstname: '宜君',
                       mobile: '0988352694',
-                      account: 'YiJun',
+                      account: 'YiJun5',
                       password: 'LY851212',
                       birthday: '1996-12-12',
                       identification: 'A226789898',
-                      email: 'YiJun@gmail.com',
+                      email: 'YiJun5@gmail.com',
                     })
                     setErrors({})
                   }}
@@ -202,18 +187,13 @@ function Step1(props) {
                       value={step1.lastname || ''}
                       onChange={changeHandler}
                       onBlur={() => onBlurHandler('lastname')}
-                      onFocus={onFocusHandler}
                       placeholder="姓氏"
                       aria-label="default input example"
                     />
                     {/* 錯誤訊息的顯示 */}
-                    <div
-                      className={`message ${
-                        errors.lastname ? 'error-message' : 'success-message'
-                      }`}
-                    >
-                      {errors.lastname || (successMessage && '成功訊息')}
-                    </div>
+                    {errors.lastname && (
+                      <div className="error-message">{errors.lastname}</div>
+                    )}
                   </div>
                   <div className="col">
                     <h6 className="card-title font-grey-title mt-3 mt-md-0">
@@ -227,17 +207,12 @@ function Step1(props) {
                       value={step1.firstname || ''}
                       onChange={changeHandler}
                       onBlur={() => onBlurHandler('firstname')}
-                      onFocus={onFocusHandler}
                       placeholder="名字"
                       aria-label="default input example"
                     />
-                    <div
-                      className={`message ${
-                        errors.firstname ? 'error-message' : 'success-message'
-                      }`}
-                    >
-                      {errors.firstname || (successMessage && '成功訊息')}
-                    </div>
+                    {errors.firstname && (
+                      <div className="error-message">{errors.firstname}</div>
+                    )}
                   </div>
                 </div>
                 <br />
@@ -254,17 +229,12 @@ function Step1(props) {
                       value={step1.mobile || ''}
                       onChange={changeHandler}
                       onBlur={() => onBlurHandler('mobile')}
-                      onFocus={onFocusHandler}
                       placeholder="請填電話號碼"
                       aria-label="default input example"
                     />
-                    <div
-                      className={`message ${
-                        errors.mobile ? 'error-message' : 'success-message'
-                      }`}
-                    >
-                      {errors.mobile || (successMessage && '成功訊息')}
-                    </div>
+                    {errors.mobile && (
+                      <div className="error-message">{errors.mobile}</div>
+                    )}
                   </div>
                   <div className="col">
                     <h6 className="card-title font-grey-title mt-3 mt-md-0">
@@ -299,6 +269,7 @@ function Step1(props) {
                       name="account"
                       value={step1.account}
                       onChange={changeHandler}
+                      onBlur={() => onBlurHandler('account')}
                       placeholder="請填帳號"
                       aria-label="default input example"
                     />
@@ -317,6 +288,7 @@ function Step1(props) {
                       name="password"
                       value={step1.password}
                       onChange={changeHandler}
+                      onBlur={() => onBlurHandler('password')}
                       placeholder="請填密碼"
                       aria-label="default input example"
                     />
@@ -337,8 +309,9 @@ function Step1(props) {
                       type="text"
                       id="identification"
                       name="identification"
-                      value={step1.identification}
+                      value={step1.identification || ''}
                       onChange={changeHandler}
+                      onBlur={() => onBlurHandler('identification')}
                       placeholder="請填身分證字號"
                       aria-label="default input example"
                     />
@@ -360,17 +333,12 @@ function Step1(props) {
                       value={step1.email || ''}
                       onChange={changeHandler}
                       onBlur={() => onBlurHandler('email')}
-                      onFocus={onFocusHandler}
                       placeholder="請填電子信箱"
                       aria-label="default input example"
                     />
-                    <div
-                      className={`message ${
-                        errors.email ? 'error-message' : 'success-message'
-                      }`}
-                    >
-                      {errors.email || (successMessage && '成功訊息')}
-                    </div>
+                    {errors.email && (
+                      <div className="error-message">{errors.email}</div>
+                    )}
                   </div>
                 </div>
                 <br />

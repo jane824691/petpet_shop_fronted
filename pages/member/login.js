@@ -1,9 +1,11 @@
-import { useContext, useState } from 'react'
+import { useContext, useState, useEffect } from 'react'
 import Image from 'next/image'
+//import styles from '@/css/home.module.css'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { LOGIN } from '@/components/my-const'
 import AuthContext from '@/components/contexts/AuthContext'
+import { jwtDecode } from 'jwt-decode' // 導入 jwt 解析庫
 
 //可以成功登入的版本
 export default function Login() {
@@ -12,7 +14,19 @@ export default function Login() {
     password: '',
   })
   const router = useRouter()
-  const { setAuther } = useContext(AuthContext)
+  const { setAuther, logout } = useContext(AuthContext)
+
+  //確認JWT過期時間(自動登出)
+  useEffect(() => {
+    const token = localStorage.getItem('auther')
+    if (token) {
+      const decodedToken = jwtDecode(token)
+      const currentTime = Date.now() / 1000 //單位:毫秒轉秒
+      if (decodedToken.exp < currentTime) {
+        logout() // token 過期，自動登出
+      }
+    }
+  }, [])
   const postForm = async (e) => {
     e.preventDefault() //不要讓表單以傳統方式送出
 

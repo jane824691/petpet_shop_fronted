@@ -1,7 +1,7 @@
 import React from 'react'
-import styles from '@/css/home.module.css'
 
-//幫我檢查這段錯誤
+//棄用(換URL)
+
 export default function Profile() {
   return (
     <>

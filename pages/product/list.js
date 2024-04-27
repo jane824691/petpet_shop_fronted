@@ -83,8 +83,6 @@ export default function List() {
     getListData()
   }, [router.query.page, searchWord, priceLow, priceHigh, sortBy, tags])
 
-  console.log(data)
-  console.log(data.rows)
 
   // 當搜尋關鍵字改變時將頁面重設為第 1 頁
   useEffect(() => {

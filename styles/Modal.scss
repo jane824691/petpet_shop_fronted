@@ -1,12 +1,11 @@
-.modal-form {
-  color:rgba(72, 3, 142, 0.5); font-size: 26px; 
+.modal-form { 
+  font-size: 26px; 
   text-align: center;
   font-weight: 600; line-height: 42px; 
   //word-wrap: break-word;
   width: 400px;
   height: 90px;
   border: none;
-  background-color: #DAECFF;
 }
 .modal-body {
   font-size: 18px; 
@@ -15,4 +14,32 @@
   border: 5px solid #90D2CE;
   border-radius: 15px;
   width: 410px;
+}
+
+.modal-header-success {
+  color:rgba(72, 3, 142, 0.5); /* 成功時的背景顏色 */
+  background-color: #DAECFF;
+}
+
+.modal-header-failure {
+  color: #F8723F; /* 失敗時的背景顏色 */
+  background-color: rgba(237, 178, 210, 0.3);
+}
+
+.modal-body-success {
+  color:rgba(72, 3, 142, 0.5);
+  background-color: #DAECFF;
+  text-align: center /* 成功時的背景顏色 */
+}
+
+.modal-body-failure {
+  background-color:rgba(237, 178, 210, 0.3); /* 失敗時的背景顏色 */
+}
+
+.modal-footer-success {
+  background-color: #DAECFF; /* 成功時的背景顏色 */
+}
+
+.modal-footer-failure {
+  background-color:rgba(237, 178, 210, 0.3); /* 失敗時的背景顏色 */
 }

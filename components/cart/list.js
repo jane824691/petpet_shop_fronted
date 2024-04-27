@@ -12,13 +12,6 @@ const coupons = [
 export default function CartList() {
   // 使用hooks 解出所需的狀態與函式(自context)
   const { cart, items, addItem, decrement, increment, removeItem } = useCart()
-  const [myProduct, setMyProduct] = useState({
-    pid: '',
-    img: '',
-    name: '',
-    price: '',
-    info: '',
-  })
 
   const [couponOptions, setCouponOptions] = useState(coupons)
   const [selectedCouponId, setSelectedCouponId] = useState(0)

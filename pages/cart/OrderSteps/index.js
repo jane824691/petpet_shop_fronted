@@ -10,7 +10,6 @@ import { GET_MEMBER_DATA } from '@/components/my-const'
 import { useCart } from '@/components/hooks/use-cart-state'
 import { totalPrice } from '@/components/hooks/cart-reducer-state'
 
-
 function OrderSteps() {
   const { items, clearCart } = useCart()
 
@@ -42,8 +41,9 @@ function OrderSteps() {
     sale_price: '',
     actual_amount: '',
   })
+  console.log(payment)
+
   const [netTotal, setNetTotal] = useState(0)
-  // console.log(payment)
 
   const [sid, setSid] = useState('') //抓到sid後存起來給後面抓取會員訂單資料用
 
@@ -116,6 +116,7 @@ function OrderSteps() {
         return totalPrice(items)
       })
       console.log(netTotal, '要在這邊變更總金額')
+
       onSubmit()
     }
   }
@@ -132,11 +133,12 @@ function OrderSteps() {
     netTotal: netTotal,
     pid: selectedProducts.pid ? selectedProducts.pid : '',
     sale_price: selectedProducts.sale_price ? selectedProducts.sale_price : '',
-    actual_amount: selectedProducts.actual_amount ? selectedProducts.actual_amount : '',
-    
+    actual_amount: selectedProducts.actual_amount
+      ? selectedProducts.actual_amount
+      : '',
+
     email: payment.email,
   }
-  console.log(requestData)
 
   const onSubmit = async () => {
     const r = await fetch(ORDER_LIST_ADD, {
