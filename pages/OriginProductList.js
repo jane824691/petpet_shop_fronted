@@ -30,13 +30,21 @@ function ProductList() {
   return (
     <>
       <div className="row mt-5 mb-5">
+      {/* 跳隨機4筆(還未排除重複值) */}
         {data.rows &&
-          data.rows.slice(0, 4).map((v, i) => {
+          Array.from({ length: 4 }, () => {
+            const randomIndex = Math.floor(Math.random() * data.rows.length)
+            return data.rows[randomIndex]
+          }).map((v, i) => {
             return (
               <div
                 className="col"
                 key={v.pid}
-                style={{ width: '13rem', marginRight: '10px', display: 'flex' }}
+                style={{
+                  width: '13rem',
+                  marginRight: '10px',
+                  display: 'flex',
+                }}
               >
                 <Link href={`/product/${v.pid}`} className="no-line">
                   <span className="card border-primary col">

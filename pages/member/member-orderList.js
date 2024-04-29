@@ -251,7 +251,7 @@ export default function MemberOrderList() {
               )
             })
           ) : (
-            <h5 className="m-5">目前尚未成立訂單</h5>
+            <h5 className="m-5">目前並未成立訂單</h5>
           )}
           {/* 頁碼 */}
           <div

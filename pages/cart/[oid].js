@@ -96,7 +96,7 @@ export default function OrderUnderMember() {
                     </div>
                   </div> */}
                   <div className="row card-padding12">
-                    <div className="col-9 dollar">本訂單總花費金額</div>
+                    <div className="col-9 dollar">本訂單總花費</div>
                     <div className="col-3 text-end">
                       {orderData.length > 0 && (
                         <div className="dollar">
