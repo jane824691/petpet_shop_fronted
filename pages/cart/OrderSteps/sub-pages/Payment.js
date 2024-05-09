@@ -54,13 +54,10 @@ export default function Payment(props) {
 
   const validateFields = (step1) => {
     const newErrors = {}
-
+console.log(payment);
+console.log(payment.name);
     // 檢查名字格式
-    if (
-      !payment ||
-      !payment.name ||
-      !/[\u4e00-\u9fa5]+/.test(payment.name.trim())
-    ) {
+    if (!/[\u4e00-\u9fa5]+/.test(payment.name.trim())) {
       newErrors.name = '名字需填寫中文字'
       // console.log(name)
     } else {
@@ -146,7 +143,7 @@ export default function Payment(props) {
                     placeholder="請填姓名"
                     name="name"
                     id="name"
-                    value={payment.name}
+                    value={payment.name || ''}
                     onChange={changeHandler}
                     onBlur={() => onBlurHandler('name')}
                     onFocus={onFocusHandler}

@@ -54,17 +54,18 @@ export default function List() {
         sortBy === 'cheap' ? 'cheap' : sortBy === 'expensive' ? 'expensive' : ''
 
       // 根據使用者選擇的標籤(tags)查找對應的標籤 種類id
+      console.log(tags)
       const currentTagsNum = tags
         .map((tag) => {
           // 在 categoryTagMap 中查找標籤對應的 種類id
-          for (const [id, name] of Object.entries(categoryTagMap)) {
-            if (name === tag) {
-              return parseInt(id) // 將 種類id 轉換為數字
+          for (const [tagId, tagName] of Object.entries(categoryTagMap)) {
+            if (tagName === tag) {
+              return parseInt(tagId) // 將 種類id 轉換為數字
             }
           }
           return null
         })
-        .filter((id) => id !== null)
+        .filter((tagId) => tagId !== null)
         .join(',') // 過濾空值並將 種類id 陣列轉換為逗號分隔的字串
 
       // 實際呼叫後端api
@@ -75,14 +76,13 @@ export default function List() {
       const d = await r.json()
       setData(d)
     } catch (error) {
-      console.error('Error fetching data:', error);
+      console.error('Error fetching data:', error)
     }
   }
 
   useEffect(() => {
     getListData()
   }, [router.query.page, searchWord, priceLow, priceHigh, sortBy, tags])
-
 
   // 當搜尋關鍵字改變時將頁面重設為第 1 頁
   useEffect(() => {
