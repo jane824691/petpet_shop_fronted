@@ -10,7 +10,7 @@ export default function Payment(props) {
   // console.log(typeof name) // 打印出 "string"
   // console.log(name === '') // 打印出 "true"
   // console.log(name === undefined) // 打印出 "false"
-  console.log(payment)
+  // console.log(payment)
 
   // 一次處理多項購物者資訊用, 可控表單
   const changeHandler = (e, postcodeValue) => {
@@ -42,7 +42,7 @@ export default function Payment(props) {
     if (newErrors[fieldName] === '' && successMessage !== '') {
       setSuccessMessage('') // 在 onBlur 時，如果格式正確且成功訊息存在，則清空成功訊息
     }
-    console.log(fieldName)
+    // console.log(fieldName)
   }
 
   // 在 onFocus 時，如果成功訊息存在，則清空成功訊息
@@ -54,8 +54,8 @@ export default function Payment(props) {
 
   const validateFields = (step1) => {
     const newErrors = {}
-console.log(payment);
-console.log(payment.name);
+// console.log(payment);
+// console.log(payment.name);
     // 檢查名字格式
     if (!/[\u4e00-\u9fa5]+/.test(payment.name.trim())) {
       newErrors.name = '名字需填寫中文字'

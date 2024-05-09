@@ -69,6 +69,7 @@ export default function OrderDetail({
   if (!hydrated) {
     return null
   }
+
   // 修正 end
 
   //  const [displayInfo, setDisplayInfo] = useState('') // "", "succ", "fail"

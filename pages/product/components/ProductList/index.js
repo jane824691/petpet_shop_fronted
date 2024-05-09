@@ -22,7 +22,7 @@ function ProductList(props) {
   }
   return (
     <>
-      {products.map((product, i) => {
+      {products && products.map((product, i) => {
         return <ProductItem key={i} product={product} />
       })}
 
