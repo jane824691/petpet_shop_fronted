@@ -3,7 +3,6 @@ import ProductItem from './ProductItem'
 
 function ProductList(props) {
   const { products } = props
-  console.log({ products })
   if (products.length === 0) {
     return (
       <h4

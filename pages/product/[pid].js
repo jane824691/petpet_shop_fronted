@@ -27,15 +27,14 @@ export default function Detail() {
   useEffect(() => {
     const fetchData = async () => {
       const pid = +router.query.pid
-      console.log({ pid, raw: router.query.pid })
 
       try {
         const response = await fetch(ONE_PRODUCT + `/${pid}`)
         const productData = await response.json()
-        console.log('productData:', productData)
+        // console.log('productData:', productData)
         setMyProduct(productData)
       } catch (error) {
-        console.error('Error fetching product data:', error)
+        // console.error('Error fetching product data:', error)
       }
     }
 

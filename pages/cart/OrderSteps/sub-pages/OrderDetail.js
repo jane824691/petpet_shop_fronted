@@ -23,8 +23,6 @@ export default function OrderDetail({
 
   const [couponOptions, setCouponOptions] = useState(coupons)
   const [selectedCouponId, setSelectedCouponId] = useState(0)
-  console.log(items)
-
 
   // 確認出正確後端可接收到的格式才考慮怎麼包陣列還物件, 帶出商品資訊
   useEffect(() => {
@@ -34,7 +32,6 @@ export default function OrderDetail({
         sale_price: items.map((item) => item.price),
         actual_amount: items.map((item) => item.quantity),
       }
-      console.log(selectedProducts)
 
       setSelectedProducts(selectedProducts)
     }

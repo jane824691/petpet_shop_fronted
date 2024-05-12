@@ -25,7 +25,7 @@ export default function CartList() {
     }
 
     const coupon = couponOptions.find((v) => v.id === selectedCouponId)
-    console.log(coupon)
+
     // type: 'amount'相減，'percent'折扣
     const newNetTotal =
       coupon.type === 'amount'

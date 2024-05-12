@@ -44,7 +44,7 @@ export default function MemberOrderList() {
   const { auther } = useContext(AuthContext)
 
   const [sid, setSid] = useState('') //抓到sid後存起來給後面抓取會員訂單資料用
-  console.log(sid)
+
   // 去抓後端處理好的單筆資料(顯示在會員中心)
   useEffect(() => {
     const fetchData = async () => {
@@ -53,16 +53,15 @@ export default function MemberOrderList() {
         //如果沒登入就跑到會員中心不會報錯
         const authDataString = localStorage.getItem('auther')
         if (!authDataString) {
-          console.log('No "auther" data found.')
+          // console.log('No "auther" data found.')
           return
         }
         const authData = JSON.parse(authDataString)
         if (!authData || !authData.sid) {
-          console.log('No valid "auther" data found.')
+          // console.log('No valid "auther" data found.')
           return
         }
         const sid = authData.sid
-        console.log('sid', sid)
         setSid(sid)
         const response = await fetch(GET_MEMBER_DATA, {
           body: JSON.stringify({ sid: sid }),
@@ -77,11 +76,9 @@ export default function MemberOrderList() {
         if (memberData.birthday) {
           memberData.birthday = dayjs(memberData.birthday).format('YYYY-MM-DD')
         }
-
-        console.log('memberData:', memberData)
         setMydata(memberData)
       } catch (error) {
-        console.error('Error fetching mydata:', error)
+        // console.error('Error fetching mydata:', error)
       }
     }
 
@@ -99,7 +96,7 @@ export default function MemberOrderList() {
       const d = await r.json()
       setData(d)
     } catch (ex) {
-      console.error('error:', ex)
+      // console.error('error:', ex)
     }
   }
 

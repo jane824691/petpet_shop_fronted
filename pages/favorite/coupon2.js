@@ -14,7 +14,6 @@ export default function Coupon() {
   useEffect(() => {
     const fetchData = async () => {
       const sid = JSON.parse(localStorage.getItem('auther')).sid
-      console.log('sid', sid)
       try {
         const response = await fetch(GET_COUPON_DATA, {
           body: JSON.stringify({ sid: sid }),
@@ -24,10 +23,10 @@ export default function Coupon() {
           method: 'POST',
         })
         const couponData = await response.json()
-        console.log('couponData:', couponData)
+        // console.log('couponData:', couponData)
         setMydata(couponData)
       } catch (error) {
-        console.error('Error fetching mydata:', error)
+        // console.error('Error fetching mydata:', error)
       }
     }
 

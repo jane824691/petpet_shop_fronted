@@ -80,7 +80,7 @@ function Step2(props) {
         alert('格式錯誤或未填寫')
       }
     } catch (error) {
-      console.error('註冊過程中發生錯誤:', error)
+      // console.error('註冊過程中發生錯誤:', error)
     }
   }
   return (
@@ -93,7 +93,7 @@ function Step2(props) {
           onChange={(e) => {
             const file = e.target.files[0]
             setStep2((prevStep2) => ({ ...prevStep2, photo: file || null }))
-            console.log('Updated step2.photo:', file)
+            // console.log('Updated step2.photo:', file)
             const reader = new FileReader()
             reader.onloadend = () => {
               setImagePreview(reader.result)
@@ -103,7 +103,7 @@ function Step2(props) {
             } else {
               setImagePreview(null)
             }
-            console.log('step2.photo:', file) //確認'photo'欄位值
+            // console.log('step2.photo:', file) //確認'photo'欄位值
           }}
           style={{ display: 'none' }} // 隱藏實際的上傳 input
           id="fileInput"

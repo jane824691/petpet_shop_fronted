@@ -4,7 +4,6 @@ import PagesBar from './PagesBarTest'
 
 function ProductList(props) {
   const { products } = props
-  console.log({ products })
   return (
     <>
       {products.map((product, i) => {

@@ -54,7 +54,7 @@ export default function List() {
         sortBy === 'cheap' ? 'cheap' : sortBy === 'expensive' ? 'expensive' : ''
 
       // 根據使用者選擇的標籤(tags)查找對應的標籤 種類id
-      console.log(tags)
+
       const currentTagsNum = tags
         .map((tag) => {
           // 在 categoryTagMap 中查找標籤對應的 種類id
@@ -76,7 +76,7 @@ export default function List() {
       const d = await r.json()
       setData(d)
     } catch (error) {
-      console.error('Error fetching data:', error)
+      // console.error('Error fetching data:', error)
     }
   }
 
@@ -110,12 +110,10 @@ export default function List() {
   const handleSearch = (products, searchWord) => {
     // 確保 products 是陣列
     if (!Array.isArray(products)) {
-      console.error('products is not an array')
       return []
     }
 
     let newProducts = [...products]
-    console.log([...products])
 
     if (searchWord.length) {
       newProducts = products.filter((product) => {
@@ -130,10 +128,6 @@ export default function List() {
   //處理價格排序
   const handleSort = (products, sortBy) => {
     let newProducts = [...products]
-    console.log([...products])
-    console.log(
-      [...newProducts].sort((a, b) => a.product_price - b.product_price)
-    )
 
     // 以價格排序-由少至多
     if (sortBy === 'cheap') {
@@ -167,9 +161,7 @@ export default function List() {
         const mappedTags = productTags.map(
           (category_id) => categoryTagMap[category_id] || category_id
         )
-        console.log(tags)
-        console.log(productTags)
-        console.log(mappedTags)
+
         if (tags.some((tag) => mappedTags.includes(tag))) {
           allTags.push(product.category_id)
           return true
@@ -230,7 +222,6 @@ export default function List() {
     }
     setPriceLow(newPriceLow)
     setPriceHigh(newPriceHigh)
-    console.log(newPriceLow)
     return newProducts
   }
 

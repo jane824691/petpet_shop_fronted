@@ -18,7 +18,7 @@ export default function RegisterAdd() {
 
   const changeHandler = (e) => {
     const { name, id, value } = e.target
-    console.log({ name, id, value })
+    // console.log({ name, id, value })
     setUser({ ...user, [id]: value })
   }
   const onSubmit = (e) => {

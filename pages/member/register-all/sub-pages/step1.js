@@ -12,7 +12,6 @@ function Step1(props) {
 
   const changeHandler = (e) => {
     const { name, id, value } = e.target
-    console.log({ name, id, value })
     setStep1({ ...step1, [id]: value })
   }
 
@@ -110,7 +109,7 @@ function Step1(props) {
     })
 
     if (!response.ok) {
-      console.error('伺服器錯誤:', response.status)
+      // console.error('伺服器錯誤:', response.status)
       return
     }
 

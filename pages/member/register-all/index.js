@@ -53,9 +53,6 @@ function RegisterSteps() {
       e.preventDefault()
     }
 
-    // console.log('Step 1 data:', step1)
-    // console.log('Step 2 data:', step2)
-
     //處理圖片上傳&step1&step2(multipart/form-data)
     const formData = new FormData()
     formData.append('lastname', step1.lastname)
@@ -98,7 +95,7 @@ function RegisterSteps() {
         return
       }
     } catch (error) {
-      console.error('註冊過程中發生錯誤:', error)
+      // console.error('註冊過程中發生錯誤:', error)
     }
   }
 

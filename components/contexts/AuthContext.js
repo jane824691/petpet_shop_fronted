@@ -26,7 +26,7 @@ export const AuthContextProvider = ({ children }) => {
           setAuther({ sid, account, token })
         }
       } catch (ex) {
-        console.error('Error parsing authentication data:', ex)
+        // console.error('Error parsing authentication data:', ex)
       }
     }
   }, [])

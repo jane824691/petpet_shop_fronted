@@ -12,22 +12,19 @@ export default function OrderUnderMember() {
   useEffect(() => {
     const fetchData = async () => {
       const oid = +router.query.oid
-      console.log(oid)
       try {
         const response = await fetch(ONE_ORDER + `/${oid}`)
         const responseData = await response.json()
 
-        console.log('Response Data:', responseData) // 添加此行输出
 
         // 確保 responseData 是一個陣列
         if (Array.isArray(responseData)) {
-          console.log('orderData:', responseData)
           setOrderData(responseData)
         } else {
-          console.error('Error: Data is not an array')
+          // console.error('Error: Data is not an array')
         }
       } catch (error) {
-        console.error('Error fetching product data:', error)
+        // console.error('Error fetching product data:', error)
       }
     }
 

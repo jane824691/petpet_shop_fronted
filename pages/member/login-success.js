@@ -16,7 +16,7 @@ export default function Login() {
 
   // 各欄位共用事件處理函式
   const handleFieldChange = (e) => {
-    console.log(e.target.type, e.target.name, e.target.value, e.target.checked)
+    // console.log(e.target.type, e.target.name, e.target.value, e.target.checked)
     const newUser = { ...user, [e.target.name]: e.target.value }
 
     setUser(newUser)
@@ -137,10 +137,12 @@ function sendForm(e) {
   })
     .then((r) => r.json())
     .then((data) => {
-      console.log(data)
+      // console.log(data)
       if (data.success) {
         //router.push('/')
       }
     })
-    .catch((ex) => console.log(ex))
+    .catch
+    // (ex) => console.log(ex)
+    ()
 }

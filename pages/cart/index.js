@@ -35,10 +35,11 @@ export default function CartTestIndex() {
             className="btn btn-danger btn-lg text-white"
             style={{ width: 250 }}
             onClick={() => {
-              items == 0
-                ? (console.log('items 為 0'),
-                  toast.error('須至少買一項才可結帳!!!'))
-                : router.push('../cart/payment')
+              if (items.length === 0) {
+                toast.error('須至少買一項才可結帳!!!')
+              } else {
+                router.push('../cart/payment')
+              }
             }}
           >
             前往結帳

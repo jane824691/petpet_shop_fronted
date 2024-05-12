@@ -60,16 +60,15 @@ export default function Profile() {
         //如果沒登入就跑到會員中心不會報錯
         const authDataString = localStorage.getItem('auther')
         if (!authDataString) {
-          console.log('No "auther" data found.')
+          // console.log('No "auther" data found.')
           return
         }
         const authData = JSON.parse(authDataString)
         if (!authData || !authData.sid) {
-          console.log('No valid "auther" data found.')
+          // console.log('No valid "auther" data found.')
           return
         }
         const sid = authData.sid
-        console.log('sid', sid)
         const response = await fetch(GET_MEMBER_DATA, {
           body: JSON.stringify({ sid: sid }),
           headers: {
@@ -84,10 +83,9 @@ export default function Profile() {
           memberData.birthday = dayjs(memberData.birthday).format('YYYY-MM-DD')
         }
 
-        console.log('memberData:', memberData)
         setMydata(memberData)
       } catch (error) {
-        console.error('Error fetching mydata:', error)
+        // console.error('Error fetching mydata:', error)
       }
     }
 

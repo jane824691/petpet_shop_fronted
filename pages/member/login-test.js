@@ -23,7 +23,6 @@ export default function Login() {
       },
     })
     const data = await r.json()
-    console.log(data)
     if (data.success) {
       const { sid, account, token } = data
       // 成功登入時, 寫入 localStorage 做長時間的狀態保存，網頁刷新時仍保持登入狀態
@@ -38,7 +37,7 @@ export default function Login() {
 
   // 各欄位共用事件處理函式
   const handleFieldChange = (e) => {
-    console.log(e.target.type, e.target.name, e.target.value, e.target.checked)
+    // console.log(e.target.type, e.target.name, e.target.value, e.target.checked)
     const newUser = { ...user, [e.target.name]: e.target.value }
 
     setUser(newUser)

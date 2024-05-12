@@ -24,15 +24,13 @@ function ProductList() {
       const d = await r.json()
       setData(d)
     } catch (error) {
-      console.error('Error fetching data:', error);
+      // console.error('Error fetching data:', error);
     }
   };
 
   useEffect(() => {
     getListData()
   }, [router.query.page])
-
-  console.log(data.rows);
   
   return (
     <>

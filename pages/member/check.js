@@ -30,7 +30,9 @@ export default function Profile() {
             setData(result.data)
           }
         })
-        .catch((ex) => console.log(ex))
+        .catch
+        // (ex) => console.log(ex)
+        ()
     }
   }, [])
 

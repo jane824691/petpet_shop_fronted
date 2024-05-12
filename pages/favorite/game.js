@@ -111,14 +111,14 @@ export default function Game() {
       if (response.ok) {
         const responseData = await response.json()
         // 在這里處理 coupon 表的後端回傳數據
-        console.log('Coupon 資料新增成功:', responseData)
+        // console.log('Coupon 資料新增成功:', responseData)
 
         // 同時發起 coupon_use 表的請求
         const couponUseRequestData = {
           coupon_id: responseData.couponResult.insertId,
           sid: auther.sid,
         }
-        console.log(JSON.stringify(couponUseRequestData))
+        // console.log(JSON.stringify(couponUseRequestData))
         const couponUseResponse = await fetch(couponUse_ADD, {
           method: 'POST',
           body: JSON.stringify(couponUseRequestData),
@@ -131,15 +131,15 @@ export default function Game() {
         if (couponUseResponse.ok) {
           const couponUseResponseData = await couponUseResponse.json()
           // 在這裡處理 coupon_use 表的後端回傳數據
-          console.log('Coupon Use 資料新增成功:', couponUseResponseData)
+          // console.log('Coupon Use 資料新增成功:', couponUseResponseData)
         } else {
-          console.log('Coupon Use 資料新增失敗:', couponUseResponse.status)
+          // console.log('Coupon Use 資料新增失敗:', couponUseResponse.status)
         }
       } else {
-        console.log('Coupon 資料新增失敗:', response.status)
+        // console.log('Coupon 資料新增失敗:', response.status)
       }
     } catch (error) {
-      console.error('Fetch 錯誤:', error)
+      // console.error('Fetch 錯誤:', error)
     }
   }
   const easeInOutQuad = (t) =>
@@ -209,7 +209,6 @@ export default function Game() {
         setIsJumping(true)
         handleJump()
       }
-      console.log({ left, top })
       eatFood() //呼叫，不可刪除
       return { left, top }
     })
@@ -218,7 +217,7 @@ export default function Game() {
   const downHandler = useCallback(
     (e) => {
       e.preventDefault()
-      console.log(e.code)
+      // console.log(e.code)
       setKeyStates((prevKeyStates) => ({
         ...prevKeyStates,
         [e.code]: true,
@@ -281,9 +280,9 @@ export default function Game() {
       .querySelector('#randomImage2')
       .getBoundingClientRect()
 
-    console.log('Dog Rect:', dogRect)
-    console.log('Food1 Rect:', randomImage1Rect)
-    console.log('Food2 Rect:', randomImage2Rect)
+    // console.log('Dog Rect:', dogRect)
+    // console.log('Food1 Rect:', randomImage1Rect)
+    // console.log('Food2 Rect:', randomImage2Rect)
 
     if (
       (dogRect.right > randomImage1Rect.left &&
@@ -295,7 +294,7 @@ export default function Game() {
         dogRect.bottom > randomImage2Rect.top &&
         dogRect.top < randomImage2Rect.bottom)
     ) {
-      console.log('Dog eat the food!')
+      // console.log('Dog eat the food!')
       setFoodEaten(true) // 更新 foodEaten 狀態
       setShowModal(true) // 顯示 Modal
       //modalShow()
@@ -431,10 +430,10 @@ export default function Game() {
               id="pinkcatImage"
               style={{ cursor: 'grab' }}
               onClick={() => {
-                console.log('Current Theme:', theme.name)
+                // console.log('Current Theme:', theme.name)
                 if (theme.name === 'default') {
                   setTheme(themes.info)
-                  console.log('Button:')
+                  // console.log('Button:')
                   setButtonImage('/pics/keyboard-blue.png')
                 } else if (theme.name === 'info') {
                   setTheme(themes.secondary)
