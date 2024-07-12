@@ -59,7 +59,6 @@ export const getPostcodeFromAddress = (address = '') => {
     ? postcodes[countriesIndex][townshipIndex]
     : ''
 
-  //if (!postcode) console.log(township, townshipIndex)
 
   return postcode
 }
@@ -90,8 +89,6 @@ export default function getPostcodeFromTownship(country = '', township = '') {
   const postcode = postcodes[countriesIndex][townshipIndex]
     ? postcodes[countriesIndex][townshipIndex]
     : 0
-
-  //if (!postcode) console.log(township, townshipIndex)
 
   return postcode
 }

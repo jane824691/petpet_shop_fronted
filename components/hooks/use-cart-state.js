@@ -52,7 +52,6 @@ export const CartProvider = ({
       }
     } catch (error) {
       items = []
-      // console.log(error)
     }
   }
 

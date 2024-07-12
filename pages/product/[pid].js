@@ -31,7 +31,6 @@ export default function Detail() {
       try {
         const response = await fetch(ONE_PRODUCT + `/${pid}`)
         const productData = await response.json()
-        // console.log('productData:', productData)
         setMyProduct(productData)
       } catch (error) {
         // console.error('Error fetching product data:', error)

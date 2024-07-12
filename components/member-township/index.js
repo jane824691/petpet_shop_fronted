@@ -69,7 +69,6 @@ export default function Profile() {
           return
         }
         const sid = authData.sid
-        console.log('sid', sid)
         const response = await fetch(GET_MEMBER_DATA, {
           body: JSON.stringify({ sid: sid }),
           headers: {
@@ -94,33 +93,6 @@ export default function Profile() {
     // 呼叫 fetchData 以觸發資料載入
     fetchData()
   }, [router.query.sid])
-
-  //抓取會員資料
-  // const [getData, setGetData] = useState(null);
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       const response = await fetch(GET_MEMBER_DATA, {
-  //         method: 'POST',
-  //         body: JSON.stringify({ ...step1, ...step2, address: autoAddress }),
-  //         headers: {
-  //           'Content-Type': 'application/json',
-  //         },
-  //       });
-
-  //       if (response.ok) {
-  //         const data = await response.json();
-  //         setGetData(data);
-  //       } else {
-  //         console.error('fetch Failed');
-  //       }
-  //     } catch (error) {
-  //       console.error('fetch錯誤', error);
-  //     }
-  //   };
-
-  //   fetchData(); // 請加上這一行來執行 fetchData
-  // }, []); // 空依賴表示只在組件載入時執行一次
 
   return (
     <>

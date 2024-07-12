@@ -11,7 +11,6 @@ export default function Payment(props) {
   const changeHandler = (e, postcodeValue) => {
     const { id, value } = e.target
     setDisplayInfo('')
-    // setPaymentData({ ...payment, [id]: value, postcode: postcodeValue })
     setPaymentData((prevPayment) => ({
       ...prevPayment,
       [id]: value,
@@ -133,7 +132,7 @@ export default function Payment(props) {
                     placeholder="請填姓名"
                     name="name"
                     id="name"
-                    value={payment.name || ''}
+                    value={(payment && payment.name) || ''}
                     onChange={changeHandler}
                     onBlur={() => onBlurHandler('name')}
                     onFocus={onFocusHandler}
@@ -154,7 +153,7 @@ export default function Payment(props) {
                     placeholder="請填常用聯絡電話"
                     name="phone"
                     id="phone"
-                    value={payment.phone}
+                    value={(payment && payment.phone) || ''}
                     onChange={changeHandler}
                     onBlur={() => onBlurHandler('phone')}
                     onFocus={onFocusHandler}
@@ -173,7 +172,7 @@ export default function Payment(props) {
                     placeholder="name@example.com"
                     id="email"
                     name="email"
-                    value={payment.email}
+                    value={(payment && payment.email) || ''}
                     onChange={changeHandler}
                     onBlur={() => onBlurHandler('email')}
                     onFocus={onFocusHandler}
@@ -203,7 +202,7 @@ export default function Payment(props) {
                       // 如果需要处理postcode变化，进行相应处理
                       setPaymentData({ ...payment, postcode })
                     }}
-                    initPostcode={payment.postcode}
+                    initPostcode={(payment && payment.postcode) || ''}
                   />
                   <h5 className="card-title font-grey-title mt-3">
                     收貨地址<span className="text-danger">*</span>
@@ -215,7 +214,7 @@ export default function Payment(props) {
                     aria-label="default input example"
                     name="address"
                     id="address"
-                    value={payment.address}
+                    value={(payment && payment.address) || ''}
                     onChange={changeHandler}
                   />
                   <div className="form-check mt-3">

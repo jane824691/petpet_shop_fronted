@@ -5,7 +5,6 @@ export default function TWZipCode({
   initPostcode = '',
   onPostcodeChange = (country, township, postcode) => {},
 }) {
-  //console.log(countries, townships, postcodes)
 
   // 記錄陣列的索引值，預設值是-1，相當於"請選擇xxx"
   const [countryIndex, setCountryIndex] = useState(-1)
