@@ -183,7 +183,7 @@ function Step1(props) {
                       type="text"
                       id="lastname"
                       name="lastname"
-                      value={step1.lastname || ''}
+                      value={(step1 && step1.lastname) || ''}
                       onChange={changeHandler}
                       onBlur={() => onBlurHandler('lastname')}
                       placeholder="姓氏"
@@ -203,7 +203,7 @@ function Step1(props) {
                       type="text"
                       id="firstname"
                       name="firstname"
-                      value={step1.firstname || ''}
+                      value={(step1 && step1.firstname) || ''}
                       onChange={changeHandler}
                       onBlur={() => onBlurHandler('firstname')}
                       placeholder="名字"
@@ -225,7 +225,7 @@ function Step1(props) {
                       type="text"
                       id="mobile"
                       name="mobile"
-                      value={step1.mobile || ''}
+                      value={(step1 && step1.mobile) || ''}
                       onChange={changeHandler}
                       onBlur={() => onBlurHandler('mobile')}
                       placeholder="請填電話號碼"
@@ -244,7 +244,7 @@ function Step1(props) {
                       type="date"
                       id="birthday"
                       name="birthday"
-                      value={step1.birthday}
+                      value={(step1 && step1.birthday) || ''}
                       onChange={changeHandler}
                       placeholder="請填日期"
                       aria-label="default input example"
@@ -266,7 +266,7 @@ function Step1(props) {
                       type="text"
                       id="account"
                       name="account"
-                      value={step1.account}
+                      value={(step1 && step1.account) || ''}
                       onChange={changeHandler}
                       onBlur={() => onBlurHandler('account')}
                       placeholder="請填帳號"
@@ -285,7 +285,7 @@ function Step1(props) {
                       type="text"
                       id="password"
                       name="password"
-                      value={step1.password}
+                      value={(step1 && step1.password) || ''}
                       onChange={changeHandler}
                       onBlur={() => onBlurHandler('password')}
                       placeholder="請填密碼"
@@ -308,7 +308,7 @@ function Step1(props) {
                       type="text"
                       id="identification"
                       name="identification"
-                      value={step1.identification || ''}
+                      value={(step1 && step1.identification) || ''}
                       onChange={changeHandler}
                       onBlur={() => onBlurHandler('identification')}
                       placeholder="請填身分證字號"
@@ -329,7 +329,7 @@ function Step1(props) {
                       type="text"
                       id="email"
                       name="email"
-                      value={step1.email || ''}
+                      value={(step1 && step1.email) || ''}
                       onChange={changeHandler}
                       onBlur={() => onBlurHandler('email')}
                       placeholder="請填電子信箱"
