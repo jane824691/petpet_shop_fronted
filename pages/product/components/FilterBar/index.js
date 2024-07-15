@@ -26,7 +26,7 @@ function FilterBar(props) {
       <div className="search-group">
         {' '}
         <h5 className="mb-2">價格</h5>
-        {priceRangeTypes.map((value, i) => (
+        {priceRangeTypes && priceRangeTypes.map((value, i) => (
           <PriceRangeRadio
             key={i}
             value={value}
@@ -55,7 +55,7 @@ function FilterBar(props) {
           </button>
         </h5>
         <p>有包含勾選種類均會顯示</p>
-        {tagTypes.map((value, i) => (
+        {tagTypes && tagTypes.map((value, i) => (
           <TagCheckbox
             value={value}
             key={i}

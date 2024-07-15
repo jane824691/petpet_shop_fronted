@@ -10,7 +10,7 @@ function TagCheckbox(props) {
             type="checkbox"
             className="form-check-input mb-3 item-select"
             value={value}
-            checked={tags.includes(value)}
+            checked={tags && tags.includes(value)}
             onChange={handleChecked}
           />{' '}
           {value}

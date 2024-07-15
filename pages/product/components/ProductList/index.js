@@ -3,7 +3,7 @@ import ProductItem from './ProductItem'
 
 function ProductList(props) {
   const { products } = props
-  if (products.length === 0) {
+  if (products && products.length === 0) {
     return (
       <h4
         style={{
