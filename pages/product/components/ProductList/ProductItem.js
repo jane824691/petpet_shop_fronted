@@ -4,7 +4,7 @@ import Link from 'next/link'
 
 function ProductItem(props) {
   const { pid, product_name, product_price, category_id, product_img } =
-    props.product
+    props.product || {}
 
   const imagePath = product_img
     ? `/image/product/${product_img}`
