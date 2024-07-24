@@ -1,4 +1,5 @@
-export const API_SERVER = 'http://localhost:3002'
+// export const API_SERVER = 'http://localhost:3002'
+export const API_SERVER = 'https://petpet-shop-backend.zeabur.app'
 
 export const register_ADD = API_SERVER + '/register-list/add' // method: POST, src是後端檔名+router.post("/add")路徑
 
