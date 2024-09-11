@@ -114,7 +114,7 @@ export default function MemberOrderList() {
                 alt=""
                 src={
                   mydata.photo
-                    ? `http://localhost:3002/img/${mydata.photo}`
+                    ? mydata.photo
                     : '/pics/headshot.png'
                 }
                 className={styles.memberPic}

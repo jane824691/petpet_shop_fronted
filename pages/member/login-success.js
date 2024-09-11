@@ -126,7 +126,7 @@ function sendForm(e) {
   const fd = new FormData(document.form1)
   const dataObj = Object.fromEntries(fd)
 
-  fetch(`http://localhost:3002/login`, {
+  fetch(`https://petpet-shop-backend.zeabur.app/login`, {
     //路徑相同可以空字串
     method: 'POST',
     body: JSON.stringify(dataObj),
