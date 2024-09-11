@@ -58,7 +58,7 @@ function Step2(props) {
     formData.append('country', step2.country)
     formData.append('township', step2.township)
     formData.append('postcode', step2.postcode)
-    formData.append('photo', step2.photo)
+    formData.append('file', step2.photo)
     formData.append('address', autoAddress)
 
     //串接資料庫:fetch(url)
