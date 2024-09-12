@@ -12,23 +12,35 @@
     height: 90px;
     padding-left: 60px;
     padding-right: 60px;
+    gap: 4vw;
+}
+.logoAndName{
+    display: flex;
+    gap: 4px;
 }
 .logoOut{
     display: flex;
     align-items: center;
 }
-.headerMiddle{
-    /* border: 2px solid rgb(55, 0, 255); */
+.brandName{
+    color: black;
+    font-size: 28px;
     display: flex;
     align-items: center;
     text-align: center;
+}
+
+.headerMiddle{
+    display: flex;
+    align-items: center;
+    text-align: center;
+    gap: 4vw;
     
 }
 .headerMiddleItem{
     color: black;
     font-size: 28px;
     text-decoration: none;
-    margin:0 32px;
 }
 .headerMiddleItem:hover{
     color: white;
@@ -56,18 +68,32 @@
 
 
 /* Tablet and Smaller Desktop */
-@media (min-width: 501px) and (max-width: 1170px) {
+@media (min-width: 901px) and (max-width: 1300px) {
     .headerMiddleItem{
-        font-size: 20px;
-        margin: 0 10px;
+        font-size: 22px;
+        gap: 10px;
+    }
+    .logo{
+        height: 60px;
+        width: 100%;
+    }
+    .brandName{
+        font-size: 22px;
     }
 }
 
 /* 手機 */
-@media screen and (max-width:500px) {
+@media screen and (max-width:900px) {
 
     .headerMiddleItem{
         font-size: 16px;
         margin: 0 6px;
+    }
+    .logo{
+        height: 46px;
+        width: 100%;
+    }
+    .brandName{
+        font-size: 16px;
     }
 }

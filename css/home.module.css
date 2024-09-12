@@ -17,6 +17,7 @@
       .keyVisualImg{
       border-radius: 20%;
       margin-right: 40px;
+      object-fit: contain;
       }
 
       .descriptionPart {
@@ -224,4 +225,35 @@
 .image{
   width: 100%;
   height: 100%;
+}
+
+/* Tablet and Smaller Desktop */
+/* @media (min-width: 901px) and (max-width: 1300px) {
+ */
+ @media screen and (max-width: 1300px) {
+  .keyVisualWithText{
+    flex-direction: column;
+    gap: 5vh;
+  }
+  .main {  
+    padding-top: 0;
+    .container{
+      .keyVisualWithText{
+        gap: 0;
+        .keyVisualImg{
+          background-size: cover;
+          width: 70%;
+          object-fit: contain;
+        }
+        .descriptionPart {
+          width: 50%;
+          gap: 20px;
+          height: 300px;
+          margin-bottom: 60px;
+        }
+      }
+  
+    }
+  }
+
 }

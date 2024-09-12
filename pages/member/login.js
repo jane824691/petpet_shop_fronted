@@ -1,6 +1,5 @@
 import { useContext, useState, useEffect } from 'react'
 import Image from 'next/image'
-//import styles from '@/css/home.module.css'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { LOGIN } from '@/components/my-const'
@@ -59,9 +58,7 @@ export default function Login() {
   }
   return (
     <>
-      <h3 className="py-1 mx-auto" style={{ width: '10rem' }}>
-        會員登入
-      </h3>
+      <h3 className="py-1 mx-auto">會員登入</h3>
       <div className="d-flex justify-content-center position-relative">
         <Image
           src="/pics/heart.png"
@@ -72,13 +69,9 @@ export default function Login() {
         ></Image>
         <form name="form1" onSubmit={postForm}>
           <div className="position-absolute top-50 start-50 translate-middle d-flex flex-column my-5">
-            <div
-              className="input-group mb-4 rounded-5 mx-auto"
-              style={{ width: '17rem' }}
-            >
+            <div className="input-group mb-4 mx-auto">
               <span
-                className="input-group-text border border-danger text-white rounded-0"
-                style={{ backgroundColor: '#f8723f' }}
+                className="input-group-text border border-danger text-white hintTitle"
                 id="basic-addon1"
               >
                 帳號
@@ -90,17 +83,12 @@ export default function Login() {
                 aria-describedby="basic-addon1"
                 value={user.username}
                 onChange={handleFieldChange}
-                style={{ backgroundColor: 'white', textAlign: 'left' }}
-                className="form-control input-group-text border border-secondary rounded-0"
+                className="form-control input-group-text border border-secondary accountInput"
               />
             </div>
-            <div
-              className="input-group mb-4 rounded-5 mx-auto"
-              style={{ width: '17rem' }}
-            >
+            <div className="input-group mb-4 mx-auto">
               <span
-                className="input-group-text border border-danger text-white rounded-0"
-                style={{ backgroundColor: '#f8723f' }}
+                className="input-group-text border border-danger text-white hintTitle"
                 id="basic-addon1"
               >
                 密碼
@@ -113,11 +101,7 @@ export default function Login() {
                   aria-describedby="basic-addon1"
                   value={user.password}
                   onChange={handleFieldChange} //可控表單
-                  style={{
-                    backgroundColor: 'white',
-                    textAlign: 'left',
-                  }}
-                  className="form-control input-group-text border border-secondary rounded-0"
+                  className="form-control input-group-text border border-secondary passwordInput"
                 />
                 <Image
                   src="/pics/showpassword.png"
@@ -137,8 +121,7 @@ export default function Login() {
             </div>
             <button
               type="submit"
-              className="btn btn-outline-dark btn-lg btn pro-shadow fs-6 mx-auto my-4"
-              style={{ width: 150, height: 45 }}
+              className="btn btn-outline-dark btn-lg btn pro-shadow fs-6 mx-5 my-4"
             >
               登入
             </button>
@@ -146,7 +129,6 @@ export default function Login() {
         </form>
       </div>
       <div>
-        <span className="fs-4 mx-auto text-light d-flex justify-content-center my-5"></span>
         <span className="fs-5 mx-auto text-danger d-flex justify-content-center my-5">
           <Link href="/member/register-all">新朋友? 註冊</Link>
         </span>

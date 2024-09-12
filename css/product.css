@@ -118,4 +118,46 @@
 
 .option-fcolor {
   color: #807E7E;
+}
+
+.moneyOptionsPart {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  gap: 8px;
+  margin: 20px 0;
+}
+.moneyOptionsPart .eachMoney {
+  padding: 10px 15px;
+  border: 1px solid #dae6ff;
+  font-size: 14px;
+  color: #fff;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.moneyOptionsPart .eachMoney.selected {
+  border-color: #FFEE34;
+  color: #FFEE34;
+  position: relative;
+}
+.moneyOptionsPart .eachMoney.selected ::before {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 0;
+  height: 0;
+  border-left: 33px solid transparent;
+  border-bottom: 22px solid #FFEE34;
+}
+.moneyOptionsPart .eachMoney.selected ::after {
+  content: "";
+  position: absolute;
+  bottom: 2px;
+  right: 7px;
+  width: 5px;
+  height: 10.66px;
+  border-bottom: 2px solid #1c2b4a;
+  border-right: 2px solid #1c2b4a;
+  transform: rotate(40deg);
 }/*# sourceMappingURL=product.css.map */

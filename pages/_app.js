@@ -6,6 +6,7 @@ import '@/styles/TWZipCode.scss'
 import '@/styles/game.scss'
 import '@/styles/profile.scss'
 import '@/styles/Modal.scss'
+import '@/styles/member.scss'
 
 import DefaultLayout from '@/components/layout/default-layout'
 import { AuthContextProvider } from '@/components/contexts/AuthContext'
