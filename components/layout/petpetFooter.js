@@ -1,5 +1,3 @@
-// import './App.css';
-// import styles from '@/styles/petpetIndex.module.css'
 import styles from '@/css/petpetFooter.module.css'
 export default function PetpetFooter() {
   return (
@@ -30,7 +28,7 @@ export default function PetpetFooter() {
         <div className={styles.footerBlock}>
           <div className={styles.footerTitle}>CONTACT US</div>
           <div className={styles.footerContent}>
-            <div>佩佩星球</div>
+            <div>佩佩星球-電商平台Demo</div>
             <div>電話：02-22222222</div>
             <div>時間：(一)至(五) 8:30 - 17:30</div>
             <div>電郵：info@ispan.com.tw</div>

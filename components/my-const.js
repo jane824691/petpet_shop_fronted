@@ -26,7 +26,8 @@ export const PROFILE = API_SERVER + '/profile' // method: GET, 取得用戶資�
 export const COUPON = API_SERVER + '/favorite/coupon2' // method: POST, 取得用戶資料(新增優惠券)
 
 export const CHECK = API_SERVER + '/member/check' // method: GET, 取得用戶資料
-export const PRODUCT = API_SERVER + '/product/api'
+export const PRODUCT = API_SERVER + '/product/api' // method: GET, 商品總列表
+export const PRODUCT_RECOMMEND = API_SERVER + '/product/recommend' // method: GET, 商品總列表
 export const ONE_PRODUCT = API_SERVER + '/product/one' // /product/one/2
 export const ORDER_LIST_ADD = API_SERVER + '/order-list/add'
 export const ORDER_LIST_ALL = API_SERVER + '/order-list/api' // 所有會員所有訂單資料

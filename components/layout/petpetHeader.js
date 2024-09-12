@@ -1,6 +1,3 @@
-// import './App.css';
-// import styles from "@/styles/Home.module.css"
-// import styles from '@/styles/petpetIndex.module.css'
 import styles from '@/css/petpetHeader.module.css'
 import Image from 'next/image'
 import Link from 'next/link'
