@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import Carousel from '@/components/product/carousel'
+import Carousel from './components/carousel'
 import { useRouter } from 'next/router'
 import { ONE_PRODUCT } from '@/components/my-const'
 import { useCart } from '@../../../components/hooks/use-cart-state'

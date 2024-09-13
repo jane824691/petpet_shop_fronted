@@ -6,7 +6,7 @@ import Link from 'next/link'
 import ProductList from '@/pages/product/components/ProductList'
 import { useRouter } from 'next/router'
 import { PRODUCT_RECOMMEND } from '@/components/my-const'
-
+import SwiperPhoto from '@/components/product/Swiper'
 
 export default function Home() {
   const [products, setProducts] = useState([])
@@ -58,7 +58,8 @@ export default function Home() {
             </div>
           </div>
 
-          <ReactBsCarousel />
+          <SwiperPhoto />
+          {/* <ReactBsCarousel /> */}
           <div className="container-fluid">
             <div className="row row-cols-1 row-cols-md-4 g-4 px-5 mx-5">
               <ProductList products={products} />

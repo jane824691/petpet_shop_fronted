@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 // 解開以下可不接後端 接純假資料
 // import data from '@/data/Product.json'
-import ReactBsCarousel from '@/components/product/ReactBsCarousel'
+import SwiperPhoto from '@/components/product/Swiper'
 import SortBar from './components/SortBar/'
 import SearchBar from './components/SearchBar/'
 import FilterBar from './components/FilterBar/'
@@ -293,7 +293,7 @@ export default function List() {
 
   return (
     <>
-      <ReactBsCarousel />
+      <SwiperPhoto />
       <div className="web-style">
         <div className="row mt-2 mb-3">
           <h5 className="card-text d-flex justify-content-between align-items-center">

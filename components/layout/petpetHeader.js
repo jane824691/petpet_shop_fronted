@@ -12,22 +12,21 @@ export default function PetpetHeader() {
       <header className={styles.header}>
         <div className={styles.container}>
           {/* 網站icon */}
-          <div className={styles.logoAndName}>
-            <div className={styles.logoOut}>
-              <Link href="/">
-                <Image
-                  src="/logo.svg"
-                  alt="Vercel Logo"
-                  width={130}
-                  height={80}
-                  priority
-                  className={styles.logo}
-                />
-
-              </Link>
+          <Link href="/" className={styles.logoLink}>
+            <div className={styles.logoAndName}>
+              <div className={styles.logoOut}>
+                  <Image
+                    src="/logo.svg"
+                    alt="Vercel Logo"
+                    width={130}
+                    height={80}
+                    priority
+                    className={styles.logo}
+                  />
+              </div>
+              <div className={styles.brandName}>佩佩星球</div>
             </div>
-            <div className={styles.brandName}>佩佩星球</div>
-          </div>
+          </Link>
           {/* 網站icon */}
 
           {/* <!-- header中間 --> */}

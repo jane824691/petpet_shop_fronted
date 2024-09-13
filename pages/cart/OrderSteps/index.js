@@ -181,7 +181,6 @@ function OrderSteps() {
       >
         <button
           onClick={prev}
-          style={{ width: 250, marginRight: 20 }}
           className="btn btn-outline-primary btn-lg"
         >
           {step === 1 ? '回到商城' : '回前一頁'}
@@ -189,7 +188,6 @@ function OrderSteps() {
         <button
           className="btn btn-danger btn-lg text-white"
           onClick={next}
-          style={{ width: 250 }}
         >
           {step === maxSteps ? '完成訂單' : '確認結帳'}
         </button>
