@@ -19,7 +19,7 @@ function ProductItem(props) {
           {/* 資料庫img實際存到180~204 */}
 
           <div className="card-body no-space-x">
-            <p className="card-text">{product_name}</p>
+            <p className="card-text cardTitle">{product_name}</p>
             <div className="h-currency bold h-now" style={{ display: 'none' }}>
               {category_id}
             </div>

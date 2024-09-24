@@ -23,8 +23,9 @@ background-position: center;
 }
 
 .mySwiper2 {
-height: 50%;
-width: 100%;
+  width: 100%; /* 確保圖片寬度適應容器 */
+  height: auto; /* 高度根據寬度自動調整 */
+  object-fit: contain; /* 縮放圖片以顯示完整 */
 }
 
 .mySwiper {
@@ -180,4 +181,13 @@ right: 0px;
       }
     }
   }
+}
+
+.cardTitle{
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  height: 50px;
+  -webkit-box-orient: vertical;  
+  overflow: hidden;
+  text-overflow: ellipsis;
 }

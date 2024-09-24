@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react'
 import Image from 'next/image'
 import styles from '../css/home.module.css'
-import ReactBsCarousel from '@/components/product/ReactBsCarousel'
 import Link from 'next/link'
 import ProductList from '@/pages/product/components/ProductList'
 import { useRouter } from 'next/router'
@@ -34,10 +33,11 @@ export default function Home() {
         {/* Next.js 的 <Image> 組件要求明確指定 width, height 屬性 */}
           <Image
               src="/pics/homepage_act.gif"
-              width={1000}
-              height={700} 
+              width={700}
+              height={525} 
               alt="key Visual Img"
               className={styles.keyVisualImg}
+              layout="responsive" // 使用 responsive 模式讓圖片響應容器大小
             />
 
             <div className={styles.descriptionPart}>
@@ -58,12 +58,14 @@ export default function Home() {
             </div>
           </div>
 
-          <SwiperPhoto />
-          {/* <ReactBsCarousel /> */}
-          <div className="container-fluid">
-            <div className="row row-cols-1 row-cols-md-4 g-4 px-5 mx-5">
+          <div className={styles.swiperContainer}>
+            <SwiperPhoto />
+          </div>
+          <div className={`container-fluid ${styles.cardPart}`}>
+            <div className="row row-cols-2 row-cols-md-4 g-4">
               <ProductList products={products} />
             </div>
+
               <div className='d-flex justify-content-center p-4 mt-4'>
                 <button
                   type="button"
@@ -75,7 +77,6 @@ export default function Home() {
                 </button>
               </div>
           </div>
-
         </div>
       </main>
     </>

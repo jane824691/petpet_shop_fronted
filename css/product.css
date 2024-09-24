@@ -1,3 +1,4 @@
+@charset "UTF-8";
 .w-250 {
   width: 250px;
 }
@@ -22,8 +23,10 @@
 }
 
 .mySwiper2 {
-  height: 50%;
-  width: 100%;
+  width: 100%; /* 確保圖片寬度適應容器 */
+  height: auto; /* 高度根據寬度自動調整 */
+  -o-object-fit: contain;
+     object-fit: contain; /* 縮放圖片以顯示完整 */
 }
 
 .mySwiper {
@@ -160,4 +163,13 @@
   border-bottom: 2px solid #1c2b4a;
   border-right: 2px solid #1c2b4a;
   transform: rotate(40deg);
+}
+
+.cardTitle {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  height: 50px;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }/*# sourceMappingURL=product.css.map */

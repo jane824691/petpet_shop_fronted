@@ -38,7 +38,8 @@ function SwiperPhoto() {
         }}
         pagination={true}
         modules={[EffectCoverflow, Pagination]}
-        className='swiper'>
+        className='swiper'
+        >
         <SwiperSlide>
           <img src="../../images/product/carousel 1.png" />
         </SwiperSlide>

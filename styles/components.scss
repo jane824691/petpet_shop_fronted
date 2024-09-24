@@ -5,10 +5,12 @@
     font-size: 14px;
     margin: 0;
     padding: 0;
+    width: 100%;
+    overflow: hidden;
   }
   
   .swiper {
-    width: 100%;
+    width: auto;
     height: 500px;
     padding-top: 50px;
     padding-bottom: 50px;
@@ -31,9 +33,9 @@
   .swiper-3d .swiper-slide-shadow-left{
     background-image: linear-gradient(to right, white, rgba(0, 0, 0, 0))
   }
-  @media screen and (max-width: 1300px) {
-    .swiper {
-    width: 100%;
+  @media screen and (max-width: 900px) {
+    .SwiperContainer {
+    width: 80%;
 
     }
   }
