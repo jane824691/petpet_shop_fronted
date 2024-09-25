@@ -266,3 +266,15 @@ option{
   padding-bottom: 1rem;
   border-radius: 0;
 }
+
+.btnPart{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 10vh;
+  justify-content: center;
+  gap: 5%;
+}
+.stepBtn{
+  width: 15%;
+}

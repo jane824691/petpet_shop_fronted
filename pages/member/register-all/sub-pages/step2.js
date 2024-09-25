@@ -1,88 +1,62 @@
 import React, { useState } from 'react'
 import Image from 'next/image'
-// import TWZipCode from '@/pages/member/TWZipCode'
 import TWZipCode from '@/components/tw-zipcode'
 import { BsCameraFill } from 'react-icons/bs'
 import styles from '@/css/favorite.module.css'
 
-// 導入圖標
-import { register_ADD } from '@/components/my-const'
-
 //註冊第二步
 function Step2(props) {
+  const { step2, setStep2, setIsStep2Valid, errors, setErrors, validateFields } = props
+  
   // 新增圖片上傳的狀態
   const [imagePreview, setImagePreview] = useState(null)
-  //儲存step1狀態
-  const [step1, setStep1] = useState({
-    lastname: '',
-    firstname: '',
-    mobile: '',
-    birthday: '',
-    account: '',
-    password: '',
-    identification: '',
-    email: '',
-  })
-  const { step2, setStep2 } = props
+  
   const handlePostcodeChange = (country, township, zipcode) => {
-    // 根據選單更新狀態與[sid].js相關
-    setStep2({
+    setStep2((prevData) => ({
+      ...prevData,
       country,
       township,
       zipcode,
-    })
+    }))
+    if (country && township && zipcode) {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        zipcode: '',
+      }));
+    }
   }
-  const [address, setAddress] = useState('')
-  const [show, setShow] = useState(false)
-  const handleClose = () => setShow(false)
-  const handleShow = () => setShow(true)
-  // 一鍵輸入並保持step2的address的狀態
-  const [autoAddress, setAutoAddress] = useState('')
-  const [step2Address, setStep2Address] = useState('')
+
+  const handleAddressChange = (e) => {
+    const addressValue = e.target.value;
+  
+    // 更新地址
+    setStep2((prevData) => ({
+      ...prevData,
+      address: addressValue,
+    }));
+  
+    // 直接在輸入時進行驗證
+    const newErrors = validateFields({
+      ...step2,
+      address: addressValue, // 使用當前輸入的地址進行驗證
+    });
+  
+    // 更新錯誤狀態
+    setErrors((prevErrors) => ({
+      ...prevErrors,
+      address: newErrors.address,
+    }));
+  
+    // 更新步驟驗證狀態
+    setIsStep2Valid(
+      Object.keys(newErrors).every((key) => newErrors[key] === '')
+    ); // 更新為所有欄位驗證通過時才為 true
+  };
 
   const onSubmit = async (e) => {
     e.preventDefault()
-
-    const formData = new FormData()
-    //step1資料
-    formData.append('lastname', step1.lastname)
-    formData.append('firstname', step1.firstname)
-    formData.append('mobile', step1.mobile)
-    formData.append('birthday', step1.birthday)
-    formData.append('account', step1.account)
-    formData.append('password', step1.password)
-    formData.append('identification', step1.identification)
-    formData.append('email', step1.email)
-
-    // 添加 step2 的資料
-    formData.append('country', step2.country)
-    formData.append('township', step2.township)
-    formData.append('postcode', step2.postcode)
-    formData.append('file', step2.photo)
-    formData.append('address', autoAddress)
-
-    //串接資料庫:fetch(url)
-    try {
-      const response = await fetch(register_ADD, {
-        // method: 'POST',
-        // body: JSON.stringify({ step1, step2 }),
-        // headers: {
-        //   'Content-Type': 'application/json',
-        // },
-        method: 'POST',
-        body: formData,
-      })
-
-      const responseData = await response.json()
-      if (responseData.success) {
-        alert('註冊成功')
-      } else {
-        alert('格式錯誤或未填寫')
-      }
-    } catch (error) {
-      // console.error('註冊過程中發生錯誤:', error)
-    }
   }
+
   return (
     <>
       {/* 上傳圖片的部分，獨立於表單之外 */}
@@ -93,7 +67,6 @@ function Step2(props) {
           onChange={(e) => {
             const file = e.target.files[0]
             setStep2((prevStep2) => ({ ...prevStep2, photo: file || null }))
-            // console.log('Updated step2.photo:', file)
             const reader = new FileReader()
             reader.onloadend = () => {
               setImagePreview(reader.result)
@@ -103,7 +76,6 @@ function Step2(props) {
             } else {
               setImagePreview(null)
             }
-            // console.log('step2.photo:', file) //確認'photo'欄位值
           }}
           style={{ display: 'none' }} // 隱藏實際的上傳 input
           id="fileInput"
@@ -157,28 +129,34 @@ function Step2(props) {
                     cursor: 'pointer',
                   }}
                   onClick={() => {
-                    const newAddress = '復興南路1段390號2樓'
-                    setAutoAddress(newAddress)
-                    // 同時更新 step2 的 address 值
-                    setStep2Address(newAddress)
+                    setStep2((prevData) => ({
+                      ...prevData,
+                      country: '台北市',
+                      township: '大安區',
+                      zipcode: '106',
+                      address: '復興南路一段390號2樓',
+                    }))
+                    setIsStep2Valid(true)
+                    setErrors({})
                   }}
                 />
               </div>
               <div className="card-body">
-                <div className="row">
+                <div className="row pb-4">
                   {/* Integrate TWZipCode component for selecting city */}
 
-                  <div className="col">
+                  <div className="col pb-1">
                     <TWZipCode
                       initPostcode={step2 ? step2.zipcode : ''}
                       onPostcodeChange={handlePostcodeChange}
                     />
                   </div>
+                  {errors.zipcode && (
+                    <div className="error-message">{errors.zipcode}</div>
+                  )}
                 </div>
-                <br></br>
-                <br></br>
-                <div className="row">
-                  <div className="col">
+                <div className="row pb-4">
+                  <div className="col pb-1">
                     <h6 className="card-title font-grey-title">
                       通訊地址<span className="text-danger">*</span>
                     </h6>
@@ -186,14 +164,16 @@ function Step2(props) {
                     <input
                       className="form-control T-18 rounded-5 border border-primary"
                       type="text"
-                      value={autoAddress}
-                      onChange={(e) => setAutoAddress(e.target.value)}
+                      value={(step2 && step2.address) || ''}
+                      onChange={handleAddressChange}
                       placeholder="詳細地址"
                       aria-label="default input example"
                     />
+                    {errors.address && (
+                      <div className="error-message">{errors.address}</div>
+                    )}
                   </div>
                 </div>
-                <br></br>
               </div>
             </div>
           </div>

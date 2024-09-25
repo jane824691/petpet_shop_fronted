@@ -20,15 +20,10 @@ function OrderSteps() {
 
   const [step, setStep] = useState(1)
 
-  const [errors, setErrors] = useState([])
-
-  // 狀態的範例，都集中在這裡接收
-  const [cartData, setCartData] = useState([])
-
-  // 狀態的範例，都集中在這裡接收
+  // radio狀態都集中在這裡接收
   const [selectedProducts, setSelectedProducts] = useState({})
 
-  const [payment, setPaymentData] = useState({
+  const [paymentData, setPaymentData] = useState({
     sid: '',
     name: '',
     phone: '',
@@ -36,9 +31,9 @@ function OrderSteps() {
     address: '',
     postcode: '',
     pay_way: '',
-    pid: '',
-    sale_price: '',
-    actual_amount: '',
+    // pid: '',
+    // sale_price: '',
+    // actual_amount: '',
   })
 
   const [netTotal, setNetTotal] = useState(0)
@@ -87,18 +82,18 @@ function OrderSteps() {
     }
     // 購物車用檢查
     if (step === 2) {
-      const { name, address, phone, postcode } = payment
+      const { name, address, phone, postcode } = paymentData
 
       // 有錯誤訊息會跳出警告，不會到"下一步"
       const errors = []
 
-      if (!name) errors.push('姓名沒填~ ')
+      if (!name) errors.push('姓名沒填')
 
-      if (!address) errors.push('住址沒填~ ')
+      if (!address) errors.push(' 住址沒填')
 
-      if (!postcode) errors.push('郵遞區號沒填~ ')
+      if (!postcode) errors.push(' 郵遞區號沒填')
 
-      if (!phone) errors.push('電話沒填~ ')
+      if (!phone) errors.push(' 電話沒填')
 
       if (errors.length > 0) {
         toast.error(errors.join(','))
@@ -125,16 +120,15 @@ function OrderSteps() {
   }
 
   const requestData = {
-    ...payment,
+    ...paymentData,
     sid: sid,
     netTotal: netTotal,
-    pid: selectedProducts.pid ? selectedProducts.pid : '',
-    sale_price: selectedProducts.sale_price ? selectedProducts.sale_price : '',
-    actual_amount: selectedProducts.actual_amount
-      ? selectedProducts.actual_amount
-      : '',
-
-    email: payment.email,
+    // pid: selectedProducts.pid ? selectedProducts.pid : '',
+    // sale_price: selectedProducts.sale_price ? selectedProducts.sale_price : '',
+    // actual_amount: selectedProducts.actual_amount
+    //   ? selectedProducts.actual_amount
+    //   : '',
+    email: paymentData.email,
   }
 
   const onSubmit = async () => {
@@ -162,7 +156,7 @@ function OrderSteps() {
       {/* 子頁面區域 */}
       <div className="order-steps">
         <BlockComponent
-          payment={payment}
+          paymentData={paymentData}
           setPaymentData={setPaymentData}
           netTotal={netTotal}
           setNetTotal={setNetTotal}
@@ -171,22 +165,19 @@ function OrderSteps() {
           //pid={pid}
         />
       </div>
+
       {/* 按鈕 */}
-      <div
-        style={{
-          margin: '0 auto',
-          textAlign: 'center',
-          paddingBottom: '3.75rem',
-        }}
-      >
+      <div className="btnPart">
         <button
+          type="button"
           onClick={prev}
-          className="btn btn-outline-primary btn-lg"
+          className="btn btn-outline-primary btn-lg px-3 stepBtn"
         >
           {step === 1 ? '回到商城' : '回前一頁'}
         </button>
         <button
-          className="btn btn-danger btn-lg text-white"
+          type="button"
+          className="btn btn-danger btn-lg text-white stepBtn"
           onClick={next}
         >
           {step === maxSteps ? '完成訂單' : '確認結帳'}

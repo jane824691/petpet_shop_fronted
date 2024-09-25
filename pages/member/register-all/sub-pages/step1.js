@@ -1,7 +1,6 @@
 import Image from 'next/image'
 import { z } from 'zod'
 import { useState } from 'react'
-// import { register_ADD } from '@/components/my-const'
 
 // 註冊第一步
 function Step1(props) {
@@ -86,44 +85,6 @@ function Step1(props) {
 
   const onSubmit = async (e) => {
     e.preventDefault()
-
-    // 檢查欄位資料
-    const newErrors = validateFields(step1)
-
-    // 設定錯誤訊息
-    setErrors(newErrors)
-
-    // 檢查是否有錯誤
-    if (Object.keys(newErrors).length > 0) {
-      // 有錯誤，不執行 API 請求
-      return
-    }
-
-    // 呼叫後端進行帳號檢查和其他欄位檢查
-    const response = await fetch('/check', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(step1),
-    })
-
-    if (!response.ok) {
-      // console.error('伺服器錯誤:', response.status)
-      return
-    }
-
-    const result = await response.json()
-
-    if (!result.success) {
-      // 如果後端回傳的 success 不是 true，代表有錯誤
-      setErrors(result.errors)
-    } else {
-      // 沒有錯誤，可以執行註冊 API 請求
-      const Schema = z.coerce.string().email({ message: '錯誤的 email 格式' })
-      console.log('Schema:', Schema.safeParse(step1.email))
-      // TODO: 執行註冊 API 請求
-    }
   }
 
   return (
@@ -172,7 +133,7 @@ function Step1(props) {
                   }}
                 />
               </div>
-              <div className="card-body">
+              <div className="card-body pb-3">
                 <div className="row">
                   <div className="col">
                     <h6 className="card-title font-grey-title ">

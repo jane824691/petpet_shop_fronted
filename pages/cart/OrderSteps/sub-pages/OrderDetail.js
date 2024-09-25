@@ -1,14 +1,11 @@
 import { useState, useEffect } from 'react'
 import { useCart } from '@/components/hooks/use-cart-state'
-import { useRouter } from 'next/router'
 import ReverseLookup from './Zipcode_to_city'
 
 export default function OrderDetail({
-  payment,
-  setPaymentData,
+  paymentData,
   netTotal,
   setNetTotal,
-  selectedProducts,
   setSelectedProducts,
 }) {
   // 範例資料
@@ -28,8 +25,8 @@ export default function OrderDetail({
   useEffect(() => {
     if (items.length > 0) {
       const selectedProducts = {
-        pid: items.map((item) => item.pid),
-        sale_price: items.map((item) => item.price),
+        // pid: items.map((item) => item.pid),
+        // sale_price: items.map((item) => item.price),
         actual_amount: items.map((item) => item.quantity),
       }
 
@@ -68,8 +65,6 @@ export default function OrderDetail({
   }
 
   // 修正 end
-
-  //  const [displayInfo, setDisplayInfo] = useState('') // "", "succ", "fail"
 
   const onSubmit = async (e) => {
     e.preventDefault()
@@ -162,7 +157,7 @@ export default function OrderDetail({
                     >
                       姓名：
                     </label>
-                    <span>{payment.name}</span>
+                    <span>{paymentData.name}</span>
                     <br />
                     <label
                       htmlFor="validationCustom01"
@@ -170,7 +165,7 @@ export default function OrderDetail({
                     >
                       電話：
                     </label>
-                    <span>{payment.phone}</span>
+                    <span>{paymentData.phone}</span>
                     <br />
                     <label
                       htmlFor="validationCustom01"
@@ -178,7 +173,7 @@ export default function OrderDetail({
                     >
                       Email：
                     </label>
-                    <span>{payment.email}</span>
+                    <span>{paymentData.email}</span>
                   </div>
                   <div
                     className="card-header card-big-title border border-0"
@@ -194,9 +189,9 @@ export default function OrderDetail({
                       取貨地址：
                     </label>
                     <span>
-                      <ReverseLookup postcode={payment.postcode} />
-                      {payment.postcode}
-                      {payment.address}
+                      <ReverseLookup postcode={paymentData.postcode} />
+                      {paymentData.postcode}
+                      {paymentData.address}
                     </span>
                   </div>
                   <div
@@ -212,7 +207,7 @@ export default function OrderDetail({
                     >
                       付款方式：
                     </label>
-                    <span>{payment.pay_way}</span>
+                    <span>{paymentData.pay_way}</span>
                   </div>
                 </div>
               </div>

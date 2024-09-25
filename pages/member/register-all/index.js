@@ -14,6 +14,7 @@ function RegisterSteps() {
   const maxSteps = 2
   const [step, setStep] = useState(1)
   const [isStep1Valid, setIsStep1Valid] = useState(false)
+  const [isStep2Valid, setIsStep2Valid] = useState(false)
   const [progressImage, setProgressImage] = useState('/pics/sleepcat.png')
 
   const [step1, setStep1] = useState({
@@ -30,15 +31,35 @@ function RegisterSteps() {
   const [step2, setStep2] = useState({
     country: '',
     township: '',
-    postcode: '',
+    zipcode: '',
     photo: null,
+    address: '',
   })
-
-  const [autoAddress, setAutoAddress] = useState('復興南路1段390號2樓')
 
   const [showSuccessModal, setShowSuccessModal] = useState(false)
   const [showFailureModal, setShowFailureModal] = useState(false)
+  const [errors, setErrors] = useState({})
+  const newErrors = {}
 
+
+  // step2的驗證綁頂層按鈕跳error
+  const validateFields = (step2) => {
+
+    // 檢查地址格式
+    if (!/[\u4e00-\u9fa5]+/.test(step2.address)) {
+      newErrors.address = '地址格式錯誤'
+    } else {
+      newErrors.address = '' // 清空錯誤訊息
+    }
+
+    if (!step2.zipcode) {
+      newErrors.zipcode = '請選擇郵遞區號'
+    } else {
+      newErrors.zipcode = '' // 清空錯誤訊息
+    }
+
+    return newErrors
+  }
   const handleClose = () => {
     setShowSuccessModal(false)
     setShowFailureModal(false)
@@ -53,7 +74,16 @@ function RegisterSteps() {
       e.preventDefault()
     }
 
-    //處理圖片上傳&step1&step2(multipart/form-data)
+    const newErrors = validateFields(step2)
+    setErrors(newErrors)
+
+    // Step1驗證直接在往下一頁的按鈕擋住, 故只判斷Step2符合條件否
+    if (!step2.zipcode || !step2.country || !step2.township || !step2.address || !isStep2Valid) {
+      handleShowFailureModal()
+      return // 阻止表單繼續提交
+    }
+  
+    // 如果驗證通過才繼續進行圖片上傳和數據處理
     const formData = new FormData()
     formData.append('lastname', step1.lastname)
     formData.append('firstname', step1.firstname)
@@ -63,39 +93,31 @@ function RegisterSteps() {
     formData.append('password', step1.password)
     formData.append('identification', step1.identification)
     formData.append('email', step1.email)
-
+  
     // 添加 step2 的資料
     formData.append('photo', step2.photo)
     formData.append('country', step2.country)
     formData.append('township', step2.township)
     formData.append('zipcode', step2.zipcode)
-    formData.append('address', autoAddress)
-
+    formData.append('address', step2.address)
+  
     try {
       const responseSteps = await fetch(register_ADD, {
-        // method: 'POST',
-        // body: JSON.stringify({ ...step1, ...step2, address: autoAddress }),
-        // headers: {
-        //   'Content-Type': 'application/json',
-        //圖片格式
         method: 'POST',
         body: formData,
       })
-
+  
       const responseDataSteps = await responseSteps.json()
-
-      // 根據第二個表單的提交結果執行相應的操作
+  
+      // 後端成功返回的時候，再根據結果決定顯示對應的 modal
       if (responseDataSteps.success) {
-        // 檢查 step2內容是否有填寫
-        if (step2.zipcode && step2.country && step2.township && step2.photo) {
-          handleShowSuccessModal() // 使用狀態控制 Modal 顯示
-        }
+        handleShowSuccessModal()
       } else {
         handleShowFailureModal()
-        return
       }
     } catch (error) {
-      // console.error('註冊過程中發生錯誤:', error)
+      console.error('註冊過程中發生錯誤:', error)
+      handleShowFailureModal() // 捕捉到錯誤時顯示錯誤提示
     }
   }
 
@@ -111,7 +133,7 @@ function RegisterSteps() {
       setStep2({
         country: '',
         township: '',
-        postcode: '',
+        zipcode: '',
       })
       setProgressImage('/pics/sleepcat2.png')
     }
@@ -126,7 +148,7 @@ function RegisterSteps() {
   // 上一步按鈕
   const prev = () => {
     if (step > 1) setStep(step - 1)
-    //if (step === 1)
+    if (step === 1) router.push('../member/login')
   }
 
   return (
@@ -142,7 +164,7 @@ function RegisterSteps() {
           />
         )}
         {step === 2 && (
-          <Step2 step1={step1} step2={step2} setStep2={setStep2} />
+          <Step2 step1={step1} step2={step2} setStep2={setStep2} setIsStep2Valid={setIsStep2Valid} setErrors={setErrors} validateFields={validateFields} errors={errors}/>
         )}
       </div>
 
@@ -152,6 +174,7 @@ function RegisterSteps() {
           flexDirection: 'row',
           alignItems: 'center',
           justifyContent: 'center',
+          paddingBottom: '40px',
         }}
       >
         <div className="d-flex py-4 mb-5"></div>
@@ -160,7 +183,6 @@ function RegisterSteps() {
           className="btn btn-outline-primary btn-lg pro-shadow mx-5"
           style={{ width: 250 }}
           onClick={prev}
-          disabled={step === 1}
         >
           回到前一頁
         </button>

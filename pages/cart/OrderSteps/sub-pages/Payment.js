@@ -2,20 +2,14 @@ import { useState, useRef } from 'react'
 import TWZipCode from '@/components/tw-zipcode'
 
 export default function Payment(props) {
-  const { payment, setPaymentData } = props
+  const { paymentData, setPaymentData } = props
 
-  const [displayInfo, setDisplayInfo] = useState('') // "", "succ", "fail"
-
-
-  // 一次處理多項購物者資訊用, 可控表單
-  const changeHandler = (e, postcodeValue) => {
+  // 一次處理購物者多項資訊用, 可控表單
+  const changeHandler = (e) => {
     const { id, value } = e.target
-    setDisplayInfo('')
     setPaymentData((prevPayment) => ({
       ...prevPayment,
       [id]: value,
-      postcode: postcodeValue,
-      // 在這裡添加代碼以保留未更新的屬性
       pid: prevPayment.pid,
       sale_price: prevPayment.sale_price,
       actual_amount: prevPayment.actual_amount,
@@ -27,7 +21,7 @@ export default function Payment(props) {
 
   // 檢查機制
   const onBlurHandler = (fieldName) => {
-    const newErrors = validateFields({ ...payment }) // 正確傳遞 payment 物件
+    const newErrors = validateFields({ ...paymentData }) // 正確傳遞 paymentData 物件
     setErrors((prevErrors) => ({
       ...prevErrors,
       [fieldName]: newErrors[fieldName],
@@ -47,14 +41,14 @@ export default function Payment(props) {
   const validateFields = (step1) => {
     const newErrors = {}
     // 檢查名字格式
-    if (!/[\u4e00-\u9fa5]+/.test(payment.name.trim())) {
+    if (!/[\u4e00-\u9fa5]+/.test(paymentData.name.trim())) {
       newErrors.name = '名字需填寫中文字'
     } else {
       newErrors.name = '' // 清空錯誤訊息
     }
 
     // 檢查電話號碼格式
-    if (!/^(09\d{2}-?\d{3}-?\d{3})$/.test(payment.phone.trim())) {
+    if (!/^(09\d{2}-?\d{3}-?\d{3})$/.test(paymentData.phone.trim())) {
       newErrors.phone = '電話號碼格式錯誤'
     } else {
       newErrors.phone = '' // 清空錯誤訊息
@@ -63,7 +57,7 @@ export default function Payment(props) {
     // 檢查 Email 格式
     if (
       !/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/.test(
-        payment.email.trim()
+        paymentData.email.trim()
       )
     ) {
       newErrors.email = 'EMAIL 格式錯誤'
@@ -71,6 +65,12 @@ export default function Payment(props) {
       newErrors.email = '' // 清空錯誤訊息
     }
 
+    // 檢查地址格式
+    if (!/[\u4e00-\u9fa5]+/.test(paymentData.address.trim())) {
+      newErrors.address = '地址格式錯誤'
+    } else {
+      newErrors.address = '' // 清空錯誤訊息
+    }
     return newErrors
   }
 
@@ -92,7 +92,7 @@ export default function Payment(props) {
     setSelectedOption(optionId)
     // 根據選項設置支付方式, 點選可存回資料庫
     setPaymentData({
-      ...payment,
+      ...paymentData,
       pay_way:
         optionId === 'flexRadioDefault1'
           ? '貨到付款'
@@ -108,7 +108,6 @@ export default function Payment(props) {
         <div className="d-flex justify-content-center">
           <img src="/images/product/steps_to_payment.png" alt="" />
         </div>
-        {/* onSubmit={onSubmit} */}
         <form className="list-form">
           <div className="d-flex justify-content-center">
             <div className="direction-column">
@@ -118,7 +117,7 @@ export default function Payment(props) {
               >
                 <div
                   className="card-header card-big-title border border-0"
-                  style={{ backgroundColor: 'transparent ' }}
+                  style={{ backgroundColor: 'transparent' }}
                 >
                   收貨人資訊
                 </div>
@@ -132,7 +131,7 @@ export default function Payment(props) {
                     placeholder="請填姓名"
                     name="name"
                     id="name"
-                    value={(payment && payment.name) || ''}
+                    value={(paymentData && paymentData.name) || ''}
                     onChange={changeHandler}
                     onBlur={() => onBlurHandler('name')}
                     onFocus={onFocusHandler}
@@ -153,7 +152,7 @@ export default function Payment(props) {
                     placeholder="請填常用聯絡電話"
                     name="phone"
                     id="phone"
-                    value={(payment && payment.phone) || ''}
+                    value={(paymentData && paymentData.phone) || ''}
                     onChange={changeHandler}
                     onBlur={() => onBlurHandler('phone')}
                     onFocus={onFocusHandler}
@@ -172,7 +171,7 @@ export default function Payment(props) {
                     placeholder="name@example.com"
                     id="email"
                     name="email"
-                    value={(payment && payment.email) || ''}
+                    value={(paymentData && paymentData.email) || ''}
                     onChange={changeHandler}
                     onBlur={() => onBlurHandler('email')}
                     onFocus={onFocusHandler}
@@ -199,11 +198,22 @@ export default function Payment(props) {
                 <div className="card-body">
                   <TWZipCode
                     onPostcodeChange={(country, township, postcode) => {
-                      // 如果需要处理postcode变化，进行相应处理
-                      setPaymentData({ ...payment, postcode })
+                      setPaymentData({ ...paymentData, postcode })
                     }}
-                    initPostcode={(payment && payment.postcode) || ''}
+                    initPostcode={(paymentData && paymentData.postcode) || ''}
+                    id="postcode"
+                    value={(paymentData && paymentData.postcode) || ''}
+                    onChange={changeHandler}
+                    onBlur={() => onBlurHandler('postcode')}
+                    onFocus={onFocusHandler}
                   />
+                  <div
+                    className={`message ${
+                      errors.postcode ? 'error-message' : 'success-message'
+                    }`}
+                  >
+                    {errors.postcode || (successMessage && '成功訊息')}
+                  </div>
                   <h5 className="card-title font-grey-title mt-3">
                     收貨地址<span className="text-danger">*</span>
                   </h5>
@@ -214,27 +224,40 @@ export default function Payment(props) {
                     aria-label="default input example"
                     name="address"
                     id="address"
-                    value={(payment && payment.address) || ''}
+                    value={(paymentData && paymentData.address) || ''}
                     onChange={changeHandler}
+                    onBlur={() => onBlurHandler('address')}
+                    onFocus={onFocusHandler}
                   />
+                  <div
+                    className={`message ${
+                      errors.address ? 'error-message' : 'success-message'
+                    }`}
+                  >
+                    {errors.address || (successMessage && '成功訊息')}
+                  </div>
                   <div className="form-check mt-3">
                     <input
                       className="form-check-input "
                       type="checkbox"
                       onClick={() => {
-                        setPaymentData({
+                        setPaymentData((prevData) => ({
+                          ...prevData,
                           name: '陳小豪',
                           phone: '0988123456',
                           email: 'ispan@ispan.com',
                           address: '復興南路一段390號2樓',
-                        })
+                          postcode: '106',
+                          pay_way: '貨到付款',
+                        }));
+                        setSelectedOption('flexRadioDefault1');
                       }}
                     />
                     <label
                       className="form-check-label"
                       htmlFor="flexCheckDefault"
                     >
-                      勾選帶入同會員資訊
+                      勾選帶入測試資訊
                     </label>
                   </div>
                 </div>
@@ -253,7 +276,7 @@ export default function Payment(props) {
                   <div>
                     <div
                       className={`form-check mb-3 form-control rounded-5 ${
-                        selectedOption === 'flexRadioDefault1'
+                        selectedOption === 'flexRadioDefault1' || paymentData.pay_way === '貨到付款'
                           ? 'radius-plus-form'
                           : ''
                       }`}
@@ -263,7 +286,7 @@ export default function Payment(props) {
                         type="radio"
                         name="flexRadioDefault"
                         id="flexRadioDefault1"
-                        checked={selectedOption === 'flexRadioDefault1'}
+                        checked={selectedOption === 'flexRadioDefault1' || paymentData.pay_way === '貨到付款'}
                         onChange={() => handleRadioChange('flexRadioDefault1')}
                         value="貨到付款"
                       />
@@ -276,7 +299,7 @@ export default function Payment(props) {
                     </div>
                     <div
                       className={`form-check mb-3 form-control rounded-5 ${
-                        selectedOption === 'flexRadioDefault2'
+                        selectedOption === 'flexRadioDefault2' || paymentData.pay_way === '信用卡'
                           ? 'radius-plus-form'
                           : ''
                       }`}
@@ -286,7 +309,7 @@ export default function Payment(props) {
                         type="radio"
                         name="flexRadioDefault"
                         id="flexRadioDefault2"
-                        checked={selectedOption === 'flexRadioDefault2'}
+                        checked={selectedOption === 'flexRadioDefault2' || paymentData.pay_way === '信用卡'}
                         onChange={() => handleRadioChange('flexRadioDefault2')}
                         value="信用卡"
                       />
