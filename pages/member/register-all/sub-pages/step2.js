@@ -6,12 +6,19 @@ import styles from '@/css/favorite.module.css'
 
 //註冊第二步
 function Step2(props) {
-  const { step2, setStep2, setIsStep2Valid, errors, setErrors, validateFields } = props
-  
+  const {
+    step2,
+    setStep2,
+    setIsStep2Valid,
+    errors,
+    setErrors,
+    validateFields,
+  } = props
+
   // 新增圖片上傳的狀態
   const [imagePreview, setImagePreview] = useState(null)
-  
-  const handlePostcodeChange = (country, township, zipcode) => {
+
+  const handlePostcodeChange = (country, township, zipcode = '') => {
     setStep2((prevData) => ({
       ...prevData,
       country,
@@ -22,36 +29,41 @@ function Step2(props) {
       setErrors((prevErrors) => ({
         ...prevErrors,
         zipcode: '',
-      }));
+      }))
+    } else if (!zipcode) {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        zipcode: '請選擇郵遞區號',
+      }))
     }
   }
 
   const handleAddressChange = (e) => {
-    const addressValue = e.target.value;
-  
+    const addressValue = e.target.value
+
     // 更新地址
     setStep2((prevData) => ({
       ...prevData,
       address: addressValue,
-    }));
-  
+    }))
+
     // 直接在輸入時進行驗證
     const newErrors = validateFields({
       ...step2,
       address: addressValue, // 使用當前輸入的地址進行驗證
-    });
-  
+    })
+
     // 更新錯誤狀態
     setErrors((prevErrors) => ({
       ...prevErrors,
       address: newErrors.address,
-    }));
-  
+    }))
+
     // 更新步驟驗證狀態
     setIsStep2Valid(
       Object.keys(newErrors).every((key) => newErrors[key] === '')
-    ); // 更新為所有欄位驗證通過時才為 true
-  };
+    ) // 更新為所有欄位驗證通過時才為 true
+  }
 
   const onSubmit = async (e) => {
     e.preventDefault()
@@ -147,11 +159,11 @@ function Step2(props) {
 
                   <div className="col pb-1">
                     <TWZipCode
-                      initPostcode={step2 ? step2.zipcode : ''}
+                      initPostcode={step2 && step2.zipcode ? step2.zipcode : ''}
                       onPostcodeChange={handlePostcodeChange}
                     />
                   </div>
-                  {errors.zipcode && (
+                  {errors?.zipcode && (
                     <div className="error-message">{errors.zipcode}</div>
                   )}
                 </div>
@@ -169,7 +181,7 @@ function Step2(props) {
                       placeholder="詳細地址"
                       aria-label="default input example"
                     />
-                    {errors.address && (
+                    {errors?.address && (
                       <div className="error-message">{errors.address}</div>
                     )}
                   </div>

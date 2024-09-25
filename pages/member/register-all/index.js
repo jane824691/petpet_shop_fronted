@@ -41,18 +41,16 @@ function RegisterSteps() {
   const [errors, setErrors] = useState({})
   const newErrors = {}
 
-
   // step2的驗證綁頂層按鈕跳error
   const validateFields = (step2) => {
-
     // 檢查地址格式
-    if (!/[\u4e00-\u9fa5]+/.test(step2.address)) {
+    if (!/[\u4e00-\u9fa5]+/.test(step2.address?.trim() || '')) {
       newErrors.address = '地址格式錯誤'
     } else {
       newErrors.address = '' // 清空錯誤訊息
     }
 
-    if (!step2.zipcode) {
+    if (!step2.zipcode?.trim()) {
       newErrors.zipcode = '請選擇郵遞區號'
     } else {
       newErrors.zipcode = '' // 清空錯誤訊息
@@ -78,11 +76,17 @@ function RegisterSteps() {
     setErrors(newErrors)
 
     // Step1驗證直接在往下一頁的按鈕擋住, 故只判斷Step2符合條件否
-    if (!step2.zipcode || !step2.country || !step2.township || !step2.address || !isStep2Valid) {
+    if (
+      !step2?.country?.trim() ||
+      !step2?.township?.trim() ||
+      !step2?.zipcode?.trim() ||
+      !step2?.address?.trim() ||
+      !isStep2Valid
+    ) {
       handleShowFailureModal()
       return // 阻止表單繼續提交
     }
-  
+
     // 如果驗證通過才繼續進行圖片上傳和數據處理
     const formData = new FormData()
     formData.append('lastname', step1.lastname)
@@ -93,22 +97,22 @@ function RegisterSteps() {
     formData.append('password', step1.password)
     formData.append('identification', step1.identification)
     formData.append('email', step1.email)
-  
+
     // 添加 step2 的資料
     formData.append('photo', step2.photo)
     formData.append('country', step2.country)
     formData.append('township', step2.township)
     formData.append('zipcode', step2.zipcode)
     formData.append('address', step2.address)
-  
+
     try {
       const responseSteps = await fetch(register_ADD, {
         method: 'POST',
         body: formData,
       })
-  
+
       const responseDataSteps = await responseSteps.json()
-  
+
       // 後端成功返回的時候，再根據結果決定顯示對應的 modal
       if (responseDataSteps.success) {
         handleShowSuccessModal()
@@ -164,7 +168,15 @@ function RegisterSteps() {
           />
         )}
         {step === 2 && (
-          <Step2 step1={step1} step2={step2} setStep2={setStep2} setIsStep2Valid={setIsStep2Valid} setErrors={setErrors} validateFields={validateFields} errors={errors}/>
+          <Step2
+            step1={step1}
+            step2={step2}
+            setStep2={setStep2}
+            setIsStep2Valid={setIsStep2Valid}
+            setErrors={setErrors}
+            validateFields={validateFields}
+            errors={errors}
+          />
         )}
       </div>
 
