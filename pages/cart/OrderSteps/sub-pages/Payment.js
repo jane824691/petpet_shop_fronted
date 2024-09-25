@@ -249,8 +249,8 @@ export default function Payment(props) {
                           address: '復興南路一段390號2樓',
                           postcode: '106',
                           pay_way: '貨到付款',
-                        }));
-                        setSelectedOption('flexRadioDefault1');
+                        }))
+                        setSelectedOption('flexRadioDefault1')
                       }}
                     />
                     <label
@@ -276,7 +276,8 @@ export default function Payment(props) {
                   <div>
                     <div
                       className={`form-check mb-3 form-control rounded-5 ${
-                        selectedOption === 'flexRadioDefault1' || paymentData?.pay_way === '貨到付款'
+                        selectedOption === 'flexRadioDefault1' ||
+                        paymentData?.pay_way === '貨到付款'
                           ? 'radius-plus-form'
                           : ''
                       }`}
@@ -286,7 +287,10 @@ export default function Payment(props) {
                         type="radio"
                         name="flexRadioDefault"
                         id="flexRadioDefault1"
-                        checked={selectedOption === 'flexRadioDefault1' || paymentData?.pay_way === '貨到付款'}
+                        checked={
+                          selectedOption === 'flexRadioDefault1' ||
+                          paymentData?.pay_way === '貨到付款'
+                        }
                         onChange={() => handleRadioChange('flexRadioDefault1')}
                         value="貨到付款"
                       />
@@ -299,7 +303,8 @@ export default function Payment(props) {
                     </div>
                     <div
                       className={`form-check mb-3 form-control rounded-5 ${
-                        selectedOption === 'flexRadioDefault2' || paymentData?.pay_way === '信用卡'
+                        selectedOption === 'flexRadioDefault2' ||
+                        paymentData?.pay_way === '信用卡'
                           ? 'radius-plus-form'
                           : ''
                       }`}
@@ -309,7 +314,10 @@ export default function Payment(props) {
                         type="radio"
                         name="flexRadioDefault"
                         id="flexRadioDefault2"
-                        checked={selectedOption === 'flexRadioDefault2' || paymentData?.pay_way === '信用卡'}
+                        checked={
+                          selectedOption === 'flexRadioDefault2' ||
+                          paymentData?.pay_way === '信用卡'
+                        }
                         onChange={() => handleRadioChange('flexRadioDefault2')}
                         value="信用卡"
                       />

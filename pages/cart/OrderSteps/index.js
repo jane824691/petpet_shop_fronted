@@ -123,11 +123,11 @@ function OrderSteps() {
     ...paymentData,
     sid: sid,
     netTotal: netTotal,
-    // pid: selectedProducts.pid ? selectedProducts.pid : '',
-    // sale_price: selectedProducts.sale_price ? selectedProducts.sale_price : '',
-    // actual_amount: selectedProducts.actual_amount
-    //   ? selectedProducts.actual_amount
-    //   : '',
+    pid: selectedProducts.pid ? selectedProducts.pid : '',
+    sale_price: selectedProducts.sale_price ? selectedProducts.sale_price : '',
+    actual_amount: selectedProducts.actual_amount
+      ? selectedProducts.actual_amount
+      : '',
     email: paymentData.email,
   }
 
