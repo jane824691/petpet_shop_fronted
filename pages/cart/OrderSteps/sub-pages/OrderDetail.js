@@ -25,8 +25,8 @@ export default function OrderDetail({
   useEffect(() => {
     if (items.length > 0) {
       const selectedProducts = {
-        // pid: items.map((item) => item.pid),
-        // sale_price: items.map((item) => item.price),
+        pid: items.map((item) => item.pid),
+        sale_price: items.map((item) => item.price),
         actual_amount: items.map((item) => item.quantity),
       }
 

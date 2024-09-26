@@ -31,9 +31,9 @@ function OrderSteps() {
     address: '',
     postcode: '',
     pay_way: '',
-    // pid: '',
-    // sale_price: '',
-    // actual_amount: '',
+    pid: '',
+    sale_price: '',
+    actual_amount: '',
   })
 
   const [netTotal, setNetTotal] = useState(0)

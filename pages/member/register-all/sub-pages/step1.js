@@ -130,6 +130,7 @@ function Step1(props) {
                       email: 'YiJun5@gmail.com',
                     })
                     setErrors({})
+                    setIsStep1Valid(true)
                   }}
                 />
               </div>
