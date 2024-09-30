@@ -48,6 +48,7 @@ export default function Profile() {
         }
         const authData = JSON.parse(authDataString)
         if (!authData || !authData.sid) {
+          router.push('/')
           // console.log('停權會員')
           return
         }

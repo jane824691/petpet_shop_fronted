@@ -186,7 +186,7 @@ export default function RegisterAdd() {
               </div>
             </div>
             <div className="d-flex justify-content-between py-4">
-              <Link href="/member/login">
+              <Link href="/member">
                 <button
                   type="button"
                   className="btn btn-outline-primary btn-lg btn pro-shadow"

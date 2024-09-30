@@ -5,6 +5,8 @@ import { useRouter } from 'next/router'
 import { LOGIN } from '@/components/my-const'
 import AuthContext from '@/components/contexts/AuthContext'
 import { jwtDecode } from 'jwt-decode' // 導入 jwt 解析庫
+import Modal from 'react-bootstrap/Modal'
+import Button from 'react-bootstrap/Button'
 
 //可以成功登入的版本
 export default function Login() {
@@ -44,6 +46,8 @@ export default function Login() {
       localStorage.setItem('auther', JSON.stringify({ sid, account, token }))
       setAuther({ sid, account, token })
       router.push('/member')
+    } else {
+      handleShowFailureModal()
     }
   }
 
@@ -56,6 +60,14 @@ export default function Login() {
 
     setUser(newUser)
   }
+
+  const [showFailureModal, setShowFailureModal] = useState(false)
+
+  const handleClose = () => {
+    setShowFailureModal(false)
+  }
+  const handleShowFailureModal = () => setShowFailureModal(true)
+
   return (
     <>
       <h3 className="py-1 mx-auto">會員登入</h3>
@@ -133,6 +145,57 @@ export default function Login() {
           <Link href="/member/register-all">新朋友? 註冊</Link>
         </span>
       </div>
+      <Modal show={showFailureModal} onHide={handleClose}>
+        <Modal.Header className="modal-form modal-header-failure">
+          <Modal.Title className="modal-form mt-3">
+            登入失敗
+            <h6 className='my-3'>帳號或密碼錯誤</h6>
+          </Modal.Title>
+          <Image
+            src="/pics/close2.png"
+            alt="叉叉"
+            width="40"
+            height="30"
+            className="mb-3"
+            style={{
+              cursor: 'pointer',
+              position: 'absolute',
+              top: '-22px',
+              right: '-20px',
+            }}
+            onClick={handleClose}
+          />
+        </Modal.Header>
+        <Modal.Body
+          className="modal-form modal-body-failure"
+          style={{ height: 130 }}
+        >
+          <Image
+            src="/pics/error.png"
+            alt="錯誤"
+            width="100"
+            height="100"
+            className="mx-auto"
+          />
+        </Modal.Body>
+        <Modal.Footer
+          className="modal-form modal-footer-failure"
+          style={{ height: 130 }}
+        >
+          <Button
+            variant="secondary"
+            className="mx-auto"
+            style={{
+              width: '120px',
+              cursor: 'pointer',
+              boxShadow: 'none',
+            }}
+            onClick={handleClose}
+          >
+            確定
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </>
   )
 }

@@ -54,11 +54,13 @@ export default function MemberOrderList() {
         const authDataString = localStorage.getItem('auther')
         if (!authDataString) {
           // console.log('No "auther" data found.')
+          router.push('/')
           return
         }
         const authData = JSON.parse(authDataString)
         if (!authData || !authData.sid) {
           // console.log('No valid "auther" data found.')
+          router.push('/')
           return
         }
         const sid = authData.sid

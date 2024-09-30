@@ -79,6 +79,12 @@ function OrderSteps() {
         toast.error('至少有一項商品才可結帳!')
         return
       }
+      const authDataString = localStorage.getItem('auther')
+      if (!authDataString) {
+        // console.log('No "auther" data found.')
+        toast.error('煩請先登入才可結帳!')
+        return
+      }
     }
     // 購物車用檢查
     if (step === 2) {
