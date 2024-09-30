@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import dayjs from 'dayjs'
 import { useRouter } from 'next/router'
-//import { AB_LIST, AB_DEL_ONE } from '@/components/my-const'
 import { BsHighlighter } from 'react-icons/bs'
-import { coupon_ADD } from '@/components/my-const'
 import { GET_COUPON_DATA } from '@/components/my-const'
 
 //表格來源:(MFEE43-next)前端address資料夾底下的index.js

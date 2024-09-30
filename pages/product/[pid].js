@@ -4,6 +4,8 @@ import { useRouter } from 'next/router'
 import { ONE_PRODUCT } from '@/components/my-const'
 import { useCart } from '@../../../components/hooks/use-cart-state'
 import toast, { Toaster } from 'react-hot-toast'
+import Link from 'next/link'
+import Breadcrumb from 'react-bootstrap/Breadcrumb';
 // import data from '@/data/Product.json'
 
 export default function Detail() {
@@ -43,9 +45,9 @@ export default function Detail() {
 
   return (
     <>
-      <div className="row mt-5 mx-5 mb-5">
+      <div className="row mt-5 mx-5 px-5">
         <div className="col-sm-7">
-          <div className="position-sticky" style={{ top: '2rem' }}>
+          <div className="position-sticky">
             <Carousel
               pid={myProduct.pid}
               firstImage={myProduct.product_img}
@@ -56,7 +58,12 @@ export default function Detail() {
           </div>
         </div>
 
-        <div className="col-sm-5 d-grid gap-2">
+        <div className="col-sm-5 px-5 descriptionPart">
+          <Breadcrumb>
+            <Breadcrumb.Item href="/">Home</Breadcrumb.Item>
+            <Breadcrumb.Item active>商品詳細</Breadcrumb.Item>
+          </Breadcrumb>
+
           <h4 id="name" name="name">
             {myProduct.product_name}
           </h4>
@@ -110,7 +117,7 @@ export default function Detail() {
                 toast.success('成功加入購物車!')
               }}
             >
-              <div className="d-flex justify-content-center">
+              <div className="d-flex justify-content-center m-1">
                 <i className="bi bi-cart mx-2"></i> <div> 加入購物車</div>
               </div>
             </button>

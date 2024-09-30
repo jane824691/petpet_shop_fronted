@@ -30,8 +30,8 @@
 .memberPic {
   width: 140px;
   height: 140px;
-  border-radius: 100px;
-  /*border: 5px solid rgb(237, 10, 48); */
+  border-radius: 100%;
+  object-fit: contain;
 }
 .memberItems {
   display: flex;
