@@ -18,24 +18,6 @@ export default function Profile() {
   const router = useRouter()
   const { auther } = useContext(AuthContext)
 
-  const [step1, setStep1] = useState({
-    lastname: '',
-    firstname: '',
-    mobile: '',
-    birthday: '',
-    account: '',
-    password: '',
-    identification: '',
-    email: '',
-  })
-
-  const [step2, setStep2] = useState({
-    country: '',
-    township: '',
-    postcode: '',
-  })
-  const [autoAddress, setAutoAddress] = useState('復興南路1段390號2樓')
-
   const [mydata, setMydata] = useState({
     sid: '',
     lastname: '',
@@ -57,20 +39,22 @@ export default function Profile() {
     const fetchData = async () => {
       try {
         // 檢查 localStorage 中是否存在 'auther'，以及 'auther' 是否有有效的 sid
-        //如果沒登入就跑到會員中心不會報錯
         const authDataString = localStorage.getItem('auther')
         if (!authDataString) {
-          // console.log('No "auther" data found.')
+          // 未登入會直接跳轉回首頁
+          // TODO: needs a loading to prevent show out the member page before jump back to index page
+          router.push('/')
           return
         }
         const authData = JSON.parse(authDataString)
         if (!authData || !authData.sid) {
-          // console.log('No valid "auther" data found.')
+          // console.log('停權會員')
           return
         }
         const sid = authData.sid
+        const token = JSON.parse(localStorage.getItem("auther"))?.token;
         const response = await fetch(GET_MEMBER_DATA, {
-          body: JSON.stringify({ sid: sid }),
+          body: JSON.stringify({ sid: sid, token }),
           headers: {
             'content-type': 'application/json',
           },
@@ -92,33 +76,6 @@ export default function Profile() {
     // 呼叫 fetchData 以觸發資料載入
     fetchData()
   }, [router.query.sid])
-
-  //抓取會員資料
-  // const [getData, setGetData] = useState(null);
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       const response = await fetch(GET_MEMBER_DATA, {
-  //         method: 'POST',
-  //         body: JSON.stringify({ ...step1, ...step2, address: autoAddress }),
-  //         headers: {
-  //           'Content-Type': 'application/json',
-  //         },
-  //       });
-
-  //       if (response.ok) {
-  //         const data = await response.json();
-  //         setGetData(data);
-  //       } else {
-  //         console.error('fetch Failed');
-  //       }
-  //     } catch (error) {
-  //       console.error('fetch錯誤', error);
-  //     }
-  //   };
-
-  //   fetchData(); // 請加上這一行來執行 fetchData
-  // }, []); // 空依賴表示只在組件載入時執行一次
 
   return (
     <>
