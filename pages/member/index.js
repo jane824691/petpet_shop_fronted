@@ -86,12 +86,12 @@ export default function Profile() {
           <div className={styles.memberPicOut}>
             <Image
               alt=""
-              src='/pics/headshot.jpg'
-              // {`${
-              //   mydata.photo
-              //     ? mydata.photo
-              //     : '/pics/headshot.jpg'
-              // }`}
+              src=
+              {`${
+                mydata.photo
+                  ? mydata.photo
+                  : '/pics/headshot.jpg'
+              }`}
               className={styles.memberPic}
               width="140"
               height="140"
