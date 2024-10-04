@@ -37,21 +37,21 @@ export default function Home() {
               height={525}
               alt="key Visual Img"
               className={styles.keyVisualImg}
-              layout="responsive" // 使用 responsive 模式讓圖片響應容器大小
+              style={{ width: '100%', height: 'auto' }} // 自動適應容器大小
             />
 
             <div className={styles.descriptionPart}>
-              <h2>
+              <h2 className={styles.descriptionTitle}>
                 專屬的寵物天堂!! <br />
                 <span className="notify-info">電商平台Demo</span>
               </h2>
-              <span>
+              <span className={styles.descriptionText}>
                 在這裡，我們為寵物提供一站式服務。從最新的寵物用品到專業的寵物日記和論壇,我們致力於打造一個暖暖的、有趣且充滿愛的線上社區。立即探索我們的寵物商城。與我們一同與毛孩享受愛與陪伴的美好。
               </span>
               <Link href="/member/login">
                 <button
                   type="button"
-                  className="btn btn-outline-primary btn-lg pro-shadow rounded-5"
+                  className="btn btn-outline-primary bg-white btn-lg pro-shadow rounded-5"
                   style={{ width: 250 }}
                 >
                   加入我們

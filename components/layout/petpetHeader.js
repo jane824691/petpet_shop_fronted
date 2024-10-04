@@ -13,7 +13,7 @@ export default function PetpetHeader() {
         <div className={styles.container}>
           {/* 網站icon */}
           <Link href="/" className={styles.logoLink}>
-            <div className={styles.logoAndName}>
+            <div className={styles.headerLeft}>
               <div className={styles.logoOut}>
                   <Image
                     src="/logo.svg"
@@ -32,22 +32,22 @@ export default function PetpetHeader() {
           {/* <!-- header中間 --> */}
           <div className={styles.headerMiddle}>
             <div>
-              <Link href="/product/list" className={styles.headerMiddleItem}>
+              <Link href="/product/list" className={`${styles.headerMiddleItem} ${styles.foodPart}`}>
                 吃起來
               </Link>
             </div>
             <div>
-              <Link href="/product/list" className={styles.headerMiddleItem}>
+              <Link href="/product/list" className={`${styles.headerMiddleItem} ${styles.outdoorPart}`}>
                 走起來
               </Link>
             </div>
             <div>
-              <Link href="/product/list" className={styles.headerMiddleItem}>
+              <Link href="/product/list" className={`${styles.headerMiddleItem} ${styles.toyPart}`}>
                 玩起來
               </Link>
             </div>
             <div>
-              <Link href="/product/list" className={styles.headerMiddleItem}>
+              <Link href="/product/list" className={`${styles.headerMiddleItem} ${styles.livingPart}`}>
                 住起來
               </Link>
             </div>
@@ -63,7 +63,7 @@ export default function PetpetHeader() {
                     className={styles.headerRightIconLink}
                     href="/cart/OrderSteps"
                   >
-                    <i className="bi bi-cart fs-2"></i>
+                    <i className={`bi bi-cart fs-2 ${styles.iconSmall}`}></i>
                   </Link>
                 </div>
               </>
@@ -74,7 +74,7 @@ export default function PetpetHeader() {
               <>
                 <div className={styles.headerRightIcon}>
                   <Link className={styles.headerRightIconLink} href="">
-                    <i className="bi bi-bell fs-2"></i>
+                    <i className={`bi bi-bell fs-2 ${styles.iconSmall}`}></i>
                   </Link>
                 </div>
               </>
@@ -85,7 +85,7 @@ export default function PetpetHeader() {
               <>
                 <div className={styles.headerRightIcon}>
                   <Link className={styles.headerRightIconLink} href="/member">
-                    <i className="bi bi-person fs-2"></i>
+                    <i className={`bi bi-person fs-2 ${styles.iconSmall}`}></i>
                   </Link>
                 </div>
               </>
@@ -94,7 +94,7 @@ export default function PetpetHeader() {
             )}
             {auther.account ? (
               <>
-                <div className={styles.headerRightIcon}>
+                <div className={styles.headerRightAccount}>
                   <span>{auther.account}</span>
                 </div>
               </>

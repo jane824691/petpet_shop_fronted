@@ -1,25 +1,22 @@
 .header{
-    display: flex;
-    align-items: center;
-    width: 100%;
-    align-items: center;
 }
 .container{
     display: flex;
     background-color: #ffb44f;
     justify-content: space-around;
+    align-items: center;
     width: 100%;
     height: 90px;
-    padding-left: 60px;
-    padding-right: 60px;
     gap: 4vw;
+    flex-wrap: wrap
 }
 .logoLink{
     display: flex;
 }
-.logoAndName{
+.headerLeft{
     display: flex;
     gap: 4px;
+    flex: 1;
 }
 .logoOut{
     display: flex;
@@ -42,7 +39,6 @@
     align-items: center;
     text-align: center;
     gap: 4vw;
-    
 }
 .headerMiddleItem{
     color: black;
@@ -54,12 +50,14 @@
     border-bottom: 1px solid white;
 }
 .headerRight{
-    /* border: 2px solid rgb(255, 0, 102);  */
     display: flex;
     align-items: center;
 }
 .headerRightIcon{
     padding: 0 10px;
+    color: white;
+}
+.headerRightAccount{
     font-size: 20px;
     color: white;
 }
@@ -72,7 +70,6 @@
     color: white;
     font-size: 30px;
 }
-
 
 /* Tablet and Smaller Desktop */
 @media (min-width: 901px) and (max-width: 1300px) {
@@ -89,8 +86,8 @@
     }
 }
 
-/* 手機 */
-@media screen and (max-width:900px) {
+/* Tablet and Smaller Desktop */
+@media screen and (max-width:960px) {
 
     .headerMiddleItem{
         font-size: 16px;
@@ -102,5 +99,69 @@
     }
     .brandName{
         font-size: 16px;
+    }
+    .headerRightIcon{
+        padding: 0 6px;
+    }
+    .headerRightAccount{
+        font-size: 16px;
+        padding-left: 4px;
+    }
+    .iconSmall {
+        font-size: 1.25rem !important; /* 覆蓋 fs-2 全域設定 */
+    }
+}
+
+/* Tablet and Smaller Desktop */
+@media screen and (max-width:760px) {
+    .container {
+        height: 62px;
+
+        .headerMiddle {
+            order: 2; /* 讓 headerMiddle 排在第二行 */
+            margin-top: 10px;
+            width: 100%;
+            justify-content: center;
+        }
+        .foodPart,
+        .outdoorPart,
+        .toyPart {
+            border-right: #e0e0e0 2px solid;
+            border-radius: 1%;
+        }
+        .foodPart{
+            color: #f8723f;
+            padding: 0 5vw 0 3vw;
+        }
+        .outdoorPart{
+            color: #90d2ce;
+            padding: 0 5vw 0 0;
+        }
+        .toyPart{
+            color: #f7bcc5;
+            padding: 0 5vw 0 0;
+        }
+        .livingPart{
+            color: #a4c6e9;
+        }
+    }
+}
+@media screen and (max-width:375px) {
+    .container{
+        justify-content: center;
+        .brandName{
+            font-size: 12px;
+        }
+        .headerMiddle{
+            gap: 0;
+        }
+        .foodPart,
+        .outdoorPart,
+        .toyPart {
+            padding: 0 4vw 0 0 !important;
+        }
+        .headerRightAccount{
+            display: none;
+        }
     }
 }
