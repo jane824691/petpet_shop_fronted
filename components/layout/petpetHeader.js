@@ -101,7 +101,7 @@ export default function PetpetHeader() {
             ) : (
               <>
                 <div className={styles.headerRightIcon}>
-                  <Link
+                  <Link className={styles.headerRightIconLink}
                     style={{ color: 'white', textDecoration: 'none' }}
                     href="/member/login"
                   >
