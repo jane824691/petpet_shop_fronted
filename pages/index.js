@@ -51,7 +51,7 @@ export default function Home() {
               <Link href="/member/login">
                 <button
                   type="button"
-                  className="btn btn-outline-primary bg-white btn-lg pro-shadow rounded-5"
+                  className={`btn btn-outline-primary bg-white btn-lg pro-shadow rounded-5 ${styles.joinUsBtn}`}
                   style={{ width: 250 }}
                 >
                   加入我們

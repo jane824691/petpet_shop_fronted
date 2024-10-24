@@ -1,0 +1,260 @@
+import { useState, useEffect } from 'react'
+import { useRouter } from 'next/router'
+import Edit1 from './sub-pages/edit1'
+import Edit2 from './sub-pages/edit2'
+import Image from 'next/image'
+import Button from 'react-bootstrap/Button'
+import Modal from 'react-bootstrap/Modal'
+import toast, { Toaster } from 'react-hot-toast'
+import { GET_MEMBER_DATA } from '@/components/my-const'
+import AuthContext from '@/components/contexts/AuthContext'
+import { useContext } from 'react'
+import dayjs from 'dayjs'
+
+function EditProcess(){
+      //跳轉用
+    const router = useRouter()
+
+    const maxSteps = 2
+
+    const [step, setStep] = useState(1)
+
+    const [step1, setStep1] = useState({
+        lastname: '',
+        firstname: '',
+        mobile: '',
+        birthday: '',
+        account: '',
+        password: '',
+        identification: '',
+        email: '',
+        })
+    
+    const [step2, setStep2] = useState({
+            country: '',
+            township: '',
+            zipcode: '',
+            photo: null,
+            address: '',
+        })
+    
+  const { auther } = useContext(AuthContext)
+
+  // 去抓後端處理好的單筆資料(顯示在會員中心)
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        // 檢查 localStorage 中是否存在 'auther'，以及 'auther' 是否有有效的 sid
+        const authDataString = localStorage.getItem('auther')
+        if (!authDataString) {
+          // 未登入會直接跳轉回首頁
+          // TODO: needs a loading to prevent show out the member page before jump back to index page
+          router.push('/')
+          return
+        }
+        const authData = JSON.parse(authDataString)
+        if (!authData || !authData.sid) {
+          router.push('/')
+          // console.log('停權會員')
+          return
+        }
+        const sid = authData.sid
+        const token = JSON.parse(localStorage.getItem("auther"))?.token;
+        const response = await fetch(GET_MEMBER_DATA, {
+            body: JSON.stringify({ sid: sid, token }),
+            headers: {
+            'content-type': 'application/json',
+            },
+            method: 'POST',
+        })
+        const memberData = await response.json()
+
+        // 處理生日格式
+        if (memberData.birthday) {
+          memberData.birthday = dayjs(memberData.birthday).format('YYYY-MM-DD')
+        }
+
+        setStep1(memberData)
+        setStep2(memberData)
+        console.log('step1', step1);
+        // console.log('step2', step2);
+        
+      } catch (error) {
+        // console.error('Error fetching mydata:', error)
+      }
+    }
+
+    // 呼叫 fetchData 以觸發資料載入
+    fetchData()
+  }, [])
+
+  useEffect(()=>{
+    console.log('step2', step2);
+  }, [])
+
+  const changeHandler = (e) => {
+    const { name, id, value } = e.target
+    // console.log({ name, id, value })
+    // setMydata({ ...mydata, [id]: value })
+  }
+  const onSubmit = (e) => {
+    e.preventDefault()
+  }
+
+
+  const [showSuccessModal, setShowSuccessModal] = useState(false)
+  const [showFailureModal, setShowFailureModal] = useState(false)
+  const [errors, setErrors] = useState({})
+  const newErrors = {}
+
+  const handleClose = () => {
+    setShowSuccessModal(false)
+    setShowFailureModal(false)
+  }
+
+  const handleShowSuccessModal = () => setShowSuccessModal(true)
+  const handleShowFailureModal = () => setShowFailureModal(true)
+
+  // 上一步 下一步按鈕
+  const next = () => {
+    // 運送表單用檢查
+    if (step === 1) {
+    // 驗證第一步是否通過
+    //   if (isStep1Valid) {
+      setStep(step + 1)
+    //   }
+  }
+
+    // 沒錯誤才會到下一步
+    if (step < maxSteps) setStep(step + 1)
+    // 提交表單
+
+    if (step === maxSteps) {
+        handleShowSuccessModal()
+        setTimeout(() => {
+            // router.push('../member')
+            }, 3000)
+        } else {
+            // handleShowFailureModal()
+        }
+  }
+
+
+      // 上一步按鈕
+  const prev = () => {
+    if (step > 1) setStep(step - 1)
+    if (step === 1) router.push('../member')
+  }
+
+    return (
+        <>
+            {step === 1 && (
+              <Edit1
+                step1={step1}
+                setStep1={setStep1}
+                // setIsStep1Valid={setIsStep1Valid}
+              />
+            )}
+            {step === 2 && (
+              <Edit2
+                step1={step1}
+                step2={step2}
+                setStep2={setStep2}
+                // setIsStep2Valid={setIsStep2Valid}
+                setErrors={setErrors}
+                // validateFields={validateFields}
+                errors={errors}
+              />
+            )}
+            <div className="d-flex justify-content-between py-4 mb-5">
+                  <button
+                    type="button"
+                    className="btn btn-outline-primary btn-lg btn pro-shadow w-75 mx-5"
+                    onClick={prev}
+                  >
+                    {step === 1 ? '回會員頁' : '回前一頁'}
+                  </button>
+
+                  <button
+                    type="button"
+                    className="btn btn-outline-primary btn-lg btn pro-shadow w-75 mx-5"
+                    onClick={next}
+                  >
+                    {step === maxSteps ? '完成編輯' : '繼續編輯'}
+                  </button>
+              </div>
+
+              <Modal show={showSuccessModal || showFailureModal} onHide={handleClose}>
+                <Modal.Header
+                  className={`modal-form ${
+                    showSuccessModal ? 'modal-header-success' : 'modal-header-failure'
+                  }`}
+                >
+                <Modal.Title className="modal-form">
+                    {showSuccessModal ? '編輯成功!!' : '編輯失敗'}
+                    {showSuccessModal ? (
+                      <div>稍後將跳轉回會員中心~</div>
+                    ) : (
+                      <div>請編輯完整資料~</div>
+                    )}
+                </Modal.Title>
+            <Image
+              src={showSuccessModal ? '/pics/close.png' : '/pics/close2.png'}
+              alt="叉叉"
+              width="40"
+              height="30"
+              className="mb-3"
+              style={{
+                cursor: 'pointer',
+                position: 'absolute',
+                top: '-22px',
+                right: '-20px',
+              }}
+              onClick={handleClose}
+            />
+          </Modal.Header>
+          <Modal.Body
+            className={`modal-form ${
+              showSuccessModal ? 'modal-body-success' : 'modal-body-failure'
+            }`}
+            style={{ height: 130 }}
+          >
+            <Image
+              src={showSuccessModal ? '/pics/nike.png' : '/pics/error.png'}
+              alt="打勾"
+              width="100"
+              height="100"
+              className="mx-auto"
+            />
+          </Modal.Body>
+          <Modal.Footer
+            className={`modal-form ${
+              showSuccessModal ? 'modal-footer-success' : 'modal-footer-failure'
+            }`}
+            style={{ height: 130 }}
+          >
+            <Button
+              variant={showSuccessModal ? 'info' : 'secondary'}
+              className="mx-auto"
+              style={{
+                width: '120px',
+                cursor: 'pointer',
+                boxShadow: 'none',
+              }}
+              //資料正確才跳轉
+              onClick={() => {
+                handleClose()
+                if (showSuccessModal) {
+                  router.push('/member')
+                }
+              }}
+            >
+              確定
+            </Button>
+          </Modal.Footer>
+        </Modal>
+        </>
+    )
+}
+
+export default EditProcess

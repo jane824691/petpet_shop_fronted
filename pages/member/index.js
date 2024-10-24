@@ -5,6 +5,7 @@ import Image from 'next/image'
 import AuthContext from '@/components/contexts/AuthContext'
 import { useContext } from 'react'
 import { GET_MEMBER_DATA } from '@/components/my-const'
+import { jwtDecode } from 'jwt-decode'
 // icon
 import { BsFillTicketDetailedFill } from 'react-icons/bs'
 import { BsCart4 } from 'react-icons/bs'
@@ -16,7 +17,7 @@ import Link from 'next/link'
 
 export default function Profile() {
   const router = useRouter()
-  const { auther } = useContext(AuthContext)
+  const { auther, logout } = useContext(AuthContext)
 
   const [mydata, setMydata] = useState({
     sid: '',
@@ -33,6 +34,18 @@ export default function Profile() {
     city: '',
     district: '',
   })
+
+  // 刷進該頁面, 檢查token是否過期
+  useEffect(() => {
+    const token = localStorage.getItem('auther')
+    if (token) {
+      const decodedToken = jwtDecode(token)
+      const currentTime = Date.now() / 1000 //單位:毫秒轉秒
+      if (decodedToken.exp < currentTime) {
+        logout() // token 過期，自動登出
+      }
+    }
+  }, [])
 
   // 去抓後端處理好的單筆資料(顯示在會員中心)
   useEffect(() => {
@@ -58,6 +71,7 @@ export default function Profile() {
           body: JSON.stringify({ sid: sid, token }),
           headers: {
             'content-type': 'application/json',
+            authorization: `Bearer ${authData.token}`,
           },
           method: 'POST',
         })
@@ -343,9 +357,9 @@ export default function Profile() {
                     type="button"
                     className="btn btn-outline-primary btn-lg btn pro-shadow"
                     style={{ width: 250 }}
-                    // onClick={() => {
-                    //   router.push('/member/register-edit')
-                    // }}
+                    onClick={() => {
+                      router.push('/member/edit-process')
+                    }}
                   >
                     編輯資料
                   </button>

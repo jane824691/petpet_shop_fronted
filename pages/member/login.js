@@ -22,12 +22,13 @@ export default function Login() {
     const token = localStorage.getItem('auther')
     if (token) {
       const decodedToken = jwtDecode(token)
-      const currentTime = Date.now() / 1000 //單位:毫秒轉秒
+      const currentTime = Date.now() / 1000
       if (decodedToken.exp < currentTime) {
-        logout() // token 過期，自動登出
+        logout()
       }
     }
   }, [])
+  
   const postForm = async (e) => {
     e.preventDefault() //不要讓表單以傳統方式送出
 
@@ -36,6 +37,7 @@ export default function Login() {
       body: JSON.stringify(user),
       headers: {
         'Content-Type': 'application/json',
+        // authorization: `Bearer ${decodedToken}`,
       },
     })
     const data = await r.json()

@@ -117,7 +117,8 @@
 @media screen and (max-width:760px) {
     .container {
         height: 62px;
-
+        gap: 2vw;
+        margin-bottom: 5vw;
         .headerMiddle {
             order: 2; /* 讓 headerMiddle 排在第二行 */
             margin-top: 10px;
