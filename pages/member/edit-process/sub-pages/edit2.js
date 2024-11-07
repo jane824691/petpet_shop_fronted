@@ -12,14 +12,8 @@ export default function Edit2(props) {
     setIsStep2Valid,
     errors,
     setErrors,
-    validateFields,
+    validateFields
   } = props
-
-  useEffect(() => {
-    console.log('step2 in Edit2', step2); // 這裡應該打印出 step2 的值
-  }, [step2]);
-  
-  console.log('step2', step2);
 
   const handlePostcodeChange = (country, township, zipcode = '') => {
     // Update the state with the selected values
@@ -27,15 +21,43 @@ export default function Edit2(props) {
       ...prevData,
       country,
       township,
-      zipcode,
+      zipcode
     }))
-    
   }
-  // const [address, setAddress] = useState('')
-  // const [show, setShow] = useState(false)
-  // const handleClose = () => setShow(false)
-  // const handleShow = () => setShow(true)
+  // 新增圖片上傳的狀態
+  const [imagePreview, setImagePreview] = useState(null)
+  const [imageUrl, setImageUrl] = useState(null)
 
+  const handleAddressChange = (e) => {
+    const addressValue = e.target.value
+
+    // 更新地址
+    setStep2((prevData) => ({
+      ...prevData,
+      address: addressValue
+    }))
+
+    // 直接在輸入時進行驗證
+    const newErrors = validateFields({
+      ...step2,
+      address: addressValue // 使用當前輸入的地址進行驗證
+    })
+
+    // 更新錯誤狀態
+    setErrors((prevErrors) => ({
+      ...prevErrors,
+      address: newErrors.address
+    }))
+
+    // 更新步驟驗證狀態
+    setIsStep2Valid(
+      Object.keys(newErrors).every((key) => newErrors[key] === '')
+    ) // 更新為所有欄位驗證通過時才為 true
+  }
+
+  const onSubmit = async (e) => {
+    e.preventDefault()
+  }
   return (
     <>
       {/* 上傳圖片的部分，獨立於表單之外 */}
@@ -48,12 +70,14 @@ export default function Edit2(props) {
             setStep2((prevStep2) => ({ ...prevStep2, photo: file || null }))
             const reader = new FileReader()
             reader.onloadend = () => {
-              // setImagePreview(reader.result)
+              setImagePreview(reader.result)
             }
             if (file) {
               reader.readAsDataURL(file)
+              const tempUrl = URL.createObjectURL(file)
+              setImageUrl(tempUrl)
             } else {
-              // setImagePreview(null)
+              setImagePreview(null)
             }
           }}
           style={{ display: 'none' }} // 隱藏實際的上傳 input
@@ -64,12 +88,9 @@ export default function Edit2(props) {
             <Image
               alt=""
               src={
-                // imagePreview || 
-                  `${
-                  step2.photo
-                    ? step2.photo
-                    : '/pics/headshot.jpg'
-                }`
+                imagePreview ||
+                imageUrl ||
+                `${step2?.photo ? step2.photo : '/pics/headshot.jpg'}`
               }
               className={styles.memberPic}
               width="140"
@@ -113,13 +134,17 @@ export default function Edit2(props) {
                     <TWZipCode
                       initPostcode={step2 && step2.zipcode ? step2.zipcode : ''}
                       initCountry={step2 && step2.country ? step2.country : ''}
-                      initTownship={step2 && step2.township ? step2.township : ''}
+                      initTownship={
+                        step2 && step2.township ? step2.township : ''
+                      }
                       onPostcodeChange={handlePostcodeChange}
                     />
+                    {errors?.zipcode && (
+                      <div className="error-message">{errors.zipcode}</div>
+                    )}
                   </div>
                 </div>
-                <br></br>
-                <br></br>
+                <br />
                 <div className="row">
                   <div className="col">
                     <h6 className="card-title font-grey-title">
@@ -129,13 +154,19 @@ export default function Edit2(props) {
                     <input
                       className="form-control T-18 rounded-5 border border-primary"
                       type="text"
+                      id="address"
+                      name="address"
                       value={(step2 && step2.address) || ''}
                       placeholder="詳細地址"
                       aria-label="default input example"
+                      onChange={handleAddressChange}
                     />
+                    {errors?.address && (
+                      <div className="error-message">{errors.address}</div>
+                    )}
                   </div>
                 </div>
-                <br></br>
+                <br />
               </div>
             </div>
           </div>

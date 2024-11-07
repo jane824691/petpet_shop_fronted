@@ -22,6 +22,9 @@ export const LOGIN = API_SERVER + '/login-jwt' // method: POST, 欄位 account, 
 // --- 會員相關的路由 (範例)
 export const PROFILE = API_SERVER + '/profile' // method: GET, 取得用戶資料
 
+// --- 會員修改會籍資料
+export const PUT_MEMBER_DATA = API_SERVER + '/member/edit'
+
 // --- 優惠券相關的路由
 export const COUPON = API_SERVER + '/favorite/coupon2' // method: POST, 取得用戶資料(新增優惠券)
 

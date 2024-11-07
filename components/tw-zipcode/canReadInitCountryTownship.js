@@ -5,39 +5,31 @@ export default function TWZipCode({
   initPostcode = '',
   initCountry = '',
   initTownship = '',
-  onPostcodeChange = (country, township, postcode) => {},
+  onPostcodeChange = (country, township, postcode) => {}
 }) {
   const [countryIndex, setCountryIndex] = useState(-1)
   const [townshipIndex, setTownshipIndex] = useState(-1)
   const [postcode, setPostcode] = useState('')
 
-  // 利用傳入的 initPostcode, initCountry, initTownship 初始化縣市與鄉鎮區
+  // 處理初始國家選擇
   useEffect(() => {
-    if (initCountry) {
+    if (initCountry && countryIndex === -1) {
       const index = countries.indexOf(initCountry)
       if (index !== -1) {
         setCountryIndex(index)
       }
     }
-    if (initTownship && countryIndex !== -1) {
+  }, [initCountry, countries, countryIndex])
+
+  // 處理鄉鎮市區選擇，依賴 countryIndex
+  useEffect(() => {
+    if (initTownship && countryIndex !== -1 && townships[countryIndex]) {
       const townshipIdx = townships[countryIndex].indexOf(initTownship)
       if (townshipIdx !== -1) {
         setTownshipIndex(townshipIdx)
       }
     }
-    if (initPostcode) {
-      setPostcode(initPostcode)
-      for (let i = 0; i < postcodes.length; i++) {
-        for (let j = 0; j < postcodes[i].length; j++) {
-          if (postcodes[i][j] === initPostcode) {
-            setCountryIndex(i)
-            setTownshipIndex(j)
-            return // 跳出巢狀for迴圈
-          }
-        }
-      }
-    }
-  }, [initCountry, initTownship, initPostcode, countryIndex])
+  }, [initTownship, countryIndex, townships])
 
   // 當使用者改變 countryIndex 和 townshipIndex 時，更新郵遞區號
   useEffect(() => {
