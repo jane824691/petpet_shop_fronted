@@ -1,8 +1,5 @@
 import { useCart } from '@/components/hooks/use-cart-state'
-import List from '@/components/cart/list'
-import Link from 'next/link'
 import { useState, useEffect } from 'react'
-import toast, { Toaster } from 'react-hot-toast'
 
 // 範例資料
 // type: 'amount'相減，'percent'折扣
@@ -15,18 +12,7 @@ const coupons = [
 
 export default function Coupon() {
   //可從useCart中獲取的各方法與屬性，參考README檔中說明
-  const {
-    cart,
-    // items,
-    addItem,
-    removeItem,
-    // updateItem,
-    updateItemQty,
-    clearCart,
-    isInCart,
-    // increment,
-    // decrement,
-  } = useCart()
+  const { cart } = useCart()
 
   const [couponOptions, setCouponOptions] = useState(coupons)
   const [selectedCouponId, setSelectedCouponId] = useState(0)

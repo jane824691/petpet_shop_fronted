@@ -121,7 +121,6 @@ export default function Login() {
 }
 function sendForm(e) {
   e.preventDefault()
-  // TODO: 資料檢查
 
   const fd = new FormData(document.form1)
   const dataObj = Object.fromEntries(fd)

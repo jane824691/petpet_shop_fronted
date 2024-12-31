@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import Image from 'next/image'
 import TWZipCode from '@/components/tw-zipcode/canReadInitCountryTownship'
-import Link from 'next/link'
 import styles from '@/css/favorite.module.css'
 import { BsCameraFill } from 'react-icons/bs'
 

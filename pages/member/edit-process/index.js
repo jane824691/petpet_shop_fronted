@@ -101,11 +101,7 @@ function EditProcess() {
 
     // Step1驗證直接在往下一頁的按鈕擋住, 故只判斷Step2符合條件否
     if (
-      !step2?.country?.trim() ||
-      !step2?.township?.trim() ||
-      !step2?.zipcode?.trim() ||
-      !step2?.address?.trim() ||
-      !isStep2Valid
+      !step2?.address?.trim()
     ) {
       handleShowFailureModal()
       return // 阻止表單繼續提交
@@ -130,6 +126,7 @@ function EditProcess() {
     formData.append('township', step2.township)
     formData.append('zipcode', step2.zipcode)
     formData.append('address', step2.address)
+    
     try {
       const responseSteps = await fetch(PUT_MEMBER_DATA, {
         method: 'PUT',
@@ -165,7 +162,7 @@ function EditProcess() {
       newErrors.address = '' // 清空錯誤訊息
     }
 
-    if (!step2.zipcode?.trim()) {
+    if (!step2.zipcode) {
       newErrors.zipcode = '請選擇郵遞區號'
     } else {
       newErrors.zipcode = '' // 清空錯誤訊息

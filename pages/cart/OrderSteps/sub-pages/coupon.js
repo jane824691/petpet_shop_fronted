@@ -14,18 +14,7 @@ const coupons = [
 
 export default function Coupon() {
   //可從useCart中獲取的各方法與屬性，參考README檔中說明
-  const {
-    cart,
-    // items,
-    addItem,
-    removeItem,
-    // updateItem,
-    updateItemQty,
-    clearCart,
-    isInCart,
-    // increment,
-    // decrement,
-  } = useCart()
+  const { cart } = useCart()
 
   const [couponOptions, setCouponOptions] = useState(coupons)
   const [selectedCouponId, setSelectedCouponId] = useState(0)

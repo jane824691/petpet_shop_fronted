@@ -4,13 +4,13 @@ import { useRouter } from 'next/router'
 import { ONE_PRODUCT } from '@/components/my-const'
 import { useCart } from '@../../../components/hooks/use-cart-state'
 import toast, { Toaster } from 'react-hot-toast'
-import Link from 'next/link'
 import Breadcrumb from 'react-bootstrap/Breadcrumb';
-// import data from '@/data/Product.json'
+import { useHeaderAnimation } from '@/components/contexts/HeaderAnimationContext';
 
 export default function Detail() {
   const { addItem } = useCart()
-
+  const { setAddingProductAmount, addingCartAnimation } = useHeaderAnimation();
+  
   // 試帶商品QTY傳給Cart
   const [total, setTotal] = useState(1)
 
@@ -114,6 +114,8 @@ export default function Detail() {
                   price: myProduct.product_price,
                   img: myProduct.product_img,
                 })
+                setAddingProductAmount(total)
+                addingCartAnimation(true)
                 toast.success('成功加入購物車!')
               }}
             >
@@ -131,6 +133,8 @@ export default function Detail() {
                   price: myProduct.product_price,
                   img: myProduct.product_img,
                 })
+                setAddingProductAmount(total)
+                addingCartAnimation(true)
                 router.push('../cart/OrderSteps')
               }}
             >

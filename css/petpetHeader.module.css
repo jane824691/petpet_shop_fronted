@@ -1,169 +1,198 @@
-.header{
+.header {
 }
-.container{
-    display: flex;
-    background-color: #ffb44f;
-    justify-content: space-around;
-    align-items: center;
-    width: 100%;
-    height: 90px;
-    gap: 4vw;
-    flex-wrap: wrap
+.container {
+  display: flex;
+  background-color: #ffb44f;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+  height: 90px;
+  gap: 4vw;
+  flex-wrap: wrap;
 }
-.logoLink{
-    display: flex;
+.logoLink {
+  display: flex;
 }
-.headerLeft{
-    display: flex;
-    gap: 4px;
-    flex: 1;
+.headerLeft {
+  display: flex;
+  gap: 4px;
+  flex: 1;
 }
-.logoOut{
-    display: flex;
-    align-items: center;
+.logoOut {
+  display: flex;
+  align-items: center;
 }
-.brandName{
-    color: black;
-    font-size: 28px;
-    display: flex;
-    align-items: center;
-    text-align: center;
-    text-decoration: none;
+.brandName {
+  color: black;
+  font-size: 28px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  text-decoration: none;
 }
-.logoLink:hover{
-    text-decoration: none;
-}
-
-.headerMiddle{
-    display: flex;
-    align-items: center;
-    text-align: center;
-    gap: 4vw;
-}
-.headerMiddleItem{
-    color: black;
-    font-size: 28px;
-    text-decoration: none;
-}
-.headerMiddleItem:hover{
-    color: white;
-    border-bottom: 1px solid white;
-}
-.headerRight{
-    display: flex;
-    align-items: center;
-}
-.headerRightIcon{
-    padding: 0 10px;
-    color: white;
-}
-.headerRightAccount{
-    font-size: 20px;
-    color: white;
-}
-.headerRightIconLink{
-    color: white;
-    font-size: 22px;
+.logoLink:hover {
+  text-decoration: none;
 }
 
-.test{
-    background-color: #ffb44f;
-    color: white;
-    font-size: 30px;
+.headerMiddle {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  gap: 4vw;
+}
+.headerMiddleItem {
+  color: black;
+  font-size: 28px;
+  text-decoration: none;
+}
+.headerMiddleItem:hover {
+  color: white;
+  border-bottom: 1px solid white;
+}
+.headerRight {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+.totalQuantity {
+  background-color: white;
+  padding: 2px 10px;
+  border-radius: 50%;
+  color: #f8723f;
+  font-weight: 700;
+}
+.addingAmount {
+  position: absolute;
+  bottom: -10px;
+  left: 2px;
+  color: white;
+  opacity: 1;
+  animation: floatUp 1s ease-in forwards;
+}
+@keyframes floatUp {
+  0% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  50% {
+    transform: translateY(-14px);
+    opacity: 0.7;
+  }
+  100% {
+    transform: translateY(-22px);
+    opacity: 0;
+  }
+}
+.headerRightIcon {
+  padding: 0 10px;
+  color: white;
+}
+.headerRightAccount {
+  font-size: 20px;
+  color: white;
+}
+.headerRightIconLink {
+  color: white;
+  font-size: 22px;
+}
+
+.test {
+  background-color: #ffb44f;
+  color: white;
+  font-size: 30px;
 }
 
 /* Tablet and Smaller Desktop */
 @media (min-width: 901px) and (max-width: 1300px) {
-    .headerMiddleItem{
-        font-size: 22px;
-        gap: 10px;
-    }
-    .logo{
-        height: 60px;
-        width: 100%;
-    }
-    .brandName{
-        font-size: 22px;
-    }
+  .headerMiddleItem {
+    font-size: 22px;
+    gap: 10px;
+  }
+  .logo {
+    height: 60px;
+    width: 100%;
+  }
+  .brandName {
+    font-size: 22px;
+  }
 }
 
 /* Tablet and Smaller Desktop */
-@media screen and (max-width:960px) {
-
-    .headerMiddleItem{
-        font-size: 16px;
-        margin: 0 6px;
-    }
-    .logo{
-        height: 46px;
-        width: 100%;
-    }
-    .brandName{
-        font-size: 16px;
-    }
-    .headerRightIcon{
-        padding: 0 6px;
-    }
-    .headerRightAccount{
-        font-size: 16px;
-        padding-left: 4px;
-    }
-    .iconSmall {
-        font-size: 1.25rem !important; /* 覆蓋 fs-2 全域設定 */
-    }
+@media screen and (max-width: 960px) {
+  .headerMiddleItem {
+    font-size: 16px;
+    margin: 0 6px;
+  }
+  .logo {
+    height: 46px;
+    width: 100%;
+  }
+  .brandName {
+    font-size: 16px;
+  }
+  .headerRightIcon {
+    padding: 0 6px;
+  }
+  .headerRightAccount {
+    font-size: 16px;
+    padding-left: 4px;
+  }
+  .iconSmall {
+    font-size: 1.25rem !important; /* 覆蓋 fs-2 全域設定 */
+  }
 }
 
 /* Tablet and Smaller Desktop */
-@media screen and (max-width:760px) {
-    .container {
-        height: 62px;
-        gap: 2vw;
-        margin-bottom: 5vw;
-        .headerMiddle {
-            order: 2; /* 讓 headerMiddle 排在第二行 */
-            margin-top: 10px;
-            width: 100%;
-            justify-content: center;
-        }
-        .foodPart,
-        .outdoorPart,
-        .toyPart {
-            border-right: #e0e0e0 2px solid;
-            border-radius: 1%;
-        }
-        .foodPart{
-            color: #f8723f;
-            padding: 0 5vw 0 3vw;
-        }
-        .outdoorPart{
-            color: #90d2ce;
-            padding: 0 5vw 0 0;
-        }
-        .toyPart{
-            color: #f7bcc5;
-            padding: 0 5vw 0 0;
-        }
-        .livingPart{
-            color: #a4c6e9;
-        }
+@media screen and (max-width: 760px) {
+  .container {
+    height: 62px;
+    gap: 2vw;
+    margin-bottom: 5vw;
+    .headerMiddle {
+      order: 2; /* 讓 headerMiddle 排在第二行 */
+      margin-top: 10px;
+      width: 100%;
+      justify-content: center;
     }
+    .foodPart,
+    .outdoorPart,
+    .toyPart {
+      border-right: #e0e0e0 2px solid;
+      border-radius: 1%;
+    }
+    .foodPart {
+      color: #f8723f;
+      padding: 0 5vw 0 3vw;
+    }
+    .outdoorPart {
+      color: #90d2ce;
+      padding: 0 5vw 0 0;
+    }
+    .toyPart {
+      color: #f7bcc5;
+      padding: 0 5vw 0 0;
+    }
+    .livingPart {
+      color: #a4c6e9;
+    }
+  }
 }
-@media screen and (max-width:375px) {
-    .container{
-        justify-content: center;
-        .brandName{
-            font-size: 12px;
-        }
-        .headerMiddle{
-            gap: 0;
-        }
-        .foodPart,
-        .outdoorPart,
-        .toyPart {
-            padding: 0 4vw 0 0 !important;
-        }
-        .headerRightAccount{
-            display: none;
-        }
+@media screen and (max-width: 375px) {
+  .container {
+    justify-content: center;
+    .brandName {
+      font-size: 12px;
     }
+    .headerMiddle {
+      gap: 0;
+    }
+    .foodPart,
+    .outdoorPart,
+    .toyPart {
+      padding: 0 4vw 0 0 !important;
+    }
+    .headerRightAccount {
+      display: none;
+    }
+  }
 }

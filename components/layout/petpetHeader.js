@@ -4,9 +4,17 @@ import Link from 'next/link'
 import Dropdown from 'react-bootstrap/Dropdown'
 import AuthContext from '../contexts/AuthContext'
 import { useContext } from 'react'
+import { useCart } from '@/components/hooks/use-cart-state'
+import { useHeaderAnimation } from '@/components/contexts/HeaderAnimationContext';
 
 export default function PetpetHeader() {
   const { auther, logout } = useContext(AuthContext)
+  const { items } = useCart()
+  // TODO: adding fading animate add & minus button at cart page
+  const totalQuantity = items.reduce((sum, item) => sum + item.quantity, 0);
+
+  const { showAnimation, addingProductAmount } = useHeaderAnimation();
+
   return (
     <>
       <header className={styles.header}>
@@ -15,14 +23,14 @@ export default function PetpetHeader() {
           <Link href="/" className={styles.logoLink}>
             <div className={styles.headerLeft}>
               <div className={styles.logoOut}>
-                  <Image
-                    src="/logo.svg"
-                    alt="Vercel Logo"
-                    width={130}
-                    height={80}
-                    priority
-                    className={styles.logo}
-                  />
+                <Image
+                  src="/logo.svg"
+                  alt="Vercel Logo"
+                  width={130}
+                  height={80}
+                  priority
+                  className={styles.logo}
+                />
               </div>
               <div className={styles.brandName}>佩佩星球</div>
             </div>
@@ -32,22 +40,34 @@ export default function PetpetHeader() {
           {/* <!-- header中間 --> */}
           <div className={styles.headerMiddle}>
             <div>
-              <Link href="/product/list" className={`${styles.headerMiddleItem} ${styles.foodPart}`}>
+              <Link
+                href="/product/list"
+                className={`${styles.headerMiddleItem} ${styles.foodPart}`}
+              >
                 吃起來
               </Link>
             </div>
             <div>
-              <Link href="/product/list" className={`${styles.headerMiddleItem} ${styles.outdoorPart}`}>
+              <Link
+                href="/product/list"
+                className={`${styles.headerMiddleItem} ${styles.outdoorPart}`}
+              >
                 走起來
               </Link>
             </div>
             <div>
-              <Link href="/product/list" className={`${styles.headerMiddleItem} ${styles.toyPart}`}>
+              <Link
+                href="/product/list"
+                className={`${styles.headerMiddleItem} ${styles.toyPart}`}
+              >
                 玩起來
               </Link>
             </div>
             <div>
-              <Link href="/product/list" className={`${styles.headerMiddleItem} ${styles.livingPart}`}>
+              <Link
+                href="/product/list"
+                className={`${styles.headerMiddleItem} ${styles.livingPart}`}
+              >
                 住起來
               </Link>
             </div>
@@ -58,6 +78,10 @@ export default function PetpetHeader() {
           <div className={styles.headerRight}>
             {auther.account ? (
               <>
+                <div className={styles.totalQuantity}>{totalQuantity || 0}</div>
+                { showAnimation && (
+                  <div className={styles.addingAmount}>+{addingProductAmount}</div>
+                )}
                 <div className={styles.headerRightIcon}>
                   <Link
                     className={styles.headerRightIconLink}
@@ -101,7 +125,8 @@ export default function PetpetHeader() {
             ) : (
               <>
                 <div className={styles.headerRightIcon}>
-                  <Link className={styles.headerRightIconLink}
+                  <Link
+                    className={styles.headerRightIconLink}
                     style={{ color: 'white', textDecoration: 'none' }}
                     href="/member/login"
                   >

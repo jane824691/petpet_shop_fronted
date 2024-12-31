@@ -1,12 +1,13 @@
 import { useCart } from '@/components/hooks/use-cart-state'
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
+import { useHeaderAnimation } from '../contexts/HeaderAnimationContext'
 
 // 範例資料
 // type: 'amount'相減，'percent'折扣
 const coupons = [
   { id: 1, name: '折50元', value: 50, type: 'amount' },
-  { id: 2, name: '折80元', value: 80, type: 'amount' },
+  { id: 2, name: '折80元', value: 80, type: 'amount' }
 ]
 
 export default function CartList() {
@@ -16,6 +17,8 @@ export default function CartList() {
   const [couponOptions, setCouponOptions] = useState(coupons)
   const [selectedCouponId, setSelectedCouponId] = useState(0)
   const [netTotal, setNetTotal] = useState(0)
+
+  const { setAddingProductAmount, addingCartAnimation } = useHeaderAnimation();
 
   useEffect(() => {
     // 一開始沒套用折價券，netTotal和cart.totalPrice一樣
@@ -81,8 +84,10 @@ export default function CartList() {
                             img: '../../../image/product/d2a9f8e12b76b2aff433f62946427ab895c2de81.jpg',
                             quantity: 5,
                             name: 'tails&me 尾巴與我｜經典尼龍帶系列 雙色標準款多功能牽繩',
-                            price: 550,
+                            price: 550
                           })
+                          addingCartAnimation(true)
+                          setAddingProductAmount(5)
                         }}
                       >
                         *
@@ -152,6 +157,8 @@ export default function CartList() {
                                 className="btn btn-outline-secondary amount-btn-R"
                                 onClick={() => {
                                   increment(v.pid)
+                                  addingCartAnimation(true)
+                                  setAddingProductAmount(1)
                                 }}
                               >
                                 +
