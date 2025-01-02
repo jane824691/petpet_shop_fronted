@@ -10,6 +10,12 @@
   padding-bottom: 2.5rem;
 }
 
+.descriptionPart {
+  gap: 30px;
+  display: flex;
+  flex-direction: column;
+}
+
 .swiper {
   height: 120px;
   width: 100%;
@@ -172,4 +178,10 @@
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+@media screen and (max-width: 760px) {
+  .amount-form {
+    font-size: 16px;
+  }
 }/*# sourceMappingURL=product.css.map */

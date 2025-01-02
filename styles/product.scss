@@ -191,3 +191,9 @@ right: 0px;
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
+@media screen and (max-width: 760px) {
+  .amount-form{
+    font-size: 16px;
+  }
+}

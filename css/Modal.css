@@ -20,8 +20,11 @@
 }
 
 .modal-header-success {
-  color: rgba(72, 3, 142, 0.5); /* 成功時的背景顏色 */
+  display: flex;
+  flex-wrap: wrap;
+  color: #90D2CE; /* 成功時的背景顏色 */
   background-color: #DAECFF;
+  max-height: 100%;
 }
 
 .modal-header-failure {
@@ -30,7 +33,7 @@
 }
 
 .modal-body-success {
-  color: rgba(72, 3, 142, 0.5);
+  color: #90D2CE;
   background-color: #DAECFF;
   text-align: center;
 }

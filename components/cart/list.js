@@ -66,7 +66,7 @@ export default function CartList() {
           <div className="cart-area">
             <div className="card mb-3 border-0">
               <div className="row">
-                <div className="col-md-2">
+                <div className="col-sm-3">
                   <div className="d-flex">
                     {/* <input
                       className="form-check-input cart-select-all"
@@ -74,7 +74,7 @@ export default function CartList() {
                       defaultValue=""
                       id="SelectAll"
                     /> */}
-                    <div className="btn-group-vertical d-flex cart-select-all">
+                    <div className="btn-group-vertical d-flex cart-select-all flex-fill">
                       <button
                         style={{ border: 'none' }}
                         className="btn btn-outline-secondary d-flex"
@@ -93,18 +93,18 @@ export default function CartList() {
                         *
                       </button>
                     </div>
-                    <div className="card-big-title w-120-120 text-end d-flex">
+                    <div className="card-big-title w-120-120 text-center d-flex">
                       購物車{' '}
                     </div>
                   </div>
                 </div>
-                <div className="col-md-10">
+                <div className="col-sm-9">
                   <h5 className="card-body to-middle-title row">
                     <div className="col-5 text-center">品名</div>
-                    <div className="col-2 text-end">數量</div>
+                    <div className="col-2 text-center">數量</div>
                     <div className="col-2 text-end">價格</div>
                     <div className="col-2 text-end">小計</div>
-                    <div className="col-1 text-end">刪除</div>
+                    <div className="col-1 text-center">刪</div>
                   </h5>
                 </div>
               </div>
@@ -128,9 +128,9 @@ export default function CartList() {
                         className="img-thumbnail"
                       />
                     </div>
-                    <div className="col-md-9">
+                    <div className="col-sm-9">
                       <div className="card-body to-middle ">
-                        <h5 className="card-title card-text align-items-center row">
+                        <h5 className="card-title card-text align-items-center row product-desc">
                           <div className="col-5">
                             <Link className="a-link" href={`/product/${v.pid}`}>
                               {v.name}
@@ -222,7 +222,7 @@ export default function CartList() {
 
               <h4 className="card-text d-flex justify-content-between align-items-center mt-3">
                 總計{' '}
-                <span className="dollar" style={{ fontSize: '24px' }}>
+                <span className="dollar">
                   <span>NT$</span> {netTotal}
                 </span>
               </h4>

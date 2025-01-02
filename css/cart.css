@@ -72,12 +72,6 @@
   -moz-appearance: textfield;
 }
 
-.amount-form {
-  width: 100px;
-  height: 2.75rem;
-  font-size: 20px;
-}
-
 .amount-btn-group {
   position: relative;
 }
@@ -108,17 +102,15 @@
 }
 
 .cart-select-all {
-  width: 40px;
-  height: 40px;
-  margin: 25px;
+  width: 20px;
+  height: 20px;
+  margin: 25px 0;
 }
 
 .cart-select {
   width: 25px;
   height: 25px;
-  margin-left: 25px;
-  margin-right: 25px;
-  margin-top: 45px;
+  margin: 45px 25px 0;
 }
 
 h5 {
@@ -151,15 +143,11 @@ h5 {
 
 .total-card {
   background-color: #FFB44F;
-  padding-left: 6.25rem;
-  padding-right: 6.25rem;
-  padding-top: 2.5rem;
-  padding-bottom: 2.5rem;
+  padding: 2.5rem 6.25rem;
 }
 
 .only-cart-padding {
-  padding-left: 130px;
-  padding-right: 130px;
+  padding: 0 5%;
 }
 
 /* 表單設置被選擇的細項 */
@@ -262,4 +250,38 @@ option {
   border-top: none;
   padding-bottom: 1rem;
   border-radius: 0;
+}
+
+.btnPart {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 10vh;
+  justify-content: center;
+  gap: 5%;
+}
+
+.stepBtn {
+  width: 15%;
+}
+
+@media screen and (max-width: 760px) {
+  .only-cart-padding {
+    padding: 0 0;
+  }
+  .list-form {
+    font-size: 12px;
+  }
+  .middle, .underline-w, .product-desc {
+    font-size: 16px;
+  }
+  .card-big-title, .to-middle-title {
+    font-size: 18px;
+  }
+  .font-grey-title {
+    font-size: 14px;
+  }
+  .total-card {
+    padding: 2.5rem;
+  }
 }/*# sourceMappingURL=cart.css.map */
