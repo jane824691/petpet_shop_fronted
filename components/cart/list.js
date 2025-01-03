@@ -1,7 +1,8 @@
 import { useCart } from '@/components/hooks/use-cart-state'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 import Link from 'next/link'
 import { useHeaderAnimation } from '../contexts/HeaderAnimationContext'
+import { debounce } from 'lodash'
 
 // 範例資料
 // type: 'amount'相減，'percent'折扣
@@ -19,6 +20,20 @@ export default function CartList() {
   const [netTotal, setNetTotal] = useState(0)
 
   const { setAddingProductAmount, addingCartAnimation } = useHeaderAnimation();
+
+  //TODO: need to optimize debounced
+  const debouncedAddAmount = useCallback(
+    debounce(
+      (clickedProduct) => {
+        increment(clickedProduct)
+        addingCartAnimation(true) // control whether isAnimate
+        setAddingProductAmount(1) // props adding product amount
+      },
+      1000,
+      { leading: true, trailing: false } // 確保第一個點擊即刻執行
+    ),
+    [increment]
+  )
 
   useEffect(() => {
     // 一開始沒套用折價券，netTotal和cart.totalPrice一樣
@@ -156,9 +171,7 @@ export default function CartList() {
                                 type="button"
                                 className="btn btn-outline-secondary amount-btn-R"
                                 onClick={() => {
-                                  increment(v.pid)
-                                  addingCartAnimation(true)
-                                  setAddingProductAmount(1)
+                                  debouncedAddAmount(v.pid)
                                 }}
                               >
                                 +
