@@ -113,7 +113,7 @@ export default function Coupon() {
                       margin: '5px',
                     }}
                   >
-                    {coupon.discount_type}
+                    折價{coupon.discount_type}
                   </span>
                   <span
                     style={{
@@ -158,7 +158,9 @@ export default function Coupon() {
                         width: '50px',
                       }}
                     >
-                      {coupon.coupon_status}
+                      {coupon.coupon_status === 0 && '未使用'}
+                      {coupon.coupon_status === 1 && '已使用'}
+                      {coupon.coupon_status === 2 && '已逾期'}
                     </div>
                   </span>
                 </div>

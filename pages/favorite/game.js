@@ -60,7 +60,7 @@ export default function Game() {
     hash: hashTypes(),
     discount_type: randomdiscount_type(),
     expiry_date: dayjs().add(30, 'day').format('YYYY-MM-DD'), //這欄位會與當前時間比對，大於才會變色
-    coupon_status: '可使用',
+    coupon_status: 0,
   })
 
   //比對優惠券過期時間
@@ -70,7 +70,7 @@ export default function Game() {
     if (today.isAfter(expiry)) {
       setCoupondata((prevCouponData) => ({
         ...prevCouponData,
-        coupon_status: '已使用',
+        coupon_status: 1,
       }))
     }
   }, [coupondata.expiry_date])
