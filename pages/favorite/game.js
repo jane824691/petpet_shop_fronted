@@ -50,15 +50,15 @@ export default function Game() {
     return hash
   }
   //隨機優惠折扣
-  const randomdiscount_type = () => {
-    const discountTypes = ['折價30元', '折價50元']
+  const randomdiscount_coins = () => {
+    const discountTypes = [30, 50]
     const randomIndex = Math.floor(Math.random() * discountTypes.length)
     return discountTypes[randomIndex]
   }
   //優惠券
   const [coupondata, setCoupondata] = useState({
     hash: hashTypes(),
-    discount_type: randomdiscount_type(),
+    discount_coins: randomdiscount_coins(),
     expiry_date: dayjs().add(30, 'day').format('YYYY-MM-DD'), //這欄位會與當前時間比對，大於才會變色
     coupon_status: 0,
   })
@@ -95,7 +95,7 @@ export default function Game() {
 
       const requestData = {
         hash: coupondata.hash,
-        discount_type: coupondata.discount_type,
+        discount_coins: coupondata.discount_coins,
         expiry_date: coupondata.expiry_date,
         coupon_status: coupondata.coupon_status,
       }

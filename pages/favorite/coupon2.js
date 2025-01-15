@@ -113,7 +113,7 @@ export default function Coupon() {
                       margin: '5px',
                     }}
                   >
-                    折價{coupon.discount_type}
+                    折價{' '}{coupon.discount_coins}{' '}元
                   </span>
                   <span
                     style={{
@@ -123,7 +123,7 @@ export default function Coupon() {
                       margin: '5px',
                     }}
                   >
-                    {/* {dayjs(coupon.created_at2).format('YYYY-MM-DD')} */}
+                    {/* {dayjs(coupon.created_at).format('YYYY-MM-DD')} */}
                     {dayjs(coupon.created_at3).format('YYYY-MM-DD HH:mm:ss')}
                     {/* 當下時間{dayjs().format('YYYY-MM-DD HH:mm:ss')} */}
                   </span>
