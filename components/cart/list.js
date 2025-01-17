@@ -3,23 +3,16 @@ import { useEffect, useState, useCallback } from 'react'
 import Link from 'next/link'
 import { useHeaderAnimation } from '../contexts/HeaderAnimationContext'
 import { debounce } from 'lodash'
-
-// 範例資料
-// type: 'amount'相減，'percent'折扣
-const coupons = [
-  { id: 1, name: '折50元', value: 50, type: 'amount' },
-  { id: 2, name: '折80元', value: 80, type: 'amount' }
-]
+import { GET_COUPON_DATA } from '@/components/my-const'
+import { useRouter } from 'next/router'
 
 export default function CartList() {
   // 使用hooks 解出所需的狀態與函式(自context)
   const { cart, items, addItem, decrement, increment, removeItem } = useCart()
-
-  const [couponOptions, setCouponOptions] = useState(coupons)
   const [selectedCouponId, setSelectedCouponId] = useState(0)
   const [netTotal, setNetTotal] = useState(0)
-
-  const { setAddingProductAmount, addingCartAnimation } = useHeaderAnimation();
+  const [couponData, setCouponData] = useState([])
+  const { setAddingProductAmount, addingCartAnimation } = useHeaderAnimation()
 
   //TODO: need to optimize debounced
   const debouncedAddAmount = useCallback(
@@ -34,6 +27,32 @@ export default function CartList() {
     ),
     [increment]
   )
+  const router = useRouter()
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const sid = JSON.parse(localStorage.getItem('auther')).sid
+      try {
+        const response = await fetch(GET_COUPON_DATA, {
+          body: JSON.stringify({ sid: sid }),
+          headers: {
+            'content-type': 'application/json',
+          },
+          method: 'POST',
+        })
+        const couponData = await response.json()
+        const availableCoupons = couponData.filter(
+          (couponData) => couponData.coupon_status === 0
+        ) // coupon_status: 0 = init, 1 = used, 2 = expired
+
+        setCouponData(availableCoupons) // 更新有效優惠券
+      } catch (error) {
+        // console.error('Error fetching mydata:', error)
+      }
+    }
+
+    fetchData()
+  }, [router.query.sid])
 
   useEffect(() => {
     // 一開始沒套用折價券，netTotal和cart.totalPrice一樣
@@ -42,17 +61,17 @@ export default function CartList() {
       return
     }
 
-    const coupon = couponOptions.find((v) => v.id === selectedCouponId)
+    const coupon = couponData.find((v) => v.coupon_id === selectedCouponId)
 
-    // type: 'amount'相減，'percent'折扣
+    // type: 'discount'相減
     const newNetTotal =
-      coupon.type === 'amount'
-        ? cart.totalPrice - coupon.value
-        : Math.round(cart.totalPrice * (1 - coupon.value))
-
-    setNetTotal(newNetTotal)
+      coupon.coupon_type === 'discount'
+        ? cart.totalPrice - coupon.discount_coins
+        : Math.round(cart.totalPrice * (1 - coupon.discount_coins))
+    setNetTotal(Number(cart.totalPrice) > 30 ? newNetTotal : 0)
   }, [cart.totalPrice, selectedCouponId])
 
+  
   // 修正 Next hydration 問題
   // https://stackoverflow.com/questions/72673362/error-text-content-does-not-match-server-rendered-html
   const [hydrated, setHydrated] = useState(false)
@@ -99,7 +118,7 @@ export default function CartList() {
                             img: '../../../image/product/d2a9f8e12b76b2aff433f62946427ab895c2de81.jpg',
                             quantity: 5,
                             name: 'tails&me 尾巴與我｜經典尼龍帶系列 雙色標準款多功能牽繩',
-                            price: 550
+                            price: 550,
                           })
                           addingCartAnimation(true)
                           setAddingProductAmount(5)
@@ -201,7 +220,7 @@ export default function CartList() {
 
             <div className="card total-card border-0 mt-5">
               <h4 className="mb-3 underline-w">摘要</h4>
-              {/* <div className="d-flex justify-content-between align-items-center underline-w">
+              <div className="d-flex justify-content-between align-items-center underline-w">
                 <h5>折價券</h5>
                 <div>
                   <select
@@ -212,16 +231,16 @@ export default function CartList() {
                     }}
                   >
                     <option value="0">選擇折價券</option>
-                    {couponOptions.map((v) => {
+                    {couponData.map((v) => {
                       return (
-                        <option key={v.id} value={v.id}>
-                          {v.name}
+                        <option key={v.coupon_id} value={v.coupon_id}>
+                          折價{v.discount_coins}元
                         </option>
                       )
                     })}
                   </select>
                 </div>
-              </div> */}
+              </div>
 
               <h5 className="card-text d-flex justify-content-between align-items-center underline-w mt-3">
                 處理費/郵資 <span>NT$ 30</span>
