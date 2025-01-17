@@ -6,7 +6,9 @@ import { debounce } from 'lodash'
 import { GET_COUPON_DATA } from '@/components/my-const'
 import { useRouter } from 'next/router'
 
-export default function CartList() {
+export default function CartList(props) {
+  const { paymentData, setPaymentData } = props
+
   // 使用hooks 解出所需的狀態與函式(自context)
   const { cart, items, addItem, decrement, increment, removeItem } = useCart()
   const [selectedCouponId, setSelectedCouponId] = useState(0)
@@ -69,9 +71,15 @@ export default function CartList() {
         ? cart.totalPrice - coupon.discount_coins
         : Math.round(cart.totalPrice * (1 - coupon.discount_coins))
     setNetTotal(Number(cart.totalPrice) > 30 ? newNetTotal : 0)
-  }, [cart.totalPrice, selectedCouponId])
 
+    setPaymentData({
+      ...paymentData,
+      coupon_id: selectedCouponId,
+      discount_coins: coupon.discount_coins,
+    })
+  }, [cart.totalPrice, selectedCouponId])
   
+
   // 修正 Next hydration 問題
   // https://stackoverflow.com/questions/72673362/error-text-content-does-not-match-server-rendered-html
   const [hydrated, setHydrated] = useState(false)

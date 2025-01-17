@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react'
+import { useState } from 'react'
 import TWZipCode from '@/components/tw-zipcode'
 
 export default function Payment(props) {

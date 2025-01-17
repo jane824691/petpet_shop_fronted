@@ -34,6 +34,8 @@ function OrderSteps() {
     pid: '',
     sale_price: '',
     actual_amount: '',
+    coupon_id: '',
+    discount_coins: '',
   })
 
   const [netTotal, setNetTotal] = useState(0)
@@ -46,12 +48,10 @@ function OrderSteps() {
         // 檢查 localStorage 中是否存在 'auther'，以及 'auther' 是否有有效的 sid
         const authDataString = localStorage.getItem('auther')
         if (!authDataString) {
-          // console.log('No "auther" data found.')
           return
         }
         const authData = JSON.parse(authDataString)
         if (!authData || !authData.sid) {
-          // console.log('No valid "auther" data found.')
           return
         }
         const sid = authData.sid
