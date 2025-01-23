@@ -6,7 +6,6 @@ import Payment from './sub-pages/Payment'
 import OrderDetail from './sub-pages/OrderDetail'
 import toast, { Toaster } from 'react-hot-toast'
 import { ORDER_LIST_ADD } from '@/components/my-const'
-import { GET_MEMBER_DATA } from '@/components/my-const'
 import { useCart } from '@/components/hooks/use-cart-state'
 import { totalPrice } from '@/components/hooks/cart-reducer-state'
 
@@ -21,7 +20,7 @@ function OrderSteps() {
   const [step, setStep] = useState(1)
 
   // radio狀態都集中在這裡接收
-  const [selectedProducts, setSelectedProducts] = useState({})
+  const [confirmedProductsInfo, setConfirmedProductsInfo] = useState({})
 
   const [paymentData, setPaymentData] = useState({
     sid: '',
@@ -70,7 +69,7 @@ function OrderSteps() {
   const BlockComponent = components[step - 1]
 
   // 進度條使用
-  const progressNames = ['購物車', '付款', '明細']
+  const progressNames = ['購物車', '付款', '明細'] // Cart, Payment, OrderDetail
 
   // 上一步 下一步按鈕
   const next = () => {
@@ -125,16 +124,16 @@ function OrderSteps() {
     if (step === 1) router.push('../../product')
   }
 
+  // 準備發api打回後端, 建立訂單
   const requestData = {
     ...paymentData,
     sid: sid,
-    netTotal: netTotal,
-    pid: selectedProducts.pid ? selectedProducts.pid : '',
-    sale_price: selectedProducts.sale_price ? selectedProducts.sale_price : '',
-    actual_amount: selectedProducts.actual_amount
-      ? selectedProducts.actual_amount
+    pid: confirmedProductsInfo.pid
+      ? confirmedProductsInfo.pid.map((item) => Number(item)) // 確保陣列的內容皆為數字而非字串
+      : [],
+    actual_amount: confirmedProductsInfo.actual_amount
+      ? confirmedProductsInfo.actual_amount
       : '',
-    email: paymentData.email,
   }
 
   const onSubmit = async () => {
@@ -166,9 +165,8 @@ function OrderSteps() {
           setPaymentData={setPaymentData}
           netTotal={netTotal}
           setNetTotal={setNetTotal}
-          selectedProducts={selectedProducts}
-          setSelectedProducts={setSelectedProducts}
-          //pid={pid}
+          confirmedProductsInfo={confirmedProductsInfo}
+          setConfirmedProductsInfo={setConfirmedProductsInfo}
         />
       </div>
 

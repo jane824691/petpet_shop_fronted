@@ -6,7 +6,7 @@ export default function OrderDetail({
   paymentData,
   netTotal,
   setNetTotal,
-  setSelectedProducts,
+  setConfirmedProductsInfo,
 }) {
   // 使用hooks 解出所需的狀態與函式(自context)
   const { cart, items } = useCart()
@@ -14,13 +14,13 @@ export default function OrderDetail({
   // 確認出正確後端可接收到的格式才考慮怎麼包陣列還物件, 帶出商品資訊
   useEffect(() => {
     if (items.length > 0) {
-      const selectedProducts = {
+      const confirmedProductsInfo = {
         pid: items.map((item) => item.pid),
         sale_price: items.map((item) => item.price),
         actual_amount: items.map((item) => item.quantity),
       }
 
-      setSelectedProducts(selectedProducts)
+      setConfirmedProductsInfo(confirmedProductsInfo)
     }
   }, [items])
 
@@ -110,7 +110,7 @@ export default function OrderDetail({
                       <div className="col-3 text-end">
                         <div>
                           <span>NT$</span>
-                          <span>{paymentData.discount_coins}</span>
+                          <span>{paymentData.discount_coins || 0}</span>
                         </div>
                       </div>
                     </div>
