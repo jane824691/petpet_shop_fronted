@@ -514,7 +514,7 @@ export default function Game() {
               setShowModal(false)
               modalShow()
               setTimeout(() => {
-                router.push('/favorite/coupon2')
+                router.push('/favorite/coupon')
               }, 1000)
             }}
             className="pro-shadow" //profile.scss的屬性

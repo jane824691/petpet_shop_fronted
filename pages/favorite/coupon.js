@@ -3,6 +3,7 @@ import dayjs from 'dayjs'
 import { useRouter } from 'next/router'
 import { BsHighlighter } from 'react-icons/bs'
 import { GET_COUPON_DATA } from '@/components/my-const'
+import style from '@/css/coupon.module.css'
 
 //表格來源:(MFEE43-next)前端address資料夾底下的index.js
 export default function Coupon() {
@@ -32,7 +33,53 @@ export default function Coupon() {
   }, [router.query.sid])
   return (
     <>
-      <div>
+      <div className={style.container}>
+        <h3 className="py-5">優惠券管理</h3>
+        <div className={`row w-75 mb-3 ${style.title}`}>
+          <div class="col ms-4">優惠券編號</div>
+          <div class="col">折價券種類</div>
+          <div class="col-2 ">創建日期</div>
+          <div class="col">折價券到期日</div>
+          <div class="col">折價券狀態</div>
+        </div>
+
+        {/* 其他元素 */}
+        {/* 使用 map 改成 div */}
+        {/* Array處理異步[]沒抓到值的狀況 */}
+        {Array.isArray(mydata) &&
+          mydata.map((coupon) => (
+            <div
+              key={coupon.coupon_id}
+              className={`row w-75 ${style.eachCoupon} ${
+                coupon.coupon_status === 0 ? style.isValidBg : ''
+              }`}
+            >
+              <span className="col ps-5">{coupon.hash}</span>
+              <span className="col">折價 {coupon.discount_coins} 元</span>
+              <span className="col-2">
+                {/* {dayjs(coupon.created_at).format('YYYY-MM-DD')} */}
+                {dayjs(coupon.created_at3).format('YYYY-MM-DD HH:mm:ss')}
+                {/* 當下時間{dayjs().format('YYYY-MM-DD HH:mm:ss')} */}
+              </span>
+              <span className="col">
+                {dayjs(coupon.expiry_date).add(15, 'day').format('YYYY-MM-DD')}
+              </span>
+              <span className={`col `}>
+                <span
+                  className={`col ${style.state} ${
+                    coupon.coupon_status === 0 ? style.isValidText : ''
+                  }`}
+                >
+                  {coupon.coupon_status === 0 && '未使用'}
+                  {coupon.coupon_status === 1 && '已使用'}
+                  {coupon.coupon_status === 2 && '已逾期'}
+                </span>
+              </span>
+            </div>
+          ))}
+      </div>
+
+      {/* <div>
         <h3 style={{ marginBottom: '50px' }}>優惠券管理</h3>
         <div
           className="row"
@@ -45,7 +92,6 @@ export default function Coupon() {
           }}
         >
           <span style={{ display: 'flex', alignItems: 'center', flex: 1 }}>
-            {/* <BsHighlighter /> */}
           </span>
           <span style={{ display: 'flex', alignItems: 'center', flex: 1 }}>
             優惠券編號
@@ -64,9 +110,6 @@ export default function Coupon() {
           </span>
         </div>
 
-        {/* 其他元素 */}
-        {/* 使用 map 改成 div */}
-        {/* Array處理異步[]沒抓到值的狀況 */}
         <div style={{ marginBottom: '80px' }}>
           {Array.isArray(mydata) &&
             mydata.map((coupon) => (
@@ -123,9 +166,7 @@ export default function Coupon() {
                       margin: '5px',
                     }}
                   >
-                    {/* {dayjs(coupon.created_at).format('YYYY-MM-DD')} */}
                     {dayjs(coupon.created_at3).format('YYYY-MM-DD HH:mm:ss')}
-                    {/* 當下時間{dayjs().format('YYYY-MM-DD HH:mm:ss')} */}
                   </span>
                   <span
                     style={{
@@ -167,7 +208,7 @@ export default function Coupon() {
               </div>
             ))}
         </div>
-      </div>
+      </div> */}
     </>
   )
 }

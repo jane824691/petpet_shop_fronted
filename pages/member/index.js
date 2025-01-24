@@ -140,7 +140,7 @@ export default function Profile() {
               <br></br>
               <div className={styles.icon}>
                 <BsFillTicketDetailedFill className={styles.iconSick} />
-                <Link className={styles.iconLink} href="favorite/coupon2">
+                <Link className={styles.iconLink} href="favorite/coupon">
                   {' '}
                   優惠券管理
                 </Link>
@@ -156,7 +156,7 @@ export default function Profile() {
                 <BsFillTrophyFill className={styles.iconSick} />
                 <Link className={styles.iconLink} href="favorite/game">
                   {' '}
-                  簽到任務
+                  取得優惠券
                 </Link>
               </div>
             </div>

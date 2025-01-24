@@ -5429,7 +5429,7 @@ textarea.form-control-lg {
   --bs-modal-zindex: 1055;
   --bs-modal-width: 500px;
   --bs-modal-padding: 1rem;
-  --bs-modal-margin: 0.5rem;
+  --bs-modal-margin: 13rem;
   --bs-modal-color: ;
   --bs-modal-bg: var(--bs-body-bg);
   --bs-modal-border-color: var(--bs-border-color-translucent);
@@ -5574,7 +5574,7 @@ textarea.form-control-lg {
 
 @media (min-width: 576px) {
   .modal {
-    --bs-modal-margin: 1.75rem;
+    --bs-modal-margin: 13rem;
     --bs-modal-box-shadow: var(--bs-box-shadow);
   }
   .modal-dialog {
