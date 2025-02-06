@@ -5,6 +5,7 @@ import { useHeaderAnimation } from '../contexts/HeaderAnimationContext'
 import { debounce } from 'lodash'
 import { GET_COUPON_DATA } from '@/components/my-const'
 import { useRouter } from 'next/router'
+import dayjs from 'dayjs'
 
 export default function CartList(props) {
   const { paymentData, setPaymentData } = props
@@ -78,7 +79,6 @@ export default function CartList(props) {
       discount_coins: coupon.discount_coins,
     })
   }, [cart.totalPrice, selectedCouponId])
-  
 
   // 修正 Next hydration 問題
   // https://stackoverflow.com/questions/72673362/error-text-content-does-not-match-server-rendered-html
@@ -239,10 +239,24 @@ export default function CartList(props) {
                     }}
                   >
                     <option value="0">選擇折價券</option>
+                    {/* 因option只接受純文字, 更複雜樣式建議改div + onClick 自訂下拉選單, 
+                    可接受div加入html標籤dangerouslySetInnerHTML={{__html: '<span style="color: red;">紅色字</span> 文字'}} */}
+                    {/* option title={} 滑鼠有懸浮註解 */}
                     {couponData.map((v) => {
                       return (
-                        <option key={v.coupon_id} value={v.coupon_id}>
-                          折價{v.discount_coins}元
+                        <option
+                          key={v.coupon_id}
+                          value={v.coupon_id}
+                          title={`有效期至 ${dayjs(v.expiry_date)
+                            .add(15, 'day')
+                            .format('YYYY-MM-DD')}`}
+                        >
+                          【
+                          {dayjs(v.expiry_date)
+                            .add(15, 'day')
+                            .format('YYYY-MM-DD')}
+                          】 折價{v.discount_coins}元
+                          {/* {dayjs(v.expiry_date).add(15, 'day').format('YYYY-MM-DD')} */}
                         </option>
                       )
                     })}
