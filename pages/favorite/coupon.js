@@ -31,6 +31,12 @@ export default function Coupon() {
 
     fetchData()
   }, [router.query.sid])
+
+  const statusStyles = {
+    0: style.isValidText,
+    2: style.isExpired,
+  }
+
   return (
     <>
       <div className={style.container}>
@@ -67,7 +73,7 @@ export default function Coupon() {
               <span className={`col `}>
                 <span
                   className={`col ${style.state} ${
-                    coupon.coupon_status === 0 ? style.isValidText : ''
+                    statusStyles[coupon.coupon_status] || ''
                   }`}
                 >
                   {coupon.coupon_status === 0 && '未使用'}

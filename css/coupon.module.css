@@ -20,12 +20,15 @@
     background-color: #D2F9CF;
 }
 .state{
-    background-color: #F8723F;
+    background-color: #FFB44F;
     color: #FFFFFF;
     padding: 8px 12px;
     border-radius: 6px;
 }
 .isValidText{
     background-color: #90D2CE;
-    color: #FFFFFF;
+}
+
+.isExpired{
+    background-color: #f7bcc5;
 }
