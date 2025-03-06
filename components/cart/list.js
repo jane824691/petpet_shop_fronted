@@ -107,7 +107,7 @@ export default function CartList(props) {
         <div className="row list-form">
           <div className="cart-area">
             <div className="card mb-3 border-0">
-              <div className="row">
+              <div className="row hide-on-mobile">
                 <div className="col-sm-3">
                   <div className="d-flex">
                     {/* <input
@@ -170,16 +170,43 @@ export default function CartList(props) {
                         className="img-thumbnail"
                       />
                     </div>
-                    <div className="col-sm-9">
+                    <div className="col-9">
                       <div className="card-body to-middle ">
                         <h5 className="card-title card-text align-items-center row product-desc">
-                          <div className="col-5">
+                          <div className="col-xl-5">
                             <Link className="a-link" href={`/product/${v.pid}`}>
                               {v.name}
                             </Link>
                           </div>
 
-                          <div className="col-2">
+                          {/* <div className="col-xl-2">
+                            <div className="d-flex amount-btn-group">
+                              <button
+                                type="button"
+                                className="btn btn-outline-secondary amount-btn-L"
+                                onClick={() => {
+                                  decrement(v.pid)
+                                }}
+                              >
+                                -
+                              </button>
+                              <div className="form-control rounded-2 text-center amount-form">
+                                {v.quantity}
+                              </div>
+
+                              <button
+                                type="button"
+                                className="btn btn-outline-secondary amount-btn-R"
+                                onClick={() => {
+                                  debouncedAddAmount(v.pid)
+                                }}
+                              >
+                                +
+                              </button>
+                            </div>
+                          </div> */}
+
+                          <div className="col-xl-2">
                             <div className="d-flex amount-btn-group">
                               <button
                                 type="button"
@@ -205,9 +232,10 @@ export default function CartList(props) {
                               </button>
                             </div>
                           </div>
-                          <div className="col-2 text-end">{v.price}</div>
-                          <div className="col-2 text-end">{v.subtotal}</div>
-                          <div className="col-1 text-center">
+
+                          <div className="col-xl-2 text-end">{v.price}</div>
+                          <div className="col-2 text-end hide-on-mobile">{v.subtotal}</div>
+                          <div className="col-xl-1 text-center">
                             <button
                               type="button"
                               className="btn btn-outline-success amount-btn btn-X"

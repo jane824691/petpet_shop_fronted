@@ -75,6 +75,13 @@
 
 .amount-btn-group{
   position: relative;
+  width: auto;
+
+}
+.amount-btn-L,
+.amount-btn-R {
+  content: '';
+  position: absolute;
 }
 
 .amount-btn-L{
@@ -82,7 +89,6 @@
   height: 100%;
   border: radius 100%;
   border: none;
-  position: absolute;
   left: 0px;
 }
 
@@ -91,7 +97,6 @@
   height: 100%;
   border: radius 100%;
   border: none;
-  position: absolute;
   right: 0px;
 }
 
@@ -285,5 +290,11 @@ option{
   }
   .total-card{
   padding: 2.5rem;
+  }
+  .hide-on-mobile, .cart-select{
+    display: none;
+  }
+  .product-desc{
+    flex-direction: column;
   }
 }
