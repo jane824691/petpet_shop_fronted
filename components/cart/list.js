@@ -101,6 +101,7 @@ export default function CartList(props) {
             src="/images/product/paying_procedure_pic.png"
             alt=""
             style={{ paddingTop: '2.5rem' }}
+            className="img-fluid"
           />
         </div>
 
