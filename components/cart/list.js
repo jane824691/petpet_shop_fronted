@@ -101,6 +101,7 @@ export default function CartList(props) {
             src="/images/product/paying_procedure_pic.png"
             alt=""
             style={{ paddingTop: '2.5rem' }}
+            className="img-fluid"
           />
         </div>
 
@@ -110,12 +111,6 @@ export default function CartList(props) {
               <div className="row">
                 <div className="col-sm-3">
                   <div className="d-flex">
-                    {/* <input
-                      className="form-check-input cart-select-all"
-                      type="checkbox"
-                      defaultValue=""
-                      id="SelectAll"
-                    /> */}
                     <div className="btn-group-vertical d-flex cart-select-all flex-fill">
                       <button
                         style={{ border: 'none' }}
@@ -142,11 +137,11 @@ export default function CartList(props) {
                 </div>
                 <div className="col-sm-9">
                   <h5 className="card-body to-middle-title row">
-                    <div className="col-5 text-center">品名</div>
-                    <div className="col-2 text-center">數量</div>
-                    <div className="col-2 text-end">價格</div>
-                    <div className="col-2 text-end">小計</div>
-                    <div className="col-1 text-center">刪</div>
+                  <div className="col-lg-5 col-5 text-center">品名</div>
+                    <div className="col-lg-2 col-3 text-center">數量</div>
+                    <div className="col-lg-2 col-2 text-end">價格</div>
+                    <div className="col-lg-2 text-end d-none d-lg-block">小計</div>
+                    <div className="col-lg-1 col-1 text-center">刪</div>
                   </h5>
                 </div>
               </div>
@@ -156,30 +151,24 @@ export default function CartList(props) {
             {items.map((v, i) => {
               return (
                 <div className="card mb-3 underline" key={v.pid}>
-                  <div className="row g-0">
-                    <div className="col-3">
-                      <input
-                        className="form-check-input cart-select"
-                        type="checkbox"
-                        defaultValue=""
-                        id=""
-                      />
+                  <div className="row g-3">
+                    <div className="col-3 d-flex justify-content-center align-items-center">
                       <img
                         src={`../../../image/product/${v.img}`}
                         alt="name of product"
-                        className="img-thumbnail"
+                        className="img-thumbnail mx-auto d-block"
                       />
                     </div>
-                    <div className="col-sm-9">
-                      <div className="card-body to-middle ">
-                        <h5 className="card-title card-text align-items-center row product-desc">
-                          <div className="col-5">
+                    <div className="col-9 ">
+                      <div className="card-body to-middle" style={{padding: '0'}}>
+                        <h5 className="card-title card-text align-items-center row product-desc g-3">
+                          <div className="col-lg-5 col-sm-5 col-10">
                             <Link className="a-link" href={`/product/${v.pid}`}>
                               {v.name}
                             </Link>
                           </div>
 
-                          <div className="col-2">
+                          <div className="col-lg-2 col-sm-3 col-6">
                             <div className="d-flex amount-btn-group">
                               <button
                                 type="button"
@@ -205,9 +194,9 @@ export default function CartList(props) {
                               </button>
                             </div>
                           </div>
-                          <div className="col-2 text-end">{v.price}</div>
-                          <div className="col-2 text-end">{v.subtotal}</div>
-                          <div className="col-1 text-center">
+                          <div className="col-lg-2 col-sm-2 col-4 text-end"><span className="d-inline d-lg-none">NT.</span>{v.price}</div>
+                          <div className="col-lg-2 text-end d-none d-lg-block">{v.subtotal}</div>
+                          <div className="col-lg-1 col-sm-1 col-2 text-center">
                             <button
                               type="button"
                               className="btn btn-outline-success amount-btn btn-X"
