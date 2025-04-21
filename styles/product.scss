@@ -182,17 +182,34 @@ right: 0px;
   }
 }
 
-.cardTitle{
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  height: 50px;
-  -webkit-box-orient: vertical;  
-  overflow: hidden;
-  text-overflow: ellipsis;
+.with-space{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  .cardTitle{
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    min-height: 3.2em;
+    -webkit-box-orient: vertical;  
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 }
 
 @media screen and (max-width: 760px) {
   .amount-form{
     font-size: 16px;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .cardTitle{
+    font-size: 14px;
+    min-height: 2.8em;
+    margin-bottom: 8px;
+    height: auto;
+  }
+  .with-space{
+    padding: var(--bs-card-spacer-y) var(--bs-card-spacer-x);
   }
 }

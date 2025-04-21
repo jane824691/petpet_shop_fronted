@@ -13,12 +13,12 @@ function ProductItem(props) {
   return (
     <div className="col" key={pid}>
       <Link href={`/product/${pid}`} className="noline">
-        <div className="card border-primary">
+        <div className="card border-primary h-100">
           <img src={imagePath} alt="name of product" className="card-img-top" />
 
           {/* 資料庫img實際存到180~204 */}
 
-          <div className="card-body no-space-x">
+          <div className="card-body with-space">
             <p className="card-text cardTitle">{product_name}</p>
             <div className="h-currency bold h-now" style={{ display: 'none' }}>
               {category_id}
