@@ -5,13 +5,12 @@
   align-items: center;
   min-height: 100vh;
   overflow-x: hidden;
-  padding-bottom: 3.125rem;
+  padding: 0 6rem 3.125rem 6rem;
 }
 
 .container {
   display: flex;
   flex-direction: column;
-  gap: 4rem;
 }
 
 .keyVisualWithText {
@@ -62,7 +61,7 @@
 
   .keyVisualWithText {
     position: relative;
-    height: 90vh;
+    min-height: 90vh;
   }
   .keyVisualImg {
     position: absolute;
@@ -72,13 +71,32 @@
   .descriptionPart{
     position: absolute;
     z-index: 1;
-    top: 20px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     width: 50vw;
-    height: 100vh;
     background-color: rgba(255, 255, 255, 0.5);
     box-shadow: 0 0 20px 10px rgba(255, 255, 255, 0.5); /* 模糊的白色陰影 */
     padding: 40px;
     border-radius: 20%;
+  }
+  .cardPart {
+    z-index: 2;
+    margin-top: 90px;
+  }
+}
+
+@media (max-width: 1000px) {
+  .keyVisualWithText {
+    min-height: 80vh;
+  }
+  .cardPart {
+    margin-top: 30px;
+  }
+}
+@media (max-width: 900px) {
+  .keyVisualWithText {
+    min-height: 70vh;
   }
 }
 @media (max-width: 768px) {
@@ -94,8 +112,7 @@
   }
   .keyVisualWithText {
     flex-direction: column;
-    margin: 10vh 0;
-    height: 60vh;
+    margin: 10vh 0 0;
   }
   .keyVisualImg {
     max-width: 100%;
@@ -111,7 +128,7 @@
 @media (max-width: 600px) {
   .keyVisualWithText {
     position: relative;
-    height: 50vh;
+    min-height: 50vh;
   }
 }
 
@@ -124,10 +141,14 @@
 
 @media screen and (max-width: 400px) {
   .descriptionPart{
-    padding: 0;
+    padding: 20px;
     gap: 10px;
-    justify-content: flex-end;
-    background-color: transparent;
-    box-shadow: none;
+    justify-content: space-evenly;
+  }
+  .cardPart {
+    margin: 60px 0 0 0;
+  }
+  .main {
+    padding: 0 1.5rem 1.5rem;
   }
 }

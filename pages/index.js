@@ -59,11 +59,7 @@ export default function Home() {
               </Link>
             </div>
           </div>
-
-          <div className={styles.swiperContainer}>
-            <SwiperPhoto />
-          </div>
-          <div className={`container-fluid ${styles.cardPart}`}>
+          <div className={`container-fluid ${styles.cardPart} w-100`} style={{ padding : '0'}}>
             <div className="row row-cols-2 row-cols-md-4 g-4">
               <ProductList products={products} />
             </div>

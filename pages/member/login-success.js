@@ -27,6 +27,7 @@ export default function Login() {
       </h3>
       <div className="d-flex justify-content-center position-relative">
         <Image
+          className="w-100"
           src="/pics/heart.png"
           width="600"
           height="400"

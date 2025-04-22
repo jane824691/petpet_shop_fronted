@@ -293,7 +293,6 @@ export default function List() {
 
   return (
     <>
-      <SwiperPhoto />
       <div className="web-style">
         <div className="row mt-2 mb-3">
           <h5 className="card-text d-flex justify-content-between align-items-center">
