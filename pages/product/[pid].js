@@ -10,7 +10,7 @@ import { useHeaderAnimation } from '@/components/contexts/HeaderAnimationContext
 export default function Detail() {
   const { addItem } = useCart()
   const { setAddingProductAmount, addingCartAnimation } = useHeaderAnimation();
-  
+
   // 試帶商品QTY傳給Cart
   const [total, setTotal] = useState(1)
 
@@ -45,7 +45,7 @@ export default function Detail() {
 
   return (
     <>
-      <div className="row mt-5 mx-5 px-5">
+      <div className="row mt-5 mx-5 ps-5">
         <div className="col-sm-7">
           <div className="position-sticky">
             <Carousel
@@ -58,7 +58,7 @@ export default function Detail() {
           </div>
         </div>
 
-        <div className="col-sm-5 px-5 descriptionPart">
+        <div className="col-sm-5 ps-4 descriptionPart">
           <Breadcrumb>
             <Breadcrumb.Item href="/">Home</Breadcrumb.Item>
             <Breadcrumb.Item active>商品詳細</Breadcrumb.Item>
@@ -70,42 +70,47 @@ export default function Detail() {
 
           <p className="product-desc">{myProduct.product_description}</p>
 
-          <h5 className="text-danger">
-            <span>NT$ </span>
-            {myProduct.product_price}
-          </h5>
-          <div className="col-2 ">
-            <div className="d-flex amount-btn-group-wide">
-              <button
-                type="button"
-                className="btn btn-outline-secondary amount-btnL"
-                onClick={() => {
-                  if (total > 1) {
-                    setTotal(total - 1)
-                  }
-                }}
-              >
-                -
-              </button>
-              <div className="form-control rounded-2 text-center amount-form">
-                {total}
-              </div>
+          <div class="container text-center">
+            <div class="row align-items-start d-flex amount-btn-group-wide align-items-center justify-content-center">
+              <h5 className="text-danger col ">
+                <span>NT$ </span>
+                {myProduct.product_price}
+              </h5>
+              <div className="col w-100" style={{ padding: '0'}}>
+                <div className="d-flex amount-btn-group-wide align-items-center justify-content-center">
+                  <button
+                    type="button"
+                    className="btn btn-outline-secondary amount-btnL"
+                    onClick={() => {
+                      if (total > 1) {
+                        setTotal(total - 1)
+                      }
+                    }}
+                  >
+                    -
+                  </button>
+                  <div className="form-control rounded-2 text-center amount-form">
+                    {total}
+                  </div>
 
-              <button
-                type="button"
-                className="btn btn-outline-secondary amount-btnR"
-                onClick={() => {
-                  setTotal(total + 1)
-                }}
-              >
-                +
-              </button>
+                  <button
+                    type="button"
+                    className="btn btn-outline-secondary amount-btnR"
+                    onClick={() => {
+                      setTotal(total + 1)
+                    }}
+                  >
+                    +
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
 
-          <div className="d-flex">
+
+          <div className="d-flex gap-4">
             <button
-              className="btn btn-outline-primary add-cart"
+              className="btn btn-outline-primary w-100"
               onClick={() => {
                 addItem({
                   pid: myProduct.pid,
@@ -119,12 +124,12 @@ export default function Detail() {
                 toast.success('成功加入購物車!')
               }}
             >
-              <div className="d-flex justify-content-center m-1">
+              <div className="d-flex justify-content-center m-1 fs-6">
                 <i className="bi bi-cart mx-2"></i> <div> 加入購物車</div>
               </div>
             </button>
             <button
-              className="btn btn-danger text-white add-cart-danger"
+              className="btn btn-danger text-white w-100 fs-6"
               onClick={() => {
                 addItem({
                   pid: myProduct.pid,

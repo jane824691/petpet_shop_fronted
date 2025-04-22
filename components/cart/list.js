@@ -179,7 +179,7 @@ export default function CartList(props) {
                               >
                                 -
                               </button>
-                              <div className="form-control rounded-2 text-center amount-form">
+                              <div className="form-control rounded-2 text-center d-flex align-items-center justify-content-center amount-form">
                                 {v.quantity}
                               </div>
 

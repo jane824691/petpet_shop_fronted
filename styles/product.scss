@@ -29,7 +29,7 @@ background-position: center;
 
 .mySwiper2 {
   width: 100%; /* 確保圖片寬度適應容器 */
-  height: auto; /* 高度根據寬度自動調整 */
+  height: 500px; /* 高度根據寬度自動調整 */
   object-fit: contain; /* 縮放圖片以顯示完整 */
 }
 
@@ -62,17 +62,6 @@ height: 50%;
 text-decoration: none;
 }
 
-.add-cart{
-font-size: 18px;
-width: 250px;
-}
-
-.add-cart-danger{
-font-size: 18px;
-margin-left: 30px;
-width: 250px;
-}
-
 .amount-form{
 height: 2.75rem;
 font-size: 20px;
@@ -81,7 +70,6 @@ font-size: 20px;
 
 .amount-btn-group-wide{
 position: relative;
-width: 250px;
 border: 1px #f7bcc5;;
 }
 
