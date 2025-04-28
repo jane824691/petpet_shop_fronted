@@ -1,18 +1,18 @@
 import { useEffect, useState } from 'react'
 import Carousel from './components/carousel'
 import { useRouter } from 'next/router'
-import { ONE_PRODUCT } from '@/components/my-const'
+import { ONE_PRODUCT, COMMENTS_ONE } from '@/components/my-const'
 import { useCart } from '@../../../components/hooks/use-cart-state'
 import toast, { Toaster } from 'react-hot-toast'
 import Breadcrumb from 'react-bootstrap/Breadcrumb';
 import { useHeaderAnimation } from '@/components/contexts/HeaderAnimationContext';
+import dayjs from 'dayjs'
 
 export default function Detail() {
   const { addItem } = useCart()
   const { setAddingProductAmount, addingCartAnimation } = useHeaderAnimation();
-
-  // 試帶商品QTY傳給Cart
-  const [total, setTotal] = useState(1)
+  const [productComments, setProductComments] = useState([])  
+  const [total, setTotal] = useState(1) // 試帶商品QTY傳給Cart
 
   const [myProduct, setMyProduct] = useState({
     pid: '',
@@ -22,30 +22,48 @@ export default function Detail() {
     info: '',
   })
 
+
   //跳轉用
   const router = useRouter()
 
+  const fetchData = async () => {
+    const pid = +router.query.pid
+
+    try {
+      const response = await fetch(ONE_PRODUCT + `/${pid}`) // 這種預設都是GET
+      const productData = await response.json()
+      setMyProduct(productData)
+
+      const responseComments = await fetch(COMMENTS_ONE + `/${pid}`, {
+        headers: {
+          'content-type': 'application/json',
+        },
+        method: 'POST',
+      })
+      const productCommentsData = await responseComments.json()
+      setProductComments(productCommentsData)
+
+
+    } catch (error) {
+      // console.error('Error fetching product data:', error)
+    }
+  }
+
   // 去抓後端處理好的單筆資料
   useEffect(() => {
-    const fetchData = async () => {
-      const pid = +router.query.pid
-
-      try {
-        const response = await fetch(ONE_PRODUCT + `/${pid}`)
-        const productData = await response.json()
-        setMyProduct(productData)
-      } catch (error) {
-        // console.error('Error fetching product data:', error)
-      }
-    }
-
     // 呼叫 fetchData 以觸發資料載入
     fetchData()
   }, [router.query.pid])
 
+  useEffect(() => {
+    console.log('評論', productComments);
+
+  }, [productComments])
+
   return (
     <>
-      <div className="row mt-5 mx-5 ps-5">
+      {/* 商品圖 + 敘述金額 */}
+      <div className="row mt-5 mx-5">
         <div className="col-sm-7">
           <div className="position-sticky">
             <Carousel
@@ -76,7 +94,7 @@ export default function Detail() {
                 <span>NT$ </span>
                 {myProduct.product_price}
               </h5>
-              <div className="col w-100" style={{ padding: '0'}}>
+              <div className="col w-100" style={{ padding: '0' }}>
                 <div className="d-flex amount-btn-group-wide align-items-center justify-content-center">
                   <button
                     type="button"
@@ -184,55 +202,13 @@ export default function Detail() {
                   </div>
                 </div>
               </div>
-              <div className="accordion-item">
-                <h2 className="accordion-header">
-                  <button
-                    className="accordion-button collapsed"
-                    type="button"
-                    data-bs-toggle="collapse"
-                    data-bs-target="#panelsStayOpen-collapseThree"
-                    aria-expanded="false"
-                    aria-controls="panelsStayOpen-collapseThree"
-                  >
-                    評價(370){'  '}
-                    <span className="star">&#9733;</span>
-                    <span className="star">&#9733;</span>
-                    <span className="star">&#9733;</span>
-                    <span className="star">&#9733;</span>
-                    <span className="star">&#9733;</span>
-                  </button>
-                </h2>
-                <div
-                  id="panelsStayOpen-collapseThree"
-                  className="accordion-collapse collapse"
-                >
-                  <div className="accordion-body px-1">
-                    <div className="commet">
-                      <div className="rating">
-                        <span className="star">&#9733;</span>
-                        <span className="star">&#9733;</span>
-                        <span className="star">&#9733;</span>
-                        <span className="star">&#9733;</span>
-                        <span className="star">&#9733;</span>
-                      </div>
-                      <p>great shoes overall Ella579458843 - 2023年6月19日</p>
-                      <p>
-                        overall one of my favorite shoes at the moment. go with
-                        any of my outfits, i can wear sweatpants with them or to
-                        a nice dinner with a dress. the only “problem” i have
-                        with them is that they’re difficult to break into even
-                        if you half size up, it took me a while to break into
-                        them. but overall i recommend these shoes if you just
-                        want some great shoes for any occasion.... 更多
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
+
             </div>
           </div>
         </div>
       </div>
+
+      {/* 商品評論 */}
     </>
   )
 }
