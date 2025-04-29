@@ -1,12 +1,10 @@
 import { useState, useEffect } from 'react'
-import { useCart } from '@/components/hooks/use-cart-state'
 import { useRouter } from 'next/router'
 import { ONE_ORDER } from '@/components/my-const'
 import ReverseLookup from './OrderSteps/sub-pages/Zipcode_to_city'
 export default function OrderUnderMember() {
   //跳轉用
   const router = useRouter()
-  const [data, setData] = useState([])
   const [orderData, setOrderData] = useState([])
 
   useEffect(() => {
@@ -29,7 +27,9 @@ export default function OrderUnderMember() {
     }
 
     // 呼叫 fetchData 以觸發資料載入
-    fetchData()
+    if (router.query.oid) {
+      fetchData()
+    }
   }, [router.query.oid])
 
   console.log(orderData)

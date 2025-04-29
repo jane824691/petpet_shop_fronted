@@ -1,19 +1,19 @@
 import { useEffect, useState } from 'react'
 import Carousel from './components/carousel'
 import { useRouter } from 'next/router'
-import { ONE_PRODUCT, COMMENTS_ONE } from '@/components/my-const'
+import { ONE_PRODUCT, COMMENTS_ONE, COMMENTS_ADD } from '@/components/my-const'
 import { useCart } from '@../../../components/hooks/use-cart-state'
 import toast, { Toaster } from 'react-hot-toast'
 import Breadcrumb from 'react-bootstrap/Breadcrumb';
 import { useHeaderAnimation } from '@/components/contexts/HeaderAnimationContext';
-import dayjs from 'dayjs'
 
 export default function Detail() {
   const { addItem } = useCart()
   const { setAddingProductAmount, addingCartAnimation } = useHeaderAnimation();
-  const [productComments, setProductComments] = useState([])  
+  const [productComments, setProductComments] = useState([])
   const [total, setTotal] = useState(1) // 試帶商品QTY傳給Cart
   const [page, setPage] = useState(1)
+  const [commentsValue, setCommentsValue] = useState('');
 
   const [myProduct, setMyProduct] = useState({
     pid: '',
@@ -50,10 +50,39 @@ export default function Detail() {
     }
   }
 
+  const sendComments = async () => {
+    const pid = +router.query.pid
+    const sid = JSON.parse(localStorage.getItem("auther"))?.sid;
+    try {
+      const r = await fetch(COMMENTS_ADD, {
+        method: 'POST',
+        body: JSON.stringify({
+          sid: sid,
+          pid: pid,
+          content: commentsValue,
+        }),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+      const responseData = await r.json()
+      if (responseData.success) {
+        setCommentsValue('')
+        toast.success('留言成功!!')
+      } else {
+        toast.error('尚未購買此商品，無法評論')
+      }
+    } catch (error) {
+
+    }
+  }
+
   // 去抓後端處理好的單筆資料
   useEffect(() => {
     // 呼叫 fetchData 以觸發資料載入
-    fetchData()
+    if (router.query.pid) {
+      fetchData()
+    }
   }, [router.query.pid])
 
   useEffect(() => {
@@ -210,56 +239,90 @@ export default function Detail() {
       </div>
 
       {/* 商品評論 */}
-      <div className="container py-4">
-      {productComments.map((comment, index) => (
-        <div
-          key={index}
-          // ref={index === productComments.length - 1 ? lastCommentRef : null}
-          className="d-flex mb-4 pb-3 border-bottom align-items-start"
-        >
-          {/* 頭像 */}
-          <img
-            src={comment.photo || '/public/pics/headshot.jpg'}
-            alt="avatar"
-            className="rounded-circle me-3"
-            style={{ width: '50px', height: '50px', objectFit: 'cover' }}
-          />
-
-          {/* 右邊內容 */}
-          <div className="flex-grow-1">
-            <h6 className="mb-1">{comment.account || '匿名使用者'}</h6>
-
-            {/* 留言內容 */}
-            <p
-              // className={`mb-1 ${expandedIndexes[index] ? '' : 'text-truncate-3'}`}
-              className="text-truncate-3"
-              style={{ whiteSpace: 'pre-wrap' }}
-            >
-              {comment.content || '無評論內容'}
-            </p>
-
-            {/* 展開/收合按鈕 */}
-            {comment.content && comment.content.split('\n').length > 3 && (
-              <button
-                className="btn btn-link btn-sm p-0"
-                onClick={() => toggleExpand(index)}
+      <div class="container mx-auto">
+        <div class="row">
+          <div class="col-9 position-relative">
+            <input
+              type="text"
+              class="form-control pe-5"
+              placeholder="留下評論..."
+              value={commentsValue}
+              onChange={(e) => setCommentsValue(e.target.value)}
+            />
+            {commentsValue && (
+              <span
+                className="position-absolute top-50 translate-middle-y end-0 me-4 text-primary"
+                style={{ cursor: 'pointer' }}
+                onClick={() => setCommentsValue('')}
               >
-                {expandedIndexes[index] ? '收起' : '更多'}
-              </button>
+                X
+              </span>
             )}
-
-            {/* 留言時間 */}
-            <div>
-              <small className="text-muted">
-                {new Date(comment.created_date).toLocaleString()}
-              </small>
-            </div>
+          </div>
+          <div class="col-3">
+            <button class="btn btn-primary w-100" onClick={() => { sendComments(commentsValue) }}>
+              發表
+            </button>
           </div>
         </div>
-      ))}
+      </div>
+      <Toaster />
 
-      {/* {loading && <p className="text-center">載入中...</p>} */}
-    </div>
+      {productComments.length ? (<>
+        <div className="container mx-auto">
+          {productComments.map((comment, index) => (
+            <div
+              key={index}
+              // ref={index === productComments.length - 1 ? lastCommentRef : null}
+              className="d-flex mb-4 pb-3 border-bottom align-items-start"
+            >
+              {/* 頭像 */}
+              <img
+                src={comment.photo || '/public/pics/headshot.jpg'}
+                alt="avatar"
+                className="rounded-circle me-3"
+                style={{ width: '50px', height: '50px', objectFit: 'cover' }}
+              />
+
+              {/* 右邊內容 */}
+              <div className="flex-grow-1">
+                <h6 className="mb-1">{comment.account || '匿名使用者'}</h6>
+
+                {/* 留言內容 */}
+                <p
+                  // className={`mb-1 ${expandedIndexes[index] ? '' : 'text-truncate-3'}`}
+                  className="text-truncate-3"
+                  style={{ whiteSpace: 'pre-wrap' }}
+                >
+                  {comment.content || '無評論內容'}
+                </p>
+
+                {/* 展開/收合按鈕 */}
+                {comment.content && comment.content.split('\n').length > 3 && (
+                  <button
+                    className="btn btn-link btn-sm p-0"
+                    onClick={() => toggleExpand(index)}
+                  >
+                    {expandedIndexes[index] ? '收起' : '更多'}
+                  </button>
+                )}
+
+                {/* 留言時間 */}
+                <div>
+                  <small className="text-muted">
+                    {new Date(comment.created_date).toLocaleString()}
+                  </small>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* {loading && <p className="text-center">載入中...</p>} */}
+      </>) : (<>
+        <div className="container mx-auto"><div className="d-flex mb-4 py-4 border-top align-items-start">尚無人給予評論</div></div>
+      </>)}
+
     </>
   )
 }
