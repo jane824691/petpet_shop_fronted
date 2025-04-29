@@ -59,9 +59,10 @@ export default function MemberOrderList() {
           return
         }
         const sid = authData.sid
+        const token = JSON.parse(localStorage.getItem("auther"))?.token;
         setSid(sid)
         const response = await fetch(GET_MEMBER_DATA, {
-          body: JSON.stringify({ sid: sid }),
+          body: JSON.stringify({ sid: sid, token: token }),
           headers: {
             'content-type': 'application/json',
           },
