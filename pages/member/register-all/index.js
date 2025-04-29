@@ -4,7 +4,7 @@ import Step2 from './sub-pages/step2'
 import React, { useState } from 'react'
 import Button from 'react-bootstrap/Button'
 import Modal from 'react-bootstrap/Modal'
-import { register_ADD } from '@/components/my-const'
+import { REGISTER_ADD } from '@/components/my-const'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 
@@ -106,7 +106,7 @@ function RegisterSteps() {
     formData.append('address', step2.address)
 
     try {
-      const responseSteps = await fetch(register_ADD, {
+      const responseSteps = await fetch(REGISTER_ADD, {
         method: 'POST',
         body: formData,
       })

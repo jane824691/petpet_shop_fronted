@@ -6,11 +6,7 @@ import AuthContext from '@/components/contexts/AuthContext'
 import { useContext } from 'react'
 import { GET_MEMBER_DATA } from '@/components/my-const'
 import { jwtDecode } from 'jwt-decode'
-// icon
-import { BsFillTicketDetailedFill } from 'react-icons/bs'
-import { BsCart4 } from 'react-icons/bs'
-import { BsFillTrophyFill } from 'react-icons/bs'
-import { BsBagHeartFill } from 'react-icons/bs'
+import { BsFillTicketDetailedFill, BsFillTrophyFill, BsCart4 } from 'react-icons/bs'
 import dayjs from 'dayjs'
 import Link from 'next/link'
 // icon

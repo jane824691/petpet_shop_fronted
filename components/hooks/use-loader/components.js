@@ -33,25 +33,12 @@ export function CatLoader({ text = 'Loading', show = false }) {
           show ? '' : 'cat-loader--hide' && 'loading-text--hide'
         }`}
         animationData={catAnimation}
-        style={{
-          width: '400px',
-          height: '100%',
-          position: 'relative',
-          top: '15%',
-          left: '120%',
-          transform: 'translate(-50%, -50%)',
-        }}
       />
       <div
         className="fs-1"
         style={{
-          width: '400px',
-          height: '100%',
-          position: 'relative',
-          bottom: '20%',
-          left: '150%',
-          transform: 'translate(-50%, -50%)',
           color: '#112344',
+          textAlign: 'center'
         }}
       >
         {text}...

@@ -8,8 +8,7 @@ import React, {
 import Image from 'next/image'
 import Button from 'react-bootstrap/Button'
 import Modal from 'react-bootstrap/Modal'
-import { coupon_ADD } from '@/components/my-const'
-import { couponUse_ADD } from '@/components/my-const'
+import { COUPON_ADD, COUPON_USE_ADD } from '@/components/my-const'
 import { useRouter } from 'next/router'
 import AuthContext from '@/components/contexts/AuthContext'
 import GameContext, { themes } from '@/components/contexts/GameContext'
@@ -100,7 +99,7 @@ export default function Game() {
         coupon_status: coupondata.coupon_status,
       }
 
-      const response = await fetch(coupon_ADD, {
+      const response = await fetch(COUPON_ADD, {
         method: 'POST',
         body: JSON.stringify(requestData),
         headers: {
@@ -119,7 +118,7 @@ export default function Game() {
           sid: auther.sid,
         }
         // console.log(JSON.stringify(couponUseRequestData))
-        const couponUseResponse = await fetch(couponUse_ADD, {
+        const couponUseResponse = await fetch(COUPON_USE_ADD, {
           method: 'POST',
           body: JSON.stringify(couponUseRequestData),
           headers: {

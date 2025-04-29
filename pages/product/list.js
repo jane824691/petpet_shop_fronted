@@ -71,7 +71,7 @@ export default function List() {
       // 實際呼叫後端api
       const r = await fetch(
         PRODUCT +
-          `?page=${page}&searchWord=${searchWord}&priceLow=${priceLow}&priceHigh=${priceHigh}&sortBy=${sortByParam}&tag=${currentTagsNum}`
+        `?page=${page}&searchWord=${searchWord}&priceLow=${priceLow}&priceHigh=${priceHigh}&sortBy=${sortByParam}&tag=${currentTagsNum}`
       )
       const d = await r.json()
       setData(d)
@@ -329,7 +329,9 @@ export default function List() {
                 </div>
               </div>
               {isLoading ? (
-                <CatLoader />
+                <div className="d-flex justify-content-center align-items-center w-100">
+                  <CatLoader />
+                </div>
               ) : (
                 <>
                   <div id="page-content-wrapper">

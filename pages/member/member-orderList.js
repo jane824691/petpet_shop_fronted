@@ -1,26 +1,21 @@
 import { useState, useEffect, useContext } from 'react'
 import AuthContext from '@/components/contexts/AuthContext'
-import Link from 'next/link'
-import { ORDER_LIST } from '@/components/my-const'
 import { useRouter } from 'next/router'
+import Link from 'next/link'
+import { ORDER_LIST, GET_MEMBER_DATA } from '@/components/my-const'
 import dayjs from 'dayjs'
-import { GET_MEMBER_DATA } from '@/components/my-const'
-import { BsFillTicketDetailedFill } from 'react-icons/bs'
-import { BsCart4 } from 'react-icons/bs'
-import { BsFillTrophyFill } from 'react-icons/bs'
-import { BsBagHeartFill } from 'react-icons/bs'
 import styles from '@/css/favorite.module.css'
 import Image from 'next/image'
-import { BsArrowRight } from 'react-icons/bs'
-
-
 import {
   BsChevronRight,
   BsChevronDoubleRight,
   BsChevronDoubleLeft,
   BsChevronLeft,
+  BsFillTicketDetailedFill, 
+  BsFillTrophyFill, 
+  BsArrowRight, 
+  BsCart4
 } from 'react-icons/bs'
-import { ImOpt } from 'react-icons/im'
 
 export default function MemberOrderList() {
   const [data, setData] = useState({})
@@ -225,8 +220,8 @@ export default function MemberOrderList() {
                             {v.order_status === 1
                               ? '已付款'
                               : v.order_status === 0
-                              ? '未付款'
-                              : ''}
+                                ? '未付款'
+                                : ''}
                           </h5>
                           <h5 className="card-title font-grey-title mb-2">
                             交貨方式：{v.delivery_way}
@@ -264,9 +259,8 @@ export default function MemberOrderList() {
                     <ul className="pagination">
                       <li>
                         <Link
-                          className={`page-link ${
-                            data.page === 1 ? 'disabled' : ''
-                          }`}
+                          className={`page-link ${data.page === 1 ? 'disabled' : ''
+                            }`}
                           href={data.page !== 1 ? `?page=${1}` : '#'}
                           style={{
                             background:
@@ -280,9 +274,8 @@ export default function MemberOrderList() {
                       </li>
                       <li>
                         <Link
-                          className={`page-link ${
-                            data.page === 1 ? 'disabled' : ''
-                          }`}
+                          className={`page-link ${data.page === 1 ? 'disabled' : ''
+                            }`}
                           href={`?page=${data.page - 1}`}
                           style={{
                             background:
@@ -296,51 +289,49 @@ export default function MemberOrderList() {
                       </li>
                       {data.success && data.totalPages
                         ? Array(7)
-                            .fill(1)
-                            .map((v, i) => {
-                              const p = data.page - 3 + i
-                              if (p < 1 || p > data.totalPages) return null
-                              return (
-                                <li
-                                  key={p}
-                                  className={
-                                    p === data.page
-                                      ? 'page-item active'
-                                      : 'page-item'
-                                  }
-                                  style={{ marginRight: '6px' }}
-                                >
-                                  <Link
-                                    className={`page-link ${
-                                      p === data.page ? 'active-link' : ''
+                          .fill(1)
+                          .map((v, i) => {
+                            const p = data.page - 3 + i
+                            if (p < 1 || p > data.totalPages) return null
+                            return (
+                              <li
+                                key={p}
+                                className={
+                                  p === data.page
+                                    ? 'page-item active'
+                                    : 'page-item'
+                                }
+                                style={{ marginRight: '6px' }}
+                              >
+                                <Link
+                                  className={`page-link ${p === data.page ? 'active-link' : ''
                                     }`}
-                                    href={'?page=' + p}
-                                    style={{
-                                      borderRadius: '10px',
-                                      border:
-                                        p === data.page
-                                          ? '1px solid #FFB44F'
-                                          : '1px solid ',
-                                      backgroundColor:
-                                        p === data.page
-                                          ? '#f8723f'
-                                          : 'transparent',
-                                      color: p === data.page ? '#fff' : '',
-                                      width: '38px',
-                                      textAlign: 'center',
-                                    }}
-                                  >
-                                    {p}
-                                  </Link>
-                                </li>
-                              )
-                            })
+                                  href={'?page=' + p}
+                                  style={{
+                                    borderRadius: '10px',
+                                    border:
+                                      p === data.page
+                                        ? '1px solid #FFB44F'
+                                        : '1px solid ',
+                                    backgroundColor:
+                                      p === data.page
+                                        ? '#f8723f'
+                                        : 'transparent',
+                                    color: p === data.page ? '#fff' : '',
+                                    width: '38px',
+                                    textAlign: 'center',
+                                  }}
+                                >
+                                  {p}
+                                </Link>
+                              </li>
+                            )
+                          })
                         : null}
                       <li>
                         <Link
-                          className={`page-link ${
-                            data.page === data.totalPages ? 'disabled' : ''
-                          }`}
+                          className={`page-link ${data.page === data.totalPages ? 'disabled' : ''
+                            }`}
                           href={`?page=${data.page + 1}`}
                           style={{
                             background:
@@ -357,9 +348,8 @@ export default function MemberOrderList() {
                       </li>
                       <li>
                         <Link
-                          className={`page-link ${
-                            data.page === data.totalPages ? 'disabled' : ''
-                          }`}
+                          className={`page-link ${data.page === data.totalPages ? 'disabled' : ''
+                            }`}
                           href={
                             data.page !== data.totalPages
                               ? `?page=${data.totalPages}`
