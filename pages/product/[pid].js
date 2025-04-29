@@ -13,6 +13,7 @@ export default function Detail() {
   const { setAddingProductAmount, addingCartAnimation } = useHeaderAnimation();
   const [productComments, setProductComments] = useState([])  
   const [total, setTotal] = useState(1) // 試帶商品QTY傳給Cart
+  const [page, setPage] = useState(1)
 
   const [myProduct, setMyProduct] = useState({
     pid: '',
@@ -34,14 +35,14 @@ export default function Detail() {
       const productData = await response.json()
       setMyProduct(productData)
 
-      const responseComments = await fetch(COMMENTS_ONE + `/${pid}`, {
+      const responseComments = await fetch(COMMENTS_ONE + `/${pid}&page=${page}`, {
         headers: {
           'content-type': 'application/json',
         },
         method: 'POST',
       })
       const productCommentsData = await responseComments.json()
-      setProductComments(productCommentsData)
+      setProductComments((prev) => [...prev, ...productCommentsData])
 
 
     } catch (error) {
@@ -209,6 +210,56 @@ export default function Detail() {
       </div>
 
       {/* 商品評論 */}
+      <div className="container py-4">
+      {productComments.map((comment, index) => (
+        <div
+          key={index}
+          // ref={index === productComments.length - 1 ? lastCommentRef : null}
+          className="d-flex mb-4 pb-3 border-bottom align-items-start"
+        >
+          {/* 頭像 */}
+          <img
+            src={comment.photo || '/public/pics/headshot.jpg'}
+            alt="avatar"
+            className="rounded-circle me-3"
+            style={{ width: '50px', height: '50px', objectFit: 'cover' }}
+          />
+
+          {/* 右邊內容 */}
+          <div className="flex-grow-1">
+            <h6 className="mb-1">{comment.account || '匿名使用者'}</h6>
+
+            {/* 留言內容 */}
+            <p
+              // className={`mb-1 ${expandedIndexes[index] ? '' : 'text-truncate-3'}`}
+              className="text-truncate-3"
+              style={{ whiteSpace: 'pre-wrap' }}
+            >
+              {comment.content || '無評論內容'}
+            </p>
+
+            {/* 展開/收合按鈕 */}
+            {comment.content && comment.content.split('\n').length > 3 && (
+              <button
+                className="btn btn-link btn-sm p-0"
+                onClick={() => toggleExpand(index)}
+              >
+                {expandedIndexes[index] ? '收起' : '更多'}
+              </button>
+            )}
+
+            {/* 留言時間 */}
+            <div>
+              <small className="text-muted">
+                {new Date(comment.created_date).toLocaleString()}
+              </small>
+            </div>
+          </div>
+        </div>
+      ))}
+
+      {/* {loading && <p className="text-center">載入中...</p>} */}
+    </div>
     </>
   )
 }
