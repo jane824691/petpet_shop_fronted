@@ -16,8 +16,7 @@ export default function Detail() {
   const [page, setPage] = useState(1)
   const [commentsValue, setCommentsValue] = useState('');
   const [isLoading, setIsLoading] = useState(false)
-  const [hasMore, setHasMore] = useState(true)
-  const observer = useRef()
+  const [hasMore, setHasMore] = useState(true) // 如滾軸到底頁數, 不再重複呼叫api
 
   const [myProduct, setMyProduct] = useState({
     pid: '',
@@ -55,7 +54,7 @@ const fetchComments = async () => {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ page }), // 👈 page 正確放在 body
+      body: JSON.stringify({ page }), // 改變的頁數放BODY
     })
     const data = await response.json()
     
@@ -74,16 +73,32 @@ const fetchComments = async () => {
 
   const lastCommentRef = useRef()
 
+  const observer = useRef()
   useEffect(() => {
     if (isLoading || !hasMore) return
-    if (observer.current) observer.current.disconnect()
+    if (observer.current) observer.current.disconnect() // 如已有過觀察則移除
   
+    // IntersectionObserver 是 JavaScript（ES6+）的瀏覽器原生 API
+    // IntersectionObserver 該物件接受一個 callback 和一個可選的 options：
+    // 例如 const observer = new IntersectionObserver(callback, options);
+    // 當被觀察的 DOM 元素「出現在畫面中（進入視窗範圍）」時, 就觸發 page+1, 達成無限滾軸
     observer.current = new IntersectionObserver((entries) => {
       if (entries[0].isIntersecting) {
         setPage((prevPage) => prevPage + 1)
       }
     })
   
+    // entries[0] = {
+    //   time: 3412.4,                // 觸發時的時間戳（毫秒）
+    //   target: <div id="target">,   // 被觀察的 DOM 元素
+    //   isIntersecting: true,        // 是否真的有進入觀察區域（最常用）
+    //   intersectionRatio: 0.8,      // 交集比例（0~1，1=完全重疊）
+    //   boundingClientRect: {...},   // 目標元素的邊界（客觀）
+    //   intersectionRect: {...},     // 真的出現在畫面裡的那塊區域
+    //   rootBounds: {...}            // root（預設是 viewport）的邊界
+    // }
+
+
     if (lastCommentRef.current) {
       observer.current.observe(lastCommentRef.current)
     }
