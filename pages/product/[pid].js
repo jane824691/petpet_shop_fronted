@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import Carousel from './components/carousel'
 import { useRouter } from 'next/router'
 import { ONE_PRODUCT, COMMENTS_ONE, COMMENTS_ADD } from '@/components/my-const'
@@ -6,6 +6,7 @@ import { useCart } from '@../../../components/hooks/use-cart-state'
 import toast, { Toaster } from 'react-hot-toast'
 import Breadcrumb from 'react-bootstrap/Breadcrumb';
 import { useHeaderAnimation } from '@/components/contexts/HeaderAnimationContext';
+import { CatLoader } from '@/components/hooks/use-loader/components'
 
 export default function Detail() {
   const { addItem } = useCart()
@@ -14,6 +15,9 @@ export default function Detail() {
   const [total, setTotal] = useState(1) // 試帶商品QTY傳給Cart
   const [page, setPage] = useState(1)
   const [commentsValue, setCommentsValue] = useState('');
+  const [isLoading, setIsLoading] = useState(false)
+  const [hasMore, setHasMore] = useState(true)
+  const observer = useRef()
 
   const [myProduct, setMyProduct] = useState({
     pid: '',
@@ -24,31 +28,80 @@ export default function Detail() {
   })
 
 
-  //跳轉用
-  const router = useRouter()
+// 跳轉用
+const router = useRouter()
 
-  const fetchData = async () => {
-    const pid = +router.query.pid
-
-    try {
-      const response = await fetch(ONE_PRODUCT + `/${pid}`) // 這種預設都是GET
-      const productData = await response.json()
-      setMyProduct(productData)
-
-      const responseComments = await fetch(COMMENTS_ONE + `/${pid}&page=${page}`, {
-        headers: {
-          'content-type': 'application/json',
-        },
-        method: 'POST',
-      })
-      const productCommentsData = await responseComments.json()
-      setProductComments((prev) => [...prev, ...productCommentsData])
-
-
-    } catch (error) {
-      // console.error('Error fetching product data:', error)
-    }
+// 抓單一商品（只抓一次）
+const fetchProduct = async () => {
+  const pid = +router.query.pid
+  try {
+    const response = await fetch(ONE_PRODUCT + `/${pid}`)
+    const productData = await response.json()
+    setMyProduct(productData)
+  } catch (error) {
+    console.error('商品資料載入錯誤:', error)
   }
+}
+
+// 抓留言資料（會無限滾動）
+const fetchComments = async () => {
+  const pid = +router.query.pid
+  if (!hasMore) return // 如果已經沒有更多資料，就不繼續呼叫
+
+  setIsLoading(true)
+  try {
+    const response = await fetch(`${COMMENTS_ONE}/${pid}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ page }), // 👈 page 正確放在 body
+    })
+    const data = await response.json()
+    
+    // 若回傳筆數小於 pageSize，就表示最後一頁
+    if (data.length < 3) { 
+      setHasMore(false)
+    }
+
+    setProductComments((prev) => [...prev, ...data])
+  } catch (error) {
+    console.error('留言載入錯誤:', error)
+  } finally {
+    setIsLoading(false)
+  }
+}
+
+  const lastCommentRef = useRef()
+
+  useEffect(() => {
+    if (isLoading || !hasMore) return
+    if (observer.current) observer.current.disconnect()
+  
+    observer.current = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting) {
+        setPage((prevPage) => prevPage + 1)
+      }
+    })
+  
+    if (lastCommentRef.current) {
+      observer.current.observe(lastCommentRef.current)
+    }
+  }, [isLoading, hasMore])
+
+
+  //TODO: 是否大於三行評論收合
+  // 每個留言自己控制是否展開
+  const [expandedIndexes, setExpandedIndexes] = useState({})
+
+
+  const toggleExpand = (index) => {
+    setExpandedIndexes((prev) => ({
+      ...prev,
+      [index]: !prev[index],
+    }))
+  }
+
 
   const sendComments = async () => {
     const pid = +router.query.pid
@@ -77,18 +130,19 @@ export default function Detail() {
     }
   }
 
-  // 去抓後端處理好的單筆資料
-  useEffect(() => {
-    // 呼叫 fetchData 以觸發資料載入
-    if (router.query.pid) {
-      fetchData()
-    }
-  }, [router.query.pid])
+// 初始進來只抓商品資料
+useEffect(() => {
+  if (router.query.pid) {
+    fetchProduct()
+  }
+}, [router.query.pid])
 
-  useEffect(() => {
-    console.log('評論', productComments);
-
-  }, [productComments])
+// page 改變時才抓更多留言（第一次 page 預設為 1）
+useEffect(() => {
+  if (router.query.pid) {
+    fetchComments()
+  }
+}, [page, router.query.pid])
 
   return (
     <>
@@ -238,7 +292,7 @@ export default function Detail() {
         </div>
       </div>
 
-      {/* 商品評論 */}
+      {/* 商品留言欄 */}
       <div class="container mx-auto">
         <div class="row">
           <div class="col-9 position-relative">
@@ -268,60 +322,55 @@ export default function Detail() {
       </div>
       <Toaster />
 
-      {productComments.length ? (<>
-        <div className="container mx-auto">
-          {productComments.map((comment, index) => (
-            <div
-              key={index}
-              // ref={index === productComments.length - 1 ? lastCommentRef : null}
-              className="d-flex mb-4 pb-3 border-bottom align-items-start"
-            >
-              {/* 頭像 */}
-              <img
-                src={comment.photo || '/public/pics/headshot.jpg'}
-                alt="avatar"
-                className="rounded-circle me-3"
-                style={{ width: '50px', height: '50px', objectFit: 'cover' }}
-              />
-
-              {/* 右邊內容 */}
-              <div className="flex-grow-1">
-                <h6 className="mb-1">{comment.account || '匿名使用者'}</h6>
-
-                {/* 留言內容 */}
-                <p
-                  // className={`mb-1 ${expandedIndexes[index] ? '' : 'text-truncate-3'}`}
-                  className="text-truncate-3"
-                  style={{ whiteSpace: 'pre-wrap' }}
+      {/* 商品評論區 */}
+      {productComments.length ? (
+        isLoading ? (
+          <div className="d-flex justify-content-center align-items-center w-100 mb-5">
+            <CatLoader />
+          </div>
+        ) : (
+          <>
+            <div className="container mx-auto">
+              {productComments.map((comment, index) => (
+                <div
+                  key={index}
+                  ref={index === productComments.length - 1 ? lastCommentRef : null}
+                  className="d-flex mb-4 pb-3 border-bottom align-items-start"
                 >
-                  {comment.content || '無評論內容'}
-                </p>
+                  {/* 頭像 */}
+                  <img
+                    src={comment.photo || '/public/pics/headshot.jpg'}
+                    alt="avatar"
+                    className="rounded-circle me-3"
+                    style={{ width: '50px', height: '50px', objectFit: 'cover' }}
+                  />
 
-                {/* 展開/收合按鈕 */}
-                {comment.content && comment.content.split('\n').length > 3 && (
-                  <button
-                    className="btn btn-link btn-sm p-0"
-                    onClick={() => toggleExpand(index)}
-                  >
-                    {expandedIndexes[index] ? '收起' : '更多'}
-                  </button>
-                )}
+                  {/* 右邊內容 */}
+                  <div className="flex-grow-1">
+                    <h6 className="mb-1">{comment.account || '匿名使用者'}</h6>
 
-                {/* 留言時間 */}
-                <div>
-                  <small className="text-muted">
-                    {new Date(comment.created_date).toLocaleString()}
-                  </small>
+                    {/* 留言內容 */}
+                    <p
+                      className={`mb-1 ${expandedIndexes[index] ? '' : 'text-truncate-3'}`}
+                      style={{ whiteSpace: 'pre-wrap' }}
+                    >
+                      {comment.content || '無評論內容'}
+                    </p>
+
+                    {/* 留言時間 */}
+                    <div>
+                      <small className="text-muted">
+                        {new Date(comment.created_date).toLocaleString()}
+                      </small>
+                    </div>
+                  </div>
                 </div>
-              </div>
+              ))}
             </div>
-          ))}
-        </div>
-
-        {/* {loading && <p className="text-center">載入中...</p>} */}
-      </>) : (<>
+          </>)
+      ) : (
         <div className="container mx-auto"><div className="d-flex mb-4 py-4 border-top align-items-start">尚無人給予評論</div></div>
-      </>)}
+      )}
 
     </>
   )
