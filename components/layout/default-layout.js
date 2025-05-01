@@ -6,7 +6,7 @@ export default function DefaultLayout({ children }) {
   return (
     <>
       <Head>
-        <title>PetPet佩佩星球-電商平台Demo</title>
+        <title>PetPet佩佩星球-模擬電商平台</title>
         <meta name="viewport" content="width=device-width" />
       </Head>
       <PetpetHeader />

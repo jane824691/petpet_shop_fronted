@@ -85,6 +85,9 @@
     margin-top: 90px;
   }
 }
+.container .cardPart .cardBorder :global(.border-primary) {
+  border: 1px solid #90d2ce !important;
+}
 
 @media (max-width: 1000px) {
   .keyVisualWithText {

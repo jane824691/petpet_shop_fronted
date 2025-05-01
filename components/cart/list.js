@@ -135,7 +135,7 @@ export default function CartList(props) {
                     </div>
                   </div>
                 </div>
-                <div className="col-sm-9">
+                <div className="col-sm-9 d-none d-sm-block">
                   <h5 className="card-body to-middle-title row">
                   <div className="col-lg-5 col-5 text-center">品名</div>
                     <div className="col-lg-2 col-3 text-center">數量</div>
@@ -218,7 +218,7 @@ export default function CartList(props) {
             <div className="card total-card border-0 mt-5">
               <h4 className="mb-3 underline-w">摘要</h4>
               <div className="d-flex justify-content-between align-items-center underline-w">
-                <h5>折價券</h5>
+                <h5 className="product-desc">折價券</h5>
                 <div>
                   <select
                     className="form-select text-end border-0 coupon"
@@ -240,7 +240,7 @@ export default function CartList(props) {
                             .add(15, 'day')
                             .format('YYYY-MM-DD')}`}
                         >
-                          【
+                          至【
                           {dayjs(v.expiry_date)
                             .add(15, 'day')
                             .format('YYYY-MM-DD')}

@@ -177,7 +177,7 @@ useEffect(() => {
 
         <div className="col-sm-5 ps-4 descriptionPart">
           <Breadcrumb>
-            <Breadcrumb.Item href="/">Home</Breadcrumb.Item>
+            <Breadcrumb.Item href="/product/list?page=1">Home</Breadcrumb.Item>
             <Breadcrumb.Item active>商品詳細</Breadcrumb.Item>
           </Breadcrumb>
 
