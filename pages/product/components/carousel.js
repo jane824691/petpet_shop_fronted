@@ -25,19 +25,19 @@ export default function Carousel({
 
   const imagePath01 = firstImage
     ? `../image/product/${firstImage}`
-    : '../images/product/638348807730300000 (1).jfif'
+    : '../image/product/638348807730300000 (1).jfif'
 
   const imagePath02 = mainImage
     ? `../image/product/${mainImage}`
-    : '../images/product/638348807730300000 (1).jfif'
+    : '../image/product/638348807730300000 (1).jfif'
 
   const imagePath03 = secondaryImage
     ? `../image/product/${secondaryImage}`
-    : '../images/product/638348807730300000 (1).jfif'
+    : '../image/product/638348807730300000 (1).jfif'
 
   const imagePath04 = additionalImage
     ? `../image/product/${additionalImage}`
-    : '../images/product/638348807730300000 (1).jfif'
+    : '../image/product/638348807730300000 (1).jfif'
   return (
     <>
       <Swiper
