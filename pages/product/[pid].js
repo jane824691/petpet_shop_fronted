@@ -141,7 +141,7 @@ const fetchComments = async () => {
         toast.error('尚未購買此商品，無法評論')
       }
     } catch (error) {
-
+      console.error('sendComments error')
     }
   }
 
@@ -319,13 +319,13 @@ useEffect(() => {
               onChange={(e) => setCommentsValue(e.target.value)}
             />
             {commentsValue && (
-              <span
+              <button
                 className="position-absolute top-50 translate-middle-y end-0 me-4 text-primary"
                 style={{ cursor: 'pointer' }}
                 onClick={() => setCommentsValue('')}
               >
                 X
-              </span>
+              </button>
             )}
           </div>
           <div class="col-3">
