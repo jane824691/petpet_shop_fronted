@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react'
 // 解開以下可不接後端 接純假資料
 // import data from '@/data/Product.json'
-import SwiperPhoto from '@/components/product/Swiper'
 import SortBar from './components/SortBar/'
 import SearchBar from './components/SearchBar/'
 import FilterBar from './components/FilterBar/'
@@ -16,8 +15,8 @@ export default function List() {
   const router = useRouter()
   const [searchWord, setSearchWord] = useState('') // 搜尋關鍵字狀態
   const [priceRange, setPriceRange] = useState('所有') // radio選項
-  const [priceHigh, setPriceHigh] = useState() //價格區間
-  const [priceLow, setPriceLow] = useState()
+  const [priceHigh, setPriceHigh] = useState('') //價格區間
+  const [priceLow, setPriceLow] = useState('')
   const [sortBy, setSortBy] = useState('') // 價格排序
   // 下面tagTypes是對應到checkbox表單元素
   const [tags, setTags] = useState([])
@@ -81,6 +80,11 @@ export default function List() {
   }
 
   useEffect(() => {
+    if (!router.isReady) return
+
+    const page = +router.query.page || 1
+    if (page < 1) return
+  
     getListData()
   }, [router.query.page, searchWord, priceLow, priceHigh, sortBy, tags])
 
@@ -90,6 +94,7 @@ export default function List() {
       shallow: true,
     })
   }, [searchWord, priceLow, priceHigh, sortBy, tags])
+
 
   // 設定四種搜尋方式
   // 1. 從伺服器來的原始資料
@@ -125,7 +130,7 @@ export default function List() {
     return newProducts
   }
 
-  //處理價格排序
+  // 處理價格排序
   const handleSort = (products, sortBy) => {
     let newProducts = [...products]
 
@@ -170,7 +175,7 @@ export default function List() {
         return false
       })
     } else {
-      newProducts = [...products] // 如果没有选择任何标签，则显示所有产品
+      newProducts = [...products] // 如果沒有選定條件, 則顯示全部
     }
 
     setTagsNum([...new Set(allTags)]) // 用 Set 排除重複值
@@ -275,21 +280,6 @@ export default function List() {
     setDisplayProducts(newProducts)
   }, [searchWord, products, sortBy, tags, priceRange])
 
-  // 當價格區間條件被清空時, 仍正常帶出所有資料
-  useEffect(() => {
-    if (priceLow !== '' && priceHigh !== '') {
-      getListData()
-    }
-  }, [priceLow, priceHigh, router.query.page])
-
-  // 當關鍵字清空, 仍帶出所有資料
-  useEffect(() => {
-    if (searchWord === '') {
-      getListData()
-    } else if (searchWord !== '' && searchWord.length < 2) {
-      getListData()
-    }
-  }, [searchWord, priceLow, priceHigh])
 
   return (
     <>
