@@ -172,6 +172,10 @@
   text-overflow: ellipsis;
 }
 
+.no-outline:focus {
+  border: none;
+}
+
 @media screen and (max-width: 760px) {
   .amount-form {
     font-size: 16px;

@@ -4,7 +4,6 @@ import { useRouter } from 'next/router'
 import { ONE_PRODUCT, COMMENTS_ONE, COMMENTS_ADD } from '@/components/my-const'
 import { useCart } from '@../../../components/hooks/use-cart-state'
 import toast, { Toaster } from 'react-hot-toast'
-import Breadcrumb from 'react-bootstrap/Breadcrumb';
 import { useHeaderAnimation } from '@/components/contexts/HeaderAnimationContext';
 import { CatLoader } from '@/components/hooks/use-loader/components'
 
@@ -27,49 +26,49 @@ export default function Detail() {
   })
 
 
-// 跳轉用
-const router = useRouter()
+  // 跳轉用
+  const router = useRouter()
 
-// 抓單一商品（只抓一次）
-const fetchProduct = async () => {
-  const pid = +router.query.pid
-  try {
-    const response = await fetch(ONE_PRODUCT + `/${pid}`)
-    const productData = await response.json()
-    setMyProduct(productData)
-  } catch (error) {
-    console.error('商品資料載入錯誤:', error)
-  }
-}
-
-// 抓留言資料（會無限滾動）
-const fetchComments = async () => {
-  const pid = +router.query.pid
-  if (!hasMore) return // 如果已經沒有更多資料，就不繼續呼叫
-
-  setIsLoading(true)
-  try {
-    const response = await fetch(`${COMMENTS_ONE}/${pid}`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ page }), // 改變的頁數放BODY
-    })
-    const data = await response.json()
-    
-    // 若回傳筆數小於 pageSize，就表示最後一頁
-    if (data.length < 3) { 
-      setHasMore(false)
+  // 抓單一商品（只抓一次）
+  const fetchProduct = async () => {
+    const pid = +router.query.pid
+    try {
+      const response = await fetch(ONE_PRODUCT + `/${pid}`)
+      const productData = await response.json()
+      setMyProduct(productData)
+    } catch (error) {
+      console.error('商品資料載入錯誤:', error)
     }
-
-    setProductComments((prev) => [...prev, ...data])
-  } catch (error) {
-    console.error('留言載入錯誤:', error)
-  } finally {
-    setIsLoading(false)
   }
-}
+
+  // 抓留言資料（會無限滾動）
+  const fetchComments = async () => {
+    const pid = +router.query.pid
+    if (!hasMore) return // 如果已經沒有更多資料，就不繼續呼叫
+
+    setIsLoading(true)
+    try {
+      const response = await fetch(`${COMMENTS_ONE}/${pid}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ page }), // 改變的頁數放BODY
+      })
+      const data = await response.json()
+
+      // 若回傳筆數小於 pageSize，就表示最後一頁
+      if (data.length < 3) {
+        setHasMore(false)
+      }
+
+      setProductComments((prev) => [...prev, ...data])
+    } catch (error) {
+      console.error('留言載入錯誤:', error)
+    } finally {
+      setIsLoading(false)
+    }
+  }
 
   const lastCommentRef = useRef()
 
@@ -77,7 +76,7 @@ const fetchComments = async () => {
   useEffect(() => {
     if (isLoading || !hasMore) return
     if (observer.current) observer.current.disconnect() // 如已有過觀察則移除
-  
+
     // IntersectionObserver 是 JavaScript（ES6+）的瀏覽器原生 API
     // IntersectionObserver 該物件接受一個 callback 和一個可選的 options：
     // 例如 const observer = new IntersectionObserver(callback, options);
@@ -87,7 +86,7 @@ const fetchComments = async () => {
         setPage((prevPage) => prevPage + 1)
       }
     })
-  
+
     // entries[0] = {
     //   time: 3412.4,                // 觸發時的時間戳（毫秒）
     //   target: <div id="target">,   // 被觀察的 DOM 元素
@@ -137,6 +136,12 @@ const fetchComments = async () => {
       if (responseData.success) {
         setCommentsValue('')
         toast.success('留言成功!!')
+
+        // 重新載入整個留言清單
+        setPage(1)
+        setHasMore(true)
+        setProductComments([]) // 清空原本的留言列表
+        fetchComments(1)       // 加上參數，明確要抓第一頁
       } else {
         toast.error('尚未購買此商品，無法評論')
       }
@@ -145,19 +150,19 @@ const fetchComments = async () => {
     }
   }
 
-// 初始進來只抓商品資料
-useEffect(() => {
-  if (router.query.pid) {
-    fetchProduct()
-  }
-}, [router.query.pid])
+  // 初始進來只抓商品資料
+  useEffect(() => {
+    if (router.query.pid) {
+      fetchProduct()
+    }
+  }, [router.query.pid])
 
-// page 改變時才抓更多留言（第一次 page 預設為 1）
-useEffect(() => {
-  if (router.query.pid) {
-    fetchComments()
-  }
-}, [page, router.query.pid])
+  // page 改變時才抓更多留言（第一次 page 預設為 1）
+  useEffect(() => {
+    if (router.query.pid) {
+      fetchComments()
+    }
+  }, [page, router.query.pid])
 
   return (
     <>
@@ -176,11 +181,6 @@ useEffect(() => {
         </div>
 
         <div className="col-sm-5 ps-4 descriptionPart">
-          <Breadcrumb>
-            <Breadcrumb.Item href="/product/list?page=1">Home</Breadcrumb.Item>
-            <Breadcrumb.Item active>商品詳細</Breadcrumb.Item>
-          </Breadcrumb>
-
           <h4 id="name" name="name">
             {myProduct.product_name}
           </h4>
@@ -289,12 +289,12 @@ useEffect(() => {
                   <div className="accordion-body px-1">
                     <p>訂單金額滿新臺幣 4,500 元即享免費標準運送服務</p>
                     <p>
-                      臺北市:標準運送的商品可於 2-5 個工作天內送達
-                      快遞運送的商品可於 2-3 個工作天內送達
+                      臺北市:標準運送的商品可於 2-5 個工作天送達
+                      快遞運送的商品可於 2-3 個工作天送達
                     </p>
                     <p>
-                      其它縣市: 標準運送的商品可於 3-6 個工作天內送達
-                      快遞運送的商品可於 3-5 個工作天內送達
+                      其它縣市: 標準運送的商品可於 3-6 個工作天送達
+                      快遞運送的商品可於 3-5 個工作天送達
                     </p>
                     <p>訂單皆於星期一至星期五之間處理與寄送 (國定假日除外)</p>
                     <p>會員享免費退貨服務免費退貨。退貨政策例外情況。</p>
@@ -314,22 +314,21 @@ useEffect(() => {
             <input
               type="text"
               class="form-control pe-5"
-              placeholder="留下評論..."
+              placeholder="購買過該商品者，歡迎留下評論"
               value={commentsValue}
               onChange={(e) => setCommentsValue(e.target.value)}
             />
             {commentsValue && (
               <button
-                className="position-absolute top-50 translate-middle-y end-0 me-4 text-primary"
-                style={{ cursor: 'pointer' }}
+                className="position-absolute top-50 translate-middle-y end-0 me-2 text-primary btn no-outline"
                 onClick={() => setCommentsValue('')}
               >
-                X
+                Ｘ
               </button>
             )}
           </div>
           <div class="col-3">
-            <button class="btn btn-primary w-100" onClick={() => { sendComments(commentsValue) }}>
+            <button class="btn btn-primary w-100 text-white" onClick={() => { sendComments(commentsValue) }}>
               發表
             </button>
           </div>
@@ -346,41 +345,45 @@ useEffect(() => {
         ) : (
           <>
             <div className="container mx-auto">
-              {productComments.map((comment, index) => (
-                <div
-                  key={index}
-                  ref={index === productComments.length - 1 ? lastCommentRef : null}
-                  className="d-flex mb-4 pb-3 border-bottom align-items-start"
-                >
-                  {/* 頭像 */}
-                  <img
-                    src={comment.photo || '/public/pics/headshot.jpg'}
-                    alt="avatar"
-                    className="rounded-circle me-3"
-                    style={{ width: '50px', height: '50px', objectFit: 'cover' }}
-                  />
+              {productComments.map((comment, index) => {
+                const isLast = index === productComments.length - 1
 
-                  {/* 右邊內容 */}
-                  <div className="flex-grow-1">
-                    <h6 className="mb-1">{comment.account || '匿名使用者'}</h6>
+                return (
+                  <div
+                    key={index}
+                    ref={index === productComments.length - 1 ? lastCommentRef : null}
+                    className={`d-flex mb-4 pb-3 align-items-start ${isLast? '' : 'border-bottom'}`}
+                  >
+                    {/* 頭像 */}
+                    <img
+                      src={comment?.photo?.trim?.() ? comment.photo : '/pics/headshot.jpg'}
+                      alt="avatar"
+                      className="rounded-circle me-3"
+                      style={{ width: '50px', height: '50px', objectFit: 'cover' }}
+                    />
 
-                    {/* 留言內容 */}
-                    <p
-                      className={`mb-1 ${expandedIndexes[index] ? '' : 'text-truncate-3'}`}
-                      style={{ whiteSpace: 'pre-wrap' }}
-                    >
-                      {comment.content || '無評論內容'}
-                    </p>
+                    {/* 右邊內容 */}
+                    <div className="flex-grow-1">
+                      <h6 className="mb-1">{comment.account || '匿名使用者'}</h6>
 
-                    {/* 留言時間 */}
-                    <div>
-                      <small className="text-muted">
-                        {new Date(comment.created_date).toLocaleString()}
-                      </small>
+                      {/* 留言內容 */}
+                      <p
+                        className={`mb-1 ${expandedIndexes[index] ? '' : 'text-truncate-3'}`}
+                        style={{ whiteSpace: 'pre-wrap' }}
+                      >
+                        {comment.content || '無評論內容'}
+                      </p>
+
+                      {/* 留言時間 */}
+                      <div>
+                        <small className="text-muted">
+                          {new Date(comment.created_date).toLocaleString()}
+                        </small>
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))}
+                )
+              })}
             </div>
           </>)
       ) : (
