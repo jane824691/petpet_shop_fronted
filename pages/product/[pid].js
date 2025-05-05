@@ -16,6 +16,9 @@ export default function Detail() {
   const [commentsValue, setCommentsValue] = useState('');
   const [isLoading, setIsLoading] = useState(false)
   const [hasMore, setHasMore] = useState(true) // 如滾軸到底頁數, 不再重複呼叫api
+  const [isOverWordsAmounts, setIsOverWordsAmounts] = useState(false)
+  const [hasBadWords, setHasBadWords] = useState(false)
+
 
   const [myProduct, setMyProduct] = useState({
     pid: '',
@@ -116,10 +119,42 @@ export default function Detail() {
     }))
   }
 
+  const badWords = [
+    'fuck', 'shit', 'asshole', 'bitch', 'wtf', '操你', '幹你', '垃圾', '智障', '白癡', '王八蛋'
+    // 可擴充
+  ]
+
+  const containsBadWords = (text) => {
+    return badWords.some((word) => text.includes(word))
+  }
+
+  const handleCommentChange = (e) => {
+    const value = e.target.value
+    setCommentsValue(value)
+    setHasBadWords(containsBadWords(value.toLowerCase()))
+  }
 
   const sendComments = async () => {
     const pid = +router.query.pid
     const sid = JSON.parse(localStorage.getItem("auther"))?.sid;
+
+    if (commentsValue.length === 0) {
+      toast.error('請留下您的評論!')
+      return
+    }
+
+    if (commentsValue.length > 300) {
+      toast.error('評論字數不可超過 300 字')
+      setIsOverWordsAmounts(true)
+      return
+    }
+
+    if (containsBadWords(commentsValue.toLowerCase())) {
+      toast.error('評論包含不雅字詞，請重新輸入')
+      setHasBadWords(true)
+      return
+    }
+
     try {
       const r = await fetch(COMMENTS_ADD, {
         method: 'POST',
@@ -314,9 +349,11 @@ export default function Detail() {
             <input
               type="text"
               class="form-control pe-5"
-              placeholder="購買過該商品者，歡迎留下評論"
+              placeholder="購買過該商品者，歡迎留下評論（最長 300 字）"
+              rows="4"
+              maxLength={300}
               value={commentsValue}
-              onChange={(e) => setCommentsValue(e.target.value)}
+              onChange={handleCommentChange}
             />
             {commentsValue && (
               <button
@@ -333,6 +370,9 @@ export default function Detail() {
             </button>
           </div>
         </div>
+        {hasBadWords && (
+          <div className='text-danger'>請勿出現不雅字眼</div>
+        )}
       </div>
       <Toaster />
 
@@ -352,7 +392,7 @@ export default function Detail() {
                   <div
                     key={index}
                     ref={index === productComments.length - 1 ? lastCommentRef : null}
-                    className={`d-flex mb-4 pb-3 align-items-start ${isLast? '' : 'border-bottom'}`}
+                    className={`d-flex mb-4 pb-3 align-items-start ${isLast ? '' : 'border-bottom'}`}
                   >
                     {/* 頭像 */}
                     <img
