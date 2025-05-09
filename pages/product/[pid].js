@@ -6,6 +6,7 @@ import { useCart } from '@../../../components/hooks/use-cart-state'
 import toast, { Toaster } from 'react-hot-toast'
 import { useHeaderAnimation } from '@/components/contexts/HeaderAnimationContext';
 import { CatLoader } from '@/components/hooks/use-loader/components'
+import { entries } from 'lodash'
 
 export default function Detail() {
   const { addItem } = useCart()
@@ -78,7 +79,9 @@ export default function Detail() {
   const observer = useRef()
   useEffect(() => {
     if (isLoading || !hasMore) return
-    if (observer.current) observer.current.disconnect() // 如已有過觀察則移除
+    if (observer.current) observer.current.disconnect() // 如已有過觀察則停止觀察
+    // if (entry.isIntersecting) observer.unobserve(entry.target) // 無框架js停止觀察寫法, 不拔刷過但使用者當下已離開之可視範圍外的資訊
+    
 
     // IntersectionObserver 是 JavaScript（ES6+）的瀏覽器原生 API
     // IntersectionObserver 該物件接受一個 callback 和一個可選的 options：
@@ -99,6 +102,14 @@ export default function Detail() {
     //   intersectionRect: {...},     // 真的出現在畫面裡的那塊區域
     //   rootBounds: {...}            // root（預設是 viewport）的邊界
     // }
+
+    // 教學：https://www.bing.com/videos/riverview/relatedvideo?q=intersectionobserver&mid=63F9AE41BCC1A8B3033863F9AE41BCC1A8B30338&FORM=VAMTRV
+    {
+      // rootMargin: "100px", // 正數值會超越當下看到的視窗大小, 可以在視窗以外就開始帶出資訊
+      // rootMargin: "-50px", // 負數值px則可以壓在視窗內, 為觀察器範圍內
+      // threshold: 0, // 0~1,以觀察的div或指定單位的高度開始觀察
+      // threshold: 1, // 以觀察1個單位的高度, 完全進入該1個單位高度才動作
+    }
 
 
     if (lastCommentRef.current) {
