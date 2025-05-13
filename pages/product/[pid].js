@@ -70,9 +70,17 @@ export default function Detail() {
     } catch (error) {
       console.error('留言載入錯誤:', error)
     } finally {
-      setIsLoading(false)
+      // setIsLoading(false)
     }
   }
+
+  useEffect(() => {
+    if (isLoading) {
+      setTimeout(() => {
+        setIsLoading(false)
+      }, 1000)
+    }
+  }, [isLoading])
 
   const lastCommentRef = useRef()
 
@@ -81,7 +89,7 @@ export default function Detail() {
     if (isLoading || !hasMore) return
     if (observer.current) observer.current.disconnect() // 如已有過觀察則停止觀察
     // if (entry.isIntersecting) observer.unobserve(entry.target) // 無框架js停止觀察寫法, 不拔刷過但使用者當下已離開之可視範圍外的資訊
-    
+
 
     // IntersectionObserver 是 JavaScript（ES6+）的瀏覽器原生 API
     // IntersectionObserver 該物件接受一個 callback 和一個可選的 options：
@@ -389,54 +397,55 @@ export default function Detail() {
 
       {/* 商品評論區 */}
       {productComments.length ? (
-        isLoading ? (
+        <>
+          <div className="container mx-auto">
+            {productComments.map((comment, index) => {
+              const isLast = index === productComments.length - 1
+
+              return (
+                <div
+                  key={index}
+                  ref={index === productComments.length - 1 ? lastCommentRef : null}
+                  className={`d-flex mb-4 pb-3 align-items-start ${isLast ? '' : 'border-bottom'}`}
+                >
+                  {/* 頭像 */}
+                  <img
+                    src={comment?.photo?.trim?.() ? comment.photo : '/pics/headshot.jpg'}
+                    alt="avatar"
+                    className="rounded-circle me-3"
+                    style={{ width: '50px', height: '50px', objectFit: 'cover' }}
+                  />
+
+                  {/* 右邊內容 */}
+                  <div className="flex-grow-1">
+                    <h6 className="mb-1">{comment.account || '匿名使用者'}</h6>
+
+                    {/* 留言內容 */}
+                    <p
+                      className={`mb-1 ${expandedIndexes[index] ? '' : 'text-truncate-3'}`}
+                      style={{ whiteSpace: 'pre-wrap' }}
+                    >
+                      {comment.content || '無評論內容'}
+                    </p>
+
+                    {/* 留言時間 */}
+                    <div>
+                      <small className="text-muted">
+                        {new Date(comment.created_date).toLocaleString()}
+                      </small>
+                    </div>
+                  </div>
+                </div>
+              )
+            })}
+          </div>
+
+          { isLoading ? (
           <div className="d-flex justify-content-center align-items-center w-100 mb-5">
             <CatLoader />
           </div>
-        ) : (
-          <>
-            <div className="container mx-auto">
-              {productComments.map((comment, index) => {
-                const isLast = index === productComments.length - 1
-
-                return (
-                  <div
-                    key={index}
-                    ref={index === productComments.length - 1 ? lastCommentRef : null}
-                    className={`d-flex mb-4 pb-3 align-items-start ${isLast ? '' : 'border-bottom'}`}
-                  >
-                    {/* 頭像 */}
-                    <img
-                      src={comment?.photo?.trim?.() ? comment.photo : '/pics/headshot.jpg'}
-                      alt="avatar"
-                      className="rounded-circle me-3"
-                      style={{ width: '50px', height: '50px', objectFit: 'cover' }}
-                    />
-
-                    {/* 右邊內容 */}
-                    <div className="flex-grow-1">
-                      <h6 className="mb-1">{comment.account || '匿名使用者'}</h6>
-
-                      {/* 留言內容 */}
-                      <p
-                        className={`mb-1 ${expandedIndexes[index] ? '' : 'text-truncate-3'}`}
-                        style={{ whiteSpace: 'pre-wrap' }}
-                      >
-                        {comment.content || '無評論內容'}
-                      </p>
-
-                      {/* 留言時間 */}
-                      <div>
-                        <small className="text-muted">
-                          {new Date(comment.created_date).toLocaleString()}
-                        </small>
-                      </div>
-                    </div>
-                  </div>
-                )
-              })}
-            </div>
-          </>)
+          ) : ''}
+        </>
       ) : (
         <div className="container mx-auto"><div className="d-flex mb-4 py-4 border-top align-items-start">尚無人給予評論</div></div>
       )}
