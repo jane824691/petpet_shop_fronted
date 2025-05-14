@@ -195,7 +195,7 @@ export default function Detail() {
         setPage(1)
         setHasMore(true)
         setProductComments([]) // 清空原本的留言列表
-        fetchComments(1)       // 加上參數，明確要抓第一頁
+        fetchComments(1) // 加上參數，明確要抓第一頁
       } else {
         toast.error('尚未購買此商品，無法評論')
       }
