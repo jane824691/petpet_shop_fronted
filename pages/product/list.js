@@ -282,7 +282,7 @@ export default function List() {
   return (
     <>
       <div className="web-style">
-        <div className="row px-2 py-5">
+        <div className="px-2 py-5">
           <div className="px-1 px-md-5 d-block d-md-flex" id="wrapper">
             {/* 手機版才出現的下拉按鈕 */}
             <div className="row d-md-none">
