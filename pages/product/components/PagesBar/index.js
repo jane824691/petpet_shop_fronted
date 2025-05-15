@@ -44,7 +44,9 @@ function PagesBar({ data }) {
             <ul className="pagination d-flex justify-content-center">
               <li>
                 <Link
-                  className={`page-link ${data.page === 1 ? 'disabled' : ''}`}
+                  className={`page-link px-0 ${
+                    data.page === 1 ? 'disabled' : ''
+                  }`}
                   href={data.page !== 1 ? `?page=${1}` : '#'}
                   style={{
                     background: data.page === 1 ? 'transparent' : 'transparent',
@@ -57,7 +59,9 @@ function PagesBar({ data }) {
               </li>
               <li>
                 <Link
-                  className={`page-link ${data.page === 1 ? 'disabled' : ''}`}
+                  className={`page-link px-2 px-sm-3 ${
+                    data.page === 1 ? 'disabled' : ''
+                  }`}
                   href={`?page=${data.page - 1}`}
                   style={{
                     background: data.page === 1 ? 'transparent' : 'transparent',
@@ -79,7 +83,7 @@ function PagesBar({ data }) {
                 : null}
               <li>
                 <Link
-                  className={`page-link ${
+                  className={`page-link px-2 px-sm-3 ${
                     data.page === data.totalPages ? 'disabled' : ''
                   }`}
                   href={`?page=${data.page + 1}`}
@@ -97,7 +101,7 @@ function PagesBar({ data }) {
               </li>
               <li>
                 <Link
-                  className={`page-link ${
+                  className={`page-link px-0 ${
                     data.page === data.totalPages ? 'disabled' : ''
                   }`}
                   href={

@@ -286,7 +286,7 @@ export default function List() {
           <div className="px-1 px-md-5 d-block d-md-flex" id="wrapper">
             {/* 手機版才出現的下拉按鈕 */}
             <div className="row d-md-none">
-              <div className="col-12 mb-3 text-center">
+              <div className="col-12 mt-4 mb-2 text-center">
                 <button
                   className="btn btn-outline-secondary"
                   type="button"

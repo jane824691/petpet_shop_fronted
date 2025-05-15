@@ -97,9 +97,18 @@
 }
 
 .test {
-  background-color: #ffb44f;
   color: white;
   font-size: 30px;
+  background-color: transparent;
+}
+
+.test:hover,
+.test:focus,
+.test:active,
+.test:focus:active {
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
 }
 
 /* Tablet and Smaller Desktop */
@@ -127,7 +136,7 @@
     height: 46px;
     width: 100%;
   }
-  .brandName {
+  .brandName, .headerRightIconLink {
     font-size: 16px;
   }
   .headerRightIcon {
@@ -147,7 +156,6 @@
   .container {
     height: 62px;
     gap: 2vw;
-    margin-bottom: 5vw;
     .headerMiddle {
       order: 2; /* 讓 headerMiddle 排在第二行 */
       margin-top: 10px;
@@ -180,11 +188,11 @@
 @media screen and (max-width: 400px) {
   .container {
     justify-content: center;
-    .brandName {
+    .brandName, .headerRightIconLink, .headerMiddleItem{
       font-size: 12px;
     }
-    .headerMiddleItem {
-      font-size: 12px;
+    .brandName {
+      display: none;
     }
   }
 }
@@ -200,14 +208,6 @@
       padding: 0 4vw 0 0 !important;
     }
     .headerRightAccount {
-      display: none;
-    }
-  }
-}
-@media screen and (max-width: 300px) {
-  .container {
-    justify-content: center;
-    .brandName {
       display: none;
     }
   }

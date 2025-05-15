@@ -5,20 +5,20 @@ import Dropdown from 'react-bootstrap/Dropdown'
 import AuthContext from '../contexts/AuthContext'
 import { useContext } from 'react'
 import { useCart } from '@/components/hooks/use-cart-state'
-import { useHeaderAnimation } from '@/components/contexts/HeaderAnimationContext';
+import { useHeaderAnimation } from '@/components/contexts/HeaderAnimationContext'
 
 export default function PetpetHeader() {
   const { auther, logout } = useContext(AuthContext)
   const { items } = useCart()
   // TODO: adding fading animate add & minus button at cart page
-  const totalQuantity = items.reduce((sum, item) => sum + item.quantity, 0);
+  const totalQuantity = items.reduce((sum, item) => sum + item.quantity, 0)
 
-  const { showAnimation, addingProductAmount } = useHeaderAnimation();
+  const { showAnimation, addingProductAmount } = useHeaderAnimation()
 
   return (
     <>
       <header className={styles.header}>
-        <div className={styles.container}>
+        <div className={`${styles.container} p-2`}>
           {/* 網站icon */}
           <Link href="/" className={styles.logoLink}>
             <div className={styles.headerLeft}>
@@ -79,8 +79,10 @@ export default function PetpetHeader() {
             {auther.account ? (
               <>
                 <div className={styles.totalQuantity}>{totalQuantity || 0}</div>
-                { showAnimation && (
-                  <div className={styles.addingAmount}>+{addingProductAmount}</div>
+                {showAnimation && (
+                  <div className={styles.addingAmount}>
+                    +{addingProductAmount}
+                  </div>
                 )}
                 <div className={styles.headerRightIcon}>
                   <Link
@@ -124,7 +126,9 @@ export default function PetpetHeader() {
               </>
             ) : (
               <>
-                <div className={styles.headerRightIcon}>
+                <div
+                  className={`${styles.headerRightIcon} d-flex align-items-center`}
+                >
                   <Link
                     className={styles.headerRightIconLink}
                     style={{ color: 'white', textDecoration: 'none' }}
@@ -137,14 +141,14 @@ export default function PetpetHeader() {
             )}
             {auther.account ? (
               <>
-                <Dropdown>
+                <Dropdown align="end">
                   <Dropdown.Toggle
                     className={styles.test}
-                    style={{ boxShadow: 'none' }}
+                    style={{ boxShadow: 'none', backgroundColor: 'none', border: 'none' }}
                   ></Dropdown.Toggle>
 
-                  <Dropdown.Menu>
-                    <Dropdown.Item
+                  <Dropdown.Menu >
+                    <Dropdown.Item style={{ maxWidth: '100vw', overflowX: 'auto' }}
                       onClick={(e) => {
                         e.preventDefault()
                         logout()
