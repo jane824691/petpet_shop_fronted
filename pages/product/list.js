@@ -70,7 +70,7 @@ export default function List() {
       // 實際呼叫後端api
       const r = await fetch(
         PRODUCT +
-        `?page=${page}&searchWord=${searchWord}&priceLow=${priceLow}&priceHigh=${priceHigh}&sortBy=${sortByParam}&tag=${currentTagsNum}`
+          `?page=${page}&searchWord=${searchWord}&priceLow=${priceLow}&priceHigh=${priceHigh}&sortBy=${sortByParam}&tag=${currentTagsNum}`
       )
       const d = await r.json()
       setData(d)
@@ -84,7 +84,7 @@ export default function List() {
 
     const page = +router.query.page || 1
     if (page < 1) return
-  
+
     getListData()
   }, [router.query.page, searchWord, priceLow, priceHigh, sortBy, tags])
 
@@ -94,7 +94,6 @@ export default function List() {
       shallow: true,
     })
   }, [searchWord, priceLow, priceHigh, sortBy, tags])
-
 
   // 設定四種搜尋方式
   // 1. 從伺服器來的原始資料
@@ -280,53 +279,76 @@ export default function List() {
     setDisplayProducts(newProducts)
   }, [searchWord, products, sortBy, tags, priceRange])
 
-
   return (
     <>
       <div className="web-style">
-        <div className="row mt-2 mb-3">
-          <h5 className="card-text d-flex justify-content-between align-items-center">
-            <span className="ps-3"> </span>
-            {/* 價格排序 */}
-            <SortBar sortBy={sortBy} setSortBy={setSortBy} />
-          </h5>
-        </div>
-        <div className="row">
-          <div className="col-sm-12">
-            <div className="d-flex" id="wrapper">
-              <div className="bg-white me-3" id="sidebar-wrapper">
-                <div className="scroll" style={{ width: '15rem' }}>
-                  <div
-                    className="accordion accordion-flush"
-                    id="accordionFlushExample"
-                  >
-                    {/* 搜尋欄 */}
-                    <SearchBar
-                      searchWord={searchWord}
-                      setSearchWord={setSearchWord}
-                    />
+        <div className="row px-2 py-5">
+          <div className="px-1 px-md-5 d-block d-md-flex" id="wrapper">
+            {/* 手機版才出現的下拉按鈕 */}
+            <div className="row d-md-none">
+              <div className="col-12 mb-3 text-center">
+                <button
+                  className="btn btn-outline-secondary"
+                  type="button"
+                  data-bs-toggle="collapse"
+                  data-bs-target="#sidebarCollapse"
+                  aria-expanded="false"
+                  aria-controls="sidebarCollapse"
+                >
+                  篩選條件
+                </button>
+              </div>
+            </div>
 
-                    {/* 價格範圍 */}
-                    <FilterBar
-                      priceRangeTypes={priceRangeTypes}
-                      priceRange={priceRange}
-                      setPriceRange={setPriceRange}
-                      tagTypes={tagTypes}
-                      tags={tags}
-                      setTags={setTags}
-                    />
-                  </div>
+            {/* Sidebar 區塊（桌機版顯示 / 手機版收折）*/}
+            <div
+              className="bg-white me-3 collapse d-md-block"
+              id="sidebarCollapse"
+            >
+              <div
+                className="scroll mx-auto mx-md-0"
+                style={{ width: '15rem' }}
+              >
+                <div
+                  className="accordion accordion-flush text-center text-md-start"
+                  id="accordionFlushExample"
+                >
+                  {/* 搜尋欄 */}
+                  <SearchBar
+                    searchWord={searchWord}
+                    setSearchWord={setSearchWord}
+                  />
+
+                  {/* 價格範圍 */}
+                  <FilterBar
+                    priceRangeTypes={priceRangeTypes}
+                    priceRange={priceRange}
+                    setPriceRange={setPriceRange}
+                    tagTypes={tagTypes}
+                    tags={tags}
+                    setTags={setTags}
+                  />
                 </div>
               </div>
-              {isLoading ? (
-                <div className="d-flex justify-content-center align-items-center w-100">
-                  <CatLoader />
-                </div>
-              ) : (
-                <>
+            </div>
+
+            {isLoading ? (
+              <div className="d-flex justify-content-center align-items-center w-100">
+                <CatLoader />
+              </div>
+            ) : (
+              <>
+                <div className="d-flex flex-column px-4 px-md-1">
+                  <div className="row mt-2 mb-3">
+                    <h5 className="card-text d-flex justify-content-center justify-content-md-between align-items-center">
+                      <span className="ps-3"> </span>
+                      {/* 價格排序 */}
+                      <SortBar sortBy={sortBy} setSortBy={setSortBy} />
+                    </h5>
+                  </div>
                   <div id="page-content-wrapper">
                     <div className="container-fluid">
-                      <div className="row row-cols-1 row-cols-md-3 g-4">
+                      <div className="row row-cols-2 row-cols-md-3 g-4">
                         {/* 如果想看純前端畫面(no後端)可解開以下帶JSON假資料 */}
                         {/* {data.map((v, i) => { */}
 
@@ -337,9 +359,9 @@ export default function List() {
                     </div>
                     <PagesBar data={data} />
                   </div>
-                </>
-              )}
-            </div>
+                </div>
+              </>
+            )}
           </div>
         </div>
       </div>
