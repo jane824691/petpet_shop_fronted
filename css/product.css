@@ -5,6 +5,10 @@
   flex-direction: column;
 }
 
+.photoWall {
+  width: 35% !important;
+}
+
 .swiper {
   width: 100%;
   margin-left: auto;
@@ -167,12 +171,20 @@
   border: none;
 }
 
+@media screen and (max-width: 1350px) {
+  .photoWall {
+    width: 43% !important;
+  }
+}
 @media screen and (max-width: 1150px) {
   .photoWall {
-    width: 100% !important;
+    width: 50% !important;
   }
 }
 @media screen and (max-width: 760px) {
+  .photoWall {
+    width: 100% !important;
+  }
   .amount-form {
     font-size: 16px;
   }

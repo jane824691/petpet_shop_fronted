@@ -221,8 +221,8 @@ export default function Detail() {
   return (
     <>
       {/* 商品圖 + 敘述金額 */}
-      <div className="row mt-5 mx-5 pt-5 pt-sm-0">
-        <div className="col-md-7 w-50 mx-auto photoWall">
+      <div className="row mt-5 mx-5 pt-5 pt-md-0">
+        <div className="col-md-7 mx-auto photoWall">
           <div className="position-sticky">
             <Carousel
               pid={myProduct.pid}
@@ -234,7 +234,7 @@ export default function Detail() {
           </div>
         </div>
 
-        <div className="col-md-5 ps-4 descriptionPart">
+        <div className="col-md-5 ps-4 pt-5 pt-md-0 descriptionPart">
           <h4 id="name" name="name">
             {myProduct.product_name}
           </h4>
@@ -243,7 +243,7 @@ export default function Detail() {
 
           <div class="text-center">
             <div class="row align-items-start d-flex amount-btn-group-wide align-items-center justify-content-center">
-              <h5 className="text-danger col ">
+              <h5 className="text-danger col">
                 <span>NT$ </span>
                 {myProduct.product_price}
               </h5>
@@ -279,7 +279,7 @@ export default function Detail() {
           </div>
 
 
-          <div className="d-flex gap-4">
+          <div className="d-flex gap-4 flex-sm-row flex-column">
             <button
               className="btn btn-outline-primary w-100"
               onClick={() => {
@@ -295,7 +295,7 @@ export default function Detail() {
                 toast.success('成功加入購物車!')
               }}
             >
-              <div className="d-flex justify-content-center m-1 fs-6">
+              <div className="d-flex justify-content-center m-1 fs-6 ">
                 <i className="bi bi-cart mx-2"></i> <div> 加入購物車</div>
               </div>
             </button>
@@ -362,7 +362,7 @@ export default function Detail() {
       </div>
 
       {/* 商品留言欄 */}
-      <div class="container mx-auto">
+      <div class="mx-5 ps-0 ps-lg-5 mt-3">
         <div class="row">
           <div class="col-9 position-relative">
             <textarea
@@ -397,7 +397,7 @@ export default function Detail() {
       {/* 商品評論區 */}
       {productComments.length ? (
         <>
-          <div className="container mx-auto">
+          <div className="mx-5 ps-0 ps-lg-5 mt-5">
             {productComments.map((comment, index) => {
               const isLast = index === productComments.length - 1
 
@@ -446,7 +446,7 @@ export default function Detail() {
           ) : ''}
         </>
       ) : (
-        <div className="container mx-auto"><div className="d-flex mb-4 py-4 border-top align-items-start">尚無人給予評論</div></div>
+        <div className="mx-5 ps-0 ps-lg-5"><div className="d-flex mb-4 py-4 border-top align-items-start">尚無人給予評論</div></div>
       )}
 
     </>
