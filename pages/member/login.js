@@ -28,7 +28,7 @@ export default function Login() {
       }
     }
   }, [])
-  
+
   const postForm = async (e) => {
     e.preventDefault() //不要讓表單以傳統方式送出
 
@@ -72,19 +72,12 @@ export default function Login() {
 
   return (
     <>
-      <h3 className="py-1 mx-auto">會員登入</h3>
-      <div className="d-flex justify-content-center position-relative">
-        <Image
-          className="w-100"
-          src="/pics/heart.png"
-          width="600"
-          height="400"
-          alt="愛心"
-          priority={true}
-        ></Image>
+      <h3 className="pt-5 pb-2 mx-auto">會員登入</h3>
+      <div className="d-flex justify-content-center position-relative mx-auto">
+        <svg className="text-secondary opacity-25 px-4 px-sm-5 " fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M47.6 300.4L228.3 469.1c7.5 7 17.4 10.9 27.7 10.9s20.2-3.9 27.7-10.9L464.4 300.4c30.4-28.3 47.6-68 47.6-109.5v-5.8c0-69.9-50.5-129.5-119.4-141C347 36.5 300.6 51.4 268 84L256 96 244 84c-32.6-32.6-79-47.5-124.6-39.9C50.5 55.6 0 115.2 0 185.1v5.8c0 41.5 17.2 81.2 47.6 109.5z" /></svg>
         <form name="form1" onSubmit={postForm}>
-          <div className="position-absolute top-50 start-50 translate-middle d-flex flex-column my-5">
-            <div className="input-group mb-4 mx-auto">
+          <div className="position-absolute top-50 start-50 translate-middle d-flex flex-column">
+            <div className="input-group mb-2 mb-sm-4 mx-auto">
               <span
                 className="input-group-text border border-danger text-white hintTitle"
                 id="basic-addon1"
@@ -101,7 +94,7 @@ export default function Login() {
                 className="form-control input-group-text border border-secondary accountInput"
               />
             </div>
-            <div className="input-group mb-4 mx-auto">
+            <div className="input-group mb-2 mb-sm-4 mx-auto">
               <span
                 className="input-group-text border border-danger text-white hintTitle"
                 id="basic-addon1"
@@ -136,7 +129,7 @@ export default function Login() {
             </div>
             <button
               type="submit"
-              className="btn btn-outline-dark btn-lg btn pro-shadow fs-6 mx-5 my-4"
+              className="btn btn-outline-dark btn-lg btn pro-shadow fs-6 mx-5 my-1 my-sm-4"
             >
               登入
             </button>
@@ -144,11 +137,13 @@ export default function Login() {
         </form>
       </div>
       <div>
-        <span className="fs-5 mx-auto text-danger d-flex justify-content-center my-5">
+        <span className="fs-5 mx-auto text-danger d-flex justify-content-center mb-5">
           <Link href="/member/register-all">新朋友? 註冊</Link>
         </span>
       </div>
-      <Modal show={showFailureModal} onHide={handleClose}>
+
+      {/* 彈窗 */}
+      <Modal show={showFailureModal} onHide={handleClose} centered dialogClassName="failure-dialog-centered">
         <Modal.Header className="modal-form modal-header-failure">
           <Modal.Title className="modal-form mt-3">
             登入失敗
@@ -163,7 +158,7 @@ export default function Login() {
             style={{
               cursor: 'pointer',
               position: 'absolute',
-              top: '-22px',
+              top: '-18px',
               right: '-20px',
             }}
             onClick={handleClose}

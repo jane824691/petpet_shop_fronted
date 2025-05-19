@@ -1,19 +1,19 @@
 .modal-form { 
   font-size: 26px; 
   text-align: center;
-  font-weight: 600; line-height: 42px; 
-  //word-wrap: break-word;
-  width: 400px;
-  height: 90px;
+  font-weight: 600; 
+  line-height: 42px; 
   border: none;
+  display: flex !important;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 .modal-body {
   font-size: 18px; 
 }
 .modal-content {
-  border: 5px solid #90D2CE;
   border-radius: 15px;
-  width: 410px;
 }
 
 .modal-header-success {

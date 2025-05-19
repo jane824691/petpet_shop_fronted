@@ -4,9 +4,11 @@
   text-align: center;
   font-weight: 600;
   line-height: 42px;
-  width: 400px;
-  height: 90px;
   border: none;
+  display: flex !important;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .modal-body {
@@ -14,9 +16,7 @@
 }
 
 .modal-content {
-  border: 5px solid #90D2CE;
   border-radius: 15px;
-  width: 410px;
 }
 
 .modal-header-success {

@@ -1,4 +1,5 @@
 .header {
+  z-index: 1;
 }
 .container {
   display: flex;
@@ -198,7 +199,7 @@
 }
 @media screen and (max-width: 375px) {
   .container {
-    justify-content: center;
+    justify-content: space-around;
     .headerMiddle {
       gap: 0;
     }
