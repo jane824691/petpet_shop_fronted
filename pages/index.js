@@ -62,7 +62,7 @@ export default function Home() {
             style={{ padding: '0' }}
           >
             <h2 className='text-center mb-5 text-success'><i className="bi bi-cart fs-2 pe-2"></i>精選商品</h2>
-            <div className={`row row-cols-2 row-cols-md-4 g-4 ${styles.cardBorder}`}>
+            <div className={`row row-cols-2 row-cols-sm-4 g-4 px-2 px-sm-5 ${styles.cardBorder} d-flex justify-content-center align-items-center`} style={{ minWidth: '100vw' }}>
               <ProductList products={products} />
             </div>
 
