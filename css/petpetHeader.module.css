@@ -188,7 +188,7 @@
 }
 @media screen and (max-width: 400px) {
   .container {
-    justify-content: center;
+    justify-content: space-around;
     .brandName, .headerRightIconLink, .headerMiddleItem{
       font-size: 12px;
     }
@@ -199,7 +199,6 @@
 }
 @media screen and (max-width: 375px) {
   .container {
-    justify-content: space-around;
     .headerMiddle {
       gap: 0;
     }

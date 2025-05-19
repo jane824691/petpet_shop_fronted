@@ -1,29 +1,16 @@
 .main {
-  height: 1300px;
   display: flex;
   justify-content: space-evenly;
 }
 
 .leftList {
-  /* border: 5px solid pink; */
-  /* background-color: #f1cdd3; */
-
-  /* border: 2px solid #CA9145 ; */
-  width: 230px;
-  height: 500px;
   border-radius: 10px;
   display: inline-block;
-  justify-content: center;
-  margin-top: 50px;
+  margin-top: 100px;
 }
-.leftListTop {
-  display: inline-block;
-  justify-content: center;
-  border: 5px solid rgb(18, 31, 213);
-}
+
 .memberPicOut {
   width: 100%;
-  /* border: 5px solid rgb(227, 72, 20); */
   display: flex;
   justify-content: center;
 }

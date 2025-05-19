@@ -1,22 +1,20 @@
 import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import styles from '@/css/favorite.module.css'
-import Image from 'next/image'
 import AuthContext from '@/components/contexts/AuthContext'
 import { useContext } from 'react'
 import { GET_MEMBER_DATA } from '@/components/my-const'
 import { jwtDecode } from 'jwt-decode'
-import { BsFillTicketDetailedFill, BsFillTrophyFill, BsCart4 } from 'react-icons/bs'
 import dayjs from 'dayjs'
-import Link from 'next/link'
-// icon
+import LeftList from '../../components/LeftList'
 
 export default function Profile() {
   const router = useRouter()
-  const { auther, logout } = useContext(AuthContext)
+  const { logout } = useContext(AuthContext)
 
   const [mydata, setMydata] = useState({
     sid: '',
+    photo: '',
     lastname: '',
     firstname: '',
     birthday: '',
@@ -90,82 +88,18 @@ export default function Profile() {
 
   return (
     <>
-      <main className={styles.main}>
+      <main className={`${styles.main} d-block d-md-flex`}>
         {/* 左邊欄位 */}
-        <div className={styles.leftList}>
-          <div className={styles.memberPicOut}>
-            <Image
-              alt=""
-              src=
-              {`${
-                mydata.photo
-                  ? mydata.photo
-                  : '/pics/headshot.jpg'
-              }`}
-              className={styles.memberPic}
-              width="140"
-              height="140"
-            ></Image>
-          </div>
+        <LeftList photo={mydata.photo} />
 
-          <div className={styles.memberItems}>
-            <br></br>
-            <div className={styles.name}>會員名稱</div>
-            <br></br>
-            {auther.account ? (
-              <>
-                <div className={styles.name}>
-                  <span>{auther.account}</span>
-                </div>
-              </>
-            ) : (
-              <>
-                <div className={styles.name}>
-                  <span style={{ color: 'white' }}></span>User
-                </div>
-              </>
-            )}
-            <br></br>
-            <div className={styles.nowLocationOut}>
-              <div className={styles.nowLocation}>編輯個人資料</div>
-            </div>
-          </div>
-
-          <div className={styles.iconsOut}>
-            <div className={styles.icons}>
-              <br></br>
-              <div className={styles.icon}>
-                <BsFillTicketDetailedFill className={styles.iconSick} />
-                <Link className={styles.iconLink} href="favorite/coupon">
-                  {' '}
-                  優惠券管理
-                </Link>
-              </div>
-              <div className={styles.icon}>
-                <BsCart4 className={styles.iconSick} />
-                <Link className={styles.iconLink} href="../member/member-orderList">
-                  {' '}
-                  購物清單
-                </Link>
-              </div>
-              <div className={styles.icon}>
-                <BsFillTrophyFill className={styles.iconSick} />
-                <Link className={styles.iconLink} href="favorite/game">
-                  {' '}
-                  取得優惠券
-                </Link>
-              </div>
-            </div>
-          </div>
-        </div>
+        <hr className="border-primary border-1 opacity-75" />
         <div className="flex-direction: column">
-          <h3 className="mx-5 py-5">會員中心</h3>
-          <div className="list-form">
+          <h3 className="mx-5 mt-5 pt-5 py-2">會員中心</h3>
+          <div className="list-form mx-4">
             <div className="d-flex justify-content-center">
               <div className="direction-column">
                 <div
-                  className="card mb-3 border-danger"
-                  style={{ width: '40rem' }}
+                  className="card mb-3 border-danger px-4 py-4"
                 >
                   <div
                     className="card-header card-big-title border border-0"
@@ -175,7 +109,7 @@ export default function Profile() {
                   </div>
                   <div className="card-body ">
                     <div className="row">
-                      <div className="col">
+                      <div className="col-12 col-sm-6 pb-3">
                         <h6 className="card-title font-grey-title">姓氏</h6>
                         <input
                           className="form-control T-18 rounded-5 border border-primary"
@@ -191,10 +125,8 @@ export default function Profile() {
                         />
                       </div>
 
-                      <div className="col">
-                        <h6 className="card-title font-grey-title mt-3 mt-md-0">
-                          名字
-                        </h6>
+                      <div className="col-12 col-sm-6 pb-3">
+                        <h6 className="card-title font-grey-title">名字</h6>
                         <input
                           className="form-control T-18 rounded-5 border border-primary"
                           type="text"
@@ -211,7 +143,7 @@ export default function Profile() {
                     </div>
                     <br></br>
                     <div className="row">
-                      <div className="col">
+                      <div className="col-12 col-sm-6 pb-3">
                         <h6 className="card-title font-grey-title">電話號碼</h6>
                         <input
                           className="form-control T-18 rounded-5 border border-primary"
@@ -227,10 +159,8 @@ export default function Profile() {
                         />
                       </div>
 
-                      <div className="col">
-                        <h6 className="card-title font-grey-title mt-3 mt-md-0">
-                          出生年月日
-                        </h6>
+                      <div className="col-12 col-sm-6 pb-3">
+                        <h6 className="card-title font-grey-title">出生年月日</h6>
                         <input
                           className="form-control T-18 rounded-5 border border-primary"
                           type="date"
@@ -265,12 +195,11 @@ export default function Profile() {
             </div>
           </div>
 
-          <div className="list-form">
+          <div className="list-form mx-4">
             <div className="d-flex justify-content-center">
               <div className="direction-column">
                 <div
-                  className="card border-danger mb-3"
-                  style={{ width: '40rem' }}
+                  className="card border-danger mb-3 px-4 py-4"
                 >
                   <div
                     className="card-header card-big-title border border-0"
@@ -280,7 +209,7 @@ export default function Profile() {
                   </div>
                   <div className="card-body">
                     <div className="row">
-                      <div className="col">
+                      <div className="col-12 col-sm-6 pb-3">
                         <h6 className="card-title font-grey-title">縣市*</h6>
                         <input
                           className="form-control T-18 rounded-5 border border-primary"
@@ -294,10 +223,8 @@ export default function Profile() {
                         />
                       </div>
 
-                      <div className="col">
-                        <h6 className="card-title font-grey-title mt-3 mt-md-0">
-                          鎮市區*
-                        </h6>
+                      <div className="col-12 col-sm-6 pb-3">
+                        <h6 className="card-title font-grey-title">鎮市區*</h6>
                         <input
                           className="form-control T-18 rounded-5 border border-primary"
                           type="text"
@@ -340,19 +267,17 @@ export default function Profile() {
                     <br />
                   </div>
                 </div>
-                <div className="d-flex justify-content-between py-4">
+                <div className="d-flex flex-column flex-sm-row justify-content-between py-4 gap-4">
                   <button
                     type="button"
-                    className="btn btn-outline-primary btn-lg btn pro-shadow "
-                    style={{ width: 250 }}
+                    className="btn btn-outline-primary btn-lg btn pro-shadow px-5"
                   >
                     回到前一頁
                   </button>
 
                   <button
                     type="button"
-                    className="btn btn-outline-primary btn-lg btn pro-shadow"
-                    style={{ width: 250 }}
+                    className="btn btn-outline-primary btn-lg btn pro-shadow px-5"
                     onClick={() => {
                       router.push('/member/edit-process')
                     }}

@@ -329,7 +329,7 @@ export default function Game() {
   }, [handleMovement])
 
   return (
-    <div>
+    <div className='pt-5'>
       <h3>簽到小遊戲</h3>
       <div className={`rect ${theme.className}`}>
         <div className="rect2">

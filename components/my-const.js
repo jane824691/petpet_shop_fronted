@@ -1,5 +1,5 @@
-// export const API_SERVER = 'http://localhost:3002'
-export const API_SERVER = 'https://petpet-shop-backend.zeabur.app'
+export const API_SERVER = 'http://localhost:3002'
+// export const API_SERVER = 'https://petpet-shop-backend.zeabur.app'
 
 
 //* 商品相關

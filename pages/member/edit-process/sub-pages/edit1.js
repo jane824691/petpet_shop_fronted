@@ -95,7 +95,7 @@ export default function Edit1(props) {
 
   return (
     <>
-      <h3 className="mx-5 py-3">編輯資料</h3>
+      <h3 className="mx-5 py-3 pt-5">編輯資料</h3>
       <div className="d-flex justify-content-center">
         <Image
           src="/pics/sleepcat.png"
@@ -115,7 +115,7 @@ export default function Edit1(props) {
                 會員資訊
               </div>
               <div className="card-body">
-                <div className="row">
+                <div className="row gap-3">
                   <div className="col">
                     <h6 className="card-title font-grey-title ">
                       姓氏<span className="text-danger">*</span>
@@ -138,7 +138,7 @@ export default function Edit1(props) {
                   </div>
 
                   <div className="col">
-                    <h6 className="card-title font-grey-title mt-3 mt-md-0">
+                    <h6 className="card-title font-grey-title ">
                       名字<span className="text-danger">*</span>
                     </h6>
                     <input
@@ -159,7 +159,7 @@ export default function Edit1(props) {
                   </div>
                 </div>
                 <br />
-                <div className="row">
+                <div className="row gap-3">
                   <div className="col">
                     <h6 className="card-title font-grey-title">
                       電話號碼<span className="text-danger">*</span>
@@ -181,8 +181,8 @@ export default function Edit1(props) {
                     )}
                   </div>
                   <div className="col">
-                    <h6 className="card-title font-grey-title mt-3 mt-md-0">
-                      出生年月日
+                    <h6 className="card-title font-grey-title">
+                      出生年月日<span className="text-danger">*</span>
                     </h6>
                     <input
                       className="form-control T-18 rounded-5 border border-primary"
@@ -203,7 +203,7 @@ export default function Edit1(props) {
                   </div>
                 </div>
                 <br />
-                <div className="row">
+                <div className="row gap-3">
                   <div className="col">
                     <h6 className="card-title font-grey-title">
                       會員帳號<span className="text-danger">*</span>
@@ -222,7 +222,7 @@ export default function Edit1(props) {
                   </div>
 
                   <div className="col">
-                    <h6 className="card-title font-grey-title mt-3 mt-md-0">
+                    <h6 className="card-title font-grey-title">
                       密碼<span className="text-danger">*</span>
                     </h6>
                     <input
@@ -239,7 +239,7 @@ export default function Edit1(props) {
                   </div>
                 </div>
                 <br />
-                <div className="row">
+                <div className="row gap-3">
                   <div className="col">
                     <h6 className="card-title font-grey-title">
                       身分證字號<span className="text-danger">*</span>
@@ -264,7 +264,7 @@ export default function Edit1(props) {
                   </div>
 
                   <div className="col">
-                    <h6 className="card-title font-grey-title mt-3 mt-md-0">
+                    <h6 className="card-title font-grey-title">
                       電子信箱<span className="text-danger">*</span>
                     </h6>
                     <input

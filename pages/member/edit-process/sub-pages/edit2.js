@@ -60,7 +60,7 @@ export default function Edit2(props) {
   return (
     <>
       {/* 上傳圖片的部分，獨立於表單之外 */}
-      <form encType="multipart/form-data">
+      <form encType="multipart/form-data" className='pt-5'>
         <input
           type="file"
           accept="image/*"
