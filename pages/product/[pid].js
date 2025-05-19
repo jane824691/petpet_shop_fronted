@@ -221,8 +221,8 @@ export default function Detail() {
   return (
     <>
       {/* 商品圖 + 敘述金額 */}
-      <div className="row mt-5 mx-5">
-        <div className="col-sm-7">
+      <div className="row mt-5 mx-5 pt-5 pt-sm-0">
+        <div className="col-md-7 w-50 mx-auto photoWall">
           <div className="position-sticky">
             <Carousel
               pid={myProduct.pid}
@@ -234,20 +234,20 @@ export default function Detail() {
           </div>
         </div>
 
-        <div className="col-sm-5 ps-4 descriptionPart">
+        <div className="col-md-5 ps-4 descriptionPart">
           <h4 id="name" name="name">
             {myProduct.product_name}
           </h4>
 
           <p className="product-desc">{myProduct.product_description}</p>
 
-          <div class="container text-center">
+          <div class="text-center">
             <div class="row align-items-start d-flex amount-btn-group-wide align-items-center justify-content-center">
               <h5 className="text-danger col ">
                 <span>NT$ </span>
                 {myProduct.product_price}
               </h5>
-              <div className="col w-100" style={{ padding: '0' }}>
+              <div className="col w-100 pe-3">
                 <div className="d-flex amount-btn-group-wide align-items-center justify-content-center">
                   <button
                     type="button"
@@ -326,11 +326,11 @@ export default function Detail() {
               <div className="accordion-item">
                 <h2 className="accordion-header">
                   <button
-                    className="accordion-button collapsed"
+                    className="accordion-button"
                     type="button"
                     data-bs-toggle="collapse"
                     data-bs-target="#panelsStayOpen-collapseTwo"
-                    aria-expanded="false"
+                    aria-expanded="true"
                     aria-controls="panelsStayOpen-collapseTwo"
                   >
                     免費寄送及退貨
@@ -338,12 +338,12 @@ export default function Detail() {
                 </h2>
                 <div
                   id="panelsStayOpen-collapseTwo"
-                  className="accordion-collapse collapse"
+                  className="accordion-collapse collapse show"
                 >
                   <div className="accordion-body px-1">
                     <p>訂單金額滿新臺幣 4,500 元即享免費標準運送服務</p>
                     <p>
-                      臺北市:標準運送的商品可於 2-5 個工作天送達
+                      臺北市: 標準運送的商品可於 2-5 個工作天送達
                       快遞運送的商品可於 2-3 個工作天送達
                     </p>
                     <p>
@@ -365,11 +365,10 @@ export default function Detail() {
       <div class="container mx-auto">
         <div class="row">
           <div class="col-9 position-relative">
-            <input
-              type="text"
+            <textarea
               class="form-control pe-5"
               placeholder="購買過該商品者，歡迎留下評論（最長 300 字）"
-              rows="4"
+              rows="3"
               maxLength={300}
               value={commentsValue}
               onChange={handleCommentChange}
@@ -384,7 +383,7 @@ export default function Detail() {
             )}
           </div>
           <div class="col-3">
-            <button class="btn btn-primary w-100 text-white" onClick={() => { sendComments(commentsValue) }}>
+            <button class="btn btn-primary w-100 h-100 text-white" onClick={() => { sendComments(commentsValue) }}>
               發表
             </button>
           </div>

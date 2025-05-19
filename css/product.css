@@ -1,15 +1,4 @@
 @charset "UTF-8";
-.w-250 {
-  width: 250px;
-}
-
-.web-style {
-  padding-left: 7.5rem;
-  padding-right: 7.5rem;
-  padding-top: 2.5rem;
-  padding-bottom: 2.5rem;
-}
-
 .descriptionPart {
   gap: 30px;
   display: flex;
@@ -17,7 +6,6 @@
 }
 
 .swiper {
-  height: 120px;
   width: 100%;
   margin-left: auto;
   margin-right: auto;
@@ -30,9 +18,12 @@
 
 .mySwiper2 {
   width: 100%; /* 確保圖片寬度適應容器 */
-  height: 500px; /* 高度根據寬度自動調整 */
+}
+
+.mySwiper2 img {
+  height: 100%;
   -o-object-fit: contain;
-     object-fit: contain; /* 縮放圖片以顯示完整 */
+     object-fit: contain;
 }
 
 .mySwiper {
@@ -176,6 +167,11 @@
   border: none;
 }
 
+@media screen and (max-width: 1150px) {
+  .photoWall {
+    width: 100% !important;
+  }
+}
 @media screen and (max-width: 760px) {
   .amount-form {
     font-size: 16px;

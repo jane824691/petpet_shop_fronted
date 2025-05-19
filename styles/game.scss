@@ -15,7 +15,6 @@ h3 {
   position: relative;
   width: 550px;
   height: 600px;
-  /* background-color: #90d2ce; */
   border: 1px solid #cccccc;
   border-radius: 2%;
   margin: auto;
@@ -32,8 +31,6 @@ h3 {
   &.secondary {
     background-color: $secondary;
   }
-
-  /* box-shadow: 3px 3px 3px rgb(145, 198, 192); */
 }
 .rect2 {
   position: relative;
@@ -74,7 +71,6 @@ h3 {
   width: 160px;
   height: 40px;
   color: #ca9145;
-  // background-color: ;
   font-size: 18px;
   font-weight: 700;
   line-height: 40px;
@@ -90,7 +86,6 @@ h3 {
   height: 40px;
   font-size: 18px;
   font-weight: 700;
-  // background-color: #ebebd2;
   line-height: 40px;
   color: #ca9145;
   border: 1px solid #ca9145;

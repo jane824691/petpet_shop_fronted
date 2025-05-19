@@ -49,31 +49,31 @@ export default function Carousel({
           delay: 5000,
           disableOnInteraction: false,
         }}
-        spaceBetween={10}
-        navigation={true}
+        spaceBetween={50}
+        navigation={false}
         thumbs={{ swiper: thumbsSwiper }}
         modules={[Autoplay, FreeMode, Navigation, Thumbs]}
         className="mySwiper2"
       >
         <SwiperSlide>
-          <img src={imagePath01} className="mx-auto" />
+          <img src={imagePath01} className="mx-auto img-fluid w-100" />
         </SwiperSlide>
         <SwiperSlide>
-          <img src={imagePath02} className="mx-auto" />
+          <img src={imagePath02} className="mx-auto img-fluid w-100" />
         </SwiperSlide>
         <SwiperSlide>
-          <img src={imagePath03} className="mx-auto" />
+          <img src={imagePath03} className="mx-auto img-fluid w-100" />
         </SwiperSlide>
         <SwiperSlide>
-          <img src={imagePath04} className="mx-auto" />
+          <img src={imagePath04} className="mx-auto img-fluid w-100" />
         </SwiperSlide>
         <SwiperSlide>
-          <img src={imagePath01} className="mx-auto" />
+          <img src={imagePath01} className="mx-auto img-fluid w-100" />
         </SwiperSlide>
       </Swiper>
       <Swiper
         onSwiper={setThumbsSwiper}
-        spaceBetween={10}
+        spaceBetween={50}
         slidesPerView={3}
         freeMode={true}
         watchSlidesProgress={true}
@@ -81,19 +81,19 @@ export default function Carousel({
         className="mySwiper"
       >
         <SwiperSlide>
-          <img src={imagePath01} className="mx-auto" />
+          <img src={imagePath01} className="mx-auto img-fluid w-100" />
         </SwiperSlide>
         <SwiperSlide>
-          <img src={imagePath02} className="mx-auto" />
+          <img src={imagePath02} className="mx-auto img-fluid w-100" />
         </SwiperSlide>
         <SwiperSlide>
-          <img src={imagePath03} className="mx-auto" />
+          <img src={imagePath03} className="mx-auto img-fluid w-100" />
         </SwiperSlide>
         <SwiperSlide>
-          <img src={imagePath04} className="mx-auto" />
+          <img src={imagePath04} className="mx-auto img-fluid w-100" />
         </SwiperSlide>
         <SwiperSlide>
-          <img src={imagePath01} className="mx-auto" />
+          <img src={imagePath01} className="mx-auto img-fluid w-100" />
         </SwiperSlide>
       </Swiper>
     </>

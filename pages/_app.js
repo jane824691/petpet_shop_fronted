@@ -10,7 +10,6 @@ import '@/styles/member.scss'
 import 'swiper/css'
 import 'swiper/css/effect-coverflow'
 import 'swiper/css/pagination'
-import '@/styles/components.scss'
 
 import DefaultLayout from '@/components/layout/default-layout'
 import { AuthContextProvider } from '@/components/contexts/AuthContext'
