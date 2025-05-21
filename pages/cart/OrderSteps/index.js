@@ -5,7 +5,7 @@ import Cart from './sub-pages/Cart'
 import Payment from './sub-pages/Payment'
 import OrderDetail from './sub-pages/OrderDetail'
 import toast, { Toaster } from 'react-hot-toast'
-import { ORDER_LIST_ADD } from '@/components/my-const'
+import { ORDER_LIST_ADD, PAYMENT_CREATE } from '@/components/my-const'
 import { useCart } from '@/components/hooks/use-cart-state'
 import { totalPrice } from '@/components/hooks/cart-reducer-state'
 
@@ -39,7 +39,8 @@ function OrderSteps() {
 
   const [netTotal, setNetTotal] = useState(0)
 
-  const [sid, setSid] = useState('') //抓到sid後存起來給後面抓取會員訂單資料用
+  const [sid, setSid] = useState('') // 抓到sid後存起來給後面抓取會員訂單資料用
+  // const [oid, setOid] = useState('') // 成立訂單取得oid, 丟給支付用
 
   useEffect(() => {
     const fetchData = async () => {
@@ -145,16 +146,34 @@ function OrderSteps() {
       },
     })
     const responseData = await r.json()
+
     if (responseData.success) {
-      toast.success('恭喜完成訂單!! 3秒後跳轉回商城')
+      toast.success('恭喜完成訂單!! 3秒後準備前往付款')
       setTimeout(() => {
-        router.push('../../product')
+        handlePayment(responseData.result.order_list.insertId)
         clearCart()
       }, 3000)
     } else {
       toast.error('訂單新增失敗, 請聯繫客服')
     }
   }
+
+  // React 按鈕觸發付款
+  const handlePayment = async (oid) => {
+    const newWindow = window.open('', '_blank'); // 先開視窗，避免 popup 被攔截
+
+    const res = await fetch(PAYMENT_CREATE  + `/${oid}`, {
+      method: 'GET',
+    });
+    
+    const html = await res.text();
+
+    if (newWindow) {
+      newWindow.document.write(html); // 將跳轉 HTML 寫入新視窗
+      newWindow.document.close();     // 必須 close 才能執行內部的 <script>
+    }
+  };
+
 
   return (
     <>
