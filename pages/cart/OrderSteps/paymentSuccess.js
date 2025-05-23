@@ -5,7 +5,10 @@ const paymentSuccess = () => {
 
   return (
     <>
-        <h2>付款成功！</h2>
+      <div className="">
+
+      <h2>付款成功！</h2>
+      </div>
     </>
   )
 }
