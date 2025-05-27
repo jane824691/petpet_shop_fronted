@@ -7,7 +7,7 @@ import FilterBar from './components/FilterBar/'
 import ProductList from './components/ProductList'
 import { useRouter } from 'next/router'
 import { PRODUCT } from '@/components/my-const'
-import PagesBar from './components/PagesBar'
+import PagesBar from '@/components/PagesBar'
 import { CatLoader } from '@/components/hooks/use-loader/components'
 
 export default function List() {

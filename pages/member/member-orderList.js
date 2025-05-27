@@ -11,12 +11,10 @@ import {
   BsChevronDoubleRight,
   BsChevronDoubleLeft,
   BsChevronLeft,
-  BsFillTicketDetailedFill, 
-  BsFillTrophyFill, 
   BsArrowRight, 
-  BsCart4
 } from 'react-icons/bs'
-import LeftList from '../../components/LeftList'
+import LeftList from '@/components/LeftList'
+import PagesBar from '@/components/PagesBar'
 
 export default function MemberOrderList() {
   const [data, setData] = useState({})
@@ -182,7 +180,7 @@ export default function MemberOrderList() {
             <h5 className="m-5">目前並未成立訂單</h5>
           )}
           {/* 頁碼 */}
-          <div
+          {/* <div
             style={{ display: 'flex', justifyContent: 'center' }}
             className="mb-5"
           >
@@ -307,7 +305,8 @@ export default function MemberOrderList() {
                 </div>
               </div>
             </div>
-          </div>
+          </div> */}
+          <PagesBar data={data}/>
         </div>
       </div>
     </>

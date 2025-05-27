@@ -6,7 +6,7 @@ import { useContext } from 'react'
 import { GET_MEMBER_DATA } from '@/components/my-const'
 import { jwtDecode } from 'jwt-decode'
 import dayjs from 'dayjs'
-import LeftList from '../../components/LeftList'
+import LeftList from '@/components/LeftList'
 
 export default function Profile() {
   const router = useRouter()

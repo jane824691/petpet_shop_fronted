@@ -150,7 +150,7 @@ function OrderSteps() {
     if (responseData.success) {
       toast.success('恭喜完成訂單!! 3秒後準備前往付款')
       setTimeout(() => {
-        handlePayment(responseData.result.order_list.insertId)
+        handlePayment(responseData.result.order_list.insertId) // 後端送回前端成功 & 建好的oid
         clearCart()
       }, 3000)
     } else {
