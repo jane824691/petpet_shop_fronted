@@ -2,12 +2,26 @@
 const nextConfig = {
   reactStrictMode: false,
   images: {
-    domains: ['via.placeholder.com', 'localhost', 'storage.googleapis.com'],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'via.placeholder.com',
+      },
+      {
+        protocol: 'http',
+        hostname: 'localhost',
+      },
+      {
+        protocol: 'https',
+        hostname: 'storage.googleapis.com',
+      },
+    ],
   },
   env: {
     API_SERVER2: 'http://localhost:3002',
   },
 }
+
 
 module.exports = nextConfig
 // module.exports = {

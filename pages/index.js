@@ -37,6 +37,7 @@ export default function Home() {
               alt="key Visual Img"
               className={styles.keyVisualImg}
               style={{ width: '100%', height: 'auto' }} // 自動適應容器大小
+              unoptimized
             />
 
             <div className={styles.descriptionPart}>
