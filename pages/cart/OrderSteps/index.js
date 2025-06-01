@@ -148,11 +148,21 @@ function OrderSteps() {
     const responseData = await r.json()
 
     if (responseData.success) {
-      toast.success('恭喜完成訂單!! 3秒後準備前往付款')
-      setTimeout(() => {
-        handlePayment(responseData.result.order_list.insertId) // 後端送回前端成功 & 建好的oid
-        clearCart()
-      }, 3000)
+      if (paymentData.pay_way === '貨到付款') {
+        toast.success('恭喜完成訂單!! 3秒後導回購物頁')
+        setTimeout(() => {
+          router.push('/product')
+          clearCart()
+        }, 3000)
+      } else {
+        // 信用卡付款
+        toast.success('恭喜完成訂單!! 3秒後準備前往付款')
+        setTimeout(() => {
+          handlePayment(responseData.result.order_list.insertId) // 後端送回前端成功 & 建好的oid
+          clearCart()
+        }, 3000)
+      }
+
     } else {
       toast.error('訂單新增失敗, 請聯繫客服')
     }
