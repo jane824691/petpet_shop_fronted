@@ -3,12 +3,14 @@ import { useRouter } from 'next/router'
 import { ONE_ORDER } from '@/components/my-const'
 import { jwtDecode } from 'jwt-decode'
 import ReverseLookup from './OrderSteps/sub-pages/Zipcode_to_city'
-import { isError } from 'lodash'
+import AuthContext from '@/components/contexts/AuthContext'
+
 export default function OrderUnderMember() {
   //跳轉用
   const router = useRouter()
   const [orderData, setOrderData] = useState([])
   const [isShowError, setIsShowError] = useState(true)
+  const { logout } = useContext(AuthContext)
 
   // 刷進該頁面, 檢查token是否過期
   useEffect(() => {
