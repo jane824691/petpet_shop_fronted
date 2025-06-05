@@ -82,7 +82,15 @@ export default function OrderUnderMember() {
   return (
     <>
       {isShowError ? (
-        <>錯誤頁面</>
+        <>
+          <div className='d-flex m-5' style={{ height: '50vh' }}>
+            <h2 className='mx-auto my-auto text-center'>
+              錯誤或無權訪問該頁面
+              <br/>
+              請聯絡管理員！
+            </h2>
+          </div>
+        </>
       ) : (
         <>
           <div className="container" style={{ paddingTop: '2.5rem' }}>
@@ -126,28 +134,40 @@ export default function OrderUnderMember() {
                           </div>
                           <div className="col-3 text-end">
                             <div className="dollar">
-                              <span>NT$</span>
+                              <span>NT$ </span>
                               <span>{v.sale_price * v.actual_amount}</span>
                             </div>
                           </div>
                         </div>
                       ))}
 
-                      {/* <div className="row card-padding12">
-                    <div className="col-9">折扣金額</div>
-                    <div className="col-3 text-end">
-                      <div>
-                        <span>NT$</span>
-                        <span>{[setSelectedCouponId[0]]}</span>
+                      <div className="row card-padding12">
+                        <div className="col-9">運費</div>
+                        <div className="col-3 text-end">
+                          <div>
+                            <span>NT$ 30</span>
+                          </div>
+                        </div>
                       </div>
-                    </div>
-                  </div> */}
+                      {orderData[0].coupon_id && orderData[0].discount_coins && (
+                      <div className="row card-padding12">
+                        <div className="col-9">折扣金額</div>
+                        <div className="col-3 text-end">
+                          <div>
+                            <span>NT$ </span>
+                            <span>{orderData[0].discount_coins
+                            }</span>
+                          </div>
+                        </div>
+                      </div>
+                      )}
+
                       <div className="row card-padding12">
                         <div className="col-9 dollar">本訂單總花費</div>
                         <div className="col-3 text-end">
                           {orderData.length > 0 && (
                             <div className="dollar">
-                              <span>NT$</span>
+                              <span>NT$ </span>
                               <span>{orderData[0].total}</span>
                             </div>
                           )}

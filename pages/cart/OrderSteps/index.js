@@ -149,9 +149,9 @@ function OrderSteps() {
 
     if (responseData.success) {
       if (paymentData.pay_way === '貨到付款') {
-        toast.success('恭喜完成訂單!! 3秒後導回購物頁')
+        toast.success('恭喜完成訂單!! 3秒後導回購物清單')
         setTimeout(() => {
-          router.push('/product')
+          router.push('/member/member-orderList')
           clearCart()
         }, 3000)
       } else {
