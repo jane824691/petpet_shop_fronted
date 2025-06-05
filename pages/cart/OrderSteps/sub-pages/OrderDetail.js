@@ -98,7 +98,7 @@ export default function OrderDetail({
                           </div>
                           <div className="col-3 text-end">
                             <div className="dollar">
-                              <span>NT$</span>
+                              <span>NT$ </span>
                               <span>{v.subtotal}</span>
                             </div>
                           </div>
@@ -106,10 +106,19 @@ export default function OrderDetail({
                       )
                     })}
                     <div className="row card-padding12">
+                      <div className="col-9">運費</div>
+                      <div className="col-3 text-end">
+                        <div>
+                          <span>NT$ </span>
+                          <span>30</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="row card-padding12">
                       <div className="col-9">折扣金額</div>
                       <div className="col-3 text-end">
                         <div>
-                          <span>NT$</span>
+                          <span>NT$ </span>
                           <span>{paymentData.discount_coins || 0}</span>
                         </div>
                       </div>
@@ -118,7 +127,7 @@ export default function OrderDetail({
                       <div className="col-9 dollar">本訂單須付款金額</div>
                       <div className="col-3 text-end">
                         <div className="dollar">
-                          <span>NT$</span>
+                          <span>NT$ </span>
                           <span>{netTotal}</span>
                         </div>
                       </div>

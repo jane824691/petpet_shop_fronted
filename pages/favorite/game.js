@@ -484,7 +484,7 @@ export default function Game() {
       </div>
 
       {/* Modal 範例 */}
-      <Modal show={showModal} onHide={() => setShowModal(false)}>
+      <Modal show={showModal} onHide={() => setShowModal(false)} centered>
         <Modal.Header className="modal-header-success">
           <Modal.Title className="modal-form py-3">遊戲獎勵!!</Modal.Title>
           <Image

@@ -207,7 +207,7 @@ function RegisterSteps() {
         >
           {step === maxSteps ? '完成註冊' : '繼續註冊'}
         </button>
-        <Modal show={showSuccessModal || showFailureModal} onHide={handleClose}>
+        <Modal show={showSuccessModal || showFailureModal} onHide={handleClose} centered>
           <Modal.Header
             className={`modal-form ${
               showSuccessModal ? 'modal-header-success' : 'modal-header-failure'

@@ -4,6 +4,7 @@ import { ONE_ORDER } from '@/components/my-const'
 import { jwtDecode } from 'jwt-decode'
 import ReverseLookup from './OrderSteps/sub-pages/Zipcode_to_city'
 import AuthContext from '@/components/contexts/AuthContext'
+import { CatLoader } from '@/components/hooks/use-loader/components'
 
 export default function OrderUnderMember() {
   //跳轉用
@@ -11,9 +12,12 @@ export default function OrderUnderMember() {
   const [orderData, setOrderData] = useState([])
   const [isShowError, setIsShowError] = useState(true)
   const { logout } = useContext(AuthContext)
+  const [isLoading, setIsLoading] = useState(false)
+
 
   // 刷進該頁面, 檢查token是否過期
   useEffect(() => {
+    setIsLoading(true)
     const token = localStorage.getItem('auther')
     if (token) {
       const decodedToken = jwtDecode(token)
@@ -79,202 +83,217 @@ export default function OrderUnderMember() {
 
   }, [isShowError])
 
+    useEffect(() => {
+    if (isLoading) {
+      setTimeout(() => {
+        setIsLoading(false)
+      }, 1000)
+    }
+  }, [isLoading])
+
   return (
     <>
-      {isShowError ? (
-        <>
-          <div className='d-flex m-5' style={{ height: '50vh' }}>
-            <h2 className='mx-auto my-auto text-center'>
-              錯誤或無權訪問該頁面
-              <br/>
-              請聯絡管理員！
-            </h2>
-          </div>
-        </>
+      {isLoading ? (
+        <div className="d-flex justify-content-center align-items-center w-100 mb-5 vh-100">
+          <CatLoader />
+        </div>
       ) : (
         <>
-          <div className="container" style={{ paddingTop: '2.5rem' }}>
-            <div className="list-form needs-validation" noValidate="">
-              <div className="d-flex justify-content-center">
-                <div className="direction-column">
-                  <div
-                    className="card border-primary mb-3"
-                    style={{ width: '40rem' }}
-                  >
-                    <h5
-                      className="card-header card-big-title border border-0"
-                      style={{
-                        backgroundColor: 'transparent ',
-                        fontWeight: '500',
-                        fontSize: '26px',
-                      }}
-                    >
-                      購物明細
-                    </h5>
-                    <div className="card-body">
-                      {orderData.map((v, i) => (
-                        <div className="row extinct-product" key={v.oid}>
-                          <div className="col-3">
-                            <img
-                              src={`../image/product/${v.product_img}`}
-                              alt="name of product"
-                              className="img-thumbnail"
-                            />
-                          </div>
-                          <div className="col-6">
-                            {v.product_name}
-                            <div>
-                              <span>數量：</span>
-                              <span>{v.actual_amount}</span>
+          {isShowError ? (
+            <>
+              <div className='d-flex m-5' style={{ height: '50vh' }}>
+                <h2 className='mx-auto my-auto text-center'>
+                  錯誤或無權訪問該頁面
+                  <br />
+                  請聯絡管理員！
+                </h2>
+              </div>
+            </>
+          ) : (
+            <>
+              <div className="container" style={{ paddingTop: '2.5rem' }}>
+                <div className="list-form needs-validation" noValidate="">
+                  <div className="d-flex justify-content-center">
+                    <div className="direction-column">
+                      <div
+                        className="card border-primary mb-3"
+                        style={{ width: '40rem' }}
+                      >
+                        <h5
+                          className="card-header card-big-title border border-0"
+                          style={{
+                            backgroundColor: 'transparent ',
+                            fontWeight: '500',
+                            fontSize: '26px',
+                          }}
+                        >
+                          購物明細
+                        </h5>
+                        <div className="card-body">
+                          {orderData.map((v, i) => (
+                            <div className="row extinct-product" key={v.oid}>
+                              <div className="col-3">
+                                <img
+                                  src={`../image/product/${v.product_img}`}
+                                  alt="name of product"
+                                  className="img-thumbnail"
+                                />
+                              </div>
+                              <div className="col-6">
+                                {v.product_name}
+                                <div>
+                                  <span>數量：</span>
+                                  <span>{v.actual_amount}</span>
+                                </div>
+                                <div>
+                                  <span>單價：</span>
+                                  <span>{v.sale_price}</span>
+                                </div>
+                              </div>
+                              <div className="col-3 text-end">
+                                <div className="dollar">
+                                  <span>NT$ </span>
+                                  <span>{v.sale_price * v.actual_amount}</span>
+                                </div>
+                              </div>
                             </div>
-                            <div>
-                              <span>單價：</span>
-                              <span>{v.sale_price}</span>
-                            </div>
-                          </div>
-                          <div className="col-3 text-end">
-                            <div className="dollar">
-                              <span>NT$ </span>
-                              <span>{v.sale_price * v.actual_amount}</span>
-                            </div>
-                          </div>
-                        </div>
-                      ))}
+                          ))}
 
-                      <div className="row card-padding12">
-                        <div className="col-9">運費</div>
-                        <div className="col-3 text-end">
-                          <div>
-                            <span>NT$ 30</span>
+                          <div className="row card-padding12">
+                            <div className="col-9">運費</div>
+                            <div className="col-3 text-end">
+                              <div>
+                                <span>NT$ 30</span>
+                              </div>
+                            </div>
                           </div>
-                        </div>
-                      </div>
-                      {orderData[0].coupon_id && orderData[0].discount_coins && (
-                      <div className="row card-padding12">
-                        <div className="col-9">折扣金額</div>
-                        <div className="col-3 text-end">
-                          <div>
-                            <span>NT$ </span>
-                            <span>{orderData[0].discount_coins
-                            }</span>
-                          </div>
-                        </div>
-                      </div>
-                      )}
-
-                      <div className="row card-padding12">
-                        <div className="col-9 dollar">本訂單總花費</div>
-                        <div className="col-3 text-end">
-                          {orderData.length > 0 && (
-                            <div className="dollar">
-                              <span>NT$ </span>
-                              <span>{orderData[0].total}</span>
+                          {orderData[0].coupon_id && orderData[0].discount_coins && (
+                            <div className="row card-padding12">
+                              <div className="col-9">折扣金額</div>
+                              <div className="col-3 text-end">
+                                <div>
+                                  <span>NT$ </span>
+                                  <span>{orderData[0].discount_coins
+                                  }</span>
+                                </div>
+                              </div>
                             </div>
                           )}
+
+                          <div className="row card-padding12">
+                            <div className="col-9 dollar">本訂單總花費</div>
+                            <div className="col-3 text-end">
+                              {orderData.length > 0 && (
+                                <div className="dollar">
+                                  <span>NT$ </span>
+                                  <span>{orderData[0].total}</span>
+                                </div>
+                              )}
+                            </div>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  </div>
-                  <div
-                    className="card border-primary mb-3"
-                    style={{ width: '40rem' }}
-                  >
-                    <div
-                      className="card-header card-big-title border border-0"
-                      style={{ backgroundColor: 'transparent ' }}
-                    >
-                      取貨人資訊
-                    </div>
-                    <div className="card-body">
-                      <label
-                        htmlFor="validationCustom01"
-                        className="form-label font-grey-title"
+                      <div
+                        className="card border-primary mb-3"
+                        style={{ width: '40rem' }}
                       >
-                        姓名：
-                      </label>
-                      {orderData.length > 0 && (
-                        <span>{orderData[0].order_name}</span>
-                      )}
-                      <br />
-                      <label
-                        htmlFor="validationCustom01"
-                        className="form-label font-grey-title"
-                      >
-                        電話：
-                      </label>
-                      {orderData.length > 0 && (
-                        <span>{orderData[0].order_phone}</span>
-                      )}
-                      <br />
-                      <label
-                        htmlFor="validationCustom01"
-                        className="form-label font-grey-title"
-                      >
-                        Email：
-                      </label>
-                      {orderData.length > 0 && (
-                        <span>{orderData[0].order_email}</span>
-                      )}
-                    </div>
-                    <div
-                      className="card-header card-big-title border border-0"
-                      style={{ backgroundColor: 'transparent ' }}
-                    >
-                      取貨資訊
-                    </div>
-                    <div className="card-body">
-                      <label
-                        htmlFor="validationCustom01"
-                        className="form-label font-grey-title"
-                      >
-                        取貨地址：
-                      </label>
-                      <span>
-                        {orderData.length > 0 && (
+                        <div
+                          className="card-header card-big-title border border-0"
+                          style={{ backgroundColor: 'transparent ' }}
+                        >
+                          取貨人資訊
+                        </div>
+                        <div className="card-body">
+                          <label
+                            htmlFor="validationCustom01"
+                            className="form-label font-grey-title"
+                          >
+                            姓名：
+                          </label>
+                          {orderData.length > 0 && (
+                            <span>{orderData[0].order_name}</span>
+                          )}
+                          <br />
+                          <label
+                            htmlFor="validationCustom01"
+                            className="form-label font-grey-title"
+                          >
+                            電話：
+                          </label>
+                          {orderData.length > 0 && (
+                            <span>{orderData[0].order_phone}</span>
+                          )}
+                          <br />
+                          <label
+                            htmlFor="validationCustom01"
+                            className="form-label font-grey-title"
+                          >
+                            Email：
+                          </label>
+                          {orderData.length > 0 && (
+                            <span>{orderData[0].order_email}</span>
+                          )}
+                        </div>
+                        <div
+                          className="card-header card-big-title border border-0"
+                          style={{ backgroundColor: 'transparent ' }}
+                        >
+                          取貨資訊
+                        </div>
+                        <div className="card-body">
+                          <label
+                            htmlFor="validationCustom01"
+                            className="form-label font-grey-title"
+                          >
+                            取貨地址：
+                          </label>
                           <span>
-                            <ReverseLookup
-                              postcode={orderData[0].shipping_zipcode}
-                            />
-                            {orderData[0].shipping_zipcode}
-                            {orderData[0].shipping_address}
+                            {orderData.length > 0 && (
+                              <span>
+                                <ReverseLookup
+                                  postcode={orderData[0].shipping_zipcode}
+                                />
+                                {orderData[0].shipping_zipcode}
+                                {orderData[0].shipping_address}
+                              </span>
+                            )}
                           </span>
-                        )}
-                      </span>
-                    </div>
-                    <div
-                      className="card-header card-big-title border border-0"
-                      style={{ backgroundColor: 'transparent ' }}
-                    >
-                      付款資訊
-                    </div>
-                    <div className="card-body">
-                      <label
-                        htmlFor="validationCustom01"
-                        className="form-label font-grey-title"
-                      >
-                        付款方式：
-                      </label>
-                      {orderData.length > 0 && <span>{orderData[0].pay_way}</span>}
+                        </div>
+                        <div
+                          className="card-header card-big-title border border-0"
+                          style={{ backgroundColor: 'transparent ' }}
+                        >
+                          付款資訊
+                        </div>
+                        <div className="card-body">
+                          <label
+                            htmlFor="validationCustom01"
+                            className="form-label font-grey-title"
+                          >
+                            付款方式：
+                          </label>
+                          {orderData.length > 0 && <span>{orderData[0].pay_way}</span>}
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
+                <div className="d-flex justify-content-center">
+                  {' '}
+                  <button
+                    className="btn btn-danger btn-lg text-white mb-5"
+                    onClick={() => {
+                      router.push(`../member/member-orderList`)
+                    }}
+                  >
+                    回到前一頁
+                  </button>
+                </div>
               </div>
-            </div>
-            <div className="d-flex justify-content-center">
-              {' '}
-              <button
-                className="btn btn-danger btn-lg text-white mb-5"
-                onClick={() => {
-                  router.push(`../member/member-orderList`)
-                }}
-              >
-                回到前一頁
-              </button>
-            </div>
-          </div>
+            </>
+          )}
         </>
       )}
-
     </>
   )
 }
