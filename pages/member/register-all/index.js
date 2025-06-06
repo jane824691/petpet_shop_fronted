@@ -180,28 +180,17 @@ function RegisterSteps() {
         )}
       </div>
 
-      <div
-        style={{
-          display: 'flex',
-          flexDirection: 'row',
-          alignItems: 'center',
-          justifyContent: 'center',
-          paddingBottom: '40px',
-        }}
-      >
-        <div className="d-flex py-4 mb-5"></div>
+      <div className="d-flex justify-content-center py-4 mb-5">
         <button
           type="button"
-          className="btn btn-outline-primary btn-lg pro-shadow mx-5"
-          style={{ width: 250 }}
+          className="btn btn-outline-primary btn-lg btn pro-shadow mx-5 px-2 px-sm-5"
           onClick={prev}
         >
-          回到前一頁
+          回前一頁
         </button>
         <button
           type="button"
-          className="btn btn-outline-primary btn-lg pro-shadow mx-5"
-          style={{ width: 250 }}
+          className="btn btn-outline-primary btn-lg btn pro-shadow mx-5 px-2 px-sm-5"
           onClick={next}
           disabled={!isStep1Valid}
         >

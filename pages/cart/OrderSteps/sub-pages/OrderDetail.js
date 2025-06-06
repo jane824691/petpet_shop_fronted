@@ -118,8 +118,8 @@ export default function OrderDetail({
                       <div className="col-9">折扣金額</div>
                       <div className="col-3 text-end">
                         <div>
-                          <span>NT$ </span>
-                          <span>{paymentData.discount_coins || 0}</span>
+                          <span>{paymentData.discount_coins ? ' - ' : ''}NT$ </span>
+                          <span>{paymentData?.discount_coins || 0}</span>
                         </div>
                       </div>
                     </div>

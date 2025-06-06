@@ -217,10 +217,10 @@ function EditProcess() {
           errors={errors}
         />
       )}
-      <div className="d-flex justify-content-between py-4 mb-5">
+      <div className="d-flex justify-content-center py-4 mb-5">
         <button
           type="button"
-          className="btn btn-outline-primary btn-lg btn pro-shadow w-75 mx-5"
+          className="btn btn-outline-primary btn-lg btn pro-shadow mx-5 px-2 px-sm-5"
           onClick={prev}
         >
           {step === 1 ? '回會員頁' : '回前一頁'}
@@ -228,7 +228,7 @@ function EditProcess() {
 
         <button
           type="button"
-          className="btn btn-outline-primary btn-lg btn pro-shadow w-75 mx-5"
+          className="btn btn-outline-primary btn-lg btn pro-shadow mx-5 px-2 px-sm-5"
           onClick={next}
           disabled={!isStep1Valid}
         >

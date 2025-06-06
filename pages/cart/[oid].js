@@ -167,18 +167,15 @@ export default function OrderUnderMember() {
                               </div>
                             </div>
                           </div>
-                          {orderData[0].coupon_id && orderData[0].discount_coins && (
-                            <div className="row card-padding12">
-                              <div className="col-9">折扣金額</div>
-                              <div className="col-3 text-end">
-                                <div>
-                                  <span>NT$ </span>
-                                  <span>{orderData[0].discount_coins
-                                  }</span>
-                                </div>
+                          <div className="row card-padding12">
+                            <div className="col-9">折扣金額</div>
+                            <div className="col-3 text-end">
+                              <div>
+                                <span>{orderData[0].discount_coins ? ' - ' : ''}NT$ </span>
+                                <span>{orderData[0]?.discount_coins || 0} </span>
                               </div>
                             </div>
-                          )}
+                          </div>
 
                           <div className="row card-padding12">
                             <div className="col-9 dollar">本訂單總花費</div>
