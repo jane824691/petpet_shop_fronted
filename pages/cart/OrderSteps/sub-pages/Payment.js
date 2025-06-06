@@ -98,11 +98,24 @@ export default function Payment(props) {
         optionId === 'flexRadioDefault1'
           ? '貨到付款'
           : optionId === 'flexRadioDefault2'
-            ? '信用卡'
-            : '',
+          ? '信用卡'
+          : '',
     })
   }
 
+  const handleSampleClick = () => {
+    setIsChecked(true)
+    setPaymentData((prevData) => ({
+      ...prevData,
+      name: '陳小豪',
+      phone: '0988123456',
+      email: 'ispan@ispan.com',
+      address: '復興南路一段390號2樓',
+      postcode: '106',
+      pay_way: '貨到付款',
+    }))
+    setSelectedOption('flexRadioDefault1')
+  }
   return (
     <>
       <div className="container" style={{ paddingTop: '2.5rem' }}>
@@ -138,8 +151,9 @@ export default function Payment(props) {
                     onFocus={onFocusHandler}
                   />
                   <div
-                    className={`message ${errors.name ? 'error-message' : 'success-message'
-                      }`}
+                    className={`message ${
+                      errors.name ? 'error-message' : 'success-message'
+                    }`}
                   >
                     {errors.name || (successMessage && '成功訊息')}
                   </div>
@@ -158,8 +172,9 @@ export default function Payment(props) {
                     onFocus={onFocusHandler}
                   />
                   <div
-                    className={`message ${errors.phone ? 'error-message' : 'success-message'
-                      }`}
+                    className={`message ${
+                      errors.phone ? 'error-message' : 'success-message'
+                    }`}
                   >
                     {errors.phone || (successMessage && '成功訊息')}
                   </div>
@@ -176,8 +191,9 @@ export default function Payment(props) {
                     onFocus={onFocusHandler}
                   />
                   <div
-                    className={`message ${errors.email ? 'error-message' : 'success-message'
-                      }`}
+                    className={`message ${
+                      errors.email ? 'error-message' : 'success-message'
+                    }`}
                   >
                     {errors.email || (successMessage && '成功訊息')}
                   </div>
@@ -206,8 +222,9 @@ export default function Payment(props) {
                     onFocus={onFocusHandler}
                   />
                   <div
-                    className={`message ${errors.postcode ? 'error-message' : 'success-message'
-                      }`}
+                    className={`message ${
+                      errors.postcode ? 'error-message' : 'success-message'
+                    }`}
                   >
                     {errors.postcode || (successMessage && '成功訊息')}
                   </div>
@@ -227,30 +244,31 @@ export default function Payment(props) {
                     onFocus={onFocusHandler}
                   />
                   <div
-                    className={`message ${errors.address ? 'error-message' : 'success-message'
-                      }`}
+                    className={`message ${
+                      errors.address ? 'error-message' : 'success-message'
+                    }`}
                   >
                     {errors.address || (successMessage && '成功訊息')}
                   </div>
-                  <div className="form-check mt-3"
+                  <div
+                    className="form-check mt-3"
+                    role="checkbox"
+                    tabIndex={0}
+                    aria-checked={isChecked}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter' || e.key === ' ') {
+                        handleSampleClick()
+                      }
+                    }}
                     onClick={() => {
-                      setIsChecked(true)
-                      setPaymentData((prevData) => ({
-                        ...prevData,
-                        name: '陳小豪',
-                        phone: '0988123456',
-                        email: 'ispan@ispan.com',
-                        address: '復興南路一段390號2樓',
-                        postcode: '106',
-                        pay_way: '貨到付款',
-                      }))
-                      setSelectedOption('flexRadioDefault1')
-                    }}>
+                      handleSampleClick()
+                    }}
+                  >
                     <input
                       className="form-check-input "
                       type="checkbox"
                       checked={isChecked}
-                      onChange={() => { }} // 保持這裡不做事，因為整個區塊已接管點擊
+                      onChange={() => {}} // 保持這裡不做事，因為整個區塊已接管點擊
                       readOnly
                     />
                     <label
@@ -275,11 +293,12 @@ export default function Payment(props) {
                 <div className="card-body">
                   <div>
                     <div
-                      className={`form-check mb-3 form-control rounded-5 ${selectedOption === 'flexRadioDefault1' ||
+                      className={`form-check mb-3 form-control rounded-5 ${
+                        selectedOption === 'flexRadioDefault1' ||
                         paymentData?.pay_way === '貨到付款'
-                        ? 'radius-plus-form'
-                        : ''
-                        }`}
+                          ? 'radius-plus-form'
+                          : ''
+                      }`}
                     >
                       <input
                         className="form-check-input mx-1 rounded-5"
@@ -301,11 +320,12 @@ export default function Payment(props) {
                       </label>
                     </div>
                     <div
-                      className={`form-check mb-3 form-control rounded-5 ${selectedOption === 'flexRadioDefault2' ||
+                      className={`form-check mb-3 form-control rounded-5 ${
+                        selectedOption === 'flexRadioDefault2' ||
                         paymentData?.pay_way === '信用卡'
-                        ? 'radius-plus-form'
-                        : ''
-                        }`}
+                          ? 'radius-plus-form'
+                          : ''
+                      }`}
                     >
                       <input
                         className="form-check-input mx-1 rounded-5"
