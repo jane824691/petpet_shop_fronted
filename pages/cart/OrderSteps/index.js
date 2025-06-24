@@ -157,6 +157,8 @@ function OrderSteps() {
       } else {
         // 信用卡付款
         toast.success('恭喜完成訂單!! 3秒後準備前往付款')
+        sessionStorage.setItem("last_oid", responseData.result.order_list.insertId)
+
         setTimeout(() => {
           handlePayment(responseData.result.order_list.insertId) // 後端送回前端成功 & 建好的oid
           clearCart()
