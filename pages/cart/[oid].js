@@ -6,7 +6,7 @@ import ReverseLookup from './OrderSteps/sub-pages/Zipcode_to_city'
 import AuthContext from '@/components/contexts/AuthContext'
 import { CatLoader } from '@/components/hooks/use-loader/components'
 
-export default function OrderUnderMember() {
+export default function OrderUnderMember({ oid: propsOid }) {
   //跳轉用
   const router = useRouter()
   const [orderData, setOrderData] = useState([])
@@ -30,7 +30,7 @@ export default function OrderUnderMember() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const oid = +router.query.oid
+      const resolvedOid = propsOid || router.query.oid
       const authDataString = localStorage.getItem('auther')
       if (!authDataString) {
         // 未登入會直接跳轉回首頁
@@ -47,7 +47,7 @@ export default function OrderUnderMember() {
       const token = JSON.parse(localStorage.getItem("auther"))?.token;
       try {
         // const response = await fetch(ONE_ORDER + `/${oid}`)
-        const response = await fetch(ONE_ORDER + `/${oid}`, {
+        const response = await fetch(ONE_ORDER + `/${resolvedOid}`, {
           body: JSON.stringify({ sid: sid, token }),
           headers: {
             'content-type': 'application/json',
@@ -73,17 +73,17 @@ export default function OrderUnderMember() {
     }
 
     // 呼叫 fetchData 以觸發資料載入
-    if (router.query.oid) {
+    if (resolvedOid) {
       fetchData()
     }
-  }, [router.query.oid])
+  }, [propsOid, router.query.oid])
 
   useEffect(() => {
     console.log('IsShowError', isShowError);
 
   }, [isShowError])
 
-    useEffect(() => {
+  useEffect(() => {
     if (isLoading) {
       setTimeout(() => {
         setIsLoading(false)
