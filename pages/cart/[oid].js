@@ -275,17 +275,19 @@ export default function OrderUnderMember({ oid: propsOid }) {
                     </div>
                   </div>
                 </div>
-                <div className="d-flex justify-content-center">
-                  {' '}
-                  <button
-                    className="btn btn-danger btn-lg text-white mb-5"
-                    onClick={() => {
-                      router.push(`../member/member-orderList`)
-                    }}
-                  >
-                    回到前一頁
-                  </button>
-                </div>
+                {router.query.oid && (
+                  <div className="d-flex justify-content-center">
+                    {' '}
+                    <button
+                      className="btn btn-danger btn-lg text-white mb-5"
+                      onClick={() => {
+                        router.push(`../member/member-orderList`)
+                      }}
+                    >
+                      回到前一頁
+                    </button>
+                  </div>
+                )}
               </div>
             </>
           )}

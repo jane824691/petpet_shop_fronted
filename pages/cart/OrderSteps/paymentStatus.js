@@ -15,8 +15,8 @@ const PaymentStatus = () => {
 
   return (
     <>
-      <div className='d-flex m-5' style={{ height: '50vh' }}>
-        <h2 className='mx-auto my-auto text-center'>
+      <div className='d-flex m-5 flex-column'>
+        <h2 className='mx-auto my-auto text-center pt-5'>
           付款成功！
           <br />
           <Image
