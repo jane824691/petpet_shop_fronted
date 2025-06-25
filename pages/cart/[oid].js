@@ -73,7 +73,7 @@ export default function OrderUnderMember({ oid: propsOid }) {
     }
 
     // 呼叫 fetchData 以觸發資料載入
-    if (resolvedOid) {
+    if (propsOid || router.query.oid) {
       fetchData()
     }
   }, [propsOid, router.query.oid])
