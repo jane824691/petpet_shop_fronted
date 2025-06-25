@@ -1,10 +1,17 @@
-import React from "react"
+import { useEffect, useState } from 'react'
 import Image from 'next/image'
 import OrderUnderMember from "../[oid]"
 
 const paymentStatus = () => {
 
-  const oid = sessionStorage.getItem("last_oid")
+  const [oid, setOid] = useState(null)
+
+  useEffect(() => {
+    const storedOid = sessionStorage.getItem('last_oid')
+    if (storedOid) {
+      setOid(storedOid)
+    }
+  }, [])
 
   return (
     <>
