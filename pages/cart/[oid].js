@@ -6,7 +6,7 @@ import ReverseLookup from './OrderSteps/sub-pages/Zipcode_to_city'
 import AuthContext from '@/components/contexts/AuthContext'
 import { CatLoader } from '@/components/hooks/use-loader/components'
 
-export default function OrderUnderMember({ oid: propsOid }) {
+export default function OrderUnderMember({ oid: propsOid, onStatusChange }) {
   //跳轉用
   const router = useRouter()
   const [orderData, setOrderData] = useState([])
@@ -61,6 +61,7 @@ export default function OrderUnderMember({ oid: propsOid }) {
         if (Array.isArray(responseData)) {
           setOrderData(responseData)
           setIsShowError(false)
+          onStatusChange(responseData[0].order_status)
         } else {
           // console.error('資料格式不是陣列')
           setIsShowError(true)
