@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import Image from 'next/image'
 import OrderUnderMember from "../[oid]"
 
-const paymentStatus = () => {
+const PaymentStatus = () => {
 
   const [oid, setOid] = useState(null)
 
@@ -22,17 +22,17 @@ const paymentStatus = () => {
           <Image
             src={'/pics/nike.png'}
             alt="打勾"
-            width="100"
-            height="100"
+            width={100}
+            height={100}
             className="mx-auto my-3"
           />
         </h2>
         {/* '/pics/error.png' */}
 
-        <OrderUnderMember oid={oid} />
+        {oid && <OrderUnderMember oid={oid} />}
       </div>
     </>
   )
 }
 
-export default paymentStatus
+export default PaymentStatus
