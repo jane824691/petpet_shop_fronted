@@ -135,7 +135,7 @@ export default function OrderUnderMember({ oid: propsOid, onStatusChange }) {
                             <div className="row extinct-product" key={v.oid}>
                               <div className="col-3">
                                 <img
-                                  src={`../image/product/${v.product_img}`}
+                                  src={`/image/product/${v.product_img}`}
                                   alt="name of product"
                                   className="img-thumbnail"
                                 />
