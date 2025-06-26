@@ -29,8 +29,11 @@ export default function OrderUnderMember({ oid: propsOid, onStatusChange }) {
   }, [])
 
   useEffect(() => {
+    if (!router.isReady) return;
+    const resolvedOid = propsOid || router.query.oid;
+    if (!resolvedOid) return;
+    
     const fetchData = async () => {
-      const resolvedOid = propsOid || router.query.oid
       const authDataString = localStorage.getItem('auther')
       if (!authDataString) {
         // 未登入會直接跳轉回首頁
@@ -61,7 +64,9 @@ export default function OrderUnderMember({ oid: propsOid, onStatusChange }) {
         if (Array.isArray(responseData)) {
           setOrderData(responseData)
           setIsShowError(false)
-          onStatusChange(responseData[0].order_status)
+          if (onStatusChange && typeof onStatusChange === 'function') {
+            onStatusChange(responseData[0].order_status)
+          }
         } else {
           // console.error('資料格式不是陣列')
           setIsShowError(true)
@@ -70,14 +75,11 @@ export default function OrderUnderMember({ oid: propsOid, onStatusChange }) {
         // console.error('請求發生錯誤:', error)
         setIsShowError(true)
       }
-
     }
 
     // 呼叫 fetchData 以觸發資料載入
-    if (propsOid || router.query.oid) {
-      fetchData()
-    }
-  }, [propsOid, router.query.oid])
+    fetchData()
+  }, [router.isReady, propsOid])
 
   useEffect(() => {
     console.log('IsShowError', isShowError);
