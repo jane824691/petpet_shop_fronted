@@ -1,6 +1,8 @@
 // ProductItem.js
 import React from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
+import styles from '@/css/ProductItem.module.css'
 
 function ProductItem(props) {
   const { pid, product_name, product_price, category_id, product_img } =
@@ -14,10 +16,15 @@ function ProductItem(props) {
     <div className="col" key={pid}>
       <Link href={`/product/${pid}`} className="noline">
         <div className="card border-primary h-100">
-          <img src={imagePath} alt="name of product" className="card-img-top" />
-
-          {/* 資料庫img實際存到180~204 */}
-
+          <div className={styles.imgContainer}>
+            <Image
+              src={imagePath}
+              alt="product"
+              fill
+              className="card-img-top object-fit-cover bg-white"
+              loading="lazy"
+            />
+          </div>
           <div className="card-body with-space">
             <p className="card-text cardTitle">{product_name}</p>
             <div className="h-currency bold h-now" style={{ display: 'none' }}>
