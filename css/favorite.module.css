@@ -219,3 +219,10 @@
   margin-right: 7px;
   margin-left: 25px;
 }
+
+.order-card-wrapper {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  cursor: pointer;
+}

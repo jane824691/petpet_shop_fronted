@@ -17,9 +17,11 @@ const PaymentStatus = () => {
   return (
     <>
       <div className='d-flex m-5 flex-column'>
-        {oid &&
-          (<>
-            {orderStatus === 1 ? (
+        {oid && (
+          <>
+            {orderStatus === null ? (
+              <></>
+            ) : orderStatus === 1 ? (
               <h2 className='mx-auto my-auto text-center pt-5'>
                 付款成功！
                 <br />
@@ -46,7 +48,7 @@ const PaymentStatus = () => {
             )}
             <OrderUnderMember oid={oid} onStatusChange={setOrderStatus} />
           </>
-          )}
+        )}
       </div>
     </>
   )

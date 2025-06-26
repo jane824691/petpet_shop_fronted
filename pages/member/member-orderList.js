@@ -6,6 +6,7 @@ import dayjs from 'dayjs'
 import { BsArrowRight } from 'react-icons/bs'
 import LeftList from '@/components/LeftList'
 import PagesBar from '@/components/PagesBar'
+import styles from '@/css/favorite.module.css'
 
 export default function MemberOrderList() {
   const [data, setData] = useState({})
@@ -50,7 +51,7 @@ export default function MemberOrderList() {
           return
         }
         const sid = authData.sid
-        const token = JSON.parse(localStorage.getItem("auther"))?.token;
+        const token = JSON.parse(localStorage.getItem('auther'))?.token
         setSid(sid)
         const response = await fetch(GET_MEMBER_DATA, {
           body: JSON.stringify({ sid: sid, token: token }),
@@ -94,86 +95,85 @@ export default function MemberOrderList() {
   }, [router.query.page, sid])
   return (
     <>
-      <div className="container d-flex">
+      <main className={`${styles.main} d-block d-md-flex`}>
         {/* 左邊欄位 */}
         <LeftList photo={mydata.photo} />
-
-        <div className="mx-auto">
-          <h3>購物清單</h3>
-          {data.rows && data.rows.length > 0 ? (
-            data.rows.map((v, i) => {
-              const handleItemClick = () => {
-                router.push(`../../cart/${v.oid}`)
-              }
-              return (
-                <form className="my-4" key={v.oid}>
-                  <div
-                    className="d-flex justify-content-center"
-                    role="button"
-                    tabIndex={0}
-                    onClick={handleItemClick}
-                    onKeyDown={(e) => {
-                      if (e.key === 'Enter') {
-                        router.push(`../../cart/${v.oid}`)
-                      }
-                    }}
-                    style={{ cursor: 'pointer' }}
-                  >
-                    <div className="direction-column">
-                      <div
-                        className="card border-primary"
-                        style={{ width: '40rem' }}
-                      >
-                        <div
-                          className="card-header card-big-title border border-0"
-                          style={{ backgroundColor: 'transparent ' }}
-                        >
-                          訂單編號：{v.oid}
-                        </div>
-                        <div className="card-body">
-                          <h5 className="card-title font-grey-title mb-2">
-                            訂單成立時間：
-                            {dayjs(v.order_date).format('YYYY-MM-DD HH:mm:ss')}
-                          </h5>
-                          <h5 className="card-title font-grey-title mb-2 ">
-                            付款方式：{v.pay_way}
-                          </h5>
-                          <h5 className="card-title font-grey-title mb-2 text-info">
-                            付款情況：
-                            {v.order_status === 1
-                              ? '已付款'
-                              : v.order_status === 0
+        <hr className="border-primary border-1 opacity-75" />
+        <div className="flex-direction: column">
+          <h3 className="mx-5 mt-5 pt-5 py-2">購物清單</h3>
+          <div className="list-form mx-4">
+            {data.rows && data.rows.length > 0 ? (
+              data.rows.map((v, i) => {
+                const handleItemClick = () => {
+                  router.push(`../../cart/${v.oid}`)
+                }
+                return (
+                  <form className="my-4" key={v.oid}>
+                    <div
+                      className="d-flex justify-content-center"
+                      role="button"
+                      tabIndex={0}
+                      onClick={handleItemClick}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter') {
+                          router.push(`../../cart/${v.oid}`)
+                        }
+                      }}
+                      style={{ cursor: 'pointer' }}
+                    >
+                      <div className="direction-column">
+                        <div className="card border-primary">
+                          <div
+                            className="card-header card-big-title border border-0 my-3"
+                            style={{ backgroundColor: 'transparent ' }}
+                          >
+                            訂單編號：{v.oid}
+                          </div>
+                          <div className="card-body mx-3">
+                            <h5 className="card-title font-grey-title mb-2">
+                              訂單成立時間：
+                              {dayjs(v.order_date).format(
+                                'YYYY-MM-DD HH:mm:ss'
+                              )}
+                            </h5>
+                            <h5 className="card-title font-grey-title mb-2 ">
+                              付款方式：{v.pay_way}
+                            </h5>
+                            <h5 className="card-title font-grey-title mb-2 text-info">
+                              付款情況：
+                              {v.order_status === 1
+                                ? '已付款'
+                                : v.order_status === 0
                                 ? '未付款'
                                 : ''}
-                          </h5>
-                          <h5 className="card-title font-grey-title mb-2">
-                            交貨方式：{v.delivery_way}
-                          </h5>
-                          <h5 className="card-title font-grey-title mb-2 text-success">
-                            處理情況：{v.delivery_status}
-                          </h5>
-                          <div className="d-flex justify-content-between">
+                            </h5>
+                            <h5 className="card-title font-grey-title mb-2">
+                              交貨方式：{v.delivery_way}
+                            </h5>
+                            <h5 className="card-title font-grey-title mb-2 text-success">
+                              處理情況：{v.delivery_status}
+                            </h5>
                             <h5 className="card-title font-grey-title mb-2 text-danger">
                               總金額：NT$ {v.total}
                             </h5>
-                            <h5>
+                            <h5 className="text-end">
                               See more <BsArrowRight />
                             </h5>
                           </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                </form>
-              )
-            })
-          ) : (
-            <h5 className="m-5">目前並未成立訂單</h5>
-          )}
-          {/* 頁碼 */}
-          <PagesBar data={data} />
+                  </form>
+                )
+              })
+            ) : (
+              <h5 className="m-5">目前並未成立訂單</h5>
+            )}
+            {/* 頁碼 */}
+            <PagesBar data={data} />
+          </div>
         </div>
-      </div>
+      </main>
     </>
   )
 }
