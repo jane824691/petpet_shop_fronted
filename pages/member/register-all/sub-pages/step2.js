@@ -113,23 +113,24 @@ function Step2(props) {
 
       {/* 表單部分 */}
       <h3 className="mx-5 py-3">會員註冊</h3>
-      <div className="d-flex justify-content-center">
+      <div className="d-flex justify-content-center mx-auto px-3 px-sm-5" style={{ maxWidth: '600px' }}>
         <Image
           src="/pics/sleepcat2.png"
-          width="510"
-          height="110"
+          width={510}
+          height={110}
           alt="懶懶貓"
+          className="w-100 h-auto"
         />
       </div>
-      <form className="list-form" onSubmit={onSubmit}>
+      <form className="list-form mx-4" onSubmit={onSubmit}>
         <div className="d-flex justify-content-center">
           <div className="direction-column">
-            <div className="card border-danger mb-3" style={{ width: '40rem' }}>
+            <div className="card border-danger mb-3 px-4 py-4">
               <div
-                className="card-header card-big-title border border-0 py-3"
+                className="card-header card-big-title border border-0"
                 style={{ backgroundColor: 'transparent' }}
               >
-                會員資訊
+                聯絡地址
                 <Image
                   src="/pics/showpassword.png"
                   width="24"
@@ -154,21 +155,20 @@ function Step2(props) {
                 />
               </div>
               <div className="card-body">
-                <div className="row pb-4">
-                  {/* Integrate TWZipCode component for selecting city */}
-
-                  <div className="col pb-1">
+                <div className="row">
+                  <div className="col-12 pb-3">
+                    <h6 className="card-title font-grey-title">縣市*</h6>
                     <TWZipCode
                       initPostcode={step2 && step2.zipcode ? step2.zipcode : ''}
                       onPostcodeChange={handlePostcodeChange}
                     />
+                    {errors?.zipcode && (
+                      <div className="error-message">{errors.zipcode}</div>
+                    )}
                   </div>
-                  {errors?.zipcode && (
-                    <div className="error-message">{errors.zipcode}</div>
-                  )}
                 </div>
-                <div className="row pb-4">
-                  <div className="col pb-1">
+                <div className="row">
+                  <div className="col-12 pb-3">
                     <h6 className="card-title font-grey-title">
                       通訊地址<span className="text-danger">*</span>
                     </h6>

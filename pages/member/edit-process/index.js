@@ -217,7 +217,7 @@ function EditProcess() {
           errors={errors}
         />
       )}
-      <div className="d-flex flex-column flex-sm-row justify-content-center py-4 gap-4 mx-4 mx-sm-5">
+      <div className="d-flex flex-column flex-sm-row justify-content-center py-3 gap-4 mx-4 mx-sm-5 mb-5">
         <button
           type="button"
           className="btn btn-outline-primary btn-lg btn pro-shadow px-5"
