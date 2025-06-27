@@ -6,10 +6,12 @@ import { GET_MEMBER_DATA } from '@/components/my-const'
 import { jwtDecode } from 'jwt-decode'
 import dayjs from 'dayjs'
 import LeftList from '@/components/LeftList'
+import { useIntl } from 'react-intl'
 
 export default function Profile() {
   const router = useRouter()
   const { logout } = useContext(AuthContext)
+  const intl = useIntl()
 
   const [mydata, setMydata] = useState({
     sid: '',
@@ -104,18 +106,18 @@ export default function Profile() {
                     className="card-header card-big-title border border-0"
                     style={{ backgroundColor: 'transparent' }}
                   >
-                    會員資訊
+                    {intl.formatMessage({ id: 'member.personalInfo' })}
                   </div>
                   <div className="card-body ">
                     <div className="row">
                       <div className="col-12 col-sm-6 pb-3">
-                        <h6 className="card-title font-grey-title">姓氏</h6>
+                        <h6 className="card-title font-grey-title">{intl.formatMessage({ id: 'member.lastName' })}</h6>
                         <input
                           readOnly
                           disabled
                           className="form-control T-18 rounded-5 border border-primary"
                           type="text"
-                          placeholder="姓氏"
+                          placeholder={intl.formatMessage({ id: 'member.lastName' })}
                           id="lastname"
                           name="lastname"
                           aria-label="default input example"
@@ -127,13 +129,13 @@ export default function Profile() {
                       </div>
 
                       <div className="col-12 col-sm-6 pb-3">
-                        <h6 className="card-title font-grey-title">名字</h6>
+                        <h6 className="card-title font-grey-title">{intl.formatMessage({ id: 'member.firstName' })}</h6>
                         <input
                           readOnly
                           disabled
                           className="form-control T-18 rounded-5 border border-primary"
                           type="text"
-                          placeholder="名字"
+                          placeholder={intl.formatMessage({ id: 'member.firstName' })}
                           aria-label="default input example"
                           id="firstname"
                           name="firstname"
@@ -147,13 +149,13 @@ export default function Profile() {
                     <br></br>
                     <div className="row">
                       <div className="col-12 col-sm-6 pb-3">
-                        <h6 className="card-title font-grey-title">電話號碼</h6>
+                        <h6 className="card-title font-grey-title">{intl.formatMessage({ id: 'member.phoneNumber' })}</h6>
                         <input
                           readOnly
                           disabled
                           className="form-control T-18 rounded-5 border border-primary"
                           type="text"
-                          placeholder="請填電話號碼"
+                          placeholder={intl.formatMessage({ id: 'member.phoneNumber' })}
                           id="mobile"
                           name="mobile"
                           aria-label="default input example"
@@ -165,7 +167,7 @@ export default function Profile() {
                       </div>
 
                       <div className="col-12 col-sm-6 pb-3">
-                        <h6 className="card-title font-grey-title">出生年月日</h6>
+                        <h6 className="card-title font-grey-title">{intl.formatMessage({ id: 'member.birthday' })}</h6>
                         <input
                           readOnly
                           disabled
@@ -173,7 +175,7 @@ export default function Profile() {
                           type="date"
                           id="birthday"
                           name="birthday"
-                          placeholder="請填日期"
+                          placeholder={intl.formatMessage({ id: 'member.birthday' })}
                           aria-label="default input example"
                           value={mydata.birthday} // 這裡是關聯的部分
                           onChange={(e) =>
@@ -183,7 +185,7 @@ export default function Profile() {
                       </div>
                     </div>
 
-                    <h6 className="card-title font-grey-title mt-3">郵箱</h6>
+                    <h6 className="card-title font-grey-title mt-3">{intl.formatMessage({ id: 'member.email' })}</h6>
                     <input
                       readOnly
                       disabled
@@ -191,7 +193,7 @@ export default function Profile() {
                       className="form-control rounded-5 border border-primary"
                       name="email"
                       id="email"
-                      placeholder="請填 Email"
+                      placeholder={intl.formatMessage({ id: 'member.email' })}
                       value={mydata.email} // 這裡是關聯的部分
                       onChange={(e) =>
                         setMydata({ ...mydata, email: e.target.value })
@@ -214,18 +216,18 @@ export default function Profile() {
                     className="card-header card-big-title border border-0"
                     style={{ backgroundColor: 'transparent' }}
                   >
-                    聯絡地址
+                    {intl.formatMessage({ id: 'member.contactAddress' })}
                   </div>
                   <div className="card-body">
                     <div className="row">
                       <div className="col-12 col-sm-6 pb-3">
-                        <h6 className="card-title font-grey-title">縣市*</h6>
+                        <h6 className="card-title font-grey-title">{intl.formatMessage({ id: 'member.city' })}*</h6>
                         <input
                           readOnly
                           disabled
                           className="form-control T-18 rounded-5 border border-primary"
                           type="text"
-                          placeholder="請選擇縣市"
+                          placeholder={intl.formatMessage({ id: 'member.city' })}
                           aria-label="default input example"
                           value={mydata.country} // 這裡是關聯的部分
                           onChange={(e) =>
@@ -235,13 +237,13 @@ export default function Profile() {
                       </div>
 
                       <div className="col-12 col-sm-6 pb-3">
-                        <h6 className="card-title font-grey-title">鎮市區*</h6>
+                        <h6 className="card-title font-grey-title">{intl.formatMessage({ id: 'member.district' })}*</h6>
                         <input
                           readOnly
                           disabled
                           className="form-control T-18 rounded-5 border border-primary"
                           type="text"
-                          placeholder="請選擇鄉鎮市區"
+                          placeholder={intl.formatMessage({ id: 'member.district' })}
                           aria-label="default input example"
                           value={mydata.township} // 這裡是關聯的部分
                           onChange={(e) =>
@@ -251,7 +253,7 @@ export default function Profile() {
                       </div>
                     </div>
                     <h6 className="card-title font-grey-title mt-3">
-                      郵遞區號
+                      {intl.formatMessage({ id: 'member.zipcode' })}
                     </h6>
                     <input
                       readOnly
@@ -267,7 +269,7 @@ export default function Profile() {
                     />
 
                     <h6 className="card-title font-grey-title mt-3">
-                      通訊地址*
+                      {intl.formatMessage({ id: 'member.address' })}*
                     </h6>
                     <textarea
                       readOnly
@@ -275,7 +277,7 @@ export default function Profile() {
                       type="text"
                       className={`${styles.responsiveRounded} form-control border border-primary`}
                       id="exampleFormControlInput1"
-                      placeholder="詳細地址"
+                      placeholder={intl.formatMessage({ id: 'member.detailedAddress' })}
                       value={mydata.address} // 這裡是關聯的部分
                       onChange={(e) =>
                         setMydata({ ...mydata, address: e.target.value })
@@ -299,7 +301,7 @@ export default function Profile() {
                     type="button"
                     className="btn btn-outline-primary btn-lg btn pro-shadow px-5"
                   >
-                    回前一頁
+                    {intl.formatMessage({ id: 'member.backToPrevious' })}
                   </button>
 
                   <button
@@ -309,7 +311,7 @@ export default function Profile() {
                       router.push('/member/edit-process')
                     }}
                   >
-                    編輯資料
+                    {intl.formatMessage({ id: 'member.editData' })}
                   </button>
                 </div>
               </div>

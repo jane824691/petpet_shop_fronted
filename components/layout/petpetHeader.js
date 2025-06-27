@@ -6,14 +6,25 @@ import AuthContext from '../contexts/AuthContext'
 import { useContext } from 'react'
 import { useCart } from '@/components/hooks/use-cart-state'
 import { useHeaderAnimation } from '@/components/contexts/HeaderAnimationContext'
+import { useLanguage } from '@/components/contexts/LanguageContext'
+import { useIntl } from 'react-intl'
 
 export default function PetpetHeader() {
+  const { locale, changeLanguage } = useLanguage()
+  const intl = useIntl()
   const { auther, logout } = useContext(AuthContext)
   const { items } = useCart()
   // TODO: adding fading animate add & minus button at cart page
   const totalQuantity = items.reduce((sum, item) => sum + item.quantity, 0)
 
   const { showAnimation, addingProductAmount } = useHeaderAnimation()
+
+  const toggleLanguage = () => {
+    const newLocale = locale === 'zh-TW' ? 'en-US' : 'zh-TW'
+    changeLanguage(newLocale)
+  }
+
+  const isZH = locale === 'zh-TW'
 
   return (
     <>
@@ -44,7 +55,7 @@ export default function PetpetHeader() {
                 href="/product/list"
                 className={`${styles.headerMiddleItem} ${styles.foodPart}`}
               >
-                吃起來
+                {intl.formatMessage({ id: 'header.food' })}
               </Link>
             </div>
             <div>
@@ -52,7 +63,7 @@ export default function PetpetHeader() {
                 href="/product/list"
                 className={`${styles.headerMiddleItem} ${styles.outdoorPart}`}
               >
-                走起來
+                {intl.formatMessage({ id: 'header.outdoor' })}
               </Link>
             </div>
             <div>
@@ -60,7 +71,7 @@ export default function PetpetHeader() {
                 href="/product/list"
                 className={`${styles.headerMiddleItem} ${styles.toyPart}`}
               >
-                玩起來
+                {intl.formatMessage({ id: 'header.toy' })}
               </Link>
             </div>
             <div>
@@ -68,7 +79,7 @@ export default function PetpetHeader() {
                 href="/product/list"
                 className={`${styles.headerMiddleItem} ${styles.livingPart}`}
               >
-                住起來
+                {intl.formatMessage({ id: 'header.living' })}
               </Link>
             </div>
           </div>
@@ -98,9 +109,13 @@ export default function PetpetHeader() {
             )}
             {auther.account ? (
               <>
-                <div className={styles.headerRightIcon}>
-                  <Link className={styles.headerRightIconLink} href="">
-                    <i className={`bi bi-bell fs-2 ${styles.iconSmall}`}></i>
+                <div className={styles.headerRightIcon} onClick={toggleLanguage}>
+                  <Link className={`${styles.headerRightIconLink} text-decoration-none`} href="">
+                    {isZH ? (
+                      <div className={`fs-2 ${styles.iconSmall}`}>ZH</div>
+                    ) : (
+                      <div className={`fs-2 ${styles.iconSmall}`}>EN</div>
+                    )}
                   </Link>
                 </div>
               </>
@@ -134,7 +149,7 @@ export default function PetpetHeader() {
                     style={{ color: 'white', textDecoration: 'none' }}
                     href="/member/login"
                   >
-                    登入
+                    {intl.formatMessage({ id: 'header.login' })}
                   </Link>
                 </div>
               </>
@@ -154,7 +169,7 @@ export default function PetpetHeader() {
                         logout()
                       }}
                     >
-                      <Link href="/">登出</Link>
+                      <Link href="/">{intl.formatMessage({ id: 'header.logout' })}</Link>
                     </Dropdown.Item>
                   </Dropdown.Menu>
                 </Dropdown>

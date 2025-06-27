@@ -1,10 +1,14 @@
 import styles from '@/css/petpetFooter.module.css'
+import { useIntl } from 'react-intl'
+
 export default function PetpetFooter() {
+  const intl = useIntl()
+
   return (
     <>
       <div className={styles.footer}>
         <div className={styles.footerBlock}>
-          <div className={styles.footerTitle}>ABOUT US</div>
+          <div className={styles.footerTitle}>{intl.formatMessage({ id: 'footer.aboutUs' })}</div>
           <div className={styles.footerContent}>
             <div>品牌介紹</div>
             <div>寵物商城</div>
@@ -15,18 +19,18 @@ export default function PetpetFooter() {
         <div />
 
         <div className={styles.footerBlock}>
-          <div className={styles.footerTitle}>ONLINE SERVICE</div>
+          <div className={styles.footerTitle}>{intl.formatMessage({ id: 'footer.onlineService' })}</div>
           <div className={styles.footerContent}>
             <div>運送服務</div>
             <div>付款服務</div>
-            <div>條款細則</div>
-            <div>會員權益</div>
+            <div>{intl.formatMessage({ id: 'footer.privacyPolicy' })}</div>
+            <div>{intl.formatMessage({ id: 'footer.termsOfService' })}</div>
           </div>
         </div>
         <div />
 
         <div className={styles.footerBlock}>
-          <div className={styles.footerTitle}>CONTACT US</div>
+          <div className={styles.footerTitle}>{intl.formatMessage({ id: 'footer.contactUs' })}</div>
           <div className={styles.footerContent}>
             <div>佩佩星球-模擬電商平台</div>
             <div>電話：02-22222222</div>

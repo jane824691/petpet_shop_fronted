@@ -16,6 +16,8 @@ import { AuthContextProvider } from '@/components/contexts/AuthContext'
 import { GameContextProvider } from '@/components/contexts/GameContext'
 import { CartProvider } from '@/components/hooks/use-cart-state'
 import { HeaderAnimationProvider } from '@/components/contexts/HeaderAnimationContext'
+import { LanguageProvider } from '@/components/contexts/LanguageContext'
+
 export default function MyApp({ Component, pageProps }) {
   useEffect(() => {
     import('bootstrap/dist/js/bootstrap')
@@ -27,13 +29,15 @@ export default function MyApp({ Component, pageProps }) {
     Component.getLayout || ((page) => <DefaultLayout>{page}</DefaultLayout>)
 
   return (
-    <HeaderAnimationProvider>
-      <GameContextProvider>
-        <AuthContextProvider>
-          <CartProvider>{getLayout(<Component {...pageProps} />)}</CartProvider>
-        </AuthContextProvider>
-      </GameContextProvider>
-    </HeaderAnimationProvider>
+    <LanguageProvider>
+      <HeaderAnimationProvider>
+        <GameContextProvider>
+          <AuthContextProvider>
+            <CartProvider>{getLayout(<Component {...pageProps} />)}</CartProvider>
+          </AuthContextProvider>
+        </GameContextProvider>
+      </HeaderAnimationProvider>
+    </LanguageProvider>
   )
 
   // <Component {...pageProps} />

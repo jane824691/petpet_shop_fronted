@@ -7,9 +7,11 @@ import Modal from 'react-bootstrap/Modal'
 import { REGISTER_ADD } from '@/components/my-const'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
+import { useIntl } from 'react-intl'
 
 //同時兩個表單的新增(主畫面)
 function RegisterSteps() {
+  const intl = useIntl()
   const router = useRouter()
   const maxSteps = 2
   const [step, setStep] = useState(1)
@@ -45,13 +47,13 @@ function RegisterSteps() {
   const validateFields = (step2) => {
     // 檢查地址格式
     if (!/[\u4e00-\u9fa5]+/.test(step2.address?.trim() || '')) {
-      newErrors.address = '地址格式錯誤'
+      newErrors.address = intl.formatMessage({ id: 'validation.addressFormat' })
     } else {
       newErrors.address = '' // 清空錯誤訊息
     }
 
     if (!step2.zipcode?.trim()) {
-      newErrors.zipcode = '請選擇郵遞區號'
+      newErrors.zipcode = intl.formatMessage({ id: 'validation.zipcodeRequired' })
     } else {
       newErrors.zipcode = '' // 清空錯誤訊息
     }
@@ -186,7 +188,7 @@ function RegisterSteps() {
           className="btn btn-outline-primary btn-lg btn pro-shadow px-5"
           onClick={prev}
         >
-          回前一頁
+          {intl.formatMessage({ id: 'member.backToPreviousPage' })}
         </button>
         <button
           type="button"
@@ -194,7 +196,7 @@ function RegisterSteps() {
           onClick={next}
           disabled={!isStep1Valid}
         >
-          {step === maxSteps ? '完成註冊' : '繼續註冊'}
+          {step === maxSteps ? intl.formatMessage({ id: 'member.completeRegister' }) : intl.formatMessage({ id: 'member.continueRegister' })}
         </button>
         <Modal show={showSuccessModal || showFailureModal} onHide={handleClose} centered>
           <Modal.Header
@@ -203,11 +205,11 @@ function RegisterSteps() {
             }`}
           >
             <Modal.Title className="modal-form">
-              {showSuccessModal ? '註冊成功!!' : '註冊失敗'}
+              {showSuccessModal ? intl.formatMessage({ id: 'member.registerSuccess' }) : intl.formatMessage({ id: 'member.registerFailure' })}
               {showSuccessModal ? (
-                <div>恭喜成為佩佩星球的成員~</div>
+                <div>{intl.formatMessage({ id: 'member.redirectToMemberCenter' })}</div>
               ) : (
-                <div>請填寫完整資料~</div>
+                <div>{intl.formatMessage({ id: 'member.pleaseCompleteRegisterData' })}</div>
               )}
             </Modal.Title>
             <Image
@@ -220,7 +222,7 @@ function RegisterSteps() {
                 cursor: 'pointer',
                 position: 'absolute',
                 top: '-22px',
-                right: '-20px',
+                right: '-20px'
               }}
               onClick={handleClose}
             />
@@ -251,7 +253,7 @@ function RegisterSteps() {
               style={{
                 width: '120px',
                 cursor: 'pointer',
-                boxShadow: 'none',
+                boxShadow: 'none'
               }}
               //資料正確才跳轉
               onClick={() => {
@@ -261,7 +263,7 @@ function RegisterSteps() {
                 }
               }}
             >
-              確定
+              {intl.formatMessage({ id: 'member.confirm' })}
             </Button>
           </Modal.Footer>
         </Modal>

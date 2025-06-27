@@ -3,8 +3,10 @@ import Image from 'next/image'
 import TWZipCode from '@/components/tw-zipcode/canReadInitCountryTownship'
 import styles from '@/css/favorite.module.css'
 import { BsCameraFill } from 'react-icons/bs'
+import { useIntl } from 'react-intl'
 
 export default function Edit2(props) {
+  const intl = useIntl()
   const {
     step2,
     setStep2,
@@ -106,7 +108,7 @@ export default function Edit2(props) {
       </form>
 
       {/* 表單部分 */}
-      <h3 className="mx-5 py-3">編輯資料</h3>
+      <h3 className="mx-5 py-3">{intl.formatMessage({ id: 'member.editData' })}</h3>
       <div className="d-flex justify-content-center mx-auto px-3 px-sm-5" style={{ maxWidth: '600px' }}>
         <Image
           src="/pics/sleepcat2.png"
@@ -124,12 +126,12 @@ export default function Edit2(props) {
                 className="card-header card-big-title border border-0"
                 style={{ backgroundColor: 'transparent' }}
               >
-                聯絡地址
+                {intl.formatMessage({ id: 'member.contactAddress' })}
               </div>
               <div className="card-body">
                 <div className="row">
                   <div className="col-12 pb-3">
-                    <h6 className="card-title font-grey-title">縣市*</h6>
+                    <h6 className="card-title font-grey-title">{intl.formatMessage({ id: 'member.city' })}*</h6>
                     <TWZipCode
                       initPostcode={step2 && step2.zipcode ? step2.zipcode : ''}
                       initCountry={step2 && step2.country ? step2.country : ''}
@@ -146,7 +148,8 @@ export default function Edit2(props) {
                 <div className="row">
                   <div className="col-12 pb-3">
                     <h6 className="card-title font-grey-title">
-                      通訊地址<span className="text-danger">*</span>
+                      {intl.formatMessage({ id: 'member.address' })}
+                      <span className="text-danger">*</span>
                     </h6>
 
                     <textarea
@@ -155,7 +158,7 @@ export default function Edit2(props) {
                       id="address"
                       name="address"
                       value={(step2 && step2.address) || ''}
-                      placeholder="詳細地址"
+                      placeholder={intl.formatMessage({ id: 'member.pleaseEnterAddress' })}
                       aria-label="default input example"
                       onChange={handleAddressChange}
                       style={{

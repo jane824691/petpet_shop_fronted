@@ -10,8 +10,10 @@ import { GET_MEMBER_DATA, PUT_MEMBER_DATA } from '@/components/my-const'
 import AuthContext from '@/components/contexts/AuthContext'
 import { useContext } from 'react'
 import dayjs from 'dayjs'
+import { useIntl } from 'react-intl'
 
 function EditProcess() {
+  const intl = useIntl()
   //跳轉用
   const router = useRouter()
 
@@ -157,13 +159,13 @@ function EditProcess() {
   const validateFields = (step2) => {
     // 檢查地址格式
     if (!/[\u4e00-\u9fa5]+/.test(step2.address?.trim() || '')) {
-      newErrors.address = '地址格式錯誤'
+      newErrors.address = intl.formatMessage({ id: 'validation.addressFormat' })
     } else {
       newErrors.address = '' // 清空錯誤訊息
     }
 
     if (!step2.zipcode) {
-      newErrors.zipcode = '請選擇郵遞區號'
+      newErrors.zipcode = intl.formatMessage({ id: 'validation.zipcodeRequired' })
     } else {
       newErrors.zipcode = '' // 清空錯誤訊息
     }
@@ -223,7 +225,7 @@ function EditProcess() {
           className="btn btn-outline-primary btn-lg btn pro-shadow px-5"
           onClick={prev}
         >
-          {step === 1 ? '回會員頁' : '回前一頁'}
+          {step === 1 ? intl.formatMessage({ id: 'member.backToMemberPage' }) : intl.formatMessage({ id: 'member.backToPreviousPage' })}
         </button>
 
         <button
@@ -232,7 +234,7 @@ function EditProcess() {
           onClick={next}
           disabled={!isStep1Valid}
         >
-          {step === maxSteps ? '完成編輯' : '繼續編輯'}
+          {step === maxSteps ? intl.formatMessage({ id: 'member.completeEdit' }) : intl.formatMessage({ id: 'member.continueEdit' })}
         </button>
       </div>
 
@@ -243,11 +245,11 @@ function EditProcess() {
           }`}
         >
           <Modal.Title className="modal-form">
-            {showSuccessModal ? '編輯成功!!' : '編輯失敗'}
+            {showSuccessModal ? intl.formatMessage({ id: 'member.editSuccess' }) : intl.formatMessage({ id: 'member.editFailure' })}
             {showSuccessModal ? (
-              <div>稍後將跳轉回會員中心~</div>
+              <div>{intl.formatMessage({ id: 'member.redirectToMemberCenter' })}</div>
             ) : (
-              <div>請編輯完整資料~</div>
+              <div>{intl.formatMessage({ id: 'member.pleaseCompleteData' })}</div>
             )}
           </Modal.Title>
           <Image
@@ -301,7 +303,7 @@ function EditProcess() {
               }
             }}
           >
-            確定
+            {intl.formatMessage({ id: 'member.confirm' })}
           </Button>
         </Modal.Footer>
       </Modal>
