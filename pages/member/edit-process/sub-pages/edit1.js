@@ -1,4 +1,3 @@
-import Link from 'next/link'
 import React, { useState, useEffect } from 'react'
 import Image from 'next/image'
 
@@ -96,27 +95,28 @@ export default function Edit1(props) {
   return (
     <>
       <h3 className="mx-5 py-3 pt-5">編輯資料</h3>
-      <div className="d-flex justify-content-center">
+      <div className="d-flex justify-content-center mx-auto px-3 px-sm-5" style={{ maxWidth: '600px' }}>
         <Image
           src="/pics/sleepcat.png"
-          width="500"
-          height="100"
+          width={500}
+          height={100}
           alt="懶懶貓"
+          className="w-100 h-auto"
         ></Image>
       </div>
-      <div className="list-form" onSubmit={onSubmit}>
+      <div className="list-form mx-4" onSubmit={onSubmit}>
         <div className="d-flex justify-content-center">
           <div className="direction-column">
-            <div className="card border-danger mb-3" style={{ width: '40rem' }}>
+            <div className="card border-danger mb-3 px-4 py-4">
               <div
-                className="card-header card-big-title border border-0 py-3"
+                className="card-header card-big-title border border-0"
                 style={{ backgroundColor: 'transparent' }}
               >
                 會員資訊
               </div>
               <div className="card-body">
-                <div className="row gap-3">
-                  <div className="col">
+                <div className="row">
+                  <div className="col-12 col-sm-6 pb-3">
                     <h6 className="card-title font-grey-title ">
                       姓氏<span className="text-danger">*</span>
                     </h6>
@@ -137,7 +137,7 @@ export default function Edit1(props) {
                     )}
                   </div>
 
-                  <div className="col">
+                  <div className="col-12 col-sm-6 pb-3">
                     <h6 className="card-title font-grey-title ">
                       名字<span className="text-danger">*</span>
                     </h6>
@@ -158,9 +158,8 @@ export default function Edit1(props) {
                     )}
                   </div>
                 </div>
-                <br />
-                <div className="row gap-3">
-                  <div className="col">
+                <div className="row">
+                  <div className="col-12 col-sm-6 pb-3">
                     <h6 className="card-title font-grey-title">
                       電話號碼<span className="text-danger">*</span>
                     </h6>
@@ -180,7 +179,7 @@ export default function Edit1(props) {
                       <div className="error-message">{errors.mobile}</div>
                     )}
                   </div>
-                  <div className="col">
+                  <div className="col-12 col-sm-6 pb-3">
                     <h6 className="card-title font-grey-title">
                       出生年月日<span className="text-danger">*</span>
                     </h6>
@@ -202,9 +201,8 @@ export default function Edit1(props) {
                     )}
                   </div>
                 </div>
-                <br />
-                <div className="row gap-3">
-                  <div className="col">
+                <div className="row">
+                  <div className="col-12 col-sm-6 pb-3">
                     <h6 className="card-title font-grey-title">
                       會員帳號<span className="text-danger">*</span>
                     </h6>
@@ -221,7 +219,7 @@ export default function Edit1(props) {
                     />
                   </div>
 
-                  <div className="col">
+                  <div className="col-12 col-sm-6 pb-3">
                     <h6 className="card-title font-grey-title">
                       密碼<span className="text-danger">*</span>
                     </h6>
@@ -238,9 +236,8 @@ export default function Edit1(props) {
                     />
                   </div>
                 </div>
-                <br />
-                <div className="row gap-3">
-                  <div className="col">
+                <div className="row">
+                  <div className="col-12 col-sm-6 pb-3">
                     <h6 className="card-title font-grey-title">
                       身分證字號<span className="text-danger">*</span>
                     </h6>
@@ -263,7 +260,7 @@ export default function Edit1(props) {
                     )}
                   </div>
 
-                  <div className="col">
+                  <div className="col-12 col-sm-6 pb-3">
                     <h6 className="card-title font-grey-title">
                       電子信箱<span className="text-danger">*</span>
                     </h6>
@@ -284,8 +281,6 @@ export default function Edit1(props) {
                     )}
                   </div>
                 </div>
-
-                <br />
               </div>
             </div>
           </div>

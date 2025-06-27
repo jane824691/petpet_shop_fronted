@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import Image from 'next/image'
 import TWZipCode from '@/components/tw-zipcode/canReadInitCountryTownship'
 import styles from '@/css/favorite.module.css'
@@ -107,29 +107,29 @@ export default function Edit2(props) {
 
       {/* 表單部分 */}
       <h3 className="mx-5 py-3">編輯資料</h3>
-      <div className="d-flex justify-content-center">
+      <div className="d-flex justify-content-center mx-auto px-3 px-sm-5" style={{ maxWidth: '600px' }}>
         <Image
           src="/pics/sleepcat2.png"
-          width="510"
-          height="110"
+          width={510}
+          height={110}
           alt="懶懶貓"
+          className="w-100 h-auto"
         />
       </div>
-      <div className="list-form">
+      <div className="list-form mx-4">
         <div className="d-flex justify-content-center">
           <div className="direction-column">
-            <div className="card border-danger mb-3" style={{ width: '40rem' }}>
+            <div className="card border-danger mb-3 px-4 py-4">
               <div
-                className="card-header card-big-title border border-0 py-3"
+                className="card-header card-big-title border border-0"
                 style={{ backgroundColor: 'transparent' }}
               >
-                會員資訊
+                聯絡地址
               </div>
               <div className="card-body">
                 <div className="row">
-                  {/* Integrate TWZipCode component for selecting city */}
-
-                  <div className="col">
+                  <div className="col-12 pb-3">
+                    <h6 className="card-title font-grey-title">縣市*</h6>
                     <TWZipCode
                       initPostcode={step2 && step2.zipcode ? step2.zipcode : ''}
                       initCountry={step2 && step2.country ? step2.country : ''}
@@ -143,15 +143,14 @@ export default function Edit2(props) {
                     )}
                   </div>
                 </div>
-                <br />
                 <div className="row">
-                  <div className="col">
+                  <div className="col-12 pb-3">
                     <h6 className="card-title font-grey-title">
                       通訊地址<span className="text-danger">*</span>
                     </h6>
 
-                    <input
-                      className="form-control T-18 rounded-5 border border-primary"
+                    <textarea
+                      className={`${styles.responsiveRounded} form-control border border-primary`}
                       type="text"
                       id="address"
                       name="address"
@@ -159,13 +158,22 @@ export default function Edit2(props) {
                       placeholder="詳細地址"
                       aria-label="default input example"
                       onChange={handleAddressChange}
+                      style={{
+                        wordWrap: 'break-word',
+                        wordBreak: 'break-all',
+                        whiteSpace: 'pre-wrap',
+                        overflowWrap: 'break-word',
+                        minHeight: '60px',
+                        resize: 'none',
+                        lineHeight: '1.5'
+                      }}
+                      rows="2"
                     />
                     {errors?.address && (
                       <div className="error-message">{errors.address}</div>
                     )}
                   </div>
                 </div>
-                <br />
               </div>
             </div>
           </div>

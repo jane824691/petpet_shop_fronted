@@ -111,6 +111,8 @@ export default function Profile() {
                       <div className="col-12 col-sm-6 pb-3">
                         <h6 className="card-title font-grey-title">姓氏</h6>
                         <input
+                          readOnly
+                          disabled
                           className="form-control T-18 rounded-5 border border-primary"
                           type="text"
                           placeholder="姓氏"
@@ -127,6 +129,8 @@ export default function Profile() {
                       <div className="col-12 col-sm-6 pb-3">
                         <h6 className="card-title font-grey-title">名字</h6>
                         <input
+                          readOnly
+                          disabled
                           className="form-control T-18 rounded-5 border border-primary"
                           type="text"
                           placeholder="名字"
@@ -145,6 +149,8 @@ export default function Profile() {
                       <div className="col-12 col-sm-6 pb-3">
                         <h6 className="card-title font-grey-title">電話號碼</h6>
                         <input
+                          readOnly
+                          disabled
                           className="form-control T-18 rounded-5 border border-primary"
                           type="text"
                           placeholder="請填電話號碼"
@@ -161,6 +167,8 @@ export default function Profile() {
                       <div className="col-12 col-sm-6 pb-3">
                         <h6 className="card-title font-grey-title">出生年月日</h6>
                         <input
+                          readOnly
+                          disabled
                           className="form-control T-18 rounded-5 border border-primary"
                           type="date"
                           id="birthday"
@@ -177,6 +185,8 @@ export default function Profile() {
 
                     <h6 className="card-title font-grey-title mt-3">郵箱</h6>
                     <input
+                      readOnly
+                      disabled
                       type="email"
                       className="form-control rounded-5 border border-primary"
                       name="email"
@@ -211,6 +221,8 @@ export default function Profile() {
                       <div className="col-12 col-sm-6 pb-3">
                         <h6 className="card-title font-grey-title">縣市*</h6>
                         <input
+                          readOnly
+                          disabled
                           className="form-control T-18 rounded-5 border border-primary"
                           type="text"
                           placeholder="請選擇縣市"
@@ -225,6 +237,8 @@ export default function Profile() {
                       <div className="col-12 col-sm-6 pb-3">
                         <h6 className="card-title font-grey-title">鎮市區*</h6>
                         <input
+                          readOnly
+                          disabled
                           className="form-control T-18 rounded-5 border border-primary"
                           type="text"
                           placeholder="請選擇鄉鎮市區"
@@ -240,6 +254,8 @@ export default function Profile() {
                       郵遞區號
                     </h6>
                     <input
+                      readOnly
+                      disabled
                       className="form-control T-18 rounded-5 border border-primary"
                       type="text"
                       placeholder="Zip Code"
@@ -251,17 +267,29 @@ export default function Profile() {
                     />
 
                     <h6 className="card-title font-grey-title mt-3">
-                      收件地址*
+                      通訊地址*
                     </h6>
-                    <input
+                    <textarea
+                      readOnly
+                      disabled
                       type="text"
-                      className="form-control rounded-5 border border-primary"
+                      className={`${styles.responsiveRounded} form-control border border-primary`}
                       id="exampleFormControlInput1"
                       placeholder="詳細地址"
                       value={mydata.address} // 這裡是關聯的部分
                       onChange={(e) =>
                         setMydata({ ...mydata, address: e.target.value })
                       }
+                      style={{
+                        wordWrap: 'break-word',
+                        wordBreak: 'break-all',
+                        whiteSpace: 'pre-wrap',
+                        overflowWrap: 'break-word',
+                        minHeight: '60px',
+                        resize: 'none',
+                        lineHeight: '1.5'
+                      }}
+                      rows="2"
                     />
                     <br />
                   </div>
@@ -271,7 +299,7 @@ export default function Profile() {
                     type="button"
                     className="btn btn-outline-primary btn-lg btn pro-shadow px-5"
                   >
-                    回到前一頁
+                    回前一頁
                   </button>
 
                   <button

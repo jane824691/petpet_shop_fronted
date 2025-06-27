@@ -51,7 +51,7 @@ export default function TWZipCode({
   return (
     <>
       <div className="row">
-        <div className="col-4">
+        <div className="col-12 col-sm-4 pb-3">
           <div>
             縣市<span className="text-danger">*</span>
           </div>
@@ -76,7 +76,7 @@ export default function TWZipCode({
           </select>{' '}
         </div>
 
-        <div className="col-4">
+        <div className="col-12 col-sm-4 pb-3">
           <div>
             鄉鎮縣市<span className="text-danger">*</span>
           </div>
@@ -97,7 +97,7 @@ export default function TWZipCode({
               ))}
           </select>
         </div>
-        <div className="col-4">
+        <div className="col-12 col-sm-4 pb-3">
           <div>
             郵遞區號<span className="text-danger">*</span>
           </div>

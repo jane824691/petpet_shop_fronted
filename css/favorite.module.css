@@ -226,3 +226,12 @@
   margin: 0 auto;
   cursor: pointer;
 }
+
+.responsiveRounded {
+  border-radius: 2rem;
+}
+@media (max-width: 576px) {
+  .responsiveRounded {
+    border-radius: 1rem;
+  }
+}
