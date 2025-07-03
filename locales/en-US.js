@@ -1,4 +1,5 @@
 export const enUS = {
+  "header.logo": "PetPet Shop",
   "header.home": "Home",
   "header.products": "Products",
   "header.cart": "Cart",
@@ -10,7 +11,8 @@ export const enUS = {
   "header.outdoor": "Outdoor",
   "header.toy": "Toys",
   "header.living": "Living",
-  
+  "header.toggleLanguage": "Toggle Language",
+
   "member.profile": "Member Profile",
   "member.editProfile": "Edit Profile",
   "member.register": "Register",
@@ -59,7 +61,7 @@ export const enUS = {
   "member.pleaseEnterAddress": "Please enter detailed address",
   "member.id": "ID Number",
   "member.pleaseEnterId": "Please enter ID number",
-  
+
   "product.search": "Search",
   "product.filter": "Filter",
   "product.sort": "Sort",
@@ -68,7 +70,7 @@ export const enUS = {
   "product.price": "Price",
   "product.quantity": "Quantity",
   "product.total": "Total",
-  
+
   "cart.shoppingCart": "Shopping Cart",
   "cart.orderDetails": "Order Details",
   "cart.shipping": "Shipping",
@@ -76,7 +78,7 @@ export const enUS = {
   "cart.totalAmount": "Total Amount",
   "cart.checkout": "Checkout",
   "cart.emptyCart": "Cart is empty",
-  
+
   "common.required": "Required",
   "common.optional": "Optional",
   "common.submit": "Submit",
@@ -89,7 +91,8 @@ export const enUS = {
   "common.success": "Success",
   "common.confirm": "Confirm",
   "common.back": "Back",
-  
+  "common.tel": "TEL",
+
   "validation.lastnameChinese": "Last name must be in Chinese",
   "validation.firstnameChinese": "First name must be in Chinese",
   "validation.accountFormat": "First character must be English, followed by numbers, total 6 characters",
@@ -100,9 +103,15 @@ export const enUS = {
   "validation.requiredField": "This field is required",
   "validation.addressFormat": "Invalid address format",
   "validation.zipcodeRequired": "Please select zip code",
-  
+
   "footer.aboutUs": "About Us",
+  "footer.brandIntroduction": "Brand Introduction",
+  "footer.onlineService": "Online Service",
   "footer.contactUs": "Contact Us",
+  "footer.termsOfTransport": "Terms of Transport",
+  "footer.aboutPayment": "About Payment",
   "footer.privacyPolicy": "Privacy Policy",
-  "footer.termsOfService": "Terms of Service"
+  "footer.termsOfService": "Terms of Service",
+  "footer.time": "Time: Mon. to Fri. 8:30 - 17:30",
+  "footer.address": "Address: 2F, No. 390, Sec. 1, Fuxing S. Rd., Da'an Dist., Taipei City",
 } 

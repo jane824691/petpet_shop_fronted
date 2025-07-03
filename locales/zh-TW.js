@@ -1,4 +1,5 @@
 export const zhTW = {
+  "header.logo": "佩佩星球",
   "header.home": "首頁",
   "header.products": "商品",
   "header.cart": "購物車",
@@ -10,6 +11,7 @@ export const zhTW = {
   "header.outdoor": "走起來",
   "header.toy": "玩起來",
   "header.living": "住起來",
+  "header.toggleLanguage": "切換語言",
   
   "member.profile": "會員資訊",
   "member.editProfile": "編輯資料",
@@ -89,6 +91,7 @@ export const zhTW = {
   "common.success": "成功",
   "common.confirm": "確認",
   "common.back": "返回",
+  "common.tel": "電話",
   
   "validation.lastnameChinese": "姓氏需填寫中文字",
   "validation.firstnameChinese": "名字需填寫中文字",
@@ -102,7 +105,14 @@ export const zhTW = {
   "validation.zipcodeRequired": "請選擇郵遞區號",
   
   "footer.aboutUs": "關於我們",
+  "footer.brandIntroduction": "品牌介紹",
+  "footer.onlineService": "線上服務",
   "footer.contactUs": "聯絡我們",
+  "footer.termsOfTransport": "運送服務",
+  "footer.aboutPayment": "付款服務",
   "footer.privacyPolicy": "隱私政策",
-  "footer.termsOfService": "服務條款"
+  "footer.termsOfService": "服務條款",
+  "footer.time": "時間：(一)至(五) 8:30 - 17:30",
+  "footer.address": "地址：台北市復興南路一段390號2樓",
+
 } 

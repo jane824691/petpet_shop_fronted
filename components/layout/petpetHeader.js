@@ -43,7 +43,7 @@ export default function PetpetHeader() {
                   className={styles.logo}
                 />
               </div>
-              <div className={styles.brandName}>佩佩星球</div>
+              <div className={styles.brandName}>{intl.formatMessage({ id: 'header.logo' })}</div>
             </div>
           </Link>
           {/* 網站icon */}
@@ -87,6 +87,29 @@ export default function PetpetHeader() {
 
           {/* <!-- header右邊 --> */}
           <div className={styles.headerRight}>
+          <div
+              className={styles.headerRightIcon}
+              onClick={toggleLanguage}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault();
+                  toggleLanguage();
+                }
+              }}
+              role="button"
+              tabIndex={0}
+              aria-label={intl.formatMessage({ id: 'header.toggleLanguage' })}
+            >
+              <Link className={`${styles.headerRightIconLink} text-decoration-none`} href="">
+                {isZH ? (
+                  <span>ZH</span>
+                ) : (
+                  <span>EN</span>
+                )}
+              </Link>
+            </div>
+
+
             {auther.account ? (
               <>
                 <div className={styles.totalQuantity}>{totalQuantity || 0}</div>
@@ -101,21 +124,6 @@ export default function PetpetHeader() {
                     href="/cart/OrderSteps"
                   >
                     <i className={`bi bi-cart fs-2 ${styles.iconSmall}`}></i>
-                  </Link>
-                </div>
-              </>
-            ) : (
-              <>{/* 隱藏 */}</>
-            )}
-            {auther.account ? (
-              <>
-                <div className={styles.headerRightIcon} onClick={toggleLanguage}>
-                  <Link className={`${styles.headerRightIconLink} text-decoration-none`} href="">
-                    {isZH ? (
-                      <div className={`fs-2 ${styles.iconSmall}`}>ZH</div>
-                    ) : (
-                      <div className={`fs-2 ${styles.iconSmall}`}>EN</div>
-                    )}
                   </Link>
                 </div>
               </>
