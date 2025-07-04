@@ -5,10 +5,12 @@ import Link from 'next/link'
 import ProductList from '@/pages/product/components/ProductList'
 import { useRouter } from 'next/router'
 import { PRODUCT_RECOMMEND } from '@/components/my-const'
+import { useIntl } from 'react-intl'
 
 export default function Home() {
   const [products, setProducts] = useState([])
   const router = useRouter()
+  const intl = useIntl()
 
   const getRecommendProductData = async () => {
     try {
@@ -35,25 +37,25 @@ export default function Home() {
               width={700}
               height={525}
               alt="key Visual Img"
-              className={styles.keyVisualImg}
-              style={{ width: '100%', height: 'auto' }} // 自動適應容器大小
+              className={`${styles.keyVisualImg} w-100`}
+              style={{ height: 'auto' }} // 自動適應容器大小
               unoptimized
             />
 
             <div className={styles.descriptionPart}>
               <h2 className={styles.descriptionTitle}>
-                專屬寵物天堂!! <br />
-                <span className="notify-info">模擬電商平台</span>
+                {intl.formatMessage({ id: 'home.title' })} <br />
+                <span className="notify-info">{intl.formatMessage({ id: 'home.subtitle' })}</span>
               </h2>
               <span className={styles.descriptionText}>
-                在這裡，我們為寵物提供一站式服務。從最新的寵物用品到專業的寵物日記和論壇，我們致力於打造一個暖暖的、有趣且充滿愛的線上社區。立即探索我們的寵物商城。與我們一同與毛孩享受愛與陪伴的美好。
+                {intl.formatMessage({ id: 'home.description' })}
               </span>
               <Link href="/member/login">
                 <button
                   type="button"
                   className={`btn btn-outline-primary bg-white btn-lg pro-shadow rounded-5 px-2 px-sm-5 ${styles.joinUsBtn}`}
                 >
-                  加入我們
+                  {intl.formatMessage({ id: 'home.joinUs' })}
                 </button>
               </Link>
             </div>
@@ -62,7 +64,7 @@ export default function Home() {
             className={`container-fluid ${styles.cardPart} w-100`}
             style={{ padding: '0' }}
           >
-            <h2 className='text-center mb-5 text-success'><i className="bi bi-cart fs-2 pe-2"></i>精選商品</h2>
+            <h2 className='text-center mb-5 text-success'><i className="bi bi-cart fs-2 pe-2"></i>{intl.formatMessage({ id: 'home.featuredProducts' })}</h2>
             <div className={`row row-cols-2 row-cols-sm-4 g-4 px-2 px-sm-5 ${styles.cardBorder} d-flex justify-content-center align-items-center`} style={{ minWidth: '100vw' }}>
               <ProductList products={products} />
             </div>
@@ -75,7 +77,7 @@ export default function Home() {
                   router.push('../product/list')
                 }}
               >
-                商城購物去
+                {intl.formatMessage({ id: 'home.goShopping' })}
               </button>
             </div>
           </div>

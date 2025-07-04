@@ -1,8 +1,10 @@
 import React from 'react'
 import ProductItem from './ProductItem'
+import { useIntl } from 'react-intl'
 
 function ProductList(props) {
   const { products } = props
+  const intl = useIntl()
   if (products && products.length === 0) {
     return (
       <h4
@@ -15,7 +17,7 @@ function ProductList(props) {
           alignItems: 'center',
         }}
       >
-        搜尋無此結果
+        {intl.formatMessage({ id: 'product.noResult' })}
       </h4>
     )
   }

@@ -88,7 +88,7 @@ export default function PetpetHeader() {
           {/* <!-- header右邊 --> */}
           <div className={styles.headerRight}>
           <div
-              className={styles.headerRightIcon}
+              className={`${styles.headerRightIcon} d-flex align-items-center`}
               onClick={toggleLanguage}
               onKeyDown={(e) => {
                 if (e.key === 'Enter' || e.key === ' ') {
@@ -100,13 +100,13 @@ export default function PetpetHeader() {
               tabIndex={0}
               aria-label={intl.formatMessage({ id: 'header.toggleLanguage' })}
             >
-              <Link className={`${styles.headerRightIconLink} text-decoration-none`} href="">
+              <div className={`${styles.headerRightIconLink}`}>
                 {isZH ? (
-                  <span>ZH</span>
+                  <span>中</span>
                 ) : (
                   <span>EN</span>
                 )}
-              </Link>
+              </div>
             </div>
 
 
@@ -153,8 +153,8 @@ export default function PetpetHeader() {
                   className={`${styles.headerRightIcon} d-flex align-items-center`}
                 >
                   <Link
-                    className={styles.headerRightIconLink}
-                    style={{ color: 'white', textDecoration: 'none' }}
+                    className={`${styles.headerRightIconLink} text-decoration-none`}
+                    style={{ color: 'white'}}
                     href="/member/login"
                   >
                     {intl.formatMessage({ id: 'header.login' })}

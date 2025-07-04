@@ -1,7 +1,13 @@
 import { useState, useEffect } from 'react'
+import { useIntl } from 'react-intl'
 
 const QuickOption = () => {
-  const moneyOptions = ['10,000', '50,000', '100,000'];
+  const intl = useIntl()
+  const moneyOptions = [
+    intl.formatMessage({ id: 'product.moneyOption1' }),
+    intl.formatMessage({ id: 'product.moneyOption2' }),
+    intl.formatMessage({ id: 'product.moneyOption3' })
+  ];
   const [selected, setSelected] = useState(null);
   const [borrow, setBorrow] = useState('');
 
@@ -33,7 +39,6 @@ const QuickOption = () => {
             key={value}
             className="eachMoney"
           >
-
             {value}
             <div></div>
           </div>

@@ -1,7 +1,9 @@
 import React from 'react'
+import { useIntl } from 'react-intl'
 
 function SortBar(props) {
   const { sortBy, setSortBy } = props
+  const intl = useIntl()
   return (
     <>
       <div className="d-flex p-2 justify-content-end align-items-center">
@@ -12,9 +14,9 @@ function SortBar(props) {
             value={sortBy}
             onChange={(e) => setSortBy(e.target.value)}
           >
-            <option value="">請選擇排序</option>
-            <option value="cheap">價格：由低至高</option>
-            <option value="expensive">價格：由高至低</option>
+            <option value="">{intl.formatMessage({ id: 'product.sortPlaceholder' })}</option>
+            <option value="cheap">{intl.formatMessage({ id: 'product.sortCheap' })}</option>
+            <option value="expensive">{intl.formatMessage({ id: 'product.sortExpensive' })}</option>
           </select>
         </div>
       </div>

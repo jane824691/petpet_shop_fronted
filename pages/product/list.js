@@ -9,12 +9,14 @@ import { useRouter } from 'next/router'
 import { PRODUCT } from '@/components/my-const'
 import PagesBar from '@/components/PagesBar'
 import { CatLoader } from '@/components/hooks/use-loader/components'
+import { useIntl } from 'react-intl'
 
 export default function List() {
   const [data, setData] = useState({})
   const router = useRouter()
+  const intl = useIntl()
   const [searchWord, setSearchWord] = useState('') // 搜尋關鍵字狀態
-  const [priceRange, setPriceRange] = useState('所有') // radio選項
+  const [priceRange, setPriceRange] = useState(intl.formatMessage({ id: 'product.all' })) // radio選項
   const [priceHigh, setPriceHigh] = useState('') //價格區間
   const [priceLow, setPriceLow] = useState('')
   const [sortBy, setSortBy] = useState('') // 價格排序
@@ -22,26 +24,26 @@ export default function List() {
   const [tags, setTags] = useState([])
   const [tagsNum, setTagsNum] = useState([])
   const tagTypes = [
-    '乾飼料',
-    '罐頭',
-    '保健食品',
-    '寵物衣裝',
-    '美容護理',
-    '抓板玩具',
-    '生活用品',
-    '溜繩',
-    '寵物外出包',
+    intl.formatMessage({ id: 'product.dryFood' }),
+    intl.formatMessage({ id: 'product.canned' }),
+    intl.formatMessage({ id: 'product.supplement' }),
+    intl.formatMessage({ id: 'product.clothes' }),
+    intl.formatMessage({ id: 'product.beauty' }),
+    intl.formatMessage({ id: 'product.toy' }),
+    intl.formatMessage({ id: 'product.living' }),
+    intl.formatMessage({ id: 'product.leash' }),
+    intl.formatMessage({ id: 'product.bag' }),
   ]
   const categoryTagMap = {
-    5: '乾飼料',
-    6: '罐頭',
-    7: '保健食品',
-    8: '寵物衣裝',
-    9: '美容護理',
-    10: '抓板玩具',
-    11: '生活用品',
-    12: '溜繩',
-    13: '寵物外出包',
+    5: intl.formatMessage({ id: 'product.dryFood' }),
+    6: intl.formatMessage({ id: 'product.canned' }),
+    7: intl.formatMessage({ id: 'product.supplement' }),
+    8: intl.formatMessage({ id: 'product.clothes' }),
+    9: intl.formatMessage({ id: 'product.beauty' }),
+    10: intl.formatMessage({ id: 'product.toy' }),
+    11: intl.formatMessage({ id: 'product.living' }),
+    12: intl.formatMessage({ id: 'product.leash' }),
+    13: intl.formatMessage({ id: 'product.bag' }),
   }
 
   // 取後端page資料
@@ -103,11 +105,11 @@ export default function List() {
   const [displayProducts, setDisplayProducts] = useState([])
 
   const priceRangeTypes = [
-    '所有',
-    '$1 - $499',
-    '$500 - $999',
-    '$1000 - $1999',
-    '$2000 - $2999',
+    intl.formatMessage({ id: 'product.all' }),
+    intl.formatMessage({ id: 'product.priceRange1' }),
+    intl.formatMessage({ id: 'product.priceRange2' }),
+    intl.formatMessage({ id: 'product.priceRange3' }),
+    intl.formatMessage({ id: 'product.priceRange4' }),
   ]
 
   // 四種搜尋表單的處理方法
@@ -295,7 +297,7 @@ export default function List() {
                   aria-expanded="false"
                   aria-controls="sidebarCollapse"
                 >
-                  篩選條件
+                  {intl.formatMessage({ id: 'product.filterBtn' })}
                 </button>
               </div>
             </div>
@@ -338,7 +340,7 @@ export default function List() {
               </div>
             ) : (
               <>
-                <div className="d-flex flex-column px-4 px-md-1">
+                <div className="d-flex flex-column px-3 px-md-1">
                   <div className="row mt-2 mb-3">
                     <h5 className="card-text d-flex justify-content-center justify-content-md-between align-items-center">
                       <span className="ps-3"> </span>

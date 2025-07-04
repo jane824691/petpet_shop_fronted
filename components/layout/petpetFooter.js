@@ -37,7 +37,7 @@ export default function PetpetFooter() {
             <div>{intl.formatMessage({ id: 'common.tel' })}：02-22222222</div>
             <div>{intl.formatMessage({ id: 'footer.time' })}</div>
             <div>email：info@ispan.com.tw</div>
-            <div>{intl.formatMessage({ id: 'footer.address' })}</div>
+            <div className='px-2'>{intl.formatMessage({ id: 'footer.address' })}</div>
           </div>
         </div>
       </div>

@@ -95,7 +95,7 @@ export default function Profile() {
 
         <hr className="border-primary border-1 opacity-75" />
         <div className="flex-direction: column">
-          <h3 className="mx-5 mt-5 pt-5 py-2">會員中心</h3>
+          <h3 className="mx-5 mt-5 pt-5 py-2">{intl.formatMessage({ id: 'member.profile' })}</h3>
           <div className="list-form mx-4">
             <div className="d-flex justify-content-center">
               <div className="direction-column">

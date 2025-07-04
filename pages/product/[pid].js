@@ -7,6 +7,7 @@ import toast, { Toaster } from 'react-hot-toast'
 import { useHeaderAnimation } from '@/components/contexts/HeaderAnimationContext';
 import { CatLoader } from '@/components/hooks/use-loader/components'
 import { entries } from 'lodash'
+import { useIntl } from 'react-intl'
 
 export default function Detail() {
   const { addItem } = useCart()
@@ -32,6 +33,7 @@ export default function Detail() {
 
   // 跳轉用
   const router = useRouter()
+  const intl = useIntl()
 
   // 抓單一商品（只抓一次）
   const fetchProduct = async () => {
@@ -158,18 +160,18 @@ export default function Detail() {
     const sid = JSON.parse(localStorage.getItem("auther"))?.sid;
 
     if (commentsValue.length === 0) {
-      toast.error('請留下您的評論!')
+      toast.error(intl.formatMessage({ id: 'product.commentRequired' }))
       return
     }
 
     if (commentsValue.length > 300) {
-      toast.error('評論字數不可超過 300 字')
+      toast.error(intl.formatMessage({ id: 'product.commentTooLong' }))
       setIsOverWordsAmounts(true)
       return
     }
 
     if (containsBadWords(commentsValue.toLowerCase())) {
-      toast.error('評論包含不雅字詞，請重新輸入')
+      toast.error(intl.formatMessage({ id: 'product.commentHasBadWords' }))
       setHasBadWords(true)
       return
     }
@@ -189,7 +191,7 @@ export default function Detail() {
       const responseData = await r.json()
       if (responseData.success) {
         setCommentsValue('')
-        toast.success('留言成功!!')
+        toast.success(intl.formatMessage({ id: 'product.commentSuccess' }))
 
         // 重新載入整個留言清單
         setPage(1)
@@ -197,7 +199,7 @@ export default function Detail() {
         setProductComments([]) // 清空原本的留言列表
         fetchComments(1) // 加上參數，明確要抓第一頁
       } else {
-        toast.error('尚未購買此商品，無法評論')
+        toast.error(intl.formatMessage({ id: 'product.commentNotPurchased' }))
       }
     } catch (error) {
       console.error('sendComments error')
@@ -221,7 +223,7 @@ export default function Detail() {
   return (
     <>
       {/* 商品圖 + 敘述金額 */}
-      <div className="row mt-5 mx-5 pt-5 pt-md-0">
+      <div className="row mt-5 mx-3 pt-5 pt-md-0">
         <div className="col-md-7 mx-auto photoWall">
           <div className="position-sticky">
             <Carousel
@@ -241,8 +243,8 @@ export default function Detail() {
 
           <p className="product-desc">{myProduct.product_description}</p>
 
-          <div class="text-center">
-            <div class="row align-items-start d-flex amount-btn-group-wide align-items-center justify-content-center">
+          <div className="text-center">
+            <div className="row align-items-start d-flex amount-btn-group-wide align-items-center justify-content-center">
               <h5 className="text-danger col">
                 <span>NT$ </span>
                 {myProduct.product_price}
@@ -292,11 +294,11 @@ export default function Detail() {
                 })
                 setAddingProductAmount(total)
                 addingCartAnimation(true)
-                toast.success('成功加入購物車!')
+                toast.success(intl.formatMessage({ id: 'product.addToCartSuccess' }))
               }}
             >
               <div className="d-flex justify-content-center m-1 fs-6 ">
-                <i className="bi bi-cart mx-2"></i> <div> 加入購物車</div>
+                <i className="bi bi-cart mx-2"></i> <div>{intl.formatMessage({ id: 'product.addToCart' })}</div>
               </div>
             </button>
             <button
@@ -314,7 +316,7 @@ export default function Detail() {
                 router.push('../cart/OrderSteps')
               }}
             >
-              加入並前往結帳
+              {intl.formatMessage({ id: 'product.addAndCheckout' })}
             </button>
           </div>
           <Toaster />
@@ -333,7 +335,7 @@ export default function Detail() {
                     aria-expanded="true"
                     aria-controls="panelsStayOpen-collapseTwo"
                   >
-                    免費寄送及退貨
+                    {intl.formatMessage({ id: 'product.freeShippingTitle' })}
                   </button>
                 </h2>
                 <div
@@ -341,17 +343,15 @@ export default function Detail() {
                   className="accordion-collapse collapse show"
                 >
                   <div className="accordion-body px-1">
-                    <p>訂單金額滿新臺幣 4,500 元即享免費標準運送服務</p>
+                    <p>{intl.formatMessage({ id: 'product.freeShipping1' })}</p>
                     <p>
-                      臺北市: 標準運送的商品可於 2-5 個工作天送達
-                      快遞運送的商品可於 2-3 個工作天送達
+                      {intl.formatMessage({ id: 'product.freeShipping2' })}
                     </p>
                     <p>
-                      其它縣市: 標準運送的商品可於 3-6 個工作天送達
-                      快遞運送的商品可於 3-5 個工作天送達
+                      {intl.formatMessage({ id: 'product.freeShipping3' })}
                     </p>
-                    <p>訂單皆於星期一至星期五之間處理與寄送 (國定假日除外)</p>
-                    <p>會員享免費退貨服務免費退貨。退貨政策例外情況。</p>
+                    <p>{intl.formatMessage({ id: 'product.freeShipping4' })}</p>
+                    <p>{intl.formatMessage({ id: 'product.freeShipping5' })}</p>
                   </div>
                 </div>
               </div>
@@ -362,12 +362,12 @@ export default function Detail() {
       </div>
 
       {/* 商品留言欄 */}
-      <div class="mx-5 ps-0 ps-lg-5 mt-3">
-        <div class="row">
-          <div class="col-9 position-relative">
+      <div className="mx-5 ps-0 ps-lg-5 mt-3">
+        <div className="row">
+          <div className="col-9 position-relative">
             <textarea
-              class="form-control pe-5"
-              placeholder="購買過該商品者，歡迎留下評論（最長 300 字）"
+              className="form-control pe-5"
+              placeholder={intl.formatMessage({ id: 'product.commentPlaceholder' })}
               rows="3"
               maxLength={300}
               value={commentsValue}
@@ -382,14 +382,14 @@ export default function Detail() {
               </button>
             )}
           </div>
-          <div class="col-3">
-            <button class="btn btn-primary w-100 h-100 text-white" onClick={() => { sendComments(commentsValue) }}>
-              發表
+          <div className="col-3">
+            <button className="btn btn-primary w-100 h-100 text-white" onClick={() => { sendComments(commentsValue) }}>
+              {intl.formatMessage({ id: 'product.commentSend' })}
             </button>
           </div>
         </div>
         {hasBadWords && (
-          <div className='text-danger'>請勿出現不雅字眼</div>
+          <div className='text-danger'>{intl.formatMessage({ id: 'product.commentHasBadWords' })}</div>
         )}
       </div>
       <Toaster />
@@ -417,14 +417,14 @@ export default function Detail() {
 
                   {/* 右邊內容 */}
                   <div className="flex-grow-1">
-                    <h6 className="mb-1">{comment.account || '匿名使用者'}</h6>
+                    <h6 className="mb-1">{comment.account || intl.formatMessage({ id: 'product.commentAnonymous' })}</h6>
 
                     {/* 留言內容 */}
                     <p
                       className={`mb-1 ${expandedIndexes[index] ? '' : 'text-truncate-3'}`}
                       style={{ whiteSpace: 'pre-wrap' }}
                     >
-                      {comment.content || '無評論內容'}
+                      {comment.content || intl.formatMessage({ id: 'product.commentNoContent' })}
                     </p>
 
                     {/* 留言時間 */}
@@ -446,7 +446,7 @@ export default function Detail() {
           ) : ''}
         </>
       ) : (
-        <div className="mx-5 ps-0 ps-lg-5"><div className="d-flex mb-4 py-4 border-top align-items-start">尚無人給予評論</div></div>
+        <div className="mx-5 ps-0 ps-lg-5"><div className="d-flex mb-4 py-4 border-top align-items-start">{intl.formatMessage({ id: 'product.commentNoComment' })}</div></div>
       )}
 
     </>

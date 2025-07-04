@@ -1,6 +1,7 @@
 import React from 'react'
 import PriceRangeRadio from './PriceRangeRadio'
 import TagCheckbox from './TagCheckbox'
+import { useIntl } from 'react-intl'
 
 function FilterBar(props) {
   const {
@@ -11,11 +12,10 @@ function FilterBar(props) {
     tags,
     setTags,
   } = props
-
+  const intl = useIntl()
   const handleChecked = (e) => {
     const value = e.target.value
     if (!tags.includes(value)) return setTags([...tags, value])
-
     if (tags.includes(value)) {
       const newTags = tags.filter((v) => v !== value)
       setTags(newTags)
@@ -24,8 +24,7 @@ function FilterBar(props) {
   return (
     <>
       <div className="search-group">
-        {' '}
-        <h5 className="mb-2">價格</h5>
+        <h5 className="mb-2">{intl.formatMessage({ id: 'product.price' })}</h5>
         {priceRangeTypes && priceRangeTypes.map((value, i) => (
           <PriceRangeRadio
             key={i}
@@ -36,11 +35,9 @@ function FilterBar(props) {
         ))}
         <hr />
       </div>
-
       <div className="search-group">
-        {' '}
         <h5>
-          種類
+          {intl.formatMessage({ id: 'product.category' })}
           <button
             className="btn btn-link btn-sm"
             onClick={() => setTags([])}
@@ -50,11 +47,10 @@ function FilterBar(props) {
               textDecoration: 'none',
             }}
           >
-            {' '}
-            重設
+            {intl.formatMessage({ id: 'product.reset' })}
           </button>
         </h5>
-        <p>有包含勾選種類均會顯示</p>
+        <p>{intl.formatMessage({ id: 'product.includeHint' })}</p>
         {tagTypes && tagTypes.map((value, i) => (
           <TagCheckbox
             value={value}
