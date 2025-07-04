@@ -5,8 +5,10 @@ import { jwtDecode } from 'jwt-decode'
 import ReverseLookup from './OrderSteps/sub-pages/Zipcode_to_city'
 import AuthContext from '@/components/contexts/AuthContext'
 import { CatLoader } from '@/components/hooks/use-loader/components'
+import { useIntl } from 'react-intl'
 
 export default function OrderUnderMember({ oid: propsOid, onStatusChange }) {
+  const intl = useIntl()
   //跳轉用
   const router = useRouter()
   const [orderData, setOrderData] = useState([])
@@ -106,9 +108,9 @@ export default function OrderUnderMember({ oid: propsOid, onStatusChange }) {
             <>
               <div className='d-flex m-5' style={{ height: '50vh' }}>
                 <h2 className='mx-auto my-auto text-center'>
-                  錯誤或無權訪問該頁面
+                  {intl.formatMessage({ id: 'cart.errorOrNoAccess' })}
                   <br />
-                  請聯絡管理員！
+                  {intl.formatMessage({ id: 'cart.contactAdmin' })}
                 </h2>
               </div>
             </>
@@ -130,7 +132,7 @@ export default function OrderUnderMember({ oid: propsOid, onStatusChange }) {
                             fontSize: '26px',
                           }}
                         >
-                          購物明細
+                          {intl.formatMessage({ id: 'cart.orderDetails' })}
                         </h5>
                         <div className="card-body">
                           {orderData.map((v, i) => (
@@ -145,11 +147,11 @@ export default function OrderUnderMember({ oid: propsOid, onStatusChange }) {
                               <div className="col-6">
                                 {v.product_name}
                                 <div>
-                                  <span>數量：</span>
+                                  <span>{intl.formatMessage({ id: 'product.quantity' })}：</span>
                                   <span>{v.actual_amount}</span>
                                 </div>
                                 <div>
-                                  <span>單價：</span>
+                                  <span>{intl.formatMessage({ id: 'cart.unitPrice' })}：</span>
                                   <span>{v.sale_price}</span>
                                 </div>
                               </div>
@@ -163,7 +165,7 @@ export default function OrderUnderMember({ oid: propsOid, onStatusChange }) {
                           ))}
 
                           <div className="row card-padding12">
-                            <div className="col-9">運費</div>
+                            <div className="col-9">{intl.formatMessage({ id: 'cart.shipping' })}</div>
                             <div className="col-3 text-end">
                               <div>
                                 <span>NT$ 30</span>
@@ -171,7 +173,7 @@ export default function OrderUnderMember({ oid: propsOid, onStatusChange }) {
                             </div>
                           </div>
                           <div className="row card-padding12">
-                            <div className="col-9">折扣金額</div>
+                            <div className="col-9">{intl.formatMessage({ id: 'cart.discount' })}</div>
                             <div className="col-3 text-end">
                               <div>
                                 <span>{orderData[0].discount_coins ? ' - ' : ''}NT$ </span>
@@ -181,7 +183,7 @@ export default function OrderUnderMember({ oid: propsOid, onStatusChange }) {
                           </div>
 
                           <div className="row card-padding12">
-                            <div className="col-9 dollar">本訂單總花費</div>
+                            <div className="col-9 dollar">{intl.formatMessage({ id: 'cart.totalAmount' })}</div>
                             <div className="col-3 text-end">
                               {orderData.length > 0 && (
                                 <div className="dollar">
@@ -201,14 +203,14 @@ export default function OrderUnderMember({ oid: propsOid, onStatusChange }) {
                           className="card-header card-big-title border border-0"
                           style={{ backgroundColor: 'transparent ' }}
                         >
-                          取貨人資訊
+                          {intl.formatMessage({ id: 'cart.pickupPersonInfo' })}
                         </div>
                         <div className="card-body">
                           <label
                             htmlFor="validationCustom01"
                             className="form-label font-grey-title"
                           >
-                            姓名：
+                            {intl.formatMessage({ id: 'member.firstName' })}：
                           </label>
                           {orderData.length > 0 && (
                             <span>{orderData[0].order_name}</span>
@@ -218,7 +220,7 @@ export default function OrderUnderMember({ oid: propsOid, onStatusChange }) {
                             htmlFor="validationCustom01"
                             className="form-label font-grey-title"
                           >
-                            電話：
+                            {intl.formatMessage({ id: 'common.tel' })}：
                           </label>
                           {orderData.length > 0 && (
                             <span>{orderData[0].order_phone}</span>
@@ -238,14 +240,14 @@ export default function OrderUnderMember({ oid: propsOid, onStatusChange }) {
                           className="card-header card-big-title border border-0"
                           style={{ backgroundColor: 'transparent ' }}
                         >
-                          取貨資訊
+                          {intl.formatMessage({ id: 'cart.pickupInfo' })}
                         </div>
                         <div className="card-body">
                           <label
                             htmlFor="validationCustom01"
                             className="form-label font-grey-title"
                           >
-                            取貨地址：
+                            {intl.formatMessage({ id: 'cart.pickupAddress' })}：
                           </label>
                           <span>
                             {orderData.length > 0 && (
@@ -263,14 +265,14 @@ export default function OrderUnderMember({ oid: propsOid, onStatusChange }) {
                           className="card-header card-big-title border border-0"
                           style={{ backgroundColor: 'transparent ' }}
                         >
-                          付款資訊
+                          {intl.formatMessage({ id: 'cart.paymentInfo' })}
                         </div>
                         <div className="card-body">
                           <label
                             htmlFor="validationCustom01"
                             className="form-label font-grey-title"
                           >
-                            付款方式：
+                            {intl.formatMessage({ id: 'cart.paymentMethod' })}：
                           </label>
                           {orderData.length > 0 && <span>{orderData[0].pay_way}</span>}
                         </div>
@@ -287,7 +289,7 @@ export default function OrderUnderMember({ oid: propsOid, onStatusChange }) {
                         router.push(`../member/member-orderList`)
                       }}
                     >
-                      回到前一頁
+                      {intl.formatMessage({ id: 'common.back' })}
                     </button>
                   </div>
                 )}

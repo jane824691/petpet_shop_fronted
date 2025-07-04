@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useCart } from '@/components/hooks/use-cart-state'
 import ReverseLookup from './Zipcode_to_city'
+import { useIntl } from 'react-intl'
 
 export default function OrderDetail({
   paymentData,
@@ -8,6 +9,7 @@ export default function OrderDetail({
   setNetTotal,
   setConfirmedProductsInfo,
 }) {
+  const intl = useIntl()
   // 使用hooks 解出所需的狀態與函式(自context)
   const { cart, items } = useCart()
 
@@ -76,7 +78,7 @@ export default function OrderDetail({
                     className="card-header card-big-title border border-0"
                     style={{ backgroundColor: 'transparent ' }}
                   >
-                    購物明細
+                    {intl.formatMessage({ id: 'cart.orderDetails' })}
                   </div>
                   <div className="card-body">
                     {items.map((v, i) => {
@@ -92,7 +94,7 @@ export default function OrderDetail({
                           <div className="col-6">
                             {v.name}
                             <div>
-                              <span>數量：</span>
+                              <span>{intl.formatMessage({ id: 'product.quantity' })}：</span>
                               <span>{v.quantity}</span>
                             </div>
                           </div>
@@ -106,7 +108,7 @@ export default function OrderDetail({
                       )
                     })}
                     <div className="row card-padding12">
-                      <div className="col-9">運費</div>
+                      <div className="col-9">{intl.formatMessage({ id: 'cart.shipping' })}</div>
                       <div className="col-3 text-end">
                         <div>
                           <span>NT$ </span>
@@ -115,7 +117,7 @@ export default function OrderDetail({
                       </div>
                     </div>
                     <div className="row card-padding12">
-                      <div className="col-9">折扣金額</div>
+                      <div className="col-9">{intl.formatMessage({ id: 'cart.discount' })}</div>
                       <div className="col-3 text-end">
                         <div>
                           <span>{paymentData.discount_coins ? ' - ' : ''}NT$ </span>
@@ -124,7 +126,7 @@ export default function OrderDetail({
                       </div>
                     </div>
                     <div className="row card-padding12">
-                      <div className="col-9 dollar">本訂單須付款金額</div>
+                      <div className="col-9 dollar">{intl.formatMessage({ id: 'cart.orderPaymentAmount' })}</div>
                       <div className="col-3 text-end">
                         <div className="dollar">
                           <span>NT$ </span>
@@ -142,14 +144,14 @@ export default function OrderDetail({
                     className="card-header card-big-title border border-0"
                     style={{ backgroundColor: 'transparent ' }}
                   >
-                    取貨人資訊
+                    {intl.formatMessage({ id: 'cart.pickupPersonInfo' })}
                   </div>
                   <div className="card-body">
                     <label
                       htmlFor="validationCustom01"
                       className="form-label font-grey-title"
                     >
-                      姓名：
+                      {intl.formatMessage({ id: 'member.firstName' })}：
                     </label>
                     <span>{paymentData.name}</span>
                     <br />
@@ -157,7 +159,7 @@ export default function OrderDetail({
                       htmlFor="validationCustom01"
                       className="form-label font-grey-title"
                     >
-                      電話：
+                      {intl.formatMessage({ id: 'common.tel' })}：
                     </label>
                     <span>{paymentData.phone}</span>
                     <br />
@@ -173,14 +175,14 @@ export default function OrderDetail({
                     className="card-header card-big-title border border-0"
                     style={{ backgroundColor: 'transparent ' }}
                   >
-                    取貨資訊
+                    {intl.formatMessage({ id: 'cart.pickupInfo' })}
                   </div>
                   <div className="card-body">
                     <label
                       htmlFor="validationCustom01"
                       className="form-label font-grey-title"
                     >
-                      取貨地址：
+                      {intl.formatMessage({ id: 'cart.pickupAddress' })}：
                     </label>
                     <span>
                       <ReverseLookup postcode={paymentData.postcode} />
@@ -192,14 +194,14 @@ export default function OrderDetail({
                     className="card-header card-big-title border border-0"
                     style={{ backgroundColor: 'transparent ' }}
                   >
-                    付款資訊
+                    {intl.formatMessage({ id: 'cart.paymentInfo' })}
                   </div>
                   <div className="card-body">
                     <label
                       htmlFor="validationCustom01"
                       className="form-label font-grey-title"
                     >
-                      付款方式：
+                      {intl.formatMessage({ id: 'cart.paymentMethod' })}：
                     </label>
                     <span>{paymentData.pay_way}</span>
                   </div>

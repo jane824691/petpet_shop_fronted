@@ -1,7 +1,9 @@
 import { useState } from 'react'
 import TWZipCode from '@/components/tw-zipcode'
+import { useIntl } from 'react-intl'
 
 export default function Payment(props) {
+  const intl = useIntl()
   const { paymentData, setPaymentData } = props
   const [isChecked, setIsChecked] = useState(false)
 
@@ -43,14 +45,14 @@ export default function Payment(props) {
     const newErrors = {}
     // 檢查名字格式
     if (!/[\u4e00-\u9fa5]+/.test(paymentData.name.trim())) {
-      newErrors.name = '名字需填寫中文字'
+      newErrors.name = intl.formatMessage({ id: 'validation.firstnameChinese' })
     } else {
       newErrors.name = '' // 清空錯誤訊息
     }
 
     // 檢查電話號碼格式
     if (!/^(09\d{2}-?\d{3}-?\d{3})$/.test(paymentData.phone.trim())) {
-      newErrors.phone = '電話號碼格式錯誤'
+      newErrors.phone = intl.formatMessage({ id: 'validation.phoneFormat' })
     } else {
       newErrors.phone = '' // 清空錯誤訊息
     }
@@ -61,14 +63,14 @@ export default function Payment(props) {
         paymentData.email.trim()
       )
     ) {
-      newErrors.email = 'EMAIL 格式錯誤'
+      newErrors.email = intl.formatMessage({ id: 'validation.emailFormat' })
     } else {
       newErrors.email = '' // 清空錯誤訊息
     }
 
     // 檢查地址格式
     if (!/[\u4e00-\u9fa5]+/.test(paymentData.address.trim())) {
-      newErrors.address = '地址格式錯誤'
+      newErrors.address = intl.formatMessage({ id: 'validation.addressFormat' })
     } else {
       newErrors.address = '' // 清空錯誤訊息
     }
@@ -96,9 +98,9 @@ export default function Payment(props) {
       ...paymentData,
       pay_way:
         optionId === 'flexRadioDefault1'
-          ? '貨到付款'
+          ? intl.formatMessage({ id: 'cart.cashOnDelivery' })
           : optionId === 'flexRadioDefault2'
-          ? '信用卡'
+          ? intl.formatMessage({ id: 'cart.creditCard' })
           : '',
     })
   }
@@ -112,7 +114,7 @@ export default function Payment(props) {
       email: 'ispan@ispan.com',
       address: '復興南路一段390號2樓',
       postcode: '106',
-      pay_way: '貨到付款',
+      pay_way: intl.formatMessage({ id: 'cart.cashOnDelivery' }),
     }))
     setSelectedOption('flexRadioDefault1')
   }
@@ -133,16 +135,17 @@ export default function Payment(props) {
                   className="card-header card-big-title border border-0"
                   style={{ backgroundColor: 'transparent' }}
                 >
-                  收貨人資訊
+                  {intl.formatMessage({ id: 'cart.recipientInfo' })}
                 </div>
                 <div className="card-body">
                   <h5 className="card-title font-grey-title">
-                    姓名<span className="text-danger">*</span>
+                    {intl.formatMessage({ id: 'member.firstName' })}
+                    <span className="text-danger">*</span>
                   </h5>
                   <input
                     className="form-control T-18 rounded-5"
                     type="text"
-                    placeholder="請填姓名"
+                    placeholder={intl.formatMessage({ id: 'member.pleaseEnterFirstName' })}
                     name="name"
                     id="name"
                     value={(paymentData && paymentData.name) || ''}
@@ -155,15 +158,16 @@ export default function Payment(props) {
                       errors.name ? 'error-message' : 'success-message'
                     }`}
                   >
-                    {errors.name || (successMessage && '成功訊息')}
+                    {errors.name || (successMessage && intl.formatMessage({ id: 'common.success' }))}
                   </div>
                   <h5 className="card-title font-grey-title mt-3">
-                    電話<span className="text-danger">*</span>
+                    {intl.formatMessage({ id: 'common.tel' })}
+                    <span className="text-danger">*</span>
                   </h5>
                   <input
                     className="form-control T-18 rounded-5"
                     type="text"
-                    placeholder="請填常用聯絡電話"
+                    placeholder={intl.formatMessage({ id: 'member.pleaseEnterPhone' })}
                     name="phone"
                     id="phone"
                     value={(paymentData && paymentData.phone) || ''}
@@ -176,9 +180,9 @@ export default function Payment(props) {
                       errors.phone ? 'error-message' : 'success-message'
                     }`}
                   >
-                    {errors.phone || (successMessage && '成功訊息')}
+                    {errors.phone || (successMessage && intl.formatMessage({ id: 'common.success' }))}
                   </div>
-                  <h5 className="card-title font-grey-title mt-3">郵箱</h5>
+                  <h5 className="card-title font-grey-title mt-3">{intl.formatMessage({ id: 'member.email' })}</h5>
                   <input
                     type="email"
                     className="form-control rounded-5"
@@ -195,7 +199,7 @@ export default function Payment(props) {
                       errors.email ? 'error-message' : 'success-message'
                     }`}
                   >
-                    {errors.email || (successMessage && '成功訊息')}
+                    {errors.email || (successMessage && intl.formatMessage({ id: 'common.success' }))}
                   </div>
                 </div>
               </div>
@@ -207,7 +211,7 @@ export default function Payment(props) {
                   className="card-header card-big-title border border-0"
                   style={{ backgroundColor: 'transparent ' }}
                 >
-                  收貨地址
+                  {intl.formatMessage({ id: 'cart.shippingAddress' })}
                 </div>
                 <div className="card-body">
                   <TWZipCode
@@ -226,15 +230,16 @@ export default function Payment(props) {
                       errors.postcode ? 'error-message' : 'success-message'
                     }`}
                   >
-                    {errors.postcode || (successMessage && '成功訊息')}
+                    {errors.postcode || (successMessage && intl.formatMessage({ id: 'common.success' }))}
                   </div>
                   <h5 className="card-title font-grey-title mt-3">
-                    收貨地址<span className="text-danger">*</span>
+                    {intl.formatMessage({ id: 'cart.shippingAddress' })}
+                    <span className="text-danger">*</span>
                   </h5>
                   <input
                     className="form-control rounded-5"
                     type="text"
-                    placeholder="請填詳細地址"
+                    placeholder={intl.formatMessage({ id: 'member.pleaseEnterAddress' })}
                     aria-label="default input example"
                     name="address"
                     id="address"
@@ -248,7 +253,7 @@ export default function Payment(props) {
                       errors.address ? 'error-message' : 'success-message'
                     }`}
                   >
-                    {errors.address || (successMessage && '成功訊息')}
+                    {errors.address || (successMessage && intl.formatMessage({ id: 'common.success' }))}
                   </div>
                   <div
                     className="form-check mt-3"
@@ -275,7 +280,7 @@ export default function Payment(props) {
                       className="form-check-label"
                       htmlFor="flexCheckDefault"
                     >
-                      勾選帶入測試資訊
+                      {intl.formatMessage({ id: 'cart.loadTestInfo' })}
                     </label>
                   </div>
                 </div>
@@ -288,14 +293,15 @@ export default function Payment(props) {
                   className="card-header card-big-title border border-0"
                   style={{ backgroundColor: 'transparent ' }}
                 >
-                  付款方式<span className="text-danger">*</span>
+                  {intl.formatMessage({ id: 'cart.paymentMethod' })}
+                  <span className="text-danger">*</span>
                 </div>
                 <div className="card-body">
                   <div>
                     <div
                       className={`form-check mb-3 form-control rounded-5 ${
                         selectedOption === 'flexRadioDefault1' ||
-                        paymentData?.pay_way === '貨到付款'
+                        paymentData?.pay_way === intl.formatMessage({ id: 'cart.cashOnDelivery' })
                           ? 'radius-plus-form'
                           : ''
                       }`}
@@ -307,22 +313,22 @@ export default function Payment(props) {
                         id="flexRadioDefault1"
                         checked={
                           selectedOption === 'flexRadioDefault1' ||
-                          paymentData?.pay_way === '貨到付款'
+                          paymentData?.pay_way === intl.formatMessage({ id: 'cart.cashOnDelivery' })
                         }
                         onChange={() => handleRadioChange('flexRadioDefault1')}
-                        value="貨到付款"
+                        value={intl.formatMessage({ id: 'cart.cashOnDelivery' })}
                       />
                       <label
                         className="form-check-label mx-2"
                         htmlFor="flexRadioDefault1"
                       >
-                        貨到付款
+                        {intl.formatMessage({ id: 'cart.cashOnDelivery' })}
                       </label>
                     </div>
                     <div
                       className={`form-check mb-3 form-control rounded-5 ${
                         selectedOption === 'flexRadioDefault2' ||
-                        paymentData?.pay_way === '信用卡'
+                        paymentData?.pay_way === intl.formatMessage({ id: 'cart.creditCard' })
                           ? 'radius-plus-form'
                           : ''
                       }`}
@@ -334,16 +340,16 @@ export default function Payment(props) {
                         id="flexRadioDefault2"
                         checked={
                           selectedOption === 'flexRadioDefault2' ||
-                          paymentData?.pay_way === '信用卡'
+                          paymentData?.pay_way === intl.formatMessage({ id: 'cart.creditCard' })
                         }
                         onChange={() => handleRadioChange('flexRadioDefault2')}
-                        value="信用卡"
+                        value={intl.formatMessage({ id: 'cart.creditCard' })}
                       />
                       <label
                         className="form-check-label mx-2"
                         htmlFor="flexRadioDefault2"
                       >
-                        信用卡
+                        {intl.formatMessage({ id: 'cart.creditCard' })}
                       </label>
                     </div>
                     {/* {selectedOption === null && (

@@ -8,8 +8,10 @@ import toast, { Toaster } from 'react-hot-toast'
 import { ORDER_LIST_ADD, PAYMENT_CREATE } from '@/components/my-const'
 import { useCart } from '@/components/hooks/use-cart-state'
 import { totalPrice } from '@/components/hooks/cart-reducer-state'
+import { useIntl } from 'react-intl'
 
 function OrderSteps() {
+  const intl = useIntl()
   const { items, clearCart } = useCart()
 
   //跳轉用
@@ -70,19 +72,23 @@ function OrderSteps() {
   const BlockComponent = components[step - 1]
 
   // 進度條使用
-  const progressNames = ['購物車', '付款', '明細'] // Cart, Payment, OrderDetail
+  const progressNames = [
+    intl.formatMessage({ id: 'cart.shoppingCart' }), 
+    intl.formatMessage({ id: 'cart.payment' }), 
+    intl.formatMessage({ id: 'cart.orderDetails' })
+  ] // Cart, Payment, OrderDetail
 
   // 上一步 下一步按鈕
   const next = () => {
     if (step === 1) {
       if (!(items.length > 0)) {
-        toast.error('至少有一項商品才可結帳!')
+        toast.error(intl.formatMessage({ id: 'cart.needAtLeastOneItem' }))
         return
       }
       const authDataString = localStorage.getItem('auther')
       if (!authDataString) {
         // console.log('No "auther" data found.')
-        toast.error('煩請先登入才可結帳!')
+        toast.error(intl.formatMessage({ id: 'cart.pleaseLoginFirst' }))
         return
       }
     }
@@ -93,16 +99,16 @@ function OrderSteps() {
       // 有錯誤訊息會跳出警告，不會到"下一步"
       const errors = []
 
-      if (!name) errors.push('姓名沒填')
+      if (!name) errors.push(intl.formatMessage({ id: 'cart.nameNotFilled' }))
 
-      if (!address) errors.push(' 住址沒填')
+      if (!address) errors.push(intl.formatMessage({ id: 'cart.addressNotFilled' }))
 
-      if (!postcode) errors.push(' 郵遞區號沒填')
+      if (!postcode) errors.push(intl.formatMessage({ id: 'cart.postcodeNotFilled' }))
 
-      if (!phone) errors.push(' 電話沒填')
+      if (!phone) errors.push(intl.formatMessage({ id: 'cart.phoneNotFilled' }))
 
       if (errors.length > 0) {
-        toast.error(errors.join(','))
+        toast.error(errors.join(', '))
         return
       }
     }
@@ -148,15 +154,15 @@ function OrderSteps() {
     const responseData = await r.json()
 
     if (responseData.success) {
-      if (paymentData.pay_way === '貨到付款') {
-        toast.success('恭喜完成訂單!! 3秒後導回購物清單')
+      if (paymentData.pay_way === intl.formatMessage({ id: 'cart.cashOnDelivery' })) {
+        toast.success(intl.formatMessage({ id: 'cart.orderCompletedRedirect' }))
         setTimeout(() => {
           router.push('/member/member-orderList')
           clearCart()
         }, 3000)
       } else {
         // 信用卡付款
-        toast.success('恭喜完成訂單!! 3秒後準備前往付款')
+        toast.success(intl.formatMessage({ id: 'cart.orderCompletedPayment' }))
         sessionStorage.setItem("last_oid", responseData.result.order_list.insertId)
 
         setTimeout(() => {
@@ -166,7 +172,7 @@ function OrderSteps() {
       }
 
     } else {
-      toast.error('訂單新增失敗, 請聯繫客服')
+      toast.error(intl.formatMessage({ id: 'cart.orderCreationFailed' }))
     }
   }
 
@@ -208,14 +214,14 @@ function OrderSteps() {
           onClick={prev}
           className="btn btn-outline-primary btn-lg px-3 stepBtn"
         >
-          {step === 1 ? '回到商城' : '回前一頁'}
+          {step === 1 ? intl.formatMessage({ id: 'cart.backToShop' }) : intl.formatMessage({ id: 'common.back' })}
         </button>
         <button
           type="button"
           className="btn btn-danger btn-lg text-white stepBtn"
           onClick={next}
         >
-          {step === maxSteps ? '完成訂單' : '確認結帳'}
+          {step === maxSteps ? intl.formatMessage({ id: 'cart.completeOrder' }) : intl.formatMessage({ id: 'cart.confirmCheckout' })}
         </button>
       </div>
       <Toaster />

@@ -3,8 +3,10 @@ import List from '@/components/cart/list'
 import Link from 'next/link'
 import toast, { Toaster } from 'react-hot-toast'
 import { useRouter } from 'next/router'
+import { useIntl } from 'react-intl'
 
 export default function CartTestIndex() {
+  const intl = useIntl()
   //可從useCart中獲取的各方法與屬性，參考README檔中說明
   const { items } = useCart()
 
@@ -26,7 +28,7 @@ export default function CartTestIndex() {
               className="btn btn-outline-primary btn-lg"
               style={{ width: 250 }}
             >
-              回商品頁
+              {intl.formatMessage({ id: 'product.backToProducts' })}
             </button>
           </Link>
 
@@ -36,13 +38,13 @@ export default function CartTestIndex() {
             style={{ width: 250 }}
             onClick={() => {
               if (items.length === 0) {
-                toast.error('須至少買一項才可結帳!!!')
+                toast.error(intl.formatMessage({ id: 'cart.needAtLeastOneItem' }))
               } else {
                 router.push('../cart/payment')
               }
             }}
           >
-            前往結帳
+            {intl.formatMessage({ id: 'cart.checkout' })}
           </button>
         </div>
       </div>

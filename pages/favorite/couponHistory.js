@@ -6,7 +6,7 @@ import { GET_COUPON_DATA } from '@/components/my-const'
 import style from '@/css/coupon.module.css'
 
 //表格來源:(MFEE43-next)前端address資料夾底下的index.js
-export default function Coupon() {
+export default function CouponHistory() {
   const [mydata, setMydata] = useState([])
   const router = useRouter()
 

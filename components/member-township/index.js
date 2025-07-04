@@ -141,7 +141,7 @@ export default function Profile() {
               <br></br>
               <div className={styles.icon}>
                 <BsFillTicketDetailedFill className={styles.iconSick} />
-                <Link className={styles.iconLink} href="favorite/coupon">
+                <Link className={styles.iconLink} href="favorite/couponHistory">
                   {' '}
                   優惠券管理
                 </Link>

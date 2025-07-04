@@ -6,8 +6,10 @@ import { debounce } from 'lodash'
 import { GET_COUPON_DATA } from '@/components/my-const'
 import { useRouter } from 'next/router'
 import dayjs from 'dayjs'
+import { useIntl } from 'react-intl'
 
 export default function CartList(props) {
+  const intl = useIntl()
   const { paymentData, setPaymentData } = props
 
   // 使用hooks 解出所需的狀態與函式(自context)
@@ -131,17 +133,17 @@ export default function CartList(props) {
                       </button>
                     </div>
                     <div className="card-big-title w-120-120 text-center d-flex">
-                      購物車{' '}
+                      {intl.formatMessage({ id: 'cart.shoppingCart' })}{' '}
                     </div>
                   </div>
                 </div>
                 <div className="col-sm-9 d-none d-sm-block">
                   <h5 className="card-body to-middle-title row">
-                  <div className="col-lg-5 col-5 text-center">品名</div>
-                    <div className="col-lg-2 col-3 text-center">數量</div>
-                    <div className="col-lg-2 col-2 text-end">價格</div>
-                    <div className="col-lg-2 text-end d-none d-lg-block">小計</div>
-                    <div className="col-lg-1 col-1 text-center">刪</div>
+                  <div className="col-lg-5 col-5 text-center">{intl.formatMessage({ id: 'cart.productName' })}</div>
+                    <div className="col-lg-2 col-3 text-center">{intl.formatMessage({ id: 'product.quantity' })}</div>
+                    <div className="col-lg-2 col-2 text-end">{intl.formatMessage({ id: 'product.price' })}</div>
+                    <div className="col-lg-2 text-end d-none d-lg-block">{intl.formatMessage({ id: 'cart.subtotal' })}</div>
+                    <div className="col-lg-1 col-1 text-center">Ｘ</div>
                   </h5>
                 </div>
               </div>
@@ -216,18 +218,18 @@ export default function CartList(props) {
             })}
 
             <div className="card total-card border-0 mt-5">
-              <h4 className="mb-3 underline-w">摘要</h4>
+              <h4 className="mb-3 underline-w">{intl.formatMessage({ id: 'cart.summary' })}</h4>
               <div className="d-flex justify-content-between align-items-center underline-w">
-                <h5 className="product-desc">折價券</h5>
+                <h5 className="product-desc">{intl.formatMessage({ id: 'cart.coupon' })}</h5>
                 <div>
                   <select
-                    className="form-select text-end border-0 coupon"
+                    className="form-select border-0 coupon"
                     value={selectedCouponId}
                     onChange={(e) => {
                       setSelectedCouponId(Number(e.target.value))
                     }}
                   >
-                    <option value="0">選擇折價券</option>
+                    <option value="0">{intl.formatMessage({ id: 'cart.selectCoupon' })}</option>
                     {/* 因option只接受純文字, 更複雜樣式建議改div + onClick 自訂下拉選單, 
                     可接受div加入html標籤dangerouslySetInnerHTML={{__html: '<span style="color: red;">紅色字</span> 文字'}} */}
                     {/* option title={} 滑鼠有懸浮註解 */}
@@ -236,15 +238,15 @@ export default function CartList(props) {
                         <option
                           key={v.coupon_id}
                           value={v.coupon_id}
-                          title={`有效期至 ${dayjs(v.expiry_date)
+                          title={`${intl.formatMessage({ id: 'cart.validUntil' })} ${dayjs(v.expiry_date)
                             .add(15, 'day')
                             .format('YYYY-MM-DD')}`}
                         >
-                          至【
-                          {dayjs(v.expiry_date)
+                          {intl.formatMessage({ id: 'cart.validUntil' })}
+                          【{dayjs(v.expiry_date)
                             .add(15, 'day')
                             .format('YYYY-MM-DD')}
-                          】 折價{v.discount_coins}元
+                          】 {intl.formatMessage({ id: 'cart.discount' })} NT$ {v.discount_coins}
                           {/* {dayjs(v.expiry_date).add(15, 'day').format('YYYY-MM-DD')} */}
                         </option>
                       )
@@ -254,17 +256,17 @@ export default function CartList(props) {
               </div>
 
               <h5 className="card-text d-flex justify-content-between align-items-center underline-w mt-3">
-                處理費/郵資 <span>NT$ 30</span>
+                {intl.formatMessage({ id: 'cart.processingFee' })} <span>NT$ 30</span>
               </h5>
               <h5 className="card-text d-flex justify-content-between align-items-center underline-w mt-3">
-                總計商品{' '}
+                {intl.formatMessage({ id: 'cart.totalProducts' })}{' '}
                 <span>
-                  <span>共計</span> {cart.totalItems} 項商品
+                  <span>{intl.formatMessage({ id: 'cart.totalItems' })}</span> {cart.totalItems} {intl.formatMessage({ id: 'cart.items' })}
                 </span>
               </h5>
 
               <h4 className="card-text d-flex justify-content-between align-items-center mt-3">
-                總計{' '}
+                {intl.formatMessage({ id: 'cart.total' })}{' '}
                 <span className="dollar">
                   <span>NT$</span> {netTotal}
                 </span>
