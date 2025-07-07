@@ -13,6 +13,7 @@ import { useRouter } from 'next/router'
 import AuthContext from '@/components/contexts/AuthContext'
 import GameContext, { themes } from '@/components/contexts/GameContext'
 import dayjs from 'dayjs'
+import { useIntl } from 'react-intl'
 
 const jumpDistance = 150 // 空白鍵的移動距離
 
@@ -36,6 +37,7 @@ export default function Game() {
   const [dogImageSrc, setDogImageSrc] = useState('/pics/dogImage.png')
   const [showModal, setShowModal] = useState(false) //觸發Modal
   const { auther } = useContext(AuthContext)
+  const intl = useIntl()
 
   //隨機優惠券編號
   const hashTypes = () => {
@@ -329,8 +331,8 @@ export default function Game() {
   }, [handleMovement])
 
   return (
-    <div className='pt-5'>
-      <h3>簽到小遊戲</h3>
+    <div className="pt-5">
+      <h3>{intl.formatMessage({ id: 'game.title' })}</h3>
       <div className={`rect ${theme.className}`}>
         <div className="rect2">
           <div
@@ -342,7 +344,7 @@ export default function Game() {
             <div>
               <Image
                 src={dogImageSrc}
-                alt="狗"
+                alt={intl.formatMessage({ id: 'game.dog' })}
                 id="dogImage"
                 width="95"
                 height="70"
@@ -357,7 +359,7 @@ export default function Game() {
             </div>
             <Image
               src="/pics/pngtree-cat-food-feed-image_2236974.png"
-              alt="飼料1"
+              alt={intl.formatMessage({ id: 'game.food1' })}
               width="60"
               height="70"
               style={{
@@ -371,7 +373,7 @@ export default function Game() {
             />
             <Image
               src="/pics/dog-food.png"
-              alt="飼料2"
+              alt={intl.formatMessage({ id: 'game.food2' })}
               width="80"
               height="90"
               style={{
@@ -385,7 +387,7 @@ export default function Game() {
             />
             <Image
               src="/pics/sun.png"
-              alt="太陽"
+              alt={intl.formatMessage({ id: 'game.sun' })}
               width="75"
               height="75"
               style={{
@@ -396,7 +398,7 @@ export default function Game() {
             />
             <Image
               src="/pics/cloud.png"
-              alt="雲朵"
+              alt={intl.formatMessage({ id: 'game.cloud' })}
               width="75"
               height="50"
               style={{
@@ -414,16 +416,10 @@ export default function Game() {
               fontSize: '22px',
             }}
           >
-            佩
-            <span style={{ color: '#f8723f' }}>
-              佩
-              <span style={{ color: '#CA9145' }}>
-                星<span style={{ color: '#f8723f' }}>球</span>
-              </span>
-            </span>
+            {intl.formatMessage({ id: 'header.logo' })}
             <Image
               src="/pics/pinkcat.png"
-              alt="粉紅貓"
+              alt={intl.formatMessage({ id: 'game.pinkcat' })}
               width="25"
               height="25"
               id="pinkcatImage"
@@ -476,9 +472,16 @@ export default function Game() {
               className="start btn btn-outline-light btn-lg"
               onClick={startGame}
             >
-              開始遊戲
+              {intl.formatMessage({ id: 'game.start' })}
             </button>
-            <button className={`end ${theme.className}`}>結束</button>
+            <button
+              onClick={() => {
+                router.push('/member')
+              }}
+              className={`end ${theme.className} btn btn-outline-light btn-lg`}
+            >
+              {intl.formatMessage({ id: 'game.end' })}{' '}
+            </button>
           </div>
         </div>
       </div>
@@ -486,10 +489,12 @@ export default function Game() {
       {/* Modal 範例 */}
       <Modal show={showModal} onHide={() => setShowModal(false)} centered>
         <Modal.Header className="modal-header-success">
-          <Modal.Title className="modal-form py-3">遊戲獎勵!!</Modal.Title>
+          <Modal.Title className="modal-form py-3">
+            {intl.formatMessage({ id: 'game.rewardTitle' })}
+          </Modal.Title>
           <Image
             src="/pics/close.png"
-            alt="叉叉"
+            alt={intl.formatMessage({ id: 'game.close' })}
             width="40"
             height="30"
             className="mb-3"
@@ -503,7 +508,7 @@ export default function Game() {
           />
         </Modal.Header>
         <Modal.Body className="modal-body-success">
-          恭喜獲得商品優惠券~
+          {intl.formatMessage({ id: 'game.rewardBody' })}
         </Modal.Body>
 
         <Modal.Footer className="modal-footer-success">
@@ -518,7 +523,7 @@ export default function Game() {
             }}
             className="pro-shadow" //profile.scss的屬性
           >
-            觀看優惠券
+            {intl.formatMessage({ id: 'game.viewCoupon' })}
           </Button>
         </Modal.Footer>
       </Modal>
