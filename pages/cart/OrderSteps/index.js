@@ -208,17 +208,18 @@ function OrderSteps() {
       </div>
 
       {/* 按鈕 */}
-      <div className="btnPart">
+      <div className="d-flex flex-column flex-sm-row justify-content-center py-3 gap-4 mx-4 mx-sm-5 mb-5">
         <button
           type="button"
+          className="btn btn-outline-primary btn-lg btn pro-shadow px-5"
           onClick={prev}
-          className="btn btn-outline-primary btn-lg px-3 stepBtn"
         >
           {step === 1 ? intl.formatMessage({ id: 'cart.backToShop' }) : intl.formatMessage({ id: 'common.back' })}
         </button>
+
         <button
           type="button"
-          className="btn btn-danger btn-lg text-white stepBtn"
+          className="btn btn-danger btn-lg btn pro-shadow px-5 text-white"
           onClick={next}
         >
           {step === maxSteps ? intl.formatMessage({ id: 'cart.completeOrder' }) : intl.formatMessage({ id: 'cart.confirmCheckout' })}

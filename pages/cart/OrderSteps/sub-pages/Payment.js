@@ -120,248 +120,246 @@ export default function Payment(props) {
   }
   return (
     <>
-      <div className="container" style={{ paddingTop: '2.5rem' }}>
+      <div className="d-flex justify-content-center mx-auto px-3 px-sm-5 mt-5" style={{ maxWidth: '600px' }}>
+        <img src="/images/product/steps_to_payment.png" alt="" className="w-100 h-auto" />
+      </div>
+      <form className="list-form mx-4">
         <div className="d-flex justify-content-center">
-          <img src="/images/product/steps_to_payment.png" alt="" />
-        </div>
-        <form className="list-form">
-          <div className="d-flex justify-content-center">
-            <div className="direction-column">
+          <div className="direction-column">
+            <div
+              className="card border-primary mb-3"
+              style={{ maxWidth: '40rem' }}
+            >
               <div
-                className="card border-primary mb-3"
-                style={{ width: '40rem' }}
+                className="card-header card-big-title border border-0"
+                style={{ backgroundColor: 'transparent' }}
               >
+                {intl.formatMessage({ id: 'cart.recipientInfo' })}
+              </div>
+              <div className="card-body mx-3 mb-3">
+                <h5 className="card-title font-grey-title">
+                  {intl.formatMessage({ id: 'member.firstName' })}
+                  <span className="text-danger">*</span>
+                </h5>
+                <input
+                  className="form-control T-18 rounded-5"
+                  type="text"
+                  placeholder={intl.formatMessage({ id: 'member.pleaseEnterFirstName' })}
+                  name="name"
+                  id="name"
+                  value={(paymentData && paymentData.name) || ''}
+                  onChange={changeHandler}
+                  onBlur={() => onBlurHandler('name')}
+                  onFocus={onFocusHandler}
+                />
                 <div
-                  className="card-header card-big-title border border-0"
-                  style={{ backgroundColor: 'transparent' }}
+                  className={`message ${
+                    errors.name ? 'error-message' : 'success-message'
+                  }`}
                 >
-                  {intl.formatMessage({ id: 'cart.recipientInfo' })}
+                  {errors.name || (successMessage && intl.formatMessage({ id: 'common.success' }))}
                 </div>
-                <div className="card-body">
-                  <h5 className="card-title font-grey-title">
-                    {intl.formatMessage({ id: 'member.firstName' })}
-                    <span className="text-danger">*</span>
-                  </h5>
-                  <input
-                    className="form-control T-18 rounded-5"
-                    type="text"
-                    placeholder={intl.formatMessage({ id: 'member.pleaseEnterFirstName' })}
-                    name="name"
-                    id="name"
-                    value={(paymentData && paymentData.name) || ''}
-                    onChange={changeHandler}
-                    onBlur={() => onBlurHandler('name')}
-                    onFocus={onFocusHandler}
-                  />
-                  <div
-                    className={`message ${
-                      errors.name ? 'error-message' : 'success-message'
-                    }`}
-                  >
-                    {errors.name || (successMessage && intl.formatMessage({ id: 'common.success' }))}
-                  </div>
-                  <h5 className="card-title font-grey-title mt-3">
-                    {intl.formatMessage({ id: 'common.tel' })}
-                    <span className="text-danger">*</span>
-                  </h5>
-                  <input
-                    className="form-control T-18 rounded-5"
-                    type="text"
-                    placeholder={intl.formatMessage({ id: 'member.pleaseEnterPhone' })}
-                    name="phone"
-                    id="phone"
-                    value={(paymentData && paymentData.phone) || ''}
-                    onChange={changeHandler}
-                    onBlur={() => onBlurHandler('phone')}
-                    onFocus={onFocusHandler}
-                  />
-                  <div
-                    className={`message ${
-                      errors.phone ? 'error-message' : 'success-message'
-                    }`}
-                  >
-                    {errors.phone || (successMessage && intl.formatMessage({ id: 'common.success' }))}
-                  </div>
-                  <h5 className="card-title font-grey-title mt-3">{intl.formatMessage({ id: 'member.email' })}</h5>
-                  <input
-                    type="email"
-                    className="form-control rounded-5"
-                    placeholder="name@example.com"
-                    id="email"
-                    name="email"
-                    value={(paymentData && paymentData.email) || ''}
-                    onChange={changeHandler}
-                    onBlur={() => onBlurHandler('email')}
-                    onFocus={onFocusHandler}
-                  />
-                  <div
-                    className={`message ${
-                      errors.email ? 'error-message' : 'success-message'
-                    }`}
-                  >
-                    {errors.email || (successMessage && intl.formatMessage({ id: 'common.success' }))}
-                  </div>
+                <h5 className="card-title font-grey-title mt-3">
+                  {intl.formatMessage({ id: 'common.tel' })}
+                  <span className="text-danger">*</span>
+                </h5>
+                <input
+                  className="form-control T-18 rounded-5"
+                  type="text"
+                  placeholder={intl.formatMessage({ id: 'member.pleaseEnterPhone' })}
+                  name="phone"
+                  id="phone"
+                  value={(paymentData && paymentData.phone) || ''}
+                  onChange={changeHandler}
+                  onBlur={() => onBlurHandler('phone')}
+                  onFocus={onFocusHandler}
+                />
+                <div
+                  className={`message ${
+                    errors.phone ? 'error-message' : 'success-message'
+                  }`}
+                >
+                  {errors.phone || (successMessage && intl.formatMessage({ id: 'common.success' }))}
+                </div>
+                <h5 className="card-title font-grey-title mt-3">{intl.formatMessage({ id: 'member.email' })}</h5>
+                <input
+                  type="email"
+                  className="form-control rounded-5"
+                  placeholder="name@example.com"
+                  id="email"
+                  name="email"
+                  value={(paymentData && paymentData.email) || ''}
+                  onChange={changeHandler}
+                  onBlur={() => onBlurHandler('email')}
+                  onFocus={onFocusHandler}
+                />
+                <div
+                  className={`message ${
+                    errors.email ? 'error-message' : 'success-message'
+                  }`}
+                >
+                  {errors.email || (successMessage && intl.formatMessage({ id: 'common.success' }))}
                 </div>
               </div>
+            </div>
+            <div
+              className="card border-primary mb-3"
+              style={{ maxWidth: '40rem' }}
+            >
               <div
-                className="card border-primary mb-3"
-                style={{ width: '40rem' }}
+                className="card-header card-big-title border border-0"
+                style={{ backgroundColor: 'transparent ' }}
               >
+                {intl.formatMessage({ id: 'cart.shippingAddress' })}
+              </div>
+              <div className="card-body mx-3 mb-3">
+                <TWZipCode
+                  onPostcodeChange={(country, township, postcode) => {
+                    setPaymentData({ ...paymentData, postcode })
+                  }}
+                  initPostcode={(paymentData && paymentData.postcode) || ''}
+                  id="postcode"
+                  value={(paymentData && paymentData.postcode) || ''}
+                  onChange={changeHandler}
+                  onBlur={() => onBlurHandler('postcode')}
+                  onFocus={onFocusHandler}
+                />
                 <div
-                  className="card-header card-big-title border border-0"
-                  style={{ backgroundColor: 'transparent ' }}
+                  className={`message ${
+                    errors.postcode ? 'error-message' : 'success-message'
+                  }`}
                 >
-                  {intl.formatMessage({ id: 'cart.shippingAddress' })}
+                  {errors.postcode || (successMessage && intl.formatMessage({ id: 'common.success' }))}
                 </div>
-                <div className="card-body">
-                  <TWZipCode
-                    onPostcodeChange={(country, township, postcode) => {
-                      setPaymentData({ ...paymentData, postcode })
-                    }}
-                    initPostcode={(paymentData && paymentData.postcode) || ''}
-                    id="postcode"
-                    value={(paymentData && paymentData.postcode) || ''}
-                    onChange={changeHandler}
-                    onBlur={() => onBlurHandler('postcode')}
-                    onFocus={onFocusHandler}
-                  />
-                  <div
-                    className={`message ${
-                      errors.postcode ? 'error-message' : 'success-message'
-                    }`}
-                  >
-                    {errors.postcode || (successMessage && intl.formatMessage({ id: 'common.success' }))}
-                  </div>
-                  <h5 className="card-title font-grey-title mt-3">
-                    {intl.formatMessage({ id: 'cart.shippingAddress' })}
-                    <span className="text-danger">*</span>
-                  </h5>
-                  <input
-                    className="form-control rounded-5"
-                    type="text"
-                    placeholder={intl.formatMessage({ id: 'member.pleaseEnterAddress' })}
-                    aria-label="default input example"
-                    name="address"
-                    id="address"
-                    value={(paymentData && paymentData.address) || ''}
-                    onChange={changeHandler}
-                    onBlur={() => onBlurHandler('address')}
-                    onFocus={onFocusHandler}
-                  />
-                  <div
-                    className={`message ${
-                      errors.address ? 'error-message' : 'success-message'
-                    }`}
-                  >
-                    {errors.address || (successMessage && intl.formatMessage({ id: 'common.success' }))}
-                  </div>
-                  <div
-                    className="form-check mt-3"
-                    role="checkbox"
-                    tabIndex={0}
-                    aria-checked={isChecked}
-                    onKeyDown={(e) => {
-                      if (e.key === 'Enter' || e.key === ' ') {
-                        handleSampleClick()
-                      }
-                    }}
-                    onClick={() => {
+                <h5 className="card-title font-grey-title mt-3">
+                  {intl.formatMessage({ id: 'cart.shippingAddress' })}
+                  <span className="text-danger">*</span>
+                </h5>
+                <input
+                  className="form-control rounded-5"
+                  type="text"
+                  placeholder={intl.formatMessage({ id: 'member.pleaseEnterAddress' })}
+                  aria-label="default input example"
+                  name="address"
+                  id="address"
+                  value={(paymentData && paymentData.address) || ''}
+                  onChange={changeHandler}
+                  onBlur={() => onBlurHandler('address')}
+                  onFocus={onFocusHandler}
+                />
+                <div
+                  className={`message ${
+                    errors.address ? 'error-message' : 'success-message'
+                  }`}
+                >
+                  {errors.address || (successMessage && intl.formatMessage({ id: 'common.success' }))}
+                </div>
+                <div
+                  className="form-check mt-3"
+                  role="checkbox"
+                  tabIndex={0}
+                  aria-checked={isChecked}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
                       handleSampleClick()
-                    }}
+                    }
+                  }}
+                  onClick={() => {
+                    handleSampleClick()
+                  }}
+                >
+                  <input
+                    className="form-check-input "
+                    type="checkbox"
+                    checked={isChecked}
+                    onChange={() => {}} // 保持這裡不做事，因為整個區塊已接管點擊
+                    readOnly
+                  />
+                  <label
+                    className="form-check-label"
+                    htmlFor="flexCheckDefault"
+                  >
+                    {intl.formatMessage({ id: 'cart.loadTestInfo' })}
+                  </label>
+                </div>
+              </div>
+            </div>
+            <div
+              className="card border-primary mb-3"
+              style={{ maxWidth: '40rem' }}
+            >
+              <div
+                className="card-header card-big-title border border-0"
+                style={{ backgroundColor: 'transparent ' }}
+              >
+                {intl.formatMessage({ id: 'cart.paymentMethod' })}
+                <span className="text-danger">*</span>
+              </div>
+              <div className="card-body mx-3">
+                <div>
+                  <div
+                    className={`form-check mb-3 form-control rounded-5 ${
+                      selectedOption === 'flexRadioDefault1' ||
+                      paymentData?.pay_way === intl.formatMessage({ id: 'cart.cashOnDelivery' })
+                        ? 'radius-plus-form'
+                        : ''
+                    }`}
                   >
                     <input
-                      className="form-check-input "
-                      type="checkbox"
-                      checked={isChecked}
-                      onChange={() => {}} // 保持這裡不做事，因為整個區塊已接管點擊
-                      readOnly
-                    />
-                    <label
-                      className="form-check-label"
-                      htmlFor="flexCheckDefault"
-                    >
-                      {intl.formatMessage({ id: 'cart.loadTestInfo' })}
-                    </label>
-                  </div>
-                </div>
-              </div>
-              <div
-                className="card border-primary mb-3"
-                style={{ width: '40rem' }}
-              >
-                <div
-                  className="card-header card-big-title border border-0"
-                  style={{ backgroundColor: 'transparent ' }}
-                >
-                  {intl.formatMessage({ id: 'cart.paymentMethod' })}
-                  <span className="text-danger">*</span>
-                </div>
-                <div className="card-body">
-                  <div>
-                    <div
-                      className={`form-check mb-3 form-control rounded-5 ${
+                      className="form-check-input mx-1 rounded-5"
+                      type="radio"
+                      name="flexRadioDefault"
+                      id="flexRadioDefault1"
+                      checked={
                         selectedOption === 'flexRadioDefault1' ||
                         paymentData?.pay_way === intl.formatMessage({ id: 'cart.cashOnDelivery' })
-                          ? 'radius-plus-form'
-                          : ''
-                      }`}
+                      }
+                      onChange={() => handleRadioChange('flexRadioDefault1')}
+                      value={intl.formatMessage({ id: 'cart.cashOnDelivery' })}
+                    />
+                    <label
+                      className="form-check-label mx-2"
+                      htmlFor="flexRadioDefault1"
                     >
-                      <input
-                        className="form-check-input mx-1 rounded-5"
-                        type="radio"
-                        name="flexRadioDefault"
-                        id="flexRadioDefault1"
-                        checked={
-                          selectedOption === 'flexRadioDefault1' ||
-                          paymentData?.pay_way === intl.formatMessage({ id: 'cart.cashOnDelivery' })
-                        }
-                        onChange={() => handleRadioChange('flexRadioDefault1')}
-                        value={intl.formatMessage({ id: 'cart.cashOnDelivery' })}
-                      />
-                      <label
-                        className="form-check-label mx-2"
-                        htmlFor="flexRadioDefault1"
-                      >
-                        {intl.formatMessage({ id: 'cart.cashOnDelivery' })}
-                      </label>
-                    </div>
-                    <div
-                      className={`form-check mb-3 form-control rounded-5 ${
+                      {intl.formatMessage({ id: 'cart.cashOnDelivery' })}
+                    </label>
+                  </div>
+                  <div
+                    className={`form-check mb-3 form-control rounded-5 ${
+                      selectedOption === 'flexRadioDefault2' ||
+                      paymentData?.pay_way === intl.formatMessage({ id: 'cart.creditCard' })
+                        ? 'radius-plus-form'
+                        : ''
+                    }`}
+                  >
+                    <input
+                      className="form-check-input mx-1 rounded-5"
+                      type="radio"
+                      name="flexRadioDefault"
+                      id="flexRadioDefault2"
+                      checked={
                         selectedOption === 'flexRadioDefault2' ||
                         paymentData?.pay_way === intl.formatMessage({ id: 'cart.creditCard' })
-                          ? 'radius-plus-form'
-                          : ''
-                      }`}
+                      }
+                      onChange={() => handleRadioChange('flexRadioDefault2')}
+                      value={intl.formatMessage({ id: 'cart.creditCard' })}
+                    />
+                    <label
+                      className="form-check-label mx-2"
+                      htmlFor="flexRadioDefault2"
                     >
-                      <input
-                        className="form-check-input mx-1 rounded-5"
-                        type="radio"
-                        name="flexRadioDefault"
-                        id="flexRadioDefault2"
-                        checked={
-                          selectedOption === 'flexRadioDefault2' ||
-                          paymentData?.pay_way === intl.formatMessage({ id: 'cart.creditCard' })
-                        }
-                        onChange={() => handleRadioChange('flexRadioDefault2')}
-                        value={intl.formatMessage({ id: 'cart.creditCard' })}
-                      />
-                      <label
-                        className="form-check-label mx-2"
-                        htmlFor="flexRadioDefault2"
-                      >
-                        {intl.formatMessage({ id: 'cart.creditCard' })}
-                      </label>
-                    </div>
-                    {/* {selectedOption === null && (
-                      <p style={{ color: 'red' }}>请选择一个选项</p>
-                    )} */}
+                      {intl.formatMessage({ id: 'cart.creditCard' })}
+                    </label>
                   </div>
+                  {/* {selectedOption === null && (
+                    <p style={{ color: 'red' }}>请选择一个选项</p>
+                  )} */}
                 </div>
               </div>
             </div>
           </div>
-        </form>
-      </div>
+        </div>
+      </form>
     </>
   )
 }
