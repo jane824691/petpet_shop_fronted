@@ -240,4 +240,17 @@ export const enUS = {
   "game.rewardBody": "Congratulations! You got a coupon~",
   "game.viewCoupon": "View Coupon",
   "game.close": "Close",
+  
+  "orderList.shoppingList": "Shopping List",
+  "orderList.orderNumber": "Order Number",
+  "orderList.orderDate": "Order Date",
+  "orderList.paymentMethod": "Payment Method",
+  "orderList.paymentStatus": "Payment Status",
+  "orderList.paid": "Paid",
+  "orderList.unpaid": "Unpaid",
+  "orderList.deliveryMethod": "Delivery Method",
+  "orderList.processingStatus": "Processing Status",
+  "orderList.totalAmount": "Total Amount",
+  "orderList.seeMore": "See more",
+  "orderList.noOrders": "No orders have been placed yet",
 } 

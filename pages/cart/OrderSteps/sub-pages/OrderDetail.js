@@ -125,7 +125,8 @@ export default function OrderDetail({
                     </div>
                   </div>
                 </div>
-                <div className="row card-padding12">
+                <br/>
+                <div className="row card-padding12 mb-3">
                   <div className="col-9 dollar">{intl.formatMessage({ id: 'cart.orderPaymentAmount' })}</div>
                   <div className="col-3 text-end">
                     <div className="dollar">

@@ -225,6 +225,7 @@ export const zhTW = {
   "coupon.status.used": "已使用",
   "coupon.status.expired": "已逾期",
   "coupon.get": "取得優惠券",
+
   "game.title": "小遊戲",
   "game.dog": "狗狗",
   "game.food1": "飼料1",
@@ -238,4 +239,17 @@ export const zhTW = {
   "game.rewardBody": "恭喜獲得商品優惠券~",
   "game.viewCoupon": "觀看優惠券",
   "game.close": "關閉",
+
+  "orderList.shoppingList": "購物清單",
+  "orderList.orderNumber": "訂單編號",
+  "orderList.orderDate": "訂單成立時間",
+  "orderList.paymentMethod": "付款方式",
+  "orderList.paymentStatus": "付款情況",
+  "orderList.paid": "已付款",
+  "orderList.unpaid": "未付款",
+  "orderList.deliveryMethod": "交貨方式",
+  "orderList.processingStatus": "處理情況",
+  "orderList.totalAmount": "總金額",
+  "orderList.seeMore": "看更多",
+  "orderList.noOrders": "目前並未成立訂單",
 } 

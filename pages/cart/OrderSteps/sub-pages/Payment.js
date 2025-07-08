@@ -100,8 +100,8 @@ export default function Payment(props) {
         optionId === 'flexRadioDefault1'
           ? intl.formatMessage({ id: 'cart.cashOnDelivery' })
           : optionId === 'flexRadioDefault2'
-          ? intl.formatMessage({ id: 'cart.creditCard' })
-          : '',
+            ? intl.formatMessage({ id: 'cart.creditCard' })
+            : '',
     })
   }
 
@@ -120,7 +120,8 @@ export default function Payment(props) {
   }
   return (
     <>
-      <div className="d-flex justify-content-center mx-auto px-3 px-sm-5 mt-5" style={{ maxWidth: '600px' }}>
+      <h3 className="mx-5 py-3 pt-5">{intl.formatMessage({ id: 'cart.payment' })}</h3>
+      <div className="d-flex justify-content-center mx-auto px-3 px-sm-5" style={{ maxWidth: '600px' }}>
         <img src="/images/product/steps_to_payment.png" alt="" className="w-100 h-auto" />
       </div>
       <form className="list-form mx-4">
@@ -153,9 +154,8 @@ export default function Payment(props) {
                   onFocus={onFocusHandler}
                 />
                 <div
-                  className={`message ${
-                    errors.name ? 'error-message' : 'success-message'
-                  }`}
+                  className={`message ${errors.name ? 'error-message' : 'success-message'
+                    }`}
                 >
                   {errors.name || (successMessage && intl.formatMessage({ id: 'common.success' }))}
                 </div>
@@ -175,9 +175,8 @@ export default function Payment(props) {
                   onFocus={onFocusHandler}
                 />
                 <div
-                  className={`message ${
-                    errors.phone ? 'error-message' : 'success-message'
-                  }`}
+                  className={`message ${errors.phone ? 'error-message' : 'success-message'
+                    }`}
                 >
                   {errors.phone || (successMessage && intl.formatMessage({ id: 'common.success' }))}
                 </div>
@@ -194,9 +193,8 @@ export default function Payment(props) {
                   onFocus={onFocusHandler}
                 />
                 <div
-                  className={`message ${
-                    errors.email ? 'error-message' : 'success-message'
-                  }`}
+                  className={`message ${errors.email ? 'error-message' : 'success-message'
+                    }`}
                 >
                   {errors.email || (successMessage && intl.formatMessage({ id: 'common.success' }))}
                 </div>
@@ -225,9 +223,8 @@ export default function Payment(props) {
                   onFocus={onFocusHandler}
                 />
                 <div
-                  className={`message ${
-                    errors.postcode ? 'error-message' : 'success-message'
-                  }`}
+                  className={`message ${errors.postcode ? 'error-message' : 'success-message'
+                    }`}
                 >
                   {errors.postcode || (successMessage && intl.formatMessage({ id: 'common.success' }))}
                 </div>
@@ -248,9 +245,8 @@ export default function Payment(props) {
                   onFocus={onFocusHandler}
                 />
                 <div
-                  className={`message ${
-                    errors.address ? 'error-message' : 'success-message'
-                  }`}
+                  className={`message ${errors.address ? 'error-message' : 'success-message'
+                    }`}
                 >
                   {errors.address || (successMessage && intl.formatMessage({ id: 'common.success' }))}
                 </div>
@@ -272,7 +268,7 @@ export default function Payment(props) {
                     className="form-check-input "
                     type="checkbox"
                     checked={isChecked}
-                    onChange={() => {}} // 保持這裡不做事，因為整個區塊已接管點擊
+                    onChange={() => { }} // 保持這裡不做事，因為整個區塊已接管點擊
                     readOnly
                   />
                   <label
@@ -298,12 +294,11 @@ export default function Payment(props) {
               <div className="card-body mx-3">
                 <div>
                   <div
-                    className={`form-check mb-3 form-control rounded-5 ${
-                      selectedOption === 'flexRadioDefault1' ||
-                      paymentData?.pay_way === intl.formatMessage({ id: 'cart.cashOnDelivery' })
+                    className={`form-check mb-3 form-control rounded-5 ${selectedOption === 'flexRadioDefault1' ||
+                        paymentData?.pay_way === intl.formatMessage({ id: 'cart.cashOnDelivery' })
                         ? 'radius-plus-form'
                         : ''
-                    }`}
+                      }`}
                   >
                     <input
                       className="form-check-input mx-1 rounded-5"
@@ -325,12 +320,11 @@ export default function Payment(props) {
                     </label>
                   </div>
                   <div
-                    className={`form-check mb-3 form-control rounded-5 ${
-                      selectedOption === 'flexRadioDefault2' ||
-                      paymentData?.pay_way === intl.formatMessage({ id: 'cart.creditCard' })
+                    className={`form-check mb-3 form-control rounded-5 ${selectedOption === 'flexRadioDefault2' ||
+                        paymentData?.pay_way === intl.formatMessage({ id: 'cart.creditCard' })
                         ? 'radius-plus-form'
                         : ''
-                    }`}
+                      }`}
                   >
                     <input
                       className="form-check-input mx-1 rounded-5"

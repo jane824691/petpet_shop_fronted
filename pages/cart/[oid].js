@@ -117,12 +117,12 @@ export default function OrderUnderMember({ oid: propsOid, onStatusChange }) {
           ) : (
             <>
               <div className="container" style={{ paddingTop: '2.5rem' }}>
-                <div className="list-form needs-validation" noValidate="">
+                <div className="list-form mx-4">
                   <div className="d-flex justify-content-center">
                     <div className="direction-column">
                       <div
                         className="card border-primary mb-3"
-                        style={{ width: '40rem' }}
+                        style={{ maxWidth: '40rem' }}
                       >
                         <h5
                           className="card-header card-big-title border border-0"
@@ -134,7 +134,7 @@ export default function OrderUnderMember({ oid: propsOid, onStatusChange }) {
                         >
                           {intl.formatMessage({ id: 'cart.orderDetails' })}
                         </h5>
-                        <div className="card-body">
+                        <div className="card-body mx-3">
                           {orderData.map((v, i) => (
                             <div className="row extinct-product" key={v.oid}>
                               <div className="col-3">
@@ -181,8 +181,8 @@ export default function OrderUnderMember({ oid: propsOid, onStatusChange }) {
                               </div>
                             </div>
                           </div>
-
-                          <div className="row card-padding12">
+                          <br/>
+                          <div className="row card-padding12 mb-3">
                             <div className="col-9 dollar">{intl.formatMessage({ id: 'cart.totalAmount' })}</div>
                             <div className="col-3 text-end">
                               {orderData.length > 0 && (
@@ -197,7 +197,7 @@ export default function OrderUnderMember({ oid: propsOid, onStatusChange }) {
                       </div>
                       <div
                         className="card border-primary mb-3"
-                        style={{ width: '40rem' }}
+                        style={{ maxWidth: '40rem' }}
                       >
                         <div
                           className="card-header card-big-title border border-0"
@@ -205,7 +205,7 @@ export default function OrderUnderMember({ oid: propsOid, onStatusChange }) {
                         >
                           {intl.formatMessage({ id: 'cart.pickupPersonInfo' })}
                         </div>
-                        <div className="card-body">
+                        <div className="card-body mx-3">
                           <label
                             htmlFor="validationCustom01"
                             className="form-label font-grey-title"
@@ -242,7 +242,7 @@ export default function OrderUnderMember({ oid: propsOid, onStatusChange }) {
                         >
                           {intl.formatMessage({ id: 'cart.pickupInfo' })}
                         </div>
-                        <div className="card-body">
+                        <div className="card-body mx-3 mb-3">
                           <label
                             htmlFor="validationCustom01"
                             className="form-label font-grey-title"
@@ -267,7 +267,7 @@ export default function OrderUnderMember({ oid: propsOid, onStatusChange }) {
                         >
                           {intl.formatMessage({ id: 'cart.paymentInfo' })}
                         </div>
-                        <div className="card-body">
+                        <div className="card-body mx-3 mb-3">
                           <label
                             htmlFor="validationCustom01"
                             className="form-label font-grey-title"
