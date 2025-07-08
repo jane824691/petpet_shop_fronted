@@ -211,5 +211,16 @@ export const enUS = {
   "validation.lastnameChinese": "Last name must be in Chinese",
   "validation.passwordFormat": "First character must be uppercase English, include numbers, minimum 6 characters",
   "validation.phoneFormat": "Invalid phone number format",
-  "validation.zipcodeRequired": "Please select zip code"
+  "validation.zipcodeRequired": "Please select zip code",
+  "login.title": "Login",
+  "login.account": "Account",
+  "login.password": "Password",
+  "login.loginBtn": "Login",
+  "login.registerLink": "New here? Register",
+  "login.failureTitle": "Login Failed",
+  "login.failureMsg": "Incorrect account or password",
+  "login.confirm": "Confirm",
+  "login.showPasswordAlt": "Show password",
+  "login.closeAlt": "Close",
+  "login.errorAlt": "Error"
 }

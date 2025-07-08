@@ -34,7 +34,7 @@ export default function OrderUnderMember({ oid: propsOid, onStatusChange }) {
     if (!router.isReady) return;
     const resolvedOid = propsOid || router.query.oid;
     if (!resolvedOid) return;
-    
+
     const fetchData = async () => {
       const authDataString = localStorage.getItem('auther')
       if (!authDataString) {
@@ -181,7 +181,7 @@ export default function OrderUnderMember({ oid: propsOid, onStatusChange }) {
                               </div>
                             </div>
                           </div>
-                          <br/>
+                          <br />
                           <div className="row card-padding12 mb-3">
                             <div className="col-9 dollar">{intl.formatMessage({ id: 'cart.totalAmount' })}</div>
                             <div className="col-3 text-end">
@@ -280,19 +280,17 @@ export default function OrderUnderMember({ oid: propsOid, onStatusChange }) {
                     </div>
                   </div>
                 </div>
-                {router.query.oid && (
-                  <div className="d-flex justify-content-center">
-                    {' '}
-                    <button
-                      className="btn btn-danger btn-lg text-white mb-5"
-                      onClick={() => {
-                        router.push(`../member/member-orderList`)
-                      }}
-                    >
-                      {intl.formatMessage({ id: 'common.back' })}
-                    </button>
-                  </div>
-                )}
+                <div className="d-flex justify-content-center">
+                  {' '}
+                  <button
+                    className="btn btn-danger btn-lg text-white mb-5"
+                    onClick={() => {
+                      router.push(`/member/member-orderList`)
+                    }}
+                  >
+                    {intl.formatMessage({ id: 'common.back' })}
+                  </button>
+                </div>
               </div>
             </>
           )}

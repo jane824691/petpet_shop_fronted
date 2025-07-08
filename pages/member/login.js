@@ -7,9 +7,11 @@ import AuthContext from '@/components/contexts/AuthContext'
 import { jwtDecode } from 'jwt-decode' // 導入 jwt 解析庫
 import Modal from 'react-bootstrap/Modal'
 import Button from 'react-bootstrap/Button'
+import { useIntl } from 'react-intl'
 
 //可以成功登入的版本
 export default function Login() {
+  const intl = useIntl()
   const [user, setUser] = useState({
     account: '',
     password: '',
@@ -72,7 +74,7 @@ export default function Login() {
 
   return (
     <>
-      <h3 className="pt-5 pb-2 mx-auto">會員登入</h3>
+      <h3 className="pt-5 pb-2 mx-auto">{intl.formatMessage({ id: 'login.title', defaultMessage: '會員登入' })}</h3>
       <div className="d-flex justify-content-center position-relative mx-auto">
         <svg className="text-secondary opacity-25 px-4 px-sm-5" style={{ 'max-width': '600px'}} fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M47.6 300.4L228.3 469.1c7.5 7 17.4 10.9 27.7 10.9s20.2-3.9 27.7-10.9L464.4 300.4c30.4-28.3 47.6-68 47.6-109.5v-5.8c0-69.9-50.5-129.5-119.4-141C347 36.5 300.6 51.4 268 84L256 96 244 84c-32.6-32.6-79-47.5-124.6-39.9C50.5 55.6 0 115.2 0 185.1v5.8c0 41.5 17.2 81.2 47.6 109.5z" /></svg>
         <form name="form1" onSubmit={postForm}>
@@ -81,8 +83,9 @@ export default function Login() {
               <span
                 className="input-group-text border border-danger text-white hintTitle"
                 id="basic-addon1"
+                style={intl.locale === 'en-US' ? { minWidth: '95px' } : {}}
               >
-                帳號
+                {intl.formatMessage({ id: 'login.account', defaultMessage: '帳號' })}
               </span>
               <input
                 type="text"
@@ -92,14 +95,16 @@ export default function Login() {
                 value={user.username}
                 onChange={handleFieldChange}
                 className="form-control input-group-text border border-secondary accountInput"
+                
               />
             </div>
             <div className="input-group mb-2 mb-sm-4 mx-auto">
               <span
                 className="input-group-text border border-danger text-white hintTitle"
                 id="basic-addon1"
+                style={intl.locale === 'en-US' ? { minWidth: '95px' } : {}}
               >
-                密碼
+                {intl.formatMessage({ id: 'login.password', defaultMessage: '密碼' })}
               </span>
               <div style={{ position: 'relative', display: 'flex', flex: '1' }}>
                 <input
@@ -115,7 +120,7 @@ export default function Login() {
                   src="/pics/showpassword.png"
                   width="24"
                   height="32"
-                  alt="吐舌狗"
+                  alt={intl.formatMessage({ id: 'login.showPasswordAlt', defaultMessage: '顯示密碼' })}
                   style={{
                     position: 'absolute',
                     top: '50%',
@@ -131,14 +136,14 @@ export default function Login() {
               type="submit"
               className="btn btn-outline-dark btn-lg btn pro-shadow fs-6 mx-5 my-1 my-sm-4"
             >
-              登入
+              {intl.formatMessage({ id: 'login.loginBtn', defaultMessage: '登入' })}
             </button>
           </div>
         </form>
       </div>
       <div>
         <span className="fs-5 mx-auto text-danger d-flex justify-content-center mb-5">
-          <Link href="/member/register-all">新朋友? 註冊</Link>
+          <Link href="/member/register-all">{intl.formatMessage({ id: 'login.registerLink', defaultMessage: '新朋友? 註冊' })}</Link>
         </span>
       </div>
 
@@ -146,12 +151,12 @@ export default function Login() {
       <Modal show={showFailureModal} onHide={handleClose} centered dialogClassName="failure-dialog-centered">
         <Modal.Header className="modal-form modal-header-failure">
           <Modal.Title className="modal-form mt-3">
-            登入失敗
-            <h6 className='my-3'>帳號或密碼錯誤</h6>
+            {intl.formatMessage({ id: 'login.failureTitle', defaultMessage: '登入失敗' })}
+            <h6 className='my-3'>{intl.formatMessage({ id: 'login.failureMsg', defaultMessage: '帳號或密碼錯誤' })}</h6>
           </Modal.Title>
           <Image
             src="/pics/close2.png"
-            alt="叉叉"
+            alt={intl.formatMessage({ id: 'login.closeAlt', defaultMessage: '關閉' })}
             width="40"
             height="30"
             className="mb-3"
@@ -170,7 +175,7 @@ export default function Login() {
         >
           <Image
             src="/pics/error.png"
-            alt="錯誤"
+            alt={intl.formatMessage({ id: 'login.errorAlt', defaultMessage: '錯誤' })}
             width="100"
             height="100"
             className="mx-auto"
@@ -190,7 +195,7 @@ export default function Login() {
             }}
             onClick={handleClose}
           >
-            確定
+            {intl.formatMessage({ id: 'login.confirm', defaultMessage: '確定' })}
           </Button>
         </Modal.Footer>
       </Modal>

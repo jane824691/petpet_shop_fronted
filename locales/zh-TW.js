@@ -211,5 +211,16 @@ export const zhTW = {
   "validation.lastnameChinese": "姓氏需填寫中文字",
   "validation.passwordFormat": "首字英文大寫，含數字且至少需6碼",
   "validation.phoneFormat": "電話號碼格式錯誤",
-  "validation.zipcodeRequired": "請選擇郵遞區號"
+  "validation.zipcodeRequired": "請選擇郵遞區號",
+  "login.title": "會員登入",
+  "login.account": "帳號",
+  "login.password": "密碼",
+  "login.loginBtn": "登入",
+  "login.registerLink": "新朋友? 註冊",
+  "login.failureTitle": "登入失敗",
+  "login.failureMsg": "帳號或密碼錯誤",
+  "login.confirm": "確定",
+  "login.showPasswordAlt": "顯示密碼",
+  "login.closeAlt": "關閉",
+  "login.errorAlt": "錯誤"
 }
