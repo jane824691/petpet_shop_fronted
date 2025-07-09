@@ -15,6 +15,7 @@ export default function List() {
   const [data, setData] = useState({})
   const router = useRouter()
   const intl = useIntl()
+  const lang = intl.locale 
   const [searchWord, setSearchWord] = useState('') // 搜尋關鍵字狀態
   const [priceRange, setPriceRange] = useState(intl.formatMessage({ id: 'product.all' })) // radio選項
   const [priceHigh, setPriceHigh] = useState('') //價格區間
@@ -72,8 +73,14 @@ export default function List() {
       // 實際呼叫後端api
       const r = await fetch(
         PRODUCT +
-          `?page=${page}&searchWord=${searchWord}&priceLow=${priceLow}&priceHigh=${priceHigh}&sortBy=${sortByParam}&tag=${currentTagsNum}`
-      )
+          `?page=${page}&searchWord=${searchWord}&priceLow=${priceLow}&priceHigh=${priceHigh}&sortBy=${sortByParam}&tag=${currentTagsNum}`,
+          {
+            headers: {
+              'Accept-Language': lang, // 很多後端（尤其是 Express、NestJS、Spring Boot 等）會優先判斷 Accept-Language header，而不是 query string
+            },
+            cache: 'no-store', // 防止快取
+          }
+        )
       const d = await r.json()
       setData(d)
     } catch (error) {
@@ -88,14 +95,14 @@ export default function List() {
     if (page < 1) return
 
     getListData()
-  }, [router.query.page, searchWord, priceLow, priceHigh, sortBy, tags])
+  }, [router.query.page, searchWord, priceLow, priceHigh, sortBy, tags, lang])
 
   // 當搜尋關鍵字改變時將頁面重設為第 1 頁
   useEffect(() => {
     router.push({ pathname: router.pathname, query: { page: 1 } }, undefined, {
       shallow: true,
     })
-  }, [searchWord, priceLow, priceHigh, sortBy, tags])
+  }, [searchWord, priceLow, priceHigh, sortBy, tags, lang])
 
   // 設定四種搜尋方式
   // 1. 從伺服器來的原始資料

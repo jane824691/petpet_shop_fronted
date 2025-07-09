@@ -34,12 +34,18 @@ export default function Detail() {
   // 跳轉用
   const router = useRouter()
   const intl = useIntl()
+  const lang = intl.locale
+
 
   // 抓單一商品（只抓一次）
   const fetchProduct = async () => {
     const pid = +router.query.pid
     try {
-      const response = await fetch(ONE_PRODUCT + `/${pid}`)
+      const response = await fetch(ONE_PRODUCT + `/${pid}?lang=${lang}`, {
+        headers: {
+          'Accept-Language': lang, // 很多後端（尤其是 Express、NestJS、Spring Boot 等）會優先判斷 Accept-Language header，而不是 query string 
+        },
+      })
       const productData = await response.json()
       setMyProduct(productData)
     } catch (error) {
@@ -211,14 +217,14 @@ export default function Detail() {
     if (router.query.pid) {
       fetchProduct()
     }
-  }, [router.query.pid])
+  }, [router.query.pid, lang])
 
   // page 改變時才抓更多留言（第一次 page 預設為 1）
   useEffect(() => {
     if (router.query.pid) {
       fetchComments()
     }
-  }, [page, router.query.pid])
+  }, [page, router.query.pid, lang])
 
   return (
     <>

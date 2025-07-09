@@ -11,10 +11,15 @@ export default function Home() {
   const [products, setProducts] = useState([])
   const router = useRouter()
   const intl = useIntl()
+  const lang = intl.locale
 
   const getRecommendProductData = async () => {
     try {
-      const r = await fetch(PRODUCT_RECOMMEND)
+      const r = await fetch(PRODUCT_RECOMMEND + `?lang=${lang}`, {
+        headers: {
+          'Accept-Language': lang, // 很多後端（尤其是 Express、NestJS、Spring Boot 等）會優先判斷 Accept-Language header，而不是 query string 
+        },
+      })
       const d = await r.json()
       setProducts(d)
     } catch (error) {
@@ -24,7 +29,7 @@ export default function Home() {
 
   useEffect(() => {
     getRecommendProductData()
-  }, [])
+  }, [lang])
 
   return (
     <>
