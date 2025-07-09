@@ -47,6 +47,7 @@ export const zhTW = {
   "cart.totalProducts": "總計商品",
   "cart.unitPrice": "單價",
   "cart.validUntil": "至",
+
   "common.back": "返回",
   "common.success": "成功",
   "common.tel": "電話",
@@ -70,6 +71,8 @@ export const zhTW = {
   "footer.termsOfService": "服務條款",
   "footer.termsOfTransport": "運送服務",
   "footer.time": "時間：(一)至(五) 8:30 - 17:30",
+
+  "game.rwdTip": "請在網頁版尺寸時獲得最佳體驗！",
   "game.close": "關閉",
   "game.cloud": "雲朵",
   "game.dog": "狗狗",
@@ -97,6 +100,7 @@ export const zhTW = {
   "home.joinUs": "加入我們",
   "home.subtitle": "模擬電商平台",
   "home.title": "專屬寵物天堂!!",
+
   "member.account": "會員帳號",
   "member.address": "通訊地址",
   "member.backToMemberPage": "回會員頁",
@@ -142,6 +146,7 @@ export const zhTW = {
   "member.registerSuccess": "註冊成功!!",
   "member.user": "User",
   "member.zipcode": "郵遞區號",
+
   "orderList.deliveryMethod": "交貨方式",
   "orderList.noOrders": "目前並未成立訂單",
   "orderList.orderDate": "訂單成立時間",
@@ -203,6 +208,7 @@ export const zhTW = {
   "product.sortPlaceholder": "請選擇排序",
   "product.supplement": "保健食品",
   "product.toy": "抓板玩具",
+
   "validation.accountFormat": "首字英文，加數字共需6碼",
   "validation.addressFormat": "地址格式錯誤",
   "validation.emailFormat": "EMAIL 格式錯誤",
@@ -212,6 +218,7 @@ export const zhTW = {
   "validation.passwordFormat": "首字英文大寫，含數字且至少需6碼",
   "validation.phoneFormat": "電話號碼格式錯誤",
   "validation.zipcodeRequired": "請選擇郵遞區號",
+
   "login.title": "會員登入",
   "login.account": "帳號",
   "login.password": "密碼",

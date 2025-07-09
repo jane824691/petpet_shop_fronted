@@ -38,6 +38,16 @@ export default function Game() {
   const [showModal, setShowModal] = useState(false) //觸發Modal
   const { auther } = useContext(AuthContext)
   const intl = useIntl()
+  const [isMobile, setIsMobile] = useState(false)
+  // RWD 判斷
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768)
+    }
+    handleResize()
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
 
   //隨機優惠券編號
   const hashTypes = () => {
@@ -273,17 +283,14 @@ export default function Game() {
 
   // 吃飼料
   const eatFood = useCallback(() => {
-    const dogRect = document.querySelector('#dogImage').getBoundingClientRect()
-    const randomImage1Rect = document
-      .querySelector('#randomImage1')
-      .getBoundingClientRect()
-    const randomImage2Rect = document
-      .querySelector('#randomImage2')
-      .getBoundingClientRect()
+    const dogElem = document.querySelector('#dogImage')
+    const food1Elem = document.querySelector('#randomImage1')
+    const food2Elem = document.querySelector('#randomImage2')
+    if (!dogElem || !food1Elem || !food2Elem) return // 若有任一不存在就直接 return
 
-    // console.log('Dog Rect:', dogRect)
-    // console.log('Food1 Rect:', randomImage1Rect)
-    // console.log('Food2 Rect:', randomImage2Rect)
+    const dogRect = dogElem.getBoundingClientRect()
+    const randomImage1Rect = food1Elem.getBoundingClientRect()
+    const randomImage2Rect = food2Elem.getBoundingClientRect()
 
     if (
       (dogRect.right > randomImage1Rect.left &&
@@ -332,201 +339,212 @@ export default function Game() {
 
   return (
     <div className="pt-5">
-      <h3>{intl.formatMessage({ id: 'game.title' })}</h3>
-      <div className={`rect ${theme.className}`}>
-        <div className="rect2">
-          <div
-            className={gameContainer}
-            ref={gameContainerRef}
-            id="gameContainer"
-            style={{ position: 'relative' }}
-          >
-            <div>
-              <Image
-                src={dogImageSrc}
-                alt={intl.formatMessage({ id: 'game.dog' })}
-                id="dogImage"
-                width="95"
-                height="70"
-                style={{
-                  left: position.left,
-                  top: position.top,
-                  display: dogImageVisible ? 'block' : 'none',
-                  position: 'absolute',
-                  zIndex: 2, //狗在圖片上層
-                }}
-              />
-            </div>
-            <Image
-              src="/pics/pngtree-cat-food-feed-image_2236974.png"
-              alt={intl.formatMessage({ id: 'game.food1' })}
-              width="60"
-              height="70"
-              style={{
-                display: randomImage1Visible ? 'block' : 'none',
-                marginLeft: '220px',
-                marginTop: '80px',
-                zIndex: 1,
-              }}
-              className="randomImage"
-              id="randomImage1"
-            />
-            <Image
-              src="/pics/dog-food.png"
-              alt={intl.formatMessage({ id: 'game.food2' })}
-              width="80"
-              height="90"
-              style={{
-                display: randomImage2Visible ? 'block' : 'none',
-                marginLeft: '350px',
-                marginTop: '100px',
-                zIndex: 1,
-              }}
-              className="randomImage"
-              id="randomImage2"
-            />
-            <Image
-              src="/pics/sun.png"
-              alt={intl.formatMessage({ id: 'game.sun' })}
-              width="75"
-              height="75"
-              style={{
-                display: sunImageVisible ? 'block' : 'none',
-                marginLeft: '390px',
-              }}
-              id="sunImage"
-            />
-            <Image
-              src="/pics/cloud.png"
-              alt={intl.formatMessage({ id: 'game.cloud' })}
-              width="75"
-              height="50"
-              style={{
-                display: cloudImageVisible ? 'block' : 'none',
-                marginLeft: '80px',
-              }}
-              id="cloudImage"
-            />
-          </div>
-          <span
-            style={{
-              marginLeft: '200px',
-              marginTop: '30px',
-              color: '#CA9145',
-              fontSize: '22px',
-            }}
-          >
-            {intl.formatMessage({ id: 'header.logo' })}
-            <Image
-              src="/pics/pinkcat.png"
-              alt={intl.formatMessage({ id: 'game.pinkcat' })}
-              width="25"
-              height="25"
-              id="pinkcatImage"
-              style={{ cursor: 'grab' }}
-              onClick={() => {
-                // console.log('Current Theme:', theme.name)
-                if (theme.name === 'default') {
-                  setTheme(themes.info)
-                  // console.log('Button:')
-                  setButtonImage('/pics/keyboard-blue.png')
-                } else if (theme.name === 'info') {
-                  setTheme(themes.secondary)
-                  setButtonImage('/pics/keyboard-pink.png')
-                } else {
-                  setTheme(themes.default)
-                  setButtonImage('/pics/keyboard.png')
-                }
-              }}
-            />
-          </span>
-        </div>
+      {isMobile ? (
         <div
-          style={{
-            display: 'flex',
-            flexDirection: 'row',
-            justifyContent: 'space-evenly',
-            alignItems: 'center',
-          }}
+          className="text-center mx-auto my-5 px-5 text-success"
+          style={{ fontSize: '22px', marginTop: '100px' }}
         >
-          <Image
-            src={buttonImage}
-            alt="方向鍵"
-            width="180"
-            height="130"
-            style={{
-              marginTop: '10px',
-            }}
-            id="buttonImage"
-          />
-          <div
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              justifyContent: 'center',
-              marginTop: '20px',
-            }}
-          >
-            <button
-              className="start btn btn-outline-light btn-lg"
-              onClick={startGame}
-            >
-              {intl.formatMessage({ id: 'game.start' })}
-            </button>
-            <button
-              onClick={() => {
-                router.push('/member')
-              }}
-              className={`end ${theme.className} btn btn-outline-light btn-lg`}
-            >
-              {intl.formatMessage({ id: 'game.end' })}{' '}
-            </button>
-          </div>
+          {intl.formatMessage({ id: 'game.rwdTip', defaultMessage: '請在網頁版尺寸時獲得最佳體驗！' })}
         </div>
-      </div>
+      ) : (
+        <>
+          <h3>{intl.formatMessage({ id: 'game.title' })}</h3>
+          <div className={`rect ${theme.className}`}>
+            <div className="rect2">
+              <div
+                className={gameContainer}
+                ref={gameContainerRef}
+                id="gameContainer"
+                style={{ position: 'relative' }}
+              >
+                <div>
+                  <Image
+                    src={dogImageSrc}
+                    alt={intl.formatMessage({ id: 'game.dog' })}
+                    id="dogImage"
+                    width="95"
+                    height="70"
+                    style={{
+                      left: position.left,
+                      top: position.top,
+                      display: dogImageVisible ? 'block' : 'none',
+                      position: 'absolute',
+                      zIndex: 2, //狗在圖片上層
+                    }}
+                  />
+                </div>
+                <Image
+                  src="/pics/pngtree-cat-food-feed-image_2236974.png"
+                  alt={intl.formatMessage({ id: 'game.food1' })}
+                  width="60"
+                  height="70"
+                  style={{
+                    display: randomImage1Visible ? 'block' : 'none',
+                    marginLeft: '220px',
+                    marginTop: '80px',
+                    zIndex: 1,
+                  }}
+                  className="randomImage"
+                  id="randomImage1"
+                />
+                <Image
+                  src="/pics/dog-food.png"
+                  alt={intl.formatMessage({ id: 'game.food2' })}
+                  width="80"
+                  height="90"
+                  style={{
+                    display: randomImage2Visible ? 'block' : 'none',
+                    marginLeft: '350px',
+                    marginTop: '100px',
+                    zIndex: 1,
+                  }}
+                  className="randomImage"
+                  id="randomImage2"
+                />
+                <Image
+                  src="/pics/sun.png"
+                  alt={intl.formatMessage({ id: 'game.sun' })}
+                  width="75"
+                  height="75"
+                  style={{
+                    display: sunImageVisible ? 'block' : 'none',
+                    marginLeft: '390px',
+                  }}
+                  id="sunImage"
+                />
+                <Image
+                  src="/pics/cloud.png"
+                  alt={intl.formatMessage({ id: 'game.cloud' })}
+                  width="75"
+                  height="50"
+                  style={{
+                    display: cloudImageVisible ? 'block' : 'none',
+                    marginLeft: '80px',
+                  }}
+                  id="cloudImage"
+                />
+              </div>
+              <span
+                style={{
+                  marginLeft: '200px',
+                  marginTop: '30px',
+                  color: '#CA9145',
+                  fontSize: '22px',
+                }}
+              >
+                {intl.formatMessage({ id: 'header.logo' })}
+                <Image
+                  src="/pics/pinkcat.png"
+                  alt={intl.formatMessage({ id: 'game.pinkcat' })}
+                  width="25"
+                  height="25"
+                  id="pinkcatImage"
+                  style={{ cursor: 'grab' }}
+                  onClick={() => {
+                    // console.log('Current Theme:', theme.name)
+                    if (theme.name === 'default') {
+                      setTheme(themes.info)
+                      // console.log('Button:')
+                      setButtonImage('/pics/keyboard-blue.png')
+                    } else if (theme.name === 'info') {
+                      setTheme(themes.secondary)
+                      setButtonImage('/pics/keyboard-pink.png')
+                    } else {
+                      setTheme(themes.default)
+                      setButtonImage('/pics/keyboard.png')
+                    }
+                  }}
+                />
+              </span>
+            </div>
+            <div
+              style={{
+                display: 'flex',
+                flexDirection: 'row',
+                justifyContent: 'space-evenly',
+                alignItems: 'center',
+              }}
+            >
+              <Image
+                src={buttonImage}
+                alt="方向鍵"
+                width="180"
+                height="130"
+                style={{
+                  marginTop: '10px',
+                }}
+                id="buttonImage"
+              />
+              <div
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  marginTop: '20px',
+                }}
+              >
+                <button
+                  className="start btn btn-outline-light btn-lg"
+                  onClick={startGame}
+                >
+                  {intl.formatMessage({ id: 'game.start' })}
+                </button>
+                <button
+                  onClick={() => {
+                    router.push('/member')
+                  }}
+                  className={`end ${theme.className} btn btn-outline-light btn-lg`}
+                >
+                  {intl.formatMessage({ id: 'game.end' })}{' '}
+                </button>
+              </div>
+            </div>
+          </div>
 
-      {/* Modal 範例 */}
-      <Modal show={showModal} onHide={() => setShowModal(false)} centered>
-        <Modal.Header className="modal-header-success">
-          <Modal.Title className="modal-form py-3">
-            {intl.formatMessage({ id: 'game.rewardTitle' })}
-          </Modal.Title>
-          <Image
-            src="/pics/close.png"
-            alt={intl.formatMessage({ id: 'game.close' })}
-            width="40"
-            height="30"
-            className="mb-3"
-            style={{
-              cursor: 'pointer',
-              position: 'absolute',
-              top: '-22px',
-              right: '-20px',
-            }}
-            onClick={() => setShowModal(false)}
-          />
-        </Modal.Header>
-        <Modal.Body className="modal-body-success">
-          {intl.formatMessage({ id: 'game.rewardBody' })}
-        </Modal.Body>
+          {/* Modal 範例 */}
+          <Modal show={showModal} onHide={() => setShowModal(false)} centered>
+            <Modal.Header className="modal-header-success">
+              <Modal.Title className="modal-form py-3">
+                {intl.formatMessage({ id: 'game.rewardTitle' })}
+              </Modal.Title>
+              <Image
+                src="/pics/close.png"
+                alt={intl.formatMessage({ id: 'game.close' })}
+                width="40"
+                height="30"
+                className="mb-3"
+                style={{
+                  cursor: 'pointer',
+                  position: 'absolute',
+                  top: '-22px',
+                  right: '-20px',
+                }}
+                onClick={() => setShowModal(false)}
+              />
+            </Modal.Header>
+            <Modal.Body className="modal-body-success">
+              {intl.formatMessage({ id: 'game.rewardBody' })}
+            </Modal.Body>
 
-        <Modal.Footer className="modal-footer-success">
-          <Button
-            variant="success"
-            onClick={() => {
-              setShowModal(false)
-              modalShow()
-              setTimeout(() => {
-                router.push('/favorite/couponHistory')
-              }, 1000)
-            }}
-            className="pro-shadow" //profile.scss的屬性
-          >
-            {intl.formatMessage({ id: 'game.viewCoupon' })}
-          </Button>
-        </Modal.Footer>
-      </Modal>
+            <Modal.Footer className="modal-footer-success">
+              <Button
+                variant="success"
+                onClick={() => {
+                  setShowModal(false)
+                  modalShow()
+                  setTimeout(() => {
+                    router.push('/favorite/couponHistory')
+                  }, 1000)
+                }}
+                className="pro-shadow" //profile.scss的屬性
+              >
+                {intl.formatMessage({ id: 'game.viewCoupon' })}
+              </Button>
+            </Modal.Footer>
+          </Modal>
+        </>
+      )}
     </div>
   )
 }

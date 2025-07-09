@@ -47,6 +47,7 @@ export const enUS = {
   "cart.totalProducts": "Total Products",
   "cart.unitPrice": "Unit Price",
   "cart.validUntil": "Valid Until",
+
   "common.back": "Back",
   "common.success": "Success",
   "common.tel": "TEL",
@@ -70,6 +71,8 @@ export const enUS = {
   "footer.termsOfService": "Terms of Service",
   "footer.termsOfTransport": "Terms of Transport",
   "footer.time": "Time: Mon. to Fri. 8:30 - 17:30",
+
+  "game.rwdTip": "Please get the best experience when using the web version!",
   "game.close": "Close",
   "game.cloud": "Cloud",
   "game.dog": "Dog",
@@ -83,6 +86,7 @@ export const enUS = {
   "game.sun": "Sun",
   "game.title": "Mini Game",
   "game.viewCoupon": "View Coupon",
+
   "header.food": "Food",
   "header.living": "Living",
   "header.login": "Login",
@@ -91,12 +95,14 @@ export const enUS = {
   "header.outdoor": "Outdoor",
   "header.toggleLanguage": "Toggle Language",
   "header.toy": "Toys",
+
   "home.description": "Here, we provide a one-stop service for pets. From the latest pet supplies to professional pet diaries and forums, we are committed to creating a warm, fun, and loving online community. Explore our pet shop now and enjoy the beauty of love and companionship with your furry friends.",
   "home.featuredProducts": "Featured Products",
   "home.goShopping": "Go Shopping",
   "home.joinUs": "Join Us",
   "home.subtitle": "E-commerce Demo Platform",
   "home.title": "Exclusive Pet Paradise!!",
+
   "member.account": "Account",
   "member.address": "Address",
   "member.backToMemberPage": "Back to Member Page",
@@ -142,6 +148,7 @@ export const enUS = {
   "member.registerSuccess": "Register Success!!",
   "member.user": "User",
   "member.zipcode": "Zip Code",
+
   "orderList.deliveryMethod": "Delivery Method",
   "orderList.noOrders": "No orders have been placed yet",
   "orderList.orderDate": "Order Date",
@@ -203,6 +210,7 @@ export const enUS = {
   "product.sortPlaceholder": "Select sort order",
   "product.supplement": "Supplement",
   "product.toy": "Toy",
+
   "validation.accountFormat": "First character must be English, followed by numbers, total 6 characters",
   "validation.addressFormat": "Invalid address format",
   "validation.emailFormat": "Invalid email format",
@@ -212,6 +220,7 @@ export const enUS = {
   "validation.passwordFormat": "First character must be uppercase English, include numbers, minimum 6 characters",
   "validation.phoneFormat": "Invalid phone number format",
   "validation.zipcodeRequired": "Please select zip code",
+  
   "login.title": "Login",
   "login.account": "Account",
   "login.password": "Password",
