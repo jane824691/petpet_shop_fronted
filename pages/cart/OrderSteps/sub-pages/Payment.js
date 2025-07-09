@@ -1,9 +1,12 @@
 import { useState } from 'react'
 import TWZipCode from '@/components/tw-zipcode'
 import { useIntl } from 'react-intl'
+import { useLanguage } from '@/components/contexts/LanguageContext'
 
 export default function Payment(props) {
   const intl = useIntl()
+  const { locale } = useLanguage()
+  const langKey = locale === 'zh-TW' ? 'zh' : 'en'
   const { paymentData, setPaymentData } = props
   const [isChecked, setIsChecked] = useState(false)
 
@@ -109,10 +112,12 @@ export default function Payment(props) {
     setIsChecked(true)
     setPaymentData((prevData) => ({
       ...prevData,
-      name: '陳小豪',
+      name: locale === 'zh-TW' ? '陳小豪' : 'John Doe',
       phone: '0988123456',
       email: 'ispan@ispan.com',
-      address: '復興南路一段390號2樓',
+      address: locale === 'zh-TW' 
+      ? '復興南路一段390號2樓' 
+      : 'No. 2, Sec. 1, Fuxing S. Rd., Taipei City 106, Taiwan ',
       postcode: '106',
       pay_way: intl.formatMessage({ id: 'cart.cashOnDelivery' }),
     }))

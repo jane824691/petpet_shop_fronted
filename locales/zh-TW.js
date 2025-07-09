@@ -229,5 +229,11 @@ export const zhTW = {
   "login.confirm": "確定",
   "login.showPasswordAlt": "顯示密碼",
   "login.closeAlt": "關閉",
-  "login.errorAlt": "錯誤"
+  "login.errorAlt": "錯誤",
+  "zipcode.notFound": "找不到對應的城市和區域。",
+  "zipcode.city": "縣市",
+  "zipcode.district": "鄉鎮縣市",
+  "zipcode.code": "郵遞區號",
+  "zipcode.selectCity": "選擇縣市",
+  "zipcode.selectDistrict": "選擇區域"
 }

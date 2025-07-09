@@ -17,6 +17,7 @@ import {
   generateCartState,
 } from './cart-reducer-state'
 import useLocalStorage from './use-localstorage'
+import { useLanguage } from '@/components/contexts/LanguageContext'
 
 const CartContext = createContext(null)
 
@@ -62,6 +63,9 @@ export const CartProvider = ({
   // 初始化 setValue(localStoage), setValue用於存入localStorage中
   const [storedValue, setValue] = useLocalStorage(localStorageKey, items)
 
+  // 取得當前語言
+  const { locale } = useLanguage()
+
   // 當 cartItems 更動時 -> 更動 localStorage 中的值 -> 更動 cartState
   useEffect(() => {
     // 使用字串比較
@@ -74,11 +78,25 @@ export const CartProvider = ({
     // eslint-disable-next-line
   }, [cartItems])
 
+  // 當語言切換時，重新計算購物車狀態以更新商品名稱
+  useEffect(() => {
+    setCartState(generateCartState(cartState, cartItems))
+  }, [locale])
+
   /**
    * 加入新項目，重覆項目 quantity: quantity + 1
+   * 同時存中文名稱到 name 欄位，英文名稱到 name_en 欄位
    */
   const addItem = (item) => {
-    setCartItems(addOne(cartItems, item))
+    // 確保同時存中英文名稱
+    const itemWithBothNames = {
+      ...item,
+      // 如果 item 只有 name 欄位，則根據當前語言設定對應欄位
+      name: item.name_zh || item.name, // 中文名稱
+      name_en: item.name_en || item.name // 英文名稱
+    }
+
+    setCartItems(addOne(cartItems, itemWithBothNames))
   }
   /**
    * 給定一pid值，將這商品移出陣列中

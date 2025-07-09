@@ -231,5 +231,11 @@ export const enUS = {
   "login.confirm": "Confirm",
   "login.showPasswordAlt": "Show password",
   "login.closeAlt": "Close",
-  "login.errorAlt": "Error"
+  "login.errorAlt": "Error",
+  "zipcode.notFound": "No matching city or district found.",
+  "zipcode.city": "City/County",
+  "zipcode.district": "District/Township",
+  "zipcode.code": "Zip Code",
+  "zipcode.selectCity": "Select City/County",
+  "zipcode.selectDistrict": "Select District/Township"
 }

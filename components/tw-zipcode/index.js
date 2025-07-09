@@ -1,76 +1,88 @@
+// TWZipCode 元件：台灣縣市/區域/郵遞區號三聯選單，支援中英文國際化
 import { useEffect, useState } from 'react'
-import { countries, townships, postcodes } from './data-townships'
+import { useIntl } from 'react-intl'
+import { useLanguage } from '@/components/contexts/LanguageContext'
+import cityCountyData from '@/data/CityCountyData.json'
 
 export default function TWZipCode({
   initPostcode = '',
   onPostcodeChange = (country, township, postcode) => {},
 }) {
-
-  // 記錄陣列的索引值，預設值是-1，相當於"請選擇xxx"
+  // countryIndex: 當前選擇的縣市索引，-1 代表未選擇
+  // townshipIndex: 當前選擇的區域索引，-1 代表未選擇
   const [countryIndex, setCountryIndex] = useState(-1)
   const [townshipIndex, setTownshipIndex] = useState(-1)
 
-  // 郵遞區號使用字串(數字字串)
+  // postcode: 當前選擇的郵遞區號（字串）
   const [postcode, setPostcode] = useState('')
 
-  // 利用傳入時的initPostcode初始化用
+  // 取得當前語言（zh-TW 或 en-US）
+  const intl = useIntl()
+  const { locale } = useLanguage()
+  const langKey = locale === 'zh-TW' ? 'zh' : 'en'
+
+  // cityList: 所有縣市資料（來自 CityCountyData.json）
+  const cityList = cityCountyData
+  // selectedCityObj: 目前選擇的縣市物件
+  const selectedCityObj = countryIndex > -1 ? cityList[countryIndex] : null
+  // areaList: 目前縣市下所有區域資料
+  const areaList = selectedCityObj ? selectedCityObj.AreaList : []
+
+  // 初始化：根據傳入的 initPostcode，自動選好對應的縣市與區域
   useEffect(() => {
     if (initPostcode) {
       setPostcode(initPostcode)
-      // 使用initPostcode尋找對應的countryIndex, townshipIndex
-      for (let i = 0; i < postcodes.length; i++) {
-        for (let j = 0; j < postcodes[i].length; j++) {
-          if (postcodes[i][j] === initPostcode) {
-            setCountryIndex(i)
-            setTownshipIndex(j)
-            return // 跳出巢狀for迴圈
-          }
+      // 用 cityCountyData 來找對應的 index
+      for (let i = 0; i < cityCountyData.length; i++) {
+        const areaIdx = cityCountyData[i].AreaList.findIndex(area => area.ZipCode === initPostcode)
+        if (areaIdx > -1) {
+          setCountryIndex(i)
+          setTownshipIndex(areaIdx)
+          return
         }
       }
     }
   }, [initPostcode])
 
-  // 當countryIndex, townshipIndex均有值時，設定postcode值
-  useEffect(() => {
-    if (countryIndex > -1 && townshipIndex > -1) {
-      setPostcode(postcodes[countryIndex][townshipIndex])
-    }
-  }, [countryIndex, townshipIndex])
-
-  // 當使用者改變的countryIndex, townshipIndex，使用onPostcodeChange回傳至父母元件
+  // 當 postcode 變動時，將目前選擇的縣市、區域、郵遞區號回傳給父元件
   useEffect(() => {
     if (postcode && postcode !== initPostcode) {
       onPostcodeChange(
-        countries[countryIndex],
-        townships[countryIndex][townshipIndex],
+        selectedCityObj ? (langKey === 'zh' ? selectedCityObj.CityName : selectedCityObj.CityEngName) : '',
+        selectedCityObj && areaList[townshipIndex]
+          ? (langKey === 'zh' ? areaList[townshipIndex].AreaName : areaList[townshipIndex].AreaEngName)
+          : '',
         postcode
       )
     }
-  }, [postcode])
+  }, [postcode, countryIndex, townshipIndex, langKey])
+
+  // --- UI 區塊 ---
+  // 1. 縣市下拉選單：切換時會重置區域與郵遞區號
+  // 2. 區域下拉選單：切換時自動帶出對應郵遞區號
+  // 3. 郵遞區號 input：僅顯示，不可編輯
 
   return (
     <>
       <div className="row">
         <div className="col-12 col-sm-4 pb-3">
           <div>
-            縣市<span className="text-danger">*</span>
+            {intl.formatMessage({ id: 'zipcode.city', defaultMessage: '縣市' })}<span className="text-danger">*</span>
           </div>
           <select
             className="w-100"
             value={countryIndex}
             onChange={(e) => {
-              // 將字串轉成數字
+              // 選擇縣市時，重置區域與郵遞區號
               setCountryIndex(+e.target.value)
-              // 重置townshipIndex的值
               setTownshipIndex(-1)
-              // 重置postcode的值
               setPostcode('')
             }}
           >
-            <option value="-1">選擇縣市</option>
-            {countries.map((value, index) => (
+            <option value="-1">{intl.formatMessage({ id: 'zipcode.selectCity', defaultMessage: '選擇縣市' })}</option>
+            {cityList.map((city, index) => (
               <option key={index} value={index}>
-                {value}
+                {langKey === 'zh' ? city.CityName : city.CityEngName}
               </option>
             ))}
           </select>{' '}
@@ -78,33 +90,38 @@ export default function TWZipCode({
 
         <div className="col-12 col-sm-4 pb-3">
           <div>
-            鄉鎮縣市<span className="text-danger">*</span>
+            {intl.formatMessage({ id: 'zipcode.district', defaultMessage: '鄉鎮縣市' })}<span className="text-danger">*</span>
           </div>
           <select
             className="w-100"
             value={townshipIndex}
             onChange={(e) => {
-              // 將字串轉成數字
-              setTownshipIndex(+e.target.value)
+              // 選擇區域時，自動帶出對應郵遞區號
+              const idx = +e.target.value
+              setTownshipIndex(idx)
+              if (selectedCityObj && selectedCityObj.AreaList[idx]) {
+                setPostcode(selectedCityObj.AreaList[idx].ZipCode)
+              }
             }}
           >
-            <option value="-1">選擇區域</option>
+            <option value="-1">{intl.formatMessage({ id: 'zipcode.selectDistrict', defaultMessage: '選擇區域' })}</option>
             {countryIndex > -1 &&
-              townships[countryIndex].map((value, index) => (
+              areaList.map((area, index) => (
                 <option key={index} value={index}>
-                  {value}
+                  {langKey === 'zh' ? area.AreaName : area.AreaEngName}
                 </option>
               ))}
           </select>
         </div>
         <div className="col-12 col-sm-4 pb-3">
           <div>
-            郵遞區號<span className="text-danger">*</span>
+            {intl.formatMessage({ id: 'zipcode.code', defaultMessage: '郵遞區號' })}<span className="text-danger">*</span>
           </div>
           <input
-            value={postcode ? postcode : '郵遞區號'}
+            value={postcode ? postcode : intl.formatMessage({ id: 'zipcode.code', defaultMessage: '郵遞區號' })}
             className="rounded-5 p-2 w-100"
             style={{ color: postcode ? 'black' : 'gray' }}
+            readOnly
           />
         </div>
       </div>

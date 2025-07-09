@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react'
 import { useCart } from '@/components/hooks/use-cart-state'
 import ReverseLookup from './Zipcode_to_city'
 import { useIntl } from 'react-intl'
+import { useLanguage } from '@/components/contexts/LanguageContext'
+import productData from '@/data/Product.js'
 
 export default function OrderDetail({
   paymentData,
@@ -10,6 +12,7 @@ export default function OrderDetail({
   setConfirmedProductsInfo,
 }) {
   const intl = useIntl()
+  const { locale } = useLanguage()
   // 使用hooks 解出所需的狀態與函式(自context)
   const { cart, items } = useCart()
 
@@ -92,7 +95,7 @@ export default function OrderDetail({
                         />
                       </div>
                       <div className="col-6">
-                        {v.name}
+                        {locale === 'zh-TW' ? (v.name || '') : (v.name_en || v.name || '')}
                         <div>
                           <span>{intl.formatMessage({ id: 'product.quantity' })}：</span>
                           <span>{v.quantity}</span>
