@@ -220,6 +220,16 @@ export default function OrderUnderMember({ oid: propsOid, onStatusChange }) {
                             htmlFor="validationCustom01"
                             className="form-label font-grey-title"
                           >
+                            {intl.formatMessage({ id: 'member.customerNameEn' })}：
+                          </label>
+                          {orderData.length > 0 && (
+                            <span>{orderData[0].order_name_en || ' - '}</span>
+                          )}
+                          <br />
+                          <label
+                            htmlFor="validationCustom01"
+                            className="form-label font-grey-title"
+                          >
                             {intl.formatMessage({ id: 'common.tel' })}：
                           </label>
                           {orderData.length > 0 && (
@@ -260,6 +270,14 @@ export default function OrderUnderMember({ oid: propsOid, onStatusChange }) {
                               </span>
                             )}
                           </span>
+                          <br />
+                          <label
+                            htmlFor="validationCustom01"
+                            className="form-label font-grey-title"
+                          >
+                            {intl.formatMessage({ id: 'cart.shippingAddressEn' })}：
+                          </label>
+                          <span>{orderData[0]?.shipping_address_en || ' - '}</span>
                         </div>
                         <div
                           className="card-header card-big-title border border-0"

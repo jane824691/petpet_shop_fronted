@@ -27,9 +27,11 @@ function OrderSteps() {
   const [paymentData, setPaymentData] = useState({
     sid: '',
     name: '',
+    name_en: '',
     phone: '',
     email: '',
     address: '',
+    address_en: '',
     postcode: '',
     pay_way: '',
     pid: '',

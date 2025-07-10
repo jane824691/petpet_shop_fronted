@@ -112,12 +112,12 @@ export default function Payment(props) {
     setIsChecked(true)
     setPaymentData((prevData) => ({
       ...prevData,
-      name: locale === 'zh-TW' ? '陳小豪' : 'John Doe',
+      name: '陳小豪',
+      name_en: 'John Doe',
       phone: '0988123456',
       email: 'ispan@ispan.com',
-      address: locale === 'zh-TW' 
-      ? '復興南路一段390號2樓' 
-      : 'No. 2, Sec. 1, Fuxing S. Rd., Taipei City 106, Taiwan ',
+      address: '復興南路一段390號2樓',
+      address_en: 'No. 2, Sec. 1, Fuxing S. Rd., Taipei City 106, Taiwan ',
       postcode: '106',
       pay_way: intl.formatMessage({ id: 'cart.cashOnDelivery' }),
     }))
@@ -144,7 +144,7 @@ export default function Payment(props) {
               </div>
               <div className="card-body mx-3 mb-3">
                 <h5 className="card-title font-grey-title">
-                  {intl.formatMessage({ id: 'member.firstName' })}
+                  {intl.formatMessage({ id: 'member.customerName' })}
                   <span className="text-danger">*</span>
                 </h5>
                 <input
@@ -164,6 +164,21 @@ export default function Payment(props) {
                 >
                   {errors.name || (successMessage && intl.formatMessage({ id: 'common.success' }))}
                 </div>
+
+                <h5 className="card-title font-grey-title">
+                  {intl.formatMessage({ id: 'member.customerNameEn' })}
+                </h5>
+                <input
+                  className="form-control T-18 rounded-5"
+                  type="text"
+                  placeholder={intl.formatMessage({ id: 'member.pleaseEnterFirstNameEn' })}
+                  name="name_en"
+                  id="name_en"
+                  value={(paymentData && paymentData.name_en) || ''}
+                  onChange={changeHandler}
+                  onBlur={() => onBlurHandler('name_en')}
+                  onFocus={onFocusHandler}
+                />
                 <h5 className="card-title font-grey-title mt-3">
                   {intl.formatMessage({ id: 'common.tel' })}
                   <span className="text-danger">*</span>
@@ -255,6 +270,24 @@ export default function Payment(props) {
                 >
                   {errors.address || (successMessage && intl.formatMessage({ id: 'common.success' }))}
                 </div>
+
+                <h5 className="card-title font-grey-title mt-3">
+                  {intl.formatMessage({ id: 'cart.shippingAddressEn' })}
+                </h5>
+                <input
+                  className="form-control rounded-5"
+                  type="text"
+                  placeholder={intl.formatMessage({ id: 'member.pleaseEnterAddress' })}
+                  aria-label="default input example"
+                  name="address_en"
+                  id="address_en"
+                  value={(paymentData && paymentData.address_en) || ''}
+                  onChange={changeHandler}
+                  onBlur={() => onBlurHandler('address_en')}
+                  onFocus={onFocusHandler}
+                />
+
+
                 <div
                   className="form-check mt-3"
                   role="checkbox"

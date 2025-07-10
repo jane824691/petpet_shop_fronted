@@ -155,9 +155,17 @@ export default function OrderDetail({
                   htmlFor="validationCustom01"
                   className="form-label font-grey-title"
                 >
-                  {intl.formatMessage({ id: 'member.firstName' })}：
+                  {intl.formatMessage({ id: 'member.customerName' })}：
                 </label>
                 <span>{paymentData.name}</span>
+                <br />
+                <label
+                  htmlFor="validationCustom01"
+                  className="form-label font-grey-title"
+                >
+                  {intl.formatMessage({ id: 'member.customerNameEn' })}：
+                </label>
+                <span>{paymentData.name_en || ''}</span>
                 <br />
                 <label
                   htmlFor="validationCustom01"
@@ -192,6 +200,16 @@ export default function OrderDetail({
                   <ReverseLookup postcode={paymentData.postcode} />
                   {paymentData.postcode}
                   {paymentData.address}
+                </span>
+                <br />
+                <label
+                  htmlFor="validationCustom01"
+                  className="form-label font-grey-title"
+                >
+                  {intl.formatMessage({ id: 'cart.shippingAddressEn' })}：
+                </label>
+                <span>
+                  {paymentData?.address_en || ' - '}
                 </span>
               </div>
               <div
