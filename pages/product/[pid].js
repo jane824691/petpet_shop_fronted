@@ -173,9 +173,8 @@ export default function Detail() {
   }
 
   const sendComments = async () => {
-    const pid = +router.query.pid
+    const pid = +router.query.pid 
     const sid = JSON.parse(localStorage.getItem("auther"))?.sid;
-
     // 綜合安全檢查
     const securityCheck = SecurityUtils.securityCheck(commentsValue)
     
@@ -320,6 +319,11 @@ export default function Detail() {
             <button
               className="btn btn-outline-primary w-100"
               onClick={() => {
+                const sid = JSON.parse(localStorage.getItem("auther"))?.sid;
+                if (!sid) {
+                  toast.error(intl.formatMessage({ id: 'product.loginForAddCart' }))
+                  return
+                }
                 addItem({
                   pid: myProduct.pid,
                   name: myProduct.product_name,
@@ -340,6 +344,11 @@ export default function Detail() {
             <button
               className="btn btn-danger text-white w-100 fs-6"
               onClick={() => {
+                const sid = JSON.parse(localStorage.getItem("auther"))?.sid;
+                if (!sid) {
+                  toast.error(intl.formatMessage({ id: 'product.loginForAddCart' }))
+                  return
+                }
                 addItem({
                   pid: myProduct.pid,
                   name: myProduct.product_name,

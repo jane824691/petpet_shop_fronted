@@ -212,6 +212,7 @@ export const enUS = {
   "product.sortPlaceholder": "Select sort order",
   "product.supplement": "Supplement",
   "product.toy": "Toy",
+  "product.loginForAddCart": "Please login first to add to cart",
 
   "validation.accountFormat": "First character must be English, followed by numbers, total 6 characters",
   "validation.addressFormat": "Invalid address format",

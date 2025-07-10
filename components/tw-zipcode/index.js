@@ -66,7 +66,7 @@ export default function TWZipCode({
     <>
       <div className="row">
         <div className="col-12 col-sm-4 pb-3">
-          <div>
+          <div className='pb-2'>
             {intl.formatMessage({ id: 'zipcode.city', defaultMessage: '縣市' })}<span className="text-danger">*</span>
           </div>
           <select
@@ -89,7 +89,7 @@ export default function TWZipCode({
         </div>
 
         <div className="col-12 col-sm-4 pb-3">
-          <div>
+          <div className='pb-2'>
             {intl.formatMessage({ id: 'zipcode.district', defaultMessage: '鄉鎮縣市' })}<span className="text-danger">*</span>
           </div>
           <select
@@ -114,7 +114,7 @@ export default function TWZipCode({
           </select>
         </div>
         <div className="col-12 col-sm-4 pb-3">
-          <div>
+          <div className='pb-2'>
             {intl.formatMessage({ id: 'zipcode.code', defaultMessage: '郵遞區號' })}<span className="text-danger">*</span>
           </div>
           <input

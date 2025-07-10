@@ -48,7 +48,7 @@ export default function Payment(props) {
     const newErrors = {}
     // 檢查名字格式
     if (!/[\u4e00-\u9fa5]+/.test(paymentData.name.trim())) {
-      newErrors.name = intl.formatMessage({ id: 'validation.firstnameChinese' })
+      newErrors.name = intl.formatMessage({ id: 'cart.nameNotFilled' })
     } else {
       newErrors.name = '' // 清空錯誤訊息
     }

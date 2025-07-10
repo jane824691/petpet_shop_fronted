@@ -210,6 +210,7 @@ export const zhTW = {
   "product.sortPlaceholder": "請選擇排序",
   "product.supplement": "保健食品",
   "product.toy": "抓板玩具",
+  "product.loginForAddCart": "請先登入才能加入購物車",
 
   "validation.accountFormat": "首字英文，加數字共需6碼",
   "validation.addressFormat": "地址格式錯誤",
