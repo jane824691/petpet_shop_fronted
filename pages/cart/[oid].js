@@ -6,9 +6,11 @@ import ReverseLookup from './OrderSteps/sub-pages/Zipcode_to_city'
 import AuthContext from '@/components/contexts/AuthContext'
 import { CatLoader } from '@/components/hooks/use-loader/components'
 import { useIntl } from 'react-intl'
+import { useLanguage } from '@/components/contexts/LanguageContext'
 
 export default function OrderUnderMember({ oid: propsOid, onStatusChange }) {
   const intl = useIntl()
+  const { locale } = useLanguage()
   //跳轉用
   const router = useRouter()
   const [orderData, setOrderData] = useState([])
@@ -136,7 +138,7 @@ export default function OrderUnderMember({ oid: propsOid, onStatusChange }) {
                         </h5>
                         <div className="card-body mx-3">
                           {orderData.map((v, i) => (
-                            <div className="row extinct-product" key={v.oid}>
+                            <div className="row extinct-product" key={i}>
                               <div className="col-3">
                                 <img
                                   src={`/image/product/${v.product_img}`}
@@ -145,7 +147,7 @@ export default function OrderUnderMember({ oid: propsOid, onStatusChange }) {
                                 />
                               </div>
                               <div className="col-6">
-                                {v.product_name}
+                                {locale === 'zh-TW' ? (v.product_name || '') : (v.product_name_en || v.product_name || '')}
                                 <div>
                                   <span>{intl.formatMessage({ id: 'product.quantity' })}：</span>
                                   <span>{v.actual_amount}</span>
