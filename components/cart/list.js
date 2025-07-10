@@ -126,7 +126,7 @@ export default function CartList(props) {
                             img: 'd2a9f8e12b76b2aff433f62946427ab895c2de81.jpg',
                             quantity: 5,
                             price: 550,
-                            name_zh: 'tails&me 尾巴與我｜經典尼龍帶系列 雙色標準款多功能牽繩',
+                            name: 'tails&me 尾巴與我｜經典尼龍帶系列 雙色標準款多功能牽繩',
                             name_en: 'tails&me | Classic Nylon Series - Double-Color Standard Multi-Purpose Leash',
                           })
                           addingCartAnimation(true)

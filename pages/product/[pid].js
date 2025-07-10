@@ -6,8 +6,8 @@ import { useCart } from '@../../../components/hooks/use-cart-state'
 import toast, { Toaster } from 'react-hot-toast'
 import { useHeaderAnimation } from '@/components/contexts/HeaderAnimationContext';
 import { CatLoader } from '@/components/hooks/use-loader/components'
-import { entries } from 'lodash'
 import { useIntl } from 'react-intl'
+import { useLanguage } from '@/components/contexts/LanguageContext'
 
 export default function Detail() {
   const { addItem } = useCart()
@@ -21,7 +21,7 @@ export default function Detail() {
   const [isOverWordsAmounts, setIsOverWordsAmounts] = useState(false)
   const [hasBadWords, setHasBadWords] = useState(false)
 
-
+  const { locale } = useLanguage()
   const [myProduct, setMyProduct] = useState({
     pid: '',
     img: '',
@@ -41,7 +41,7 @@ export default function Detail() {
   const fetchProduct = async () => {
     const pid = +router.query.pid
     try {
-      const response = await fetch(ONE_PRODUCT + `/${pid}?lang=${lang}`, {
+      const response = await fetch(ONE_PRODUCT + `/${pid}`, {
         headers: {
           'Accept-Language': lang, // 很多後端（尤其是 Express、NestJS、Spring Boot 等）會優先判斷 Accept-Language header，而不是 query string 
         },
@@ -244,10 +244,10 @@ export default function Detail() {
 
         <div className="col-md-5 ps-4 pt-5 pt-md-0 descriptionPart">
           <h4 id="name" name="name">
-            {myProduct.product_name}
+            {locale === 'zh-TW' ? myProduct.product_name : myProduct.product_name_en}
           </h4>
 
-          <p className="product-desc">{myProduct.product_description}</p>
+          <p className="product-desc">{locale === 'zh-TW' ? myProduct.product_description : myProduct.product_description_en}</p>
 
           <div className="text-center">
             <div className="row align-items-start d-flex amount-btn-group-wide align-items-center justify-content-center">
@@ -294,6 +294,7 @@ export default function Detail() {
                 addItem({
                   pid: myProduct.pid,
                   name: myProduct.product_name,
+                  name_en: myProduct.product_name_en,
                   quantity: total,
                   price: myProduct.product_price,
                   img: myProduct.product_img,
@@ -313,6 +314,7 @@ export default function Detail() {
                 addItem({
                   pid: myProduct.pid,
                   name: myProduct.product_name,
+                  name_en: myProduct.product_name_en,
                   quantity: total,
                   price: myProduct.product_price,
                   img: myProduct.product_img,

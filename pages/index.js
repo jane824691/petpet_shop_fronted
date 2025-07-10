@@ -15,7 +15,7 @@ export default function Home() {
 
   const getRecommendProductData = async () => {
     try {
-      const r = await fetch(PRODUCT_RECOMMEND + `?lang=${lang}`, {
+      const r = await fetch(PRODUCT_RECOMMEND, {
         headers: {
           'Accept-Language': lang, // 很多後端（尤其是 Express、NestJS、Spring Boot 等）會優先判斷 Accept-Language header，而不是 query string 
         },

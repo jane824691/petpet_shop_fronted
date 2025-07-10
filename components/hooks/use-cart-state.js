@@ -24,7 +24,8 @@ const CartContext = createContext(null)
 // cartItem = {
 //   id: '',
 //   quantity: 0,
-//   name: '',
+//   name: '',           // 中文名稱
+//   name_en: '',        // 英文名稱
 //   price: 0,
 // }
 
@@ -85,18 +86,18 @@ export const CartProvider = ({
 
   /**
    * 加入新項目，重覆項目 quantity: quantity + 1
-   * 同時存中文名稱到 name 欄位，英文名稱到 name_en 欄位
+   * 同時存中英文名稱到對應欄位
    */
   const addItem = (item) => {
     // 確保同時存中英文名稱
-    const itemWithBothNames = {
+    const itemWithBothLanguages = {
       ...item,
-      // 如果 item 只有 name 欄位，則根據當前語言設定對應欄位
-      name: item.name_zh || item.name, // 中文名稱
-      name_en: item.name_en || item.name // 英文名稱
+      // 商品名稱：如果 item 有 name_zh 和 name_en，則使用；否則根據當前語言設定對應欄位
+      name: item.name_zh || item.name || item.product_name, // 中文名稱
+      name_en: item.name_en || item.product_name_en || item.name || item.product_name, // 英文名稱
     }
 
-    setCartItems(addOne(cartItems, itemWithBothNames))
+    setCartItems(addOne(cartItems, itemWithBothLanguages))
   }
   /**
    * 給定一pid值，將這商品移出陣列中
