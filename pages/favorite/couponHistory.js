@@ -56,7 +56,7 @@ export default function CouponHistory() {
         {/* 使用 map 改成 div */}
         {/* Array處理異步[]沒抓到值的狀況 */}
         {Array.isArray(mydata) &&
-          mydata.map((coupon) => (
+          mydata.slice().reverse().map((coupon) => (
             <div
               key={coupon.coupon_id}
               className={`row w-75 ${style.eachCoupon} ${

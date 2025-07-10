@@ -122,14 +122,12 @@ export default function Game() {
       if (response.ok) {
         const responseData = await response.json()
         // 在這里處理 coupon 表的後端回傳數據
-        // console.log('Coupon 資料新增成功:', responseData)
 
         // 同時發起 coupon_use 表的請求
         const couponUseRequestData = {
           coupon_id: responseData.couponResult.insertId,
           sid: auther.sid,
         }
-        // console.log(JSON.stringify(couponUseRequestData))
         const couponUseResponse = await fetch(COUPON_USE_ADD, {
           method: 'POST',
           body: JSON.stringify(couponUseRequestData),
@@ -190,9 +188,8 @@ export default function Game() {
       let newDogImageSrc = dogImageSrc //方向鍵的圖片切換
 
       if (keyStates.ArrowRight) {
-        //setDogImageSrc('/pics/dogImage.png')
         if (dogImageSrc === '/pics/dogImage.png') {
-          newDogImageSrc = '/pics/dogrun.png'
+          newDogImageSrc = '/pics/dogRun.png'
         } else {
           newDogImageSrc = '/pics/dogImage.png'
         }
@@ -200,9 +197,8 @@ export default function Game() {
         setDogImageSrc(newDogImageSrc)
       }
       if (keyStates.ArrowLeft) {
-        //newDogImageSrc = ('/pics/dogwalk.png')
         if (dogImageSrc === '/pics/dogwalk.png') {
-          newDogImageSrc = '/pics/dogrun2.png'
+          newDogImageSrc = '/pics/dogRun2.png'
         } else {
           newDogImageSrc = '/pics/dogwalk.png'
         }
@@ -228,7 +224,6 @@ export default function Game() {
   const downHandler = useCallback(
     (e) => {
       e.preventDefault()
-      // console.log(e.code)
       setKeyStates((prevKeyStates) => ({
         ...prevKeyStates,
         [e.code]: true,
@@ -302,7 +297,6 @@ export default function Game() {
         dogRect.bottom > randomImage2Rect.top &&
         dogRect.top < randomImage2Rect.bottom)
     ) {
-      // console.log('Dog eat the food!')
       setFoodEaten(true) // 更新 foodEaten 狀態
       setShowModal(true) // 顯示 Modal
       //modalShow()
@@ -441,10 +435,8 @@ export default function Game() {
                   id="pinkcatImage"
                   style={{ cursor: 'grab' }}
                   onClick={() => {
-                    // console.log('Current Theme:', theme.name)
                     if (theme.name === 'default') {
                       setTheme(themes.info)
-                      // console.log('Button:')
                       setButtonImage('/pics/keyboard-blue.png')
                     } else if (theme.name === 'info') {
                       setTheme(themes.secondary)
