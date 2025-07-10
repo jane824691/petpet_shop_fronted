@@ -179,6 +179,8 @@ export const zhTW = {
   "product.commentSend": "發表",
   "product.commentSuccess": "留言成功!!",
   "product.commentTooLong": "評論字數不可超過 300 字",
+  "product.commentSecurityError": "評論包含危險內容，請重新輸入",
+  "product.commentInvalidContent": "評論內容格式不正確，請重新輸入",
   "product.dryFood": "乾飼料",
   "product.filter": "篩選",
   "product.filterBtn": "篩選條件",

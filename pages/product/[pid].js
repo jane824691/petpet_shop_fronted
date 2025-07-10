@@ -8,6 +8,7 @@ import { useHeaderAnimation } from '@/components/contexts/HeaderAnimationContext
 import { CatLoader } from '@/components/hooks/use-loader/components'
 import { useIntl } from 'react-intl'
 import { useLanguage } from '@/components/contexts/LanguageContext'
+import SecurityUtils from '@/utils/inputCheck'
 
 export default function Detail() {
   const { addItem } = useCart()
@@ -157,6 +158,16 @@ export default function Detail() {
 
   const handleCommentChange = (e) => {
     const value = e.target.value
+    
+    // 即時安全檢查
+    const securityCheck = SecurityUtils.securityCheck(value)
+    
+    // 如果包含危險內容，阻止輸入
+    if (!securityCheck.isValid && securityCheck.errors.invalidInput) {
+      toast.error(intl.formatMessage({ id: 'product.commentSecurityError' }))
+      return
+    }
+    
     setCommentsValue(value)
     setHasBadWords(containsBadWords(value.toLowerCase()))
   }
@@ -165,14 +176,32 @@ export default function Detail() {
     const pid = +router.query.pid
     const sid = JSON.parse(localStorage.getItem("auther"))?.sid;
 
-    if (commentsValue.length === 0) {
-      toast.error(intl.formatMessage({ id: 'product.commentRequired' }))
-      return
+    // 綜合安全檢查
+    const securityCheck = SecurityUtils.securityCheck(commentsValue)
+    
+    if (!securityCheck.isValid) {
+      if (securityCheck.errors.invalidInput) {
+        toast.error(intl.formatMessage({ id: 'product.commentSecurityError' }))
+        return
+      }
+      if (securityCheck.sanitized.length === 0) {
+        toast.error(intl.formatMessage({ id: 'product.commentInvalidContent' }))
+        return
+      }
+      if (securityCheck.errors.invalidLength) {
+        toast.error(intl.formatMessage({ id: 'product.commentTooLong' }))
+        setIsOverWordsAmounts(true)
+        return
+      }
+      if (securityCheck.errors.invalidContent) {
+        toast.error(intl.formatMessage({ id: 'product.commentInvalidContent' }))
+        return
+      }
     }
 
-    if (commentsValue.length > 300) {
-      toast.error(intl.formatMessage({ id: 'product.commentTooLong' }))
-      setIsOverWordsAmounts(true)
+    // 如果內容為空，則阻止送出
+    if (commentsValue.length === 0) {
+      toast.error(intl.formatMessage({ id: 'product.commentRequired' }))
       return
     }
 
@@ -188,7 +217,7 @@ export default function Detail() {
         body: JSON.stringify({
           sid: sid,
           pid: pid,
-          content: commentsValue,
+          content: securityCheck.sanitized, // 使用清理後的內容
         }),
         headers: {
           'Content-Type': 'application/json',
@@ -380,6 +409,22 @@ export default function Detail() {
               maxLength={300}
               value={commentsValue}
               onChange={handleCommentChange}
+              onPaste={(e) => {
+                // 防止貼上危險內容
+                const pastedText = e.clipboardData.getData('text')
+                const securityCheck = SecurityUtils.securityCheck(pastedText)
+                if (!securityCheck.isValid && securityCheck.errors.invalidInput) {
+                  e.preventDefault()
+                  toast.error(intl.formatMessage({ id: 'product.commentSecurityError' }))
+                }
+              }}
+              onDrop={(e) => {
+                // 防止拖拽危險內容
+                e.preventDefault()
+                toast.error(intl.formatMessage({ id: 'product.commentSecurityError' }))
+              }}
+              spellCheck="false"
+              autoComplete="off"
             />
             {commentsValue && (
               <button
@@ -432,7 +477,7 @@ export default function Detail() {
                       className={`mb-1 ${expandedIndexes[index] ? '' : 'text-truncate-3'}`}
                       style={{ whiteSpace: 'pre-wrap' }}
                     >
-                      {comment.content || intl.formatMessage({ id: 'product.commentNoContent' })}
+                      {SecurityUtils.sanitizeHTML(comment.content) || intl.formatMessage({ id: 'product.commentNoContent' })}
                     </p>
 
                     {/* 留言時間 */}

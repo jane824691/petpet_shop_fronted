@@ -181,6 +181,8 @@ export const enUS = {
   "product.commentSend": "Send",
   "product.commentSuccess": "Comment posted successfully!!",
   "product.commentTooLong": "Comment cannot exceed 300 characters",
+  "product.commentSecurityError": "Comment contains dangerous content, please re-enter",
+  "product.commentInvalidContent": "Comment content format is incorrect, please re-enter",
   "product.dryFood": "Dry Food",
   "product.filter": "Filter",
   "product.filterBtn": "Filter Options",
