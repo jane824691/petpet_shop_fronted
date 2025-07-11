@@ -10,7 +10,7 @@ const ReverseLookup = ({ postcode = '' }) => {
   const { locale } = useLanguage()
 
   useEffect(() => {
-    setPostalCode(postcode)
+    setPostalCode(String(postcode))
   }, [postcode])
 
   useEffect(() => {
@@ -18,7 +18,7 @@ const ReverseLookup = ({ postcode = '' }) => {
     const searchPostalCode = () => {
       for (const cityObj of cityCountyData) {
         for (const area of cityObj.AreaList) {
-          if (area.ZipCode === postalCode) {
+          if (area.ZipCode === String(postalCode)) {
             setCityTown({
               city: cityObj,
               district: area,
@@ -36,8 +36,8 @@ const ReverseLookup = ({ postcode = '' }) => {
     <span>
       {cityTown && (
         <span>
-          <span>{locale === 'zh-TW' ? cityTown.city.CityName : cityTown.city.CityEngName}</span>
-          <span>{locale === 'zh-TW' ? cityTown.district.AreaName : cityTown.district.AreaEngName}</span>
+          <span className={`${locale === 'zh-TW' ? '' : 'pe-1'}`}>{locale === 'zh-TW' ? cityTown.city.CityName : cityTown.city.CityEngName}</span>
+          <span className={`${locale === 'zh-TW' ? '' : 'pe-1'}`}>{locale === 'zh-TW' ? cityTown.district.AreaName : cityTown.district.AreaEngName}</span>
         </span>
       )}
       {cityTown === null && (

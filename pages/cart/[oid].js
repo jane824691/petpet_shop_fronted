@@ -212,7 +212,7 @@ export default function OrderUnderMember({ oid: propsOid, onStatusChange }) {
                             htmlFor="validationCustom01"
                             className="form-label font-grey-title"
                           >
-                            {intl.formatMessage({ id: 'member.firstName' })}：
+                            {intl.formatMessage({ id: 'member.recipientName' })}：
                           </label>
                           {orderData.length > 0 && (
                             <span>{orderData[0].order_name}</span>
@@ -222,7 +222,7 @@ export default function OrderUnderMember({ oid: propsOid, onStatusChange }) {
                             htmlFor="validationCustom01"
                             className="form-label font-grey-title"
                           >
-                            {intl.formatMessage({ id: 'member.customerNameEn' })}：
+                            {intl.formatMessage({ id: 'member.recipientNameEn' })}：
                           </label>
                           {orderData.length > 0 && (
                             <span>{orderData[0].order_name_en || ' - '}</span>
@@ -267,7 +267,9 @@ export default function OrderUnderMember({ oid: propsOid, onStatusChange }) {
                                 <ReverseLookup
                                   postcode={orderData[0].shipping_zipcode}
                                 />
-                                {orderData[0].shipping_zipcode}
+                                <span className={`${locale === 'zh-TW' ? '' : 'pe-1'}`}>
+                                  {orderData[0].shipping_zipcode}
+                                </span>
                                 {orderData[0].shipping_address}
                               </span>
                             )}

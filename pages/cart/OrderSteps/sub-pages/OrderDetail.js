@@ -3,7 +3,6 @@ import { useCart } from '@/components/hooks/use-cart-state'
 import ReverseLookup from './Zipcode_to_city'
 import { useIntl } from 'react-intl'
 import { useLanguage } from '@/components/contexts/LanguageContext'
-import productData from '@/data/Product.js'
 
 export default function OrderDetail({
   paymentData,
@@ -155,7 +154,7 @@ export default function OrderDetail({
                   htmlFor="validationCustom01"
                   className="form-label font-grey-title"
                 >
-                  {intl.formatMessage({ id: 'member.customerName' })}：
+                  {intl.formatMessage({ id: 'member.recipientName' })}：
                 </label>
                 <span>{paymentData.name}</span>
                 <br />
@@ -163,7 +162,7 @@ export default function OrderDetail({
                   htmlFor="validationCustom01"
                   className="form-label font-grey-title"
                 >
-                  {intl.formatMessage({ id: 'member.customerNameEn' })}：
+                  {intl.formatMessage({ id: 'member.recipientNameEn' })}：
                 </label>
                 <span>{paymentData.name_en || ''}</span>
                 <br />
