@@ -96,15 +96,10 @@ export default function Payment(props) {
 
   const handleRadioChange = (optionId) => {
     setSelectedOption(optionId)
-    // 根據選項設置支付方式, 點選可存回資料庫
+    // 根據選項設置支付方式，只存 1 或 2
     setPaymentData({
       ...paymentData,
-      pay_way:
-        optionId === 'flexRadioDefault1'
-          ? intl.formatMessage({ id: 'cart.cashOnDelivery' })
-          : optionId === 'flexRadioDefault2'
-            ? intl.formatMessage({ id: 'cart.creditCard' })
-            : '',
+      pay_way: optionId === 'flexRadioDefault1' ? 1 : optionId === 'flexRadioDefault2' ? 2 : '',
     })
   }
 
@@ -119,7 +114,7 @@ export default function Payment(props) {
       address: '復興南路一段390號2樓',
       address_en: 'No. 2, Sec. 1, Fuxing S. Rd., Taipei City 106, Taiwan ',
       postcode: '106',
-      pay_way: intl.formatMessage({ id: 'cart.cashOnDelivery' }),
+      pay_way: 1,
     }))
     setSelectedOption('flexRadioDefault1')
   }
@@ -332,23 +327,16 @@ export default function Payment(props) {
               <div className="card-body mx-3">
                 <div>
                   <div
-                    className={`form-check mb-3 form-control rounded-5 ${selectedOption === 'flexRadioDefault1' ||
-                        paymentData?.pay_way === intl.formatMessage({ id: 'cart.cashOnDelivery' })
-                        ? 'radius-plus-form'
-                        : ''
-                      }`}
+                    className={`form-check mb-3 form-control rounded-5 ${selectedOption === 'flexRadioDefault1' || paymentData?.pay_way === 1 ? 'radius-plus-form' : ''}`}
                   >
                     <input
                       className="form-check-input mx-1 rounded-5"
                       type="radio"
                       name="flexRadioDefault"
                       id="flexRadioDefault1"
-                      checked={
-                        selectedOption === 'flexRadioDefault1' ||
-                        paymentData?.pay_way === intl.formatMessage({ id: 'cart.cashOnDelivery' })
-                      }
+                      checked={selectedOption === 'flexRadioDefault1' || paymentData?.pay_way === 1}
                       onChange={() => handleRadioChange('flexRadioDefault1')}
-                      value={intl.formatMessage({ id: 'cart.cashOnDelivery' })}
+                      value={1}
                     />
                     <label
                       className="form-check-label mx-2"
@@ -358,23 +346,16 @@ export default function Payment(props) {
                     </label>
                   </div>
                   <div
-                    className={`form-check mb-3 form-control rounded-5 ${selectedOption === 'flexRadioDefault2' ||
-                        paymentData?.pay_way === intl.formatMessage({ id: 'cart.creditCard' })
-                        ? 'radius-plus-form'
-                        : ''
-                      }`}
+                    className={`form-check mb-3 form-control rounded-5 ${selectedOption === 'flexRadioDefault2' || paymentData?.pay_way === 2 ? 'radius-plus-form' : ''}`}
                   >
                     <input
                       className="form-check-input mx-1 rounded-5"
                       type="radio"
                       name="flexRadioDefault"
                       id="flexRadioDefault2"
-                      checked={
-                        selectedOption === 'flexRadioDefault2' ||
-                        paymentData?.pay_way === intl.formatMessage({ id: 'cart.creditCard' })
-                      }
+                      checked={selectedOption === 'flexRadioDefault2' || paymentData?.pay_way === 2}
                       onChange={() => handleRadioChange('flexRadioDefault2')}
-                      value={intl.formatMessage({ id: 'cart.creditCard' })}
+                      value={2}
                     />
                     <label
                       className="form-check-label mx-2"

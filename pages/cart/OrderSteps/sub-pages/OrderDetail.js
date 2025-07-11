@@ -59,6 +59,21 @@ export default function OrderDetail({
     e.preventDefault()
   }
 
+  // 付款方式多語系對應
+  const getPayWayText = (payWay) => {
+    if (payWay === 1 || payWay === '1') {
+      return locale === 'zh-TW'
+        ? intl.formatMessage({ id: 'cart.cod' }) // 貨到付款
+        : 'Cash on Delivery'
+    }
+    if (payWay === 2 || payWay === '2') {
+      return locale === 'zh-TW'
+        ? intl.formatMessage({ id: 'cart.creditCard' }) // 信用卡
+        : 'Credit Card'
+    }
+    return '-'
+  }
+
   return (
     <>
       <h3 className="mx-5 py-3 pt-5">{intl.formatMessage({ id: 'cart.orderDetails' })}</h3>
@@ -224,7 +239,7 @@ export default function OrderDetail({
                 >
                   {intl.formatMessage({ id: 'cart.paymentMethod' })}：
                 </label>
-                <span>{paymentData.pay_way}</span>
+                <span>{getPayWayText(paymentData.pay_way)}</span>
               </div>
             </div>
           </div>

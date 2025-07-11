@@ -48,7 +48,9 @@ export const enUS = {
   "cart.totalProducts": "Total Products",
   "cart.unitPrice": "Unit Price",
   "cart.validUntil": "Valid Until",
-
+  'cart.cod': 'Cash on Delivery',
+  'cart.creditCard': 'Credit Card',
+  
   "common.back": "Back",
   "common.success": "Success",
   "common.tel": "TEL",

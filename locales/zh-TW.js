@@ -48,6 +48,8 @@ export const zhTW = {
   "cart.totalProducts": "總計商品",
   "cart.unitPrice": "單價",
   "cart.validUntil": "至",
+  'cart.cod': '貨到付款',
+  'cart.creditCard': '信用卡',
 
   "common.back": "返回",
   "common.success": "成功",
@@ -221,7 +223,7 @@ export const zhTW = {
   "validation.addressFormat": "地址格式錯誤",
   "validation.emailFormat": "EMAIL 格式錯誤",
   "validation.firstnameChinese": "名字需填寫中文字",
-  "validation.idFormat": "身分證字號格式錯誤",  
+  "validation.idFormat": "身分證字號格式錯誤",
   "validation.lastnameChinese": "姓氏需填寫中文字",
   "validation.passwordFormat": "首字英文大寫，含數字且至少需6碼",
   "validation.phoneFormat": "電話號碼格式錯誤",

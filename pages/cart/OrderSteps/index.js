@@ -156,7 +156,7 @@ function OrderSteps() {
     const responseData = await r.json()
 
     if (responseData.success) {
-      if (paymentData.pay_way === intl.formatMessage({ id: 'cart.cashOnDelivery' })) {
+      if (paymentData.pay_way === 1) {
         toast.success(intl.formatMessage({ id: 'cart.orderCompletedRedirect' }))
         setTimeout(() => {
           router.push('/member/member-orderList')
