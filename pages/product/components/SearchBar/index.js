@@ -11,7 +11,7 @@ function SearchBar(props) {
       <div>
         <form className="navbar-form navbar-left" role="search">
           <div className="search-group">
-            <h5 className="mb-3">{intl.formatMessage({ id: 'product.filter' })}</h5>
+            <div className="mb-3 fs-md-4">{intl.formatMessage({ id: 'product.filter' })}</div>
             <input
               type="search"
               className="form-control rounded-5 search-input search-bar mb-3"

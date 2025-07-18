@@ -87,27 +87,7 @@ export default function PetpetHeader() {
 
           {/* <!-- header右邊 --> */}
           <div className={styles.headerRight}>
-          <div
-              className={`${styles.headerRightIcon} d-flex align-items-center`}
-              onClick={toggleLanguage}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter' || e.key === ' ') {
-                  e.preventDefault();
-                  toggleLanguage();
-                }
-              }}
-              role="button"
-              tabIndex={0}
-              aria-label={intl.formatMessage({ id: 'header.toggleLanguage' })}
-            >
-              <div className={`${styles.headerRightIconLink}`}>
-                {isZH ? (
-                  <span>中</span>
-                ) : (
-                  <span>EN</span>
-                )}
-              </div>
-            </div>
+
 
 
             {auther.account ? (
@@ -141,6 +121,27 @@ export default function PetpetHeader() {
             ) : (
               <>{/* 在 auther.account 不存在的情況下，隱藏 ICONS */}</>
             )}
+            <div
+              className={`${styles.headerRightIcon} d-flex align-items-center`}
+              onClick={toggleLanguage}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault();
+                  toggleLanguage();
+                }
+              }}
+              role="button"
+              tabIndex={0}
+              aria-label={intl.formatMessage({ id: 'header.toggleLanguage' })}
+            >
+              <div className={`${styles.headerRightIconLink}`}>
+                {isZH ? (
+                  <span>中</span>
+                ) : (
+                  <span>EN</span>
+                )}
+              </div>
+            </div>
             {auther.account ? (
               <>
                 <div className={styles.headerRightAccount}>
@@ -154,7 +155,7 @@ export default function PetpetHeader() {
                 >
                   <Link
                     className={`${styles.headerRightIconLink} text-decoration-none`}
-                    style={{ color: 'white'}}
+                    style={{ color: 'white' }}
                     href="/member/login"
                   >
                     {intl.formatMessage({ id: 'header.login' })}

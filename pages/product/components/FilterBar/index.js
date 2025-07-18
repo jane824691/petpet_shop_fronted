@@ -24,7 +24,7 @@ function FilterBar(props) {
   return (
     <>
       <div className="search-group">
-        <h5 className="mb-2">{intl.formatMessage({ id: 'product.price' })}</h5>
+        <h5 className="mb-2 fs-md-4">{intl.formatMessage({ id: 'product.price' })}</h5>
         {priceRangeTypes && priceRangeTypes.map((value, i) => (
           <PriceRangeRadio
             key={i}
@@ -36,7 +36,7 @@ function FilterBar(props) {
         <hr />
       </div>
       <div className="search-group">
-        <h5>
+        <div className="fs-md-4">
           {intl.formatMessage({ id: 'product.category' })}
           <button
             className="btn btn-link btn-sm"
@@ -49,7 +49,7 @@ function FilterBar(props) {
           >
             {intl.formatMessage({ id: 'product.reset' })}
           </button>
-        </h5>
+        </div>
         <p>{intl.formatMessage({ id: 'product.includeHint' })}</p>
         {tagTypes && tagTypes.map((value, i) => (
           <TagCheckbox

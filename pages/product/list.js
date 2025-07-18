@@ -347,7 +347,7 @@ export default function List() {
               </div>
             ) : (
               <>
-                <div className="d-flex flex-column px-3 px-md-1">
+                <div className="d-flex flex-column px-0 px-md-1">
                   <div className="row mt-2 mb-3">
                     <h5 className="card-text d-flex justify-content-center justify-content-md-between align-items-center">
                       <span className="ps-3"> </span>

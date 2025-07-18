@@ -8,7 +8,6 @@
   align-items: center;
   width: 100%;
   height: 90px;
-  gap: 4vw;
   flex-wrap: wrap;
 }
 .logoLink {
@@ -129,13 +128,16 @@
 
 /* Tablet and Smaller Desktop */
 @media screen and (max-width: 960px) {
+  .headerMiddle {
+    gap: 1vw;
+  }
   .headerMiddleItem {
     font-size: 16px;
     margin: 0 6px;
   }
   .logo {
     height: 46px;
-    width: 100%;
+    width: 90%;
   }
   .brandName, .headerRightIconLink {
     font-size: 16px;
@@ -186,11 +188,12 @@
     }
   }
 }
-@media screen and (max-width: 400px) {
+@media screen and (max-width: 450px) {
   .container {
     justify-content: space-around;
-    .brandName, .headerRightIconLink, .headerMiddleItem{
-      font-size: 12px;
+
+    .headerRightIconLink, .headerMiddleItem{
+      font-size: 14px;
     }
     .brandName {
       display: none;
@@ -202,6 +205,12 @@
     .headerMiddle {
       gap: 0;
     }
+    .headerRightIconLink, .headerMiddleItem{
+      font-size: 12px;
+    }
+    .logo {
+      width: 80%;
+  }
     .foodPart,
     .outdoorPart,
     .toyPart {

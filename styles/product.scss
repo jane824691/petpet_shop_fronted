@@ -108,7 +108,7 @@ right: 0px;
 
 .BsSearch{
   position: absolute;
-  top: 50px;
+  top: 66%;
   left: 15px
 }
 
@@ -165,6 +165,10 @@ right: 0px;
   }
 }
 
+  .fs-md-4{
+    font-size: 20px;
+  }
+
 .with-space{
   display: flex;
   flex-direction: column;
@@ -197,6 +201,9 @@ right: 0px;
     width: 100% !important;
   }
   .amount-form{
+    font-size: 16px;
+  }
+  .fs-md-4{
     font-size: 16px;
   }
 }
