@@ -296,7 +296,7 @@ export default function Detail() {
                   >
                     -
                   </button>
-                  <div className="form-control rounded-2 text-center amount-form">
+                  <div className="form-control rounded-2 text-center amount-form pt-2">
                     {total}
                   </div>
 
