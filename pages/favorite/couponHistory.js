@@ -46,8 +46,7 @@ export default function CouponHistory() {
         <h3 className="py-5">{intl.formatMessage({ id: 'coupon.title' })}</h3>
         <div className={`row w-75 mb-3 ${style.title}`}>
           <div className="col ms-4">{intl.formatMessage({ id: 'coupon.id' })}</div>
-          <div className="col">{intl.formatMessage({ id: 'coupon.type' })}</div>
-          <div className="col-2 ">{intl.formatMessage({ id: 'coupon.createdAt' })}</div>
+          <div className="col">{intl.formatMessage({ id: 'coupon.createdAt' })}</div>
           <div className="col">{intl.formatMessage({ id: 'coupon.expiryDate' })}</div>
           <div className="col">{intl.formatMessage({ id: 'coupon.status' })}</div>
         </div>
@@ -63,15 +62,14 @@ export default function CouponHistory() {
                 coupon.coupon_status === 0 ? style.isValidBg : ''
               }`}
             >
-              <span className="col ps-5">{coupon.hash}</span>
-              <span className="col">{intl.formatMessage({ id: 'coupon.discount' }, { coins: coupon.discount_coins })}</span>
-              <span className="col-2">
+              <span className={`col ps-5 ${style.hash}`}>{coupon.hash}</span>
+              <span className={`col ${style.startDate}`}>
                 {dayjs(coupon.created_at3).format('YYYY-MM-DD')}
               </span>
-              <span className="col">
+              <span className={`col ${style.endDate}`}>
                 {dayjs(coupon.expiry_date).add(15, 'day').format('YYYY-MM-DD')}
               </span>
-              <span className={`col`}>
+              <span className={`col ${style.status}`}>
                 <span
                   className={`col ${style.state} ${
                     statusStyles[coupon.coupon_status] || ''
