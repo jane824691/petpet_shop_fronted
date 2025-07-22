@@ -131,17 +131,17 @@ export default function MemberOrderList() {
                           >
                             {intl.formatMessage({ id: 'orderList.orderNumber' })}：{v.oid}
                           </div>
-                          <div className="card-body mx-3">
-                            <h5 className="card-title font-grey-title mb-2">
+                          <div className="card-body">
+                            <h5 className="card-title font-grey-title mb-2 ms-3 ms-sm-0 me-5 pe-5">
                               {intl.formatMessage({ id: 'orderList.orderDate' })}：
                               {dayjs(v.order_date).format(
                                 'YYYY-MM-DD HH:mm:ss'
                               )}
                             </h5>
-                            <h5 className="card-title font-grey-title mb-2 ">
+                            <h5 className="card-title font-grey-title mb-2 ms-3 ms-sm-0 me-5 pe-5">
                               {intl.formatMessage({ id: 'orderList.paymentMethod' })}：{v.pay_way}
                             </h5>
-                            <h5 className="card-title font-grey-title mb-2 text-info">
+                            <h5 className="card-title font-grey-title mb-2 ms-3 ms-sm-0 me-5 pe-5 text-info">
                               {intl.formatMessage({ id: 'orderList.paymentStatus' })}：
                               {v.order_status === 1
                                 ? intl.formatMessage({ id: 'orderList.paid' })
@@ -149,16 +149,16 @@ export default function MemberOrderList() {
                                 ? intl.formatMessage({ id: 'orderList.unpaid' })
                                 : ''}
                             </h5>
-                            <h5 className="card-title font-grey-title mb-2">
+                            <h5 className="card-title font-grey-title mb-2 ms-3 ms-sm-0 me-5 pe-5">
                               {intl.formatMessage({ id: 'orderList.deliveryMethod' })}：{v.delivery_way}
                             </h5>
-                            <h5 className="card-title font-grey-title mb-2 text-success">
+                            <h5 className="card-title font-grey-title mb-2 ms-3 ms-sm-0 me-5 pe-5 text-success">
                               {intl.formatMessage({ id: 'orderList.processingStatus' })}：{v.delivery_status}
                             </h5>
-                            <h5 className="card-title font-grey-title mb-2 text-danger">
+                            <h5 className="card-title font-grey-title mb-2 text-danger ms-3 ms-sm-0 me-5 pe-5">
                               {intl.formatMessage({ id: 'orderList.totalAmount' })}：NT$ {v.total}
                             </h5>
-                            <h5 className="text-end mb-3">
+                            <h5 className="text-end mb-3 me-3">
                               {intl.formatMessage({ id: 'orderList.seeMore' })} <BsArrowRight />
                             </h5>
                           </div>
