@@ -57,7 +57,7 @@ export default function Detail() {
   // 抓留言資料（會無限滾動）
   const fetchComments = async () => {
     const pid = +router.query.pid
-    if (!hasMore) return // 如果已經沒有更多資料，就不繼續呼叫
+    if (!hasMore || isLoading) return // 如果正在載入或沒有更多資料，就不繼續呼叫
 
     setIsLoading(true)
     try {
@@ -79,17 +79,9 @@ export default function Detail() {
     } catch (error) {
       console.error('留言載入錯誤:', error)
     } finally {
-      // setIsLoading(false)
+      setIsLoading(false)
     }
   }
-
-  useEffect(() => {
-    if (isLoading) {
-      setTimeout(() => {
-        setIsLoading(false)
-      }, 1000)
-    }
-  }, [isLoading])
 
   const lastCommentRef = useRef()
 
@@ -501,11 +493,11 @@ export default function Detail() {
             })}
           </div>
 
-          { isLoading ? (
-          <div className="d-flex justify-content-center align-items-center w-100 mb-5">
-            <CatLoader />
-          </div>
-          ) : ''}
+          {isLoading && (
+            <div className="d-flex justify-content-center align-items-center w-100 mb-5" style={{ minHeight: '100px' }}>
+              <CatLoader />
+            </div>
+          )}
         </>
       ) : (
         <div className="mx-5 ps-0 ps-lg-5"><div className="d-flex mb-4 py-4 border-top align-items-start">{intl.formatMessage({ id: 'product.commentNoComment' })}</div></div>
