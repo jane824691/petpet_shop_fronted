@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import dayjs from 'dayjs'
 import { useRouter } from 'next/router'
-import { BsHighlighter } from 'react-icons/bs'
 import { GET_COUPON_DATA } from '@/components/my-const'
 import style from '@/css/coupon.module.css'
 import { useIntl } from 'react-intl'
@@ -42,10 +41,10 @@ export default function CouponHistory() {
 
   return (
     <>
-      <div className={style.container}>
+      <div className={style.container + ' text-center'}>
         <h3 className="py-5">{intl.formatMessage({ id: 'coupon.title' })}</h3>
         <div className={`row w-75 mb-3 ${style.title}`}>
-          <div className="col ms-4">{intl.formatMessage({ id: 'coupon.id' })}</div>
+          <div className="col">{intl.formatMessage({ id: 'coupon.id' })}</div>
           <div className="col">{intl.formatMessage({ id: 'coupon.createdAt' })}</div>
           <div className="col">{intl.formatMessage({ id: 'coupon.expiryDate' })}</div>
           <div className="col">{intl.formatMessage({ id: 'coupon.status' })}</div>
@@ -58,22 +57,20 @@ export default function CouponHistory() {
           mydata.slice().reverse().map((coupon) => (
             <div
               key={coupon.coupon_id}
-              className={`row w-75 ${style.eachCoupon} ${
-                coupon.coupon_status === 0 ? style.isValidBg : ''
-              }`}
+              className={`row w-75 text-center ${style.eachCoupon} ${coupon.coupon_status === 0 ? style.isValidBg : ''
+                }`}
             >
-              <span className={`col ps-5 ${style.hash}`}>{coupon.hash}</span>
-              <span className={`col ${style.startDate}`}>
-                {dayjs(coupon.created_at3).format('YYYY-MM-DD')}
+              <span className="col">{coupon.hash}</span>
+              <span className="col">
+                {dayjs(coupon.created_at3).format('YYYY-MM-DD')}<span className={style.duration}> ~ </span>
               </span>
-              <span className={`col ${style.endDate}`}>
+              <span className="col">
                 {dayjs(coupon.expiry_date).add(15, 'day').format('YYYY-MM-DD')}
               </span>
-              <span className={`col ${style.status}`}>
+              <span className="col">
                 <span
-                  className={`col ${style.state} ${
-                    statusStyles[coupon.coupon_status] || ''
-                  }`}
+                  className={`col ${style.state} ${statusStyles[coupon.coupon_status] || ''
+                    }`}
                 >
                   {coupon.coupon_status === 0 && intl.formatMessage({ id: 'coupon.status.valid' })}
                   {coupon.coupon_status === 1 && intl.formatMessage({ id: 'coupon.status.used' })}
