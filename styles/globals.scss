@@ -45,7 +45,12 @@ main > .container {
 }
 
 body {
-  font-family: 'Zen Maru Gothic', Helvetica, Arial, 'PingFang TC',
+  font-family: 'Zen Maru Gothic',
+}
+
+@supports not (font-family: 'Zen Maru Gothic') {
+  body {
+    font-family: 'Noto Sans', Helvetica, Arial, 'PingFang TC',
     '苹方-繁', 'Heiti TC', '黑體-繁', 'Microsoft JhengHei', '微軟正黑體',
     // Cross-platform generic font family (default user interface font)
     system-ui,
@@ -66,6 +71,8 @@ body {
     // Emoji fonts
     'Apple Color Emoji',
     'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+    font-weight: 700; /* 強制改為粗體 */
+  }
 }
 
 .form-member {

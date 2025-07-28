@@ -94,7 +94,7 @@
     min-height: 80vh;
   }
   .cardPart {
-    margin-top: 200px;
+    margin-top: 230px;
   }
 }
 @media (max-width: 900px) {
@@ -128,7 +128,7 @@
     font-size: 12px;
   }
   .cardPart {
-    margin-top: 180px;
+    margin-top: 200px;
   }
 }
 @media (max-width: 600px) {
@@ -144,7 +144,7 @@
     height: 40vh;
   }
   .cardPart {
-    margin-top: 100px;
+    margin-top: 130px;
   }
 }
 
@@ -158,12 +158,12 @@
     padding: 0 1.5rem 1.5rem;
   }
   .cardPart {
-    margin-top: 50px;
+    margin-top: 80px;
   }
 }
 
 @media screen and (max-width: 340px) {
   .cardPart {
-    margin-top: 80px;
+    margin-top: 110px;
   }
 }

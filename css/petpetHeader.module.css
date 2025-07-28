@@ -192,6 +192,12 @@
     }
   }
 }
+@media screen and (max-width: 576px) {
+  .container {
+    height: 56px;
+  }
+}
+
 @media screen and (max-width: 450px) {
   .container {
     justify-content: space-around;

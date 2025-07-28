@@ -58,7 +58,7 @@ export default function Home() {
               <Link href="/member/login">
                 <button
                   type="button"
-                  className={`btn btn-outline-primary bg-white btn-lg pro-shadow rounded-5 px-2 px-sm-5 ${styles.joinUsBtn}`}
+                  className={`btn btn-outline-primary bg-white btn-lg pro-shadow rounded-5 px-4 px-sm-5 ${styles.joinUsBtn}`}
                 >
                   {intl.formatMessage({ id: 'home.joinUs' })}
                 </button>

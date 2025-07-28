@@ -29,7 +29,7 @@ export default function PetpetHeader() {
   return (
     <>
       <header className={styles.header}>
-        <div className={`${styles.container} p-2`}>
+        <div className={`${styles.container} p-0 p-sm-2`}>
           {/* 網站icon */}
           <Link href="/" className={styles.logoLink}>
             <div className={styles.headerLeft}>
