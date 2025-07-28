@@ -37,8 +37,8 @@ export default function PetpetHeader() {
                 <Image
                   src="/logo.svg"
                   alt="Vercel Logo"
-                  width={130}
-                  height={80}
+                  width={362}
+                  height={221}
                   priority
                   className={styles.logo}
                 />
