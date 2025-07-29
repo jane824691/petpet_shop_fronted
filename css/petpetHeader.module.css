@@ -18,10 +18,6 @@
   gap: 4px;
   flex: 1;
 }
-.logoOut {
-  display: flex;
-  align-items: center;
-}
 .brandName {
   color: rgb(255, 255, 255);
   font-size: 28px;
@@ -32,6 +28,13 @@
 }
 .logoLink:hover {
   text-decoration: none;
+}
+.logo {
+    width: 130px;
+    height: 80px;
+    background-image: url("/logo.svg");
+    background-repeat: no-repeat;
+    background-size: contain;
 }
 
 .headerMiddle {
@@ -117,12 +120,14 @@
     font-size: 22px;
     gap: 10px;
   }
-  .logo {
-    height: 60px;
-    width: 100%;
-  }
   .brandName {
     font-size: 22px;
+  }
+    .logo {
+    height: 60px;
+    width: auto;
+    aspect-ratio: 130 / 80;
+    max-width: 130px;
   }
 }
 
@@ -136,8 +141,10 @@
     margin: 0 6px;
   }
   .logo {
-    height: 46px;
-    width: 90%;
+    height: 48px;
+    width: auto;
+    aspect-ratio: 130 / 80;
+    max-width: 130px;
   }
   .brandName, .headerRightIconLink {
     font-size: 16px;
@@ -196,14 +203,11 @@
   .container {
     height: 56px;
   }
-  .logoOut {
-      margin-top: 4px;
-  }
 }
 
 @media screen and (max-width: 450px) {
   .container {
-    justify-content: space-around;
+    justify-content: center;
 
     .headerRightIconLink, .headerMiddleItem{
       font-size: 14px;
@@ -211,6 +215,9 @@
     .brandName {
       display: none;
     }
+    .logo {
+    height: 42px;
+  }
   }
 }
 @media screen and (max-width: 375px) {
@@ -218,12 +225,12 @@
     .headerMiddle {
       gap: 0;
     }
+    .logo {
+    height: 36px;
+  }
     .headerMiddleItem{
       font-size: 12px;
     }
-    .logoOut {
-      width: 60px;
-  }
     .foodPart,
     .outdoorPart,
     .toyPart {

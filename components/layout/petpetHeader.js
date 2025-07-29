@@ -33,16 +33,7 @@ export default function PetpetHeader() {
           {/* 網站icon */}
           <Link href="/" className={styles.logoLink}>
             <div className={styles.headerLeft}>
-              <div className={styles.logoOut}>
-                <Image
-                  src="/logo.svg"
-                  alt="Vercel Logo"
-                  width={362}
-                  height={221}
-                  priority
-                  className={styles.logo}
-                />
-              </div>
+              <div className={styles.logo} />
               <div className={styles.brandName}>{intl.formatMessage({ id: 'header.logo' })}</div>
             </div>
           </Link>
