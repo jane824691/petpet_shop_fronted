@@ -1,6 +1,7 @@
 import { useState } from 'react'
 // Import Swiper React components
 import { Swiper, SwiperSlide } from 'swiper/react'
+import type { Swiper as SwiperType } from 'swiper'
 
 // Import Swiper styles
 import 'swiper/css'
@@ -11,17 +12,22 @@ import 'swiper/css/thumbs'
 // import required modules
 import { Autoplay, FreeMode, Navigation, Thumbs } from 'swiper/modules'
 
-// 範例出處
-// https://swiperjs.com/demos#thumbs-gallery
-// https://codesandbox.io/s/k3cyyc
-export default function Carousel({
-  pid,
+// Props interface
+interface CarouselProps {
+  pid?: string
+  firstImage?: string
+  mainImage?: string
+  secondaryImage?: string
+  additionalImage?: string
+}
+
+export default function Carousel({ 
   firstImage,
   mainImage,
   secondaryImage,
   additionalImage,
-}) {
-  const [thumbsSwiper, setThumbsSwiper] = useState(null)
+ }: CarouselProps) {
+  const [thumbsSwiper, setThumbsSwiper] = useState<SwiperType | null>(null)
 
   const imagePath01 = firstImage
     ? `../image/product/${firstImage}`
@@ -51,7 +57,7 @@ export default function Carousel({
         }}
         spaceBetween={50}
         navigation={false}
-        thumbs={{ swiper: thumbsSwiper }}
+        thumbs={{ swiper: thumbsSwiper && !thumbsSwiper.destroyed ? thumbsSwiper : null }}
         modules={[Autoplay, FreeMode, Navigation, Thumbs]}
         className="mySwiper2"
       >
