@@ -78,9 +78,6 @@ export default function PetpetHeader() {
 
           {/* <!-- header右邊 --> */}
           <div className={styles.headerRight}>
-
-
-
             {auther.account ? (
               <>
                 <div className={styles.totalQuantity}>{totalQuantity || 0}</div>
@@ -125,9 +122,10 @@ export default function PetpetHeader() {
               tabIndex={0}
               aria-label={intl.formatMessage({ id: 'header.toggleLanguage' })}
             >
+            
               <div className={`${styles.headerRightIconLink}`}>
                 {isZH ? (
-                  <span>中</span>
+                  <i className={`bi bi-globe2 fs-2 pe-2 ${styles.iconSmall}`}></i>
                 ) : (
                   <span>EN</span>
                 )}
