@@ -14,7 +14,6 @@ export default function PetpetHeader() {
   const intl = useIntl()
   const { auther, logout } = useContext(AuthContext)
   const { items } = useCart()
-  // TODO: adding fading animate add & minus button at cart page
   const totalQuantity = items.reduce((sum, item) => sum + item.quantity, 0)
 
   const { showAnimation, addingProductAmount } = useHeaderAnimation()
@@ -29,7 +28,7 @@ export default function PetpetHeader() {
   return (
     <>
       <header className={styles.header}>
-        <div className={`${styles.container} p-0 p-sm-2`}>
+        <div className={`${styles.container} p-2`}>
           {/* 網站icon */}
           <Link href="/" className={styles.logoLink}>
             <div className={styles.headerLeft}>
@@ -91,7 +90,7 @@ export default function PetpetHeader() {
                     className={styles.headerRightIconLink}
                     href="/cart/OrderSteps"
                   >
-                    <i className={`bi bi-cart fs-2 ${styles.iconSmall}`}></i>
+                    <i className={`bi bi-cart fs-2 ${styles.iconSmall}`} />
                   </Link>
                 </div>
               </>
@@ -102,7 +101,7 @@ export default function PetpetHeader() {
               <>
                 <div className={styles.headerRightIcon}>
                   <Link className={styles.headerRightIconLink} href="/member">
-                    <i className={`bi bi-person fs-2 ${styles.iconSmall}`}></i>
+                    <i className={`bi bi-person fs-2 ${styles.iconSmall}`} />
                   </Link>
                 </div>
               </>
@@ -122,10 +121,9 @@ export default function PetpetHeader() {
               tabIndex={0}
               aria-label={intl.formatMessage({ id: 'header.toggleLanguage' })}
             >
-            
               <div className={`${styles.headerRightIconLink}`}>
                 {isZH ? (
-                  <i className={`bi bi-globe2 fs-2 pe-2 ${styles.iconSmall}`}></i>
+                  <i className={`bi bi-globe2 fs-2 pe-2 ${styles.iconSmall}`} />
                 ) : (
                   <span>EN</span>
                 )}
@@ -160,7 +158,7 @@ export default function PetpetHeader() {
                     style={{ boxShadow: 'none', backgroundColor: 'none', border: 'none' }}
                   ></Dropdown.Toggle>
 
-                  <Dropdown.Menu >
+                  <Dropdown.Menu>
                     <Dropdown.Item style={{ maxWidth: '100vw', overflowX: 'auto' }}
                       onClick={(e) => {
                         e.preventDefault()
