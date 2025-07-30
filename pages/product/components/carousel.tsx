@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import React, { useState } from 'react'
 // Import Swiper React components
 import { Swiper, SwiperSlide } from 'swiper/react'
 import type { Swiper as SwiperType } from 'swiper'
@@ -46,11 +46,12 @@ export default function Carousel({
     : '../image/product/638348807730300000 (1).jfif'
   return (
     <>
+    {/* as React.CSSProperties - 告訴 TypeScript 這裡是合法的 CSS 屬性 */}
       <Swiper
         style={{
           '--swiper-navigation-color': '#fff',
           '--swiper-pagination-color': '#fff',
-        }}
+        } as React.CSSProperties}
         autoplay={{
           delay: 5000,
           disableOnInteraction: false,
