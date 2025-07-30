@@ -8,7 +8,6 @@ import { useRouter } from 'next/router'
 import dayjs from 'dayjs'
 import { useIntl } from 'react-intl'
 import { useLanguage } from '@/components/contexts/LanguageContext'
-import productData from '@/data/Product.js'
 
 export default function CartList(props) {
   const intl = useIntl()

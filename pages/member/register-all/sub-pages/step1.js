@@ -1,5 +1,4 @@
 import Image from 'next/image'
-import { z } from 'zod'
 import { useState } from 'react'
 import { useIntl } from 'react-intl'
 
