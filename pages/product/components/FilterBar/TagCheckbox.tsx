@@ -1,6 +1,14 @@
 import React from 'react'
 
-function TagCheckbox(props) {
+import { ChangeEvent } from 'react'
+
+interface TagCheckboxProps {
+  value: string
+  handleChecked: (e: ChangeEvent<HTMLInputElement>) => void
+  tags: string[]
+}
+
+function TagCheckbox(props: TagCheckboxProps) {
   const { value, handleChecked, tags } = props
   return (
     <>

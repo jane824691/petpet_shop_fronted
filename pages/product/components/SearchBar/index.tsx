@@ -2,7 +2,12 @@ import React from 'react'
 import { BsSearch } from 'react-icons/bs'
 import { useIntl } from 'react-intl'
 
-function SearchBar(props) {
+interface SearchBarProps {
+  searchWord: string
+  setSearchWord: (searchWord: string) => void
+}
+
+function SearchBar(props: SearchBarProps) {
   const { searchWord, setSearchWord } = props
   const intl = useIntl()
   return (

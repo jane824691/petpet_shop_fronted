@@ -1,6 +1,12 @@
 import React from 'react'
 
-function PriceRangeRadio(props) {
+interface PriceRangeRadioProps {
+  priceRange: string
+  setPriceRange: (priceRange: string) => void
+  value: string
+}
+
+function PriceRangeRadio(props: PriceRangeRadioProps) {
   const { priceRange, setPriceRange, value } = props
 
   return (

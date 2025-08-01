@@ -2,7 +2,11 @@ import React from 'react'
 import ProductItem from './ProductItem'
 import { useIntl } from 'react-intl'
 
-function ProductList(props) {
+interface ProductListProps {
+  products: Array<any>
+}
+
+function ProductList(props:ProductListProps) {
   const { products } = props
   const intl = useIntl()
   if (products && products.length === 0) {

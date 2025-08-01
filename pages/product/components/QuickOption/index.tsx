@@ -8,10 +8,10 @@ const QuickOption = () => {
     intl.formatMessage({ id: 'product.moneyOption2' }),
     intl.formatMessage({ id: 'product.moneyOption3' })
   ];
-  const [selected, setSelected] = useState(null);
-  const [borrow, setBorrow] = useState('');
+  const [selected, setSelected] = useState<string | null>(null);
+  const [borrow, setBorrow] = useState<string | null>('');
 
-  const handleClick = (value) => {
+  const handleClick = (value: string) => {
     setSelected(value);
   };
 
@@ -28,8 +28,8 @@ const QuickOption = () => {
     }
   }, [borrow]);
 
-  //   className= ${selected === value ? style.selected : ""}`}
-  //   onClick={() => handleClick(value)}
+  // className= ${selected === value ? style.selected : ""}`}
+  // onClick={() => handleClick(value)}
   // 可綁回下方div的input讓option連動
   return (
     <>

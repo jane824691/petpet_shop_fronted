@@ -6,7 +6,18 @@ import styles from '@/css/ProductItem.module.css'
 import { useIntl } from 'react-intl'
 import { useLanguage } from '@/components/contexts/LanguageContext'
 
-function ProductItem(props) {
+interface ProductItemProps {
+  product: {
+    pid: string;
+    product_name: string;
+    product_name_en: string;
+    product_price: number;
+    category_id: string;
+    product_img?: string;
+  };
+}
+
+function ProductItem(props: ProductItemProps) {
   const intl = useIntl()
   const { locale } = useLanguage()
   const { pid, product_name, product_name_en, product_price, category_id, product_img } =

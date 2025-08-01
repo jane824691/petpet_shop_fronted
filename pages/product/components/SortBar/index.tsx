@@ -1,7 +1,12 @@
 import React from 'react'
 import { useIntl } from 'react-intl'
 
-function SortBar(props) {
+interface SortBarProps {
+  sortBy: string
+  setSortBy: (sortBy: string) => void
+}
+
+function SortBar(props: SortBarProps) {
   const { sortBy, setSortBy } = props
   const intl = useIntl()
   return (

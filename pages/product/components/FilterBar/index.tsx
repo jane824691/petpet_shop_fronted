@@ -3,7 +3,18 @@ import PriceRangeRadio from './PriceRangeRadio'
 import TagCheckbox from './TagCheckbox'
 import { useIntl } from 'react-intl'
 
-function FilterBar(props) {
+import { ChangeEvent } from 'react'
+
+interface FilterBarProps {
+  priceRangeTypes: string[]
+  priceRange: string
+  setPriceRange: (priceRange: string) => void
+  tagTypes: string[]
+  tags: string[]
+  setTags: (tags: string[]) => void
+}
+
+function FilterBar(props: FilterBarProps) {
   const {
     priceRangeTypes,
     priceRange,
@@ -13,7 +24,7 @@ function FilterBar(props) {
     setTags,
   } = props
   const intl = useIntl()
-  const handleChecked = (e) => {
+  const handleChecked = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value
     if (!tags.includes(value)) return setTags([...tags, value])
     if (tags.includes(value)) {
@@ -43,7 +54,6 @@ function FilterBar(props) {
             onClick={() => setTags([])}
             style={{
               color: '#FFB44F',
-              ':hover': { color: '#f8723f' },
               textDecoration: 'none',
             }}
           >
