@@ -20,7 +20,7 @@ function PagesBar({ data }) {
     >
       {/* 調整css樣式無效的頁數變灰色 */}
       <Link
-        className={`page-link ${page === data.page ? 'active-link' : ''}`}
+        className={`page-link text-center ${page === data.page ? 'active-link' : ''}`}
         href={`?page=${page}`}
         style={{
           borderRadius: '10px',
@@ -28,7 +28,6 @@ function PagesBar({ data }) {
           backgroundColor: page === data.page ? '#f8723f' : 'transparent',
           color: page === data.page ? '#fff' : '',
           width: '38px',
-          textAlign: 'center',
         }}
       >
         {page}
@@ -44,13 +43,11 @@ function PagesBar({ data }) {
             <ul className="pagination d-flex justify-content-center">
               <li>
                 <Link
-                  className={`page-link px-0 ${
+                  className={`page-link px-0 border border-0 bg-transparent ${
                     data.page === 1 ? 'disabled' : ''
                   }`}
                   href={data.page !== 1 ? `?page=${1}` : '#'}
                   style={{
-                    background: data.page === 1 ? 'transparent' : 'transparent',
-                    border: 'none',
                     color: data.page === 1 ? '#B0B7C3' : '',
                   }}
                 >
@@ -59,13 +56,11 @@ function PagesBar({ data }) {
               </li>
               <li>
                 <Link
-                  className={`page-link px-2 px-sm-3 ${
+                  className={`page-link px-2 px-sm-3 border border-0 bg-transparent ${
                     data.page === 1 ? 'disabled' : ''
                   }`}
                   href={`?page=${data.page - 1}`}
                   style={{
-                    background: data.page === 1 ? 'transparent' : 'transparent',
-                    border: 'none',
                     color: data.page === 1 ? '#B0B7C3' : '',
                   }}
                 >
@@ -83,16 +78,11 @@ function PagesBar({ data }) {
                 : null}
               <li>
                 <Link
-                  className={`page-link px-2 px-sm-3 ${
+                  className={`page-link px-2 px-sm-3 border border-0 bg-transparent ${
                     data.page === data.totalPages ? 'disabled' : ''
                   }`}
                   href={`?page=${data.page + 1}`}
                   style={{
-                    background:
-                      data.page === data.totalPages
-                        ? 'transparent'
-                        : 'transparent',
-                    border: 'none',
                     color: data.page === data.totalPages ? '#B0B7C3' : '',
                   }}
                 >
@@ -101,7 +91,7 @@ function PagesBar({ data }) {
               </li>
               <li>
                 <Link
-                  className={`page-link px-0 ${
+                  className={`page-link px-0 border border-0 bg-transparent ${
                     data.page === data.totalPages ? 'disabled' : ''
                   }`}
                   href={
@@ -110,11 +100,6 @@ function PagesBar({ data }) {
                       : '#'
                   }
                   style={{
-                    background:
-                      data.page === data.totalPages
-                        ? 'transparent'
-                        : 'transparent',
-                    border: 'none',
                     color: data.page === data.totalPages ? '#B0B7C3' : '',
                   }}
                 >
