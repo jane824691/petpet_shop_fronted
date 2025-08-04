@@ -2,7 +2,7 @@ import { useEffect, useState, useRef } from 'react'
 import Carousel from './components/carousel'
 import { useRouter } from 'next/router'
 import { ONE_PRODUCT, COMMENTS_ONE, COMMENTS_ADD } from '@/components/my-const'
-import { useCart } from '@../../../components/hooks/use-cart-state'
+import { useCart } from '@/components/hooks/use-cart-state'
 import toast, { Toaster } from 'react-hot-toast'
 import { useHeaderAnimation } from '@/components/contexts/HeaderAnimationContext';
 import { CatLoader } from '@/components/hooks/use-loader/components'

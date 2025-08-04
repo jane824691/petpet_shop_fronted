@@ -10,7 +10,7 @@ interface ProductItemProps {
   product: {
     pid: string;
     product_name: string;
-    product_name_en: string;
+    product_name_en?: string;
     product_price: number;
     category_id: string;
     product_img?: string;

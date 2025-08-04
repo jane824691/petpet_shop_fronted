@@ -1,13 +1,12 @@
 import React, {
   useState,
-  //useReducer,
   useContext,
   createContext,
   useEffect,
+  ReactNode,
 } from 'react'
 import {
   init,
-  initState,
   addOne,
   findOneById,
   updateOne,
@@ -15,34 +14,40 @@ import {
   incrementOne,
   decrementOne,
   generateCartState,
+  CartItem,
+  CartState,
 } from './cart-reducer-state'
 import useLocalStorage from './use-localstorage'
 import { useLanguage } from '@/components/contexts/LanguageContext'
 
-const CartContext = createContext(null)
+interface CartContextType {
+  cart: CartState
+  items: (CartItem & { subtotal: number })[]
+  addItem: (item: CartItem) => void
+  removeItem: (pid: string) => void
+  updateItem: (item: CartItem) => void
+  updateItemQty: (pid: string, quantity: number) => void
+  clearCart: () => void
+  isInCart: (pid: string) => boolean
+  increment: (pid: string) => void
+  decrement: (pid: string) => void
+}
 
-// cartItem = {
-//   id: '',
-//   quantity: 0,
-//   name: '',           // 中文名稱
-//   name_en: '',        // 英文名稱
-//   price: 0,
-// }
+const CartContext = createContext<CartContextType | null>(null)
 
-// cartState = {
-//   items: cartItems,
-//   isEmpty: true,
-//   totalItems: 0,
-//   cartTotal: 0,
-// }
+interface CartProviderProps {
+  children: ReactNode
+  initialCartItems?: CartItem[]
+  localStorageKey?: string
+}
 
 export const CartProvider = ({
   children,
   initialCartItems = [], //初始化購物車的加入項目
-  localStorageKey = 'cart', //初始化localStorage的鍵名
-}) => {
+  localStorageKey = 'cart',  //初始化localStorage的鍵名
+}: CartProviderProps) => {
   // localStorage中只儲存 items。如果localStorage有此鍵中的值，則套入使用作為初始items。
-  let items = initialCartItems
+  let items: CartItem[] = initialCartItems
 
   if (!items.length) {
     try {
@@ -58,8 +63,8 @@ export const CartProvider = ({
   }
 
   // 初始化 cartItems, cartState
-  const [cartItems, setCartItems] = useState(initialCartItems)
-  const [cartState, setCartState] = useState(init(initialCartItems))
+  const [cartItems, setCartItems] = useState<CartItem[]>(items)
+  const [cartState, setCartState] = useState(() => init(items))
 
   // 初始化 setValue(localStoage), setValue用於存入localStorage中
   const [storedValue, setValue] = useLocalStorage(localStorageKey, items)
@@ -67,10 +72,11 @@ export const CartProvider = ({
   // 取得當前語言
   const { locale } = useLanguage()
 
+
   // 當 cartItems 更動時 -> 更動 localStorage 中的值 -> 更動 cartState
   useEffect(() => {
     // 使用字串比較
-    if (JSON.stringify(cartItems) !== storedValue) {
+    if (JSON.stringify(cartItems) !== JSON.stringify(storedValue)) {
       setValue(cartItems)
     }
     // 有更動時，重新設定cartState
@@ -79,71 +85,89 @@ export const CartProvider = ({
     // eslint-disable-next-line
   }, [cartItems])
 
+
   // 當語言切換時，重新計算購物車狀態以更新商品名稱
   useEffect(() => {
     setCartState(generateCartState(cartState, cartItems))
   }, [locale])
 
+
   /**
    * 加入新項目，重覆項目 quantity: quantity + 1
    * 同時存中英文名稱到對應欄位
    */
-  const addItem = (item) => {
+  const addItem = (item: CartItem) => {
     // 確保同時存中英文名稱
     const itemWithBothLanguages = {
       ...item,
       // 商品名稱：如果 item 有 name_zh 和 name_en，則使用；否則根據當前語言設定對應欄位
-      name: item.name_zh || item.name || item.product_name, // 中文名稱
-      name_en: item.name_en || item.product_name_en || item.name || item.product_name, // 英文名稱
+      name: item.name_zh || item.name || item.product_name,
+      name_en:
+        item.name_en ??
+        item.product_name_en ??
+        item.name ??
+        item.product_name ??
+        '',
     }
-
     setCartItems(addOne(cartItems, itemWithBothLanguages))
   }
+
+
   /**
    * 給定一pid值，將這商品移出陣列中
    */
-  const removeItem = (pid) => {
+  const removeItem = (pid: string) => {
     setCartItems(removeOne(cartItems, pid))
   }
+
+
   /**
    * 給定一item物件，更新其中的屬性值(依照pid為準)
    */
-  const updateItem = (item) => {
+  const updateItem = (item: CartItem) => {
     setCartItems(updateOne(cartItems, item))
   }
+
+
   /**
    * 給定一pid與quantity，更新某個項目的數量
    */
-  const updateItemQty = (pid, quantity) => {
+  const updateItemQty = (pid: string, quantity: number) => {
     const item = findOneById(cartItems, pid)
-    // 如果沒有pid，則不更新
-    if (!item.pid) return
-    // 更新項目
-    const updateItem = { ...item, quantity }
-    setCartItems(updateOne(cartItems, updateItem))
+    if (!item?.pid) return
+    const updatedItem = { ...item, quantity }
+    setCartItems(updateOne(cartItems, updatedItem))
   }
+
+
   /**
    * 清空整個購物車
    */
   const clearCart = () => {
     setCartItems([])
   }
+
+
   /**
    * 給定一pid值，回傳是否存在於購物車中
    */
-  const isInCart = (pid) => {
+  const isInCart = (pid: string) => {
     return cartItems.some((item) => item.pid === pid)
   }
+
+
   /**
    * 給定一pid值，有尋找到商品時，設定quantity: quantity + 1
    */
-  const increment = (pid) => {
+  const increment = (pid: string) => {
     setCartItems(incrementOne(cartItems, pid))
   }
+
+
   /**
    * 給定一pid值，有尋找到商品時，設定quantity: quantity - 1，但 quantity 最小值為1
    */
-  const decrement = (pid) => {
+  const decrement = (pid: string) => {
     setCartItems(decrementOne(cartItems, pid))
   }
 
@@ -151,7 +175,7 @@ export const CartProvider = ({
     <CartContext.Provider
       value={{
         cart: cartState,
-        items: cartState.items, //items與cartState.items差了一個subtoal屬性
+        items: cartState.items,
         addItem,
         removeItem,
         updateItem,
@@ -167,4 +191,10 @@ export const CartProvider = ({
   )
 }
 
-export const useCart = () => useContext(CartContext)
+export const useCart = () => {
+  const context = useContext(CartContext)
+  if (!context) {
+    throw new Error('useCart must be used within a CartProvider')
+  }
+  return context
+}
