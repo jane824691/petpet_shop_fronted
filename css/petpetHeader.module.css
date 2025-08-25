@@ -66,8 +66,8 @@
 }
 .addingAmount {
   position: absolute;
-  bottom: -10px;
-  left: 30px;
+  bottom: 0px;
+  left: 0px;
   color: white;
   opacity: 1;
   animation: floatUp 1s ease-in forwards;
