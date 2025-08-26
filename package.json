@@ -8,7 +8,9 @@
     "start": "next start",
     "lint": "next lint",
     "clean-translations": "node scripts/clean-unused-translations.js clean",
-    "report-translations": "node scripts/clean-unused-translations.js report"
+    "report-translations": "node scripts/clean-unused-translations.js report",
+    "test": "jest --watch",
+    "test:ci": "jest --ci"
   },
   "dependencies": {
     "bootstrap": "^5.3.2",
@@ -29,6 +31,9 @@
     "swiper": "^11.1.14"
   },
   "devDependencies": {
+    "@testing-library/jest-dom": "^6.8.0",
+    "@testing-library/react": "^16.3.0",
+    "@types/jest": "^30.0.0",
     "@types/node": "^24.1.0",
     "@types/react": "^19.1.8",
     "eslint": "^8",
@@ -41,6 +46,8 @@
     "eslint-plugin-react": "^7.32.2",
     "eslint-plugin-react-hooks": "^4.6.0",
     "glob": "^11.0.3",
+    "jest": "^30.0.5",
+    "jest-environment-jsdom": "^30.0.5",
     "prettier": "^2.8.8",
     "typescript": "^5.8.3"
   },
