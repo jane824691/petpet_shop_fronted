@@ -1,4 +1,4 @@
-import { addOne, findOneById, updateOne } from '@/components/hooks/cart-reducer-state';
+import { addOne, findOneById, updateOne, incrementOne } from '@/components/hooks/cart-reducer-state';
 import type { CartItem } from '@/components/hooks/cart-reducer-state';
 
 const sampleItems: CartItem[] = [
@@ -71,6 +71,25 @@ describe('cart-reducer-state: updateOne function', () => {
   })
 })
 
+
+describe('cart-reducer-state: incrementOne function', () => {
+
+  // 測試案例: 成功更新某pid項目的數量+1
+  it('should increase quantity +1 depends on pid', () => {
+    const pidToFind = 'p002';
+    const updatedItems = incrementOne(sampleItems, pidToFind)
+
+    const incrementItem = updatedItems.find( item => item.pid === pidToFind)
+    const unchangedItem = updatedItems.find( item => item.pid === 'p001')
+    // 驗證真正要改動的數量, 有如預期改動
+    expect(incrementItem?.quantity).toBe(3)
+    // means pid='p002' quantity never been changed
+    expect(unchangedItem?.quantity).toBe(sampleItems[0].quantity) 
+    expect(unchangedItem).toBe(sampleItems[0]) 
+
+  })
+
+})
 
 describe('cart-reducer-state: addOne function', () => {
   // 測試案例 1: 將一個全新的商品加入空的購物車
