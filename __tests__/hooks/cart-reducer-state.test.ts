@@ -1,4 +1,4 @@
-import { addOne, findOneById, updateOne, incrementOne, decrementOne } from '@/components/hooks/cart-reducer-state';
+import { addOne, findOneById, updateOne, incrementOne, decrementOne, removeOne } from '@/components/hooks/cart-reducer-state';
 import type { CartItem } from '@/components/hooks/cart-reducer-state';
 
 const sampleItems: CartItem[] = [
@@ -93,12 +93,12 @@ describe('cart-reducer-state: decrementOne function', () => {
     const pidToFind = 'p002';
     const updatedItems = decrementOne(sampleItems, pidToFind)
 
-    const decreasedTarget = updatedItems.find( item => item.pid === pidToFind)
+    const decreasedTarget = updatedItems.find(item => item.pid === pidToFind)
     const unchangedItem = updatedItems.find(item => item.pid === 'p001')
     // 測試依照某pid更新項目的數量+1
     expect(decreasedTarget?.quantity).toBe(1)
     // 未改變的其他物件, 數量測試不得被改動到
-    expect(unchangedItem?.quantity).toBe(sampleItems[0].quantity) 
+    expect(unchangedItem?.quantity).toBe(sampleItems[0].quantity)
     expect(unchangedItem).toBe(sampleItems[0])
   })
 
@@ -107,7 +107,7 @@ describe('cart-reducer-state: decrementOne function', () => {
     const pidToFind = 'p001';
     const updatedItems = decrementOne(sampleItems, pidToFind)
 
-    const decreasedTarget = updatedItems.find( item => item.pid === pidToFind)
+    const decreasedTarget = updatedItems.find(item => item.pid === pidToFind)
     expect(decreasedTarget?.quantity).not.toBe(0)
   })
 })
@@ -187,3 +187,46 @@ describe('cart-reducer-state: addOne function', () => {
     expect(result.find((item) => item.pid === 'p002')).toEqual(newItem);
   });
 });
+
+
+describe('cart-reducer-state: removeOne function', () => {
+  // 測試案例 1: 成功移除一個存在的商品
+  it('should remove an existing item from a cart', () => {
+    const pidToFind = 'p001';
+    const updatedItems = removeOne(sampleItems, pidToFind)
+
+    // 1. 期望結果: 購物車現在移除一個後(原兩個), 最後只剩一個商品項目
+    expect(updatedItems).toHaveLength(1);
+    // 2. 驗證陣列中是否已不存在 pid 為 'p001' 的商品
+    expect(updatedItems.find(item => item.pid === pidToFind)).toBeUndefined();
+    // 3. 期望結果: 可找到 pid 為 'p002' 的舊商品
+    expect(updatedItems.find((item) => item.pid === 'p002')).toEqual(sampleItems[1]);
+  })
+
+  // 測試案例 2: 空的購物車移除也還是為空
+  it('should remove a item from an empty cart', () => {
+    const emptyItems: CartItem[] = []
+    const pidToFind = 'p001';
+    const updatedItems = removeOne(emptyItems, pidToFind)
+
+    // 期望結果: 對空購物車使用移除, 永遠為空
+    expect(updatedItems).toHaveLength(0);
+    expect(updatedItems).toEqual([]); // 更嚴謹
+  })
+
+  // 測試案例 3: 嘗試移除一個不存在的商品
+  it('should return the original array if item to remove is not found', () => {
+    // 安排 (Arrange): 一個不存在的 pid
+    const nonExistentPid = 'p999';
+
+    // 執行 (Act): 呼叫函式
+    const updatedItems = removeOne(sampleItems, nonExistentPid);
+
+    // 斷言 (Assert):
+    // 1. 驗證回傳的陣列應與原始陣列完全相同
+    expect(updatedItems).toEqual(sampleItems);
+    // 2. 驗證陣列長度仍然是 2
+    expect(updatedItems).toHaveLength(2);
+  });
+
+})
