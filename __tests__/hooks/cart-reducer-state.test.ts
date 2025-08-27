@@ -1,6 +1,5 @@
-import { addOne, findOneById } from '@/components/hooks/cart-reducer-state';
+import { addOne, findOneById, updateOne } from '@/components/hooks/cart-reducer-state';
 import type { CartItem } from '@/components/hooks/cart-reducer-state';
-import { it } from 'node:test';
 
 const sampleItems: CartItem[] = [
   { pid: 'p001', quantity: 1, price: 100, name: '商品1', name_en: 'P1' },
@@ -8,7 +7,7 @@ const sampleItems: CartItem[] = [
 ];
 
 describe('cart-reducer-state: findOneById function', () => {
-  // 成功找到存在的商品
+  // 測試案例 1: 成功找到存在的商品
   it('should return the correct item when pid exists', () => {
     const pidToFind = 'p001';
     const itemsAfterAdd = findOneById(sampleItems, pidToFind);
@@ -18,7 +17,7 @@ describe('cart-reducer-state: findOneById function', () => {
     expect(itemsAfterAdd).toEqual(sampleItems[0]);
   })
 
-  // 在「有東西」的陣列中，找不到目標
+  // 測試案例 2: 在「有東西」的陣列中，找不到目標
   it('should return undefined when pid does not exist', () => {
     const pidToFind = '333';
     const foundItem = findOneById(sampleItems, pidToFind);
@@ -26,7 +25,7 @@ describe('cart-reducer-state: findOneById function', () => {
     expect(foundItem).toBeUndefined;
   })
 
-  // 在「空」的陣列中，找不到目標
+  // 測試案例 3: 在「空」的陣列中，找不到目標
   it('should return undefined when searching in an empty array', () => {
     const emptyItem: CartItem[] = [];
     const pidToFind = 'p001'
@@ -35,6 +34,43 @@ describe('cart-reducer-state: findOneById function', () => {
     expect(foundItem).toBeUndefined();
   })
 })
+
+
+describe('cart-reducer-state: updateOne function', () => {
+
+  // 測試案例 1: 成功更新商品
+  it('should update an existing item correctly', () => {
+    const pidToUpdate: CartItem = { pid: 'p002', quantity: 3, price: 300, name: '商品2', name_en: 'P2' };
+    const itemsAfterUpdate = updateOne(sampleItems, pidToUpdate)
+
+    expect(itemsAfterUpdate).toBeDefined();
+    // 驗證 p002 商品是否真的被新資料取代了 (數量價格)
+    expect(itemsAfterUpdate.find( item => item.pid === 'p002')).toEqual(pidToUpdate)
+    // 驗證 p001 這個不相關的商品是否保持原樣，沒有被動到
+    expect(itemsAfterUpdate.find( item => item.pid === 'p001')).toEqual(sampleItems[0])
+    expect(itemsAfterUpdate).toHaveLength(2);
+  })
+
+  // 測試案例 2: 嘗試更新一個不存在的商品
+  it('should update an existing item correctly', () => {
+    const noExistentItem: CartItem = { pid: 'p999', quantity: 9, price: 999, name: '商品9', name_en: 'P9' };
+    const itemsAfterUpdate = updateOne(sampleItems, noExistentItem)
+
+    expect(itemsAfterUpdate).toEqual(sampleItems)
+  })
+
+  // 測試案例 3: 嘗試更新一個空的陣列
+  it('should return an empty array when updating an empty array', () => {
+    // 安排 (Arrange): 準備一個空的陣列和一個更新用的商品
+    const emptyItem: CartItem[] = []
+    const pidToUpdate: CartItem = { pid: 'p002', quantity: 3, price: 300, name: '商品2', name_en: 'P2' };
+    const itemsAfterUpdate = updateOne(emptyItem, pidToUpdate)
+    
+    expect(itemsAfterUpdate).toEqual([])
+    expect(itemsAfterUpdate).toHaveLength(0)
+  })
+})
+
 
 describe('cart-reducer-state: addOne function', () => {
   // 測試案例 1: 將一個全新的商品加入空的購物車
