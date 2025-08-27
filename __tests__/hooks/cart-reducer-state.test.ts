@@ -1,4 +1,4 @@
-import { addOne, findOneById, updateOne, incrementOne } from '@/components/hooks/cart-reducer-state';
+import { addOne, findOneById, updateOne, incrementOne, decrementOne } from '@/components/hooks/cart-reducer-state';
 import type { CartItem } from '@/components/hooks/cart-reducer-state';
 
 const sampleItems: CartItem[] = [
@@ -45,9 +45,9 @@ describe('cart-reducer-state: updateOne function', () => {
 
     expect(itemsAfterUpdate).toBeDefined();
     // 驗證 p002 商品是否真的被新資料取代了 (數量價格)
-    expect(itemsAfterUpdate.find( item => item.pid === 'p002')).toEqual(pidToUpdate)
+    expect(itemsAfterUpdate.find(item => item.pid === 'p002')).toEqual(pidToUpdate)
     // 驗證 p001 這個不相關的商品是否保持原樣，沒有被動到
-    expect(itemsAfterUpdate.find( item => item.pid === 'p001')).toEqual(sampleItems[0])
+    expect(itemsAfterUpdate.find(item => item.pid === 'p001')).toEqual(sampleItems[0])
     expect(itemsAfterUpdate).toHaveLength(2);
   })
 
@@ -65,7 +65,7 @@ describe('cart-reducer-state: updateOne function', () => {
     const emptyItem: CartItem[] = []
     const pidToUpdate: CartItem = { pid: 'p002', quantity: 3, price: 300, name: '商品2', name_en: 'P2' };
     const itemsAfterUpdate = updateOne(emptyItem, pidToUpdate)
-    
+
     expect(itemsAfterUpdate).toEqual([])
     expect(itemsAfterUpdate).toHaveLength(0)
   })
@@ -73,22 +73,43 @@ describe('cart-reducer-state: updateOne function', () => {
 
 
 describe('cart-reducer-state: incrementOne function', () => {
-
   // 測試案例: 成功更新某pid項目的數量+1
   it('should increase quantity +1 depends on pid', () => {
     const pidToFind = 'p002';
     const updatedItems = incrementOne(sampleItems, pidToFind)
 
-    const incrementItem = updatedItems.find( item => item.pid === pidToFind)
-    const unchangedItem = updatedItems.find( item => item.pid === 'p001')
+    const incrementItem = updatedItems.find(item => item.pid === pidToFind)
+    const unchangedItem = updatedItems.find(item => item.pid === 'p001')
     // 驗證真正要改動的數量, 有如預期改動
     expect(incrementItem?.quantity).toBe(3)
     // means pid='p002' quantity never been changed
-    expect(unchangedItem?.quantity).toBe(sampleItems[0].quantity) 
-    expect(unchangedItem).toBe(sampleItems[0]) 
+    expect(unchangedItem?.quantity).toBe(sampleItems[0].quantity)
+    expect(unchangedItem).toBe(sampleItems[0])
+  })
+})
 
+describe('cart-reducer-state: decrementOne function', () => {
+  it('should decrease quantity -1 depends on pid', () => {
+    const pidToFind = 'p002';
+    const updatedItems = decrementOne(sampleItems, pidToFind)
+
+    const decreasedTarget = updatedItems.find( item => item.pid === pidToFind)
+    const unchangedItem = updatedItems.find(item => item.pid === 'p001')
+    // 測試依照某pid更新項目的數量+1
+    expect(decreasedTarget?.quantity).toBe(1)
+    // 未改變的其他物件, 數量測試不得被改動到
+    expect(unchangedItem?.quantity).toBe(sampleItems[0].quantity) 
+    expect(unchangedItem).toBe(sampleItems[0])
   })
 
+  // 依照某pid更新項目的數量-1。最小為1, 不得為0
+  it('should decrease but the smallest amount is 1 rather 0', () => {
+    const pidToFind = 'p001';
+    const updatedItems = decrementOne(sampleItems, pidToFind)
+
+    const decreasedTarget = updatedItems.find( item => item.pid === pidToFind)
+    expect(decreasedTarget?.quantity).not.toBe(0)
+  })
 })
 
 describe('cart-reducer-state: addOne function', () => {
