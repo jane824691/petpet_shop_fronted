@@ -1,8 +1,44 @@
-import { addOne } from '@/components/hooks/cart-reducer-state';
+import { addOne, findOneById } from '@/components/hooks/cart-reducer-state';
 import type { CartItem } from '@/components/hooks/cart-reducer-state';
+import { it } from 'node:test';
+
+const sampleItems: CartItem[] = [
+  { pid: 'p001', quantity: 1, price: 100, name: '商品1', name_en: 'P1' },
+  { pid: 'p002', quantity: 2, price: 200, name: '商品2', name_en: 'P2' },
+];
+
+describe('cart-reducer-state: findOneById function', () => {
+  // 成功找到存在的商品
+  it('should return the correct item when pid exists', () => {
+    const pidToFind = 'p001';
+    const itemsAfterAdd = findOneById(sampleItems, pidToFind);
+
+    expect(itemsAfterAdd).toBeDefined();
+    expect(itemsAfterAdd?.pid).toBe(pidToFind);
+    expect(itemsAfterAdd).toEqual(sampleItems[0]);
+  })
+
+  // 在「有東西」的陣列中，找不到目標
+  it('should return undefined when pid does not exist', () => {
+    const pidToFind = '333';
+    const foundItem = findOneById(sampleItems, pidToFind);
+
+    expect(foundItem).toBeUndefined;
+  })
+
+  // 在「空」的陣列中，找不到目標
+  it('should return undefined when searching in an empty array', () => {
+    const emptyItem: CartItem[] = [];
+    const pidToFind = 'p001'
+    const foundItem = findOneById(emptyItem, pidToFind)
+
+    expect(foundItem).toBeUndefined();
+  })
+})
 
 describe('cart-reducer-state: addOne function', () => {
   // 測試案例 1: 將一個全新的商品加入空的購物車
+  // it = test, 只是影響可讀性
   it('should add a new item to an empty cart', () => {
     const initialItems: CartItem[] = [];
     const newItem: CartItem = {
