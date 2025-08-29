@@ -132,6 +132,7 @@ export const subtotalPrice = (
 
 /**
  * `totalPrice(items)` 整體項目價錢總計。
+ * +30 是寫死的假運費
  */
 export const totalPrice = (items: CartItem[]): number =>
   items.reduce((total, item) => total + item.price * item.quantity, 0) + 30

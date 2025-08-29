@@ -1,4 +1,16 @@
-import { addOne, findOneById, updateOne, incrementOne, decrementOne, removeOne } from '@/components/hooks/cart-reducer-state';
+import { 
+  addOne, 
+  findOneById,
+  updateOne,
+  incrementOne,
+  decrementOne,
+  removeOne,
+  subtotalPrice,
+  totalItems,
+  totalPrice,
+  generateCartState,
+  init 
+} from '@/components/hooks/cart-reducer-state';
 import type { CartItem } from '@/components/hooks/cart-reducer-state';
 
 const sampleItems: CartItem[] = [
@@ -230,3 +242,106 @@ describe('cart-reducer-state: removeOne function', () => {
   });
 
 })
+
+
+describe('cart-reducer-state: subtotalPrice function', () => {
+  it('should return correct subtotal from item.price * item.quantity', () => {
+    const updatedItems = subtotalPrice(sampleItems)
+
+    expect(updatedItems[0].subtotal).toBe(100) // 100*1
+    expect(updatedItems[1].subtotal).toBe(400) // 200*2
+  })
+
+  it('should not mutate the original items array', () => {
+    const original = [...sampleItems]
+    subtotalPrice(sampleItems)
+    expect(sampleItems).toEqual(original)
+  })
+
+  it('should return empty array if no items', () => {
+    const updatedItems = subtotalPrice([])
+
+    expect(updatedItems).toEqual([])
+  })
+})
+
+
+describe('cart-reducer-state: totalItems function', () => {
+  it('should return correct amount of totalItems', () => {
+    const updatedItems = totalItems(sampleItems)
+
+    expect(updatedItems).toBe(3)
+  })
+
+  it('should return 0 if no items', () => {
+    const updatedItems = totalItems([])
+
+    expect(updatedItems).toEqual(0)
+  })
+})
+
+
+describe('cart-reducer-state: totalPrice function', () => {
+  it('should return correct price of totalPrice', () => {
+    const updatedItems = totalPrice(sampleItems)
+
+    expect(updatedItems).toBe(530)
+  })
+
+  it('should return 0 if no items', () => {
+    const updatedItems = totalItems([])
+
+    expect(updatedItems).toEqual(0)
+  })
+})
+
+
+describe('cart-reducer-state: generateCartState function', () => {
+  // 安排 (Arrange): 
+  // 測試案例 1: 測試有商品的購物車狀態是否計算正確
+  it('should return the correct state for a cart with items', () => {
+    // 2. 準備一個要傳入的、可選的 state 物件，用來測試屬性覆蓋
+    const incomingState = {
+      items: [],
+      isEmpty: true,
+      totalItems: 0,
+      totalPrice: 0,
+      subtotal: 0,
+    };
+
+    // 執行 (Act): 呼叫 generateCartState 函式
+    const finalState = generateCartState(incomingState, sampleItems);
+
+    // 斷言 (Assert): 逐一驗證回傳狀態物件中的每一個屬性
+    // 1. 驗證 isEmpty 應為 false
+    expect(finalState.isEmpty).toBe(false);
+
+    // 2. 驗證 totalItems 應為 2 + 1 = 3
+    expect(finalState.totalItems).toBe(3);
+
+    // 3. 驗證 totalPrice 應為 (2*100 + 1*300) + 30(運費) = 530
+    expect(finalState.totalPrice).toBe(530);
+
+    // 4. 驗證 items 陣列的長度，以及第一個商品的 subtotal 是否被正確計算
+    expect(finalState.items).toHaveLength(2);
+    expect(finalState.items[0].subtotal).toBe(100);
+    expect(finalState.items[1].subtotal).toBe(400);
+  });
+
+  // 測試案例 2: 測試空購物車的狀態
+  it('should return the correct state for an empty cart', () => {
+    // 安排 (Arrange): 一個空的商品陣列
+    const items: CartItem[] = [];
+
+    // 執行 (Act): 呼叫函式
+    const finalState = generateCartState({}, items);
+
+    // 斷言 (Assert):
+    // 1. 驗證 isEmpty 應為 true
+    expect(finalState.isEmpty).toBe(true);
+    // 2. 驗證 totalItems 應為 0
+    expect(finalState.totalItems).toBe(0);
+    // 3. 驗證 items 陣列是空的
+    expect(finalState.items).toEqual([]);
+  });
+});
