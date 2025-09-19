@@ -7,7 +7,6 @@ import { jwtDecode } from 'jwt-decode'
 import dayjs from 'dayjs'
 import LeftList from '@/components/LeftList'
 import { useIntl } from 'react-intl'
-import { CatLoader } from '@/components/hooks/use-loader/components'
 
 export default function Profile() {
   const router = useRouter()
@@ -100,9 +99,7 @@ export default function Profile() {
   return (
     <>
       {isLoading ? (
-        <div className="d-flex justify-content-center align-items-center w-100 mb-5" style={{ minHeight: '100px' }}>
-          <CatLoader />
-        </div>
+        <></>
       ) : (<>
         <main className={`${styles.main} d-block d-md-flex`}>
           {/* 左邊欄位 */}
