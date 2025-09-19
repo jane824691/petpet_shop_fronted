@@ -139,7 +139,7 @@ export default function Payment(props) {
               </div>
               <div className="card-body mx-3 mb-3">
                 <h5 className="card-title font-grey-title">
-                  {intl.formatMessage({ id: 'member.customerName' })}
+                  {intl.formatMessage({ id: 'member.recipientName' })}
                   <span className="text-danger">*</span>
                 </h5>
                 <input
@@ -161,7 +161,7 @@ export default function Payment(props) {
                 </div>
 
                 <h5 className="card-title font-grey-title">
-                  {intl.formatMessage({ id: 'member.customerNameEn' })}
+                  {intl.formatMessage({ id: 'member.recipientNameEn' })}
                 </h5>
                 <input
                   className="form-control T-18 rounded-5"
