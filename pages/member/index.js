@@ -12,7 +12,7 @@ export default function Profile() {
   const router = useRouter()
   const { logout } = useContext(AuthContext)
   const intl = useIntl()
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(true)
 
   const [mydata, setMydata] = useState({
     sid: '',
@@ -33,7 +33,6 @@ export default function Profile() {
 
   // 刷進該頁面, 檢查token是否過期
   useEffect(() => {
-    setIsLoading(true)
     const token = localStorage.getItem('auther')
     if (token) {
       const decodedToken = jwtDecode(token)
@@ -49,7 +48,6 @@ export default function Profile() {
 
   // 去抓後端處理好的單筆資料(顯示在會員中心)
   const fetchData = async () => {
-    if (isLoading) return // 如果正在載入或沒有更多資料，就不繼續呼叫
 
     try {
       // 檢查 localStorage 中是否存在 'auther'，以及 'auther' 是否有有效的 sid
