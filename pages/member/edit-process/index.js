@@ -58,12 +58,12 @@ function EditProcess() {
         if (!authDataString) {
           // 未登入會直接跳轉回首頁
           // TODO: needs a loading to prevent show out the member page before jump back to index page
-          router.push('/')
+          router.push('/member/login')
           return
         }
         const authData = JSON.parse(authDataString)
         if (!authData || !authData.sid) {
-          router.push('/')
+          router.push('/member/login')
           return
         }
         const sid = authData.sid
@@ -76,6 +76,12 @@ function EditProcess() {
           method: 'POST'
         })
         const memberData = await response.json()
+        
+        if (response.status === 401) {
+          // console.log('未授權，導向到登入頁...')
+          router.push('/member/login')
+          return
+        }
 
         // 處理生日格式
         if (memberData.birthday) {

@@ -41,12 +41,12 @@ export default function OrderUnderMember({ oid: propsOid, onStatusChange }) {
       const authDataString = localStorage.getItem('auther')
       if (!authDataString) {
         // 未登入會直接跳轉回首頁
-        router.push('/')
+        router.push('/member/login')
         return
       }
       const authData = JSON.parse(authDataString)
       if (!authData || !authData.sid) {
-        router.push('/')
+        router.push('/member/login')
         // console.log('停權會員')
         return
       }
@@ -62,6 +62,13 @@ export default function OrderUnderMember({ oid: propsOid, onStatusChange }) {
           },
           method: 'POST',
         })
+        
+        if (response.status === 401) {
+          // console.log('未授權，導向到登入頁...')
+          router.push('/member/login')
+          return
+        }
+
         const responseData = await response.json()
 
         // 確保 responseData 是一個陣列

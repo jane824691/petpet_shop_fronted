@@ -43,13 +43,13 @@ export default function MemberOrderList() {
         const authDataString = localStorage.getItem('auther')
         if (!authDataString) {
           // console.log('No "auther" data found.')
-          router.push('/')
+          router.push('/member/login')
           return
         }
         const authData = JSON.parse(authDataString)
         if (!authData || !authData.sid) {
           // console.log('No valid "auther" data found.')
-          router.push('/')
+          router.push('/member/login')
           return
         }
         const sid = authData.sid
@@ -62,6 +62,13 @@ export default function MemberOrderList() {
           },
           method: 'POST',
         })
+        
+        if (response.status === 401) {
+          // console.log('未授權，導向到登入頁...')
+          router.push('/member/login')
+          return
+        }
+
         const memberData = await response.json()
 
         // 處理生日格式
