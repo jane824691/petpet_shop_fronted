@@ -88,7 +88,7 @@ export default function OrderDetail({
         <div className="d-flex justify-content-center">
           <div className="direction-column">
             <div
-              className="card border-primary mb-3"
+              className="card border-primary mb-3 mx-auto"
               style={{ maxWidth: '40rem' }}
             >
               <div
@@ -155,7 +155,7 @@ export default function OrderDetail({
               </div>
             </div>
             <div
-              className="card border-primary mb-3"
+              className="card border-primary mb-3 mx-auto"
               style={{ maxWidth: '40rem' }}
             >
               <div
