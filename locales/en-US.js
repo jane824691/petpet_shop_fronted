@@ -50,6 +50,7 @@ export const enUS = {
   "cart.validUntil": "Valid Until",
   'cart.cod': 'Cash on Delivery',
   'cart.creditCard': 'Credit Card',
+  'cart.noticeForDemo': 'This is a demo e-commerce platform. Orders placed here will not result in real payments or actual shipments.',
   
   "common.back": "Back",
   "common.success": "Success",

@@ -241,7 +241,8 @@ export default function OrderDetail({
                 </label>
                 <span>{getPayWayText(paymentData.pay_way)}</span>
               </div>
-            </div>
+            </div><div className='d-flex justify-content-center mx-auto fs-4'><i class="bi bi-exclamation-triangle-fill px-2 text-danger" />{intl.formatMessage({ id: 'cart.noticeForDemo' })}</div>
+              
           </div>
         </div>
       </form>

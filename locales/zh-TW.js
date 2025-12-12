@@ -50,6 +50,7 @@ export const zhTW = {
   "cart.validUntil": "至",
   'cart.cod': '貨到付款',
   'cart.creditCard': '信用卡',
+  'cart.noticeForDemo': '此為模擬電商平台DEMO，故下單之後不會真實收款、也不會真實出貨。',
 
   "common.back": "返回",
   "common.success": "成功",
