@@ -170,6 +170,7 @@ function OrderSteps() {
         setTimeout(() => {
           handlePayment(responseData.result.order_list.insertId) // 後端送回前端成功 & 建好的oid
           clearCart()
+          router.push('/member/member-orderList')
         }, 3000)
       }
 
