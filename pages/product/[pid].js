@@ -7,8 +7,8 @@ import { ONE_PRODUCT, COMMENTS_ONE, COMMENTS_ADD } from '@/components/my-const'
 import Carousel from '@/components/product/carousel'
 import toast, { Toaster } from 'react-hot-toast'
 import { useHeaderAnimation } from '@/components/contexts/HeaderAnimationContext';
-import { CatLoader } from '@/components/hooks/use-loader/components'
 import SecurityUtils from '@/utils/inputCheck'
+import dynamic from 'next/dynamic'
 
 export default function Detail() {
   const { addItem } = useCart()
@@ -37,6 +37,16 @@ export default function Detail() {
   const intl = useIntl()
   const lang = intl.locale
 
+  // 因F5重整會回到server component, lottie這種三方套件預設是CSR渲染
+  const CatLoader = dynamic(
+    () =>
+      import('@/components/hooks/use-loader/components').then(
+        (mod) => mod.CatLoader
+      ),
+    {
+      ssr: false,
+    }
+  )
 
   // 抓單一商品（只抓一次）
   const fetchProduct = async () => {
@@ -150,26 +160,26 @@ export default function Detail() {
 
   const handleCommentChange = (e) => {
     const value = e.target.value
-    
+
     // 即時安全檢查
     const securityCheck = SecurityUtils.securityCheck(value)
-    
+
     // 如果包含危險內容，阻止輸入
     if (!securityCheck.isValid && securityCheck.errors.invalidInput) {
       toast.error(intl.formatMessage({ id: 'product.commentSecurityError' }))
       return
     }
-    
+
     setCommentsValue(value)
     setHasBadWords(containsBadWords(value.toLowerCase()))
   }
 
   const sendComments = async () => {
-    const pid = +router.query.pid 
+    const pid = +router.query.pid
     const sid = JSON.parse(localStorage.getItem("auther"))?.sid;
     // 綜合安全檢查
     const securityCheck = SecurityUtils.securityCheck(commentsValue)
-    
+
     if (!securityCheck.isValid) {
       if (securityCheck.errors.invalidInput) {
         toast.error(intl.formatMessage({ id: 'product.commentSecurityError' }))

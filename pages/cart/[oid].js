@@ -4,9 +4,9 @@ import { ONE_ORDER } from '@/components/my-const'
 import { jwtDecode } from 'jwt-decode'
 import ReverseLookup from './OrderSteps/sub-pages/Zipcode_to_city'
 import AuthContext from '@/components/contexts/AuthContext'
-import { CatLoader } from '@/components/hooks/use-loader/components'
 import { useIntl } from 'react-intl'
 import { useLanguage } from '@/components/contexts/LanguageContext'
+import dynamic from 'next/dynamic'
 
 export default function OrderUnderMember({ oid: propsOid, onStatusChange }) {
   const intl = useIntl()
@@ -18,7 +18,16 @@ export default function OrderUnderMember({ oid: propsOid, onStatusChange }) {
   const { logout } = useContext(AuthContext)
   const [isLoading, setIsLoading] = useState(false)
 
-
+  // 因F5重整會回到server component, lottie這種三方套件預設是CSR渲染
+  const CatLoader = dynamic(
+    () =>
+      import('@/components/hooks/use-loader/components').then(
+        (mod) => mod.CatLoader
+      ),
+    {
+      ssr: false,
+    }
+  )
   // 刷進該頁面, 檢查token是否過期
   useEffect(() => {
     setIsLoading(true)
@@ -62,7 +71,7 @@ export default function OrderUnderMember({ oid: propsOid, onStatusChange }) {
           },
           method: 'POST',
         })
-        
+
         if (response.status === 401) {
           // console.log('未授權，導向到登入頁...')
           router.push('/member/login')
@@ -105,20 +114,20 @@ export default function OrderUnderMember({ oid: propsOid, onStatusChange }) {
     }
   }, [isLoading])
 
-    // 付款方式多語系對應
-    const getPayWayText = (payWay) => {
-      if (payWay === 1 || payWay === '1') {
-        return locale === 'zh-TW'
-          ? intl.formatMessage({ id: 'cart.cod' }) // 貨到付款
-          : 'Cash on Delivery'
-      }
-      if (payWay === 2 || payWay === '2') {
-        return locale === 'zh-TW'
-          ? intl.formatMessage({ id: 'cart.creditCard' }) // 信用卡
-          : 'Credit Card'
-      }
-      return '-'
+  // 付款方式多語系對應
+  const getPayWayText = (payWay) => {
+    if (payWay === 1 || payWay === '1') {
+      return locale === 'zh-TW'
+        ? intl.formatMessage({ id: 'cart.cod' }) // 貨到付款
+        : 'Cash on Delivery'
     }
+    if (payWay === 2 || payWay === '2') {
+      return locale === 'zh-TW'
+        ? intl.formatMessage({ id: 'cart.creditCard' }) // 信用卡
+        : 'Credit Card'
+    }
+    return '-'
+  }
 
   return (
     <>
