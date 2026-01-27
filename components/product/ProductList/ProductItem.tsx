@@ -3,7 +3,6 @@ import React from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import styles from '@/css/ProductItem.module.css'
-import { useIntl } from 'react-intl'
 import { useLanguage } from '@/components/contexts/LanguageContext'
 
 interface ProductItemProps {
@@ -14,19 +13,21 @@ interface ProductItemProps {
     product_price: number;
     category_id: string;
     product_img?: string;
-  };
+  },
+  index: number;
 }
 
 function ProductItem(props: ProductItemProps) {
-  const intl = useIntl()
   const { locale } = useLanguage()
   const { pid, product_name, product_name_en, product_price, category_id, product_img } =
     props.product || {}
+  const { index } = props
 
   const imagePath = product_img
     ? `/image/product/${product_img}`
     : '/images/product/638348807730300000 (1).jfif'
 
+  const isAboveTheFold = index < 6 // 考慮首屏進來容易先被看到的是前 6 張圖, 指定優先渲染
   return (
     <div className="col" key={pid}>
       <Link href={`/product/${pid}`} className="noline">
@@ -37,7 +38,8 @@ function ProductItem(props: ProductItemProps) {
               alt="product"
               fill
               className="card-img-top object-fit-cover bg-white"
-              loading="lazy"
+              priority={isAboveTheFold}
+              // loading="lazy" // Next 預設就是lazy load
             />
           </div>
           <div className="card-body with-space">

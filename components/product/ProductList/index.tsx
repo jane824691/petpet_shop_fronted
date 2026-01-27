@@ -27,8 +27,8 @@ function ProductList(props:ProductListProps) {
   }
   return (
     <>
-      {products && products.map((product, i) => {
-        return <ProductItem key={i} product={product} />
+      {products && products.map((product, index) => {
+        return <ProductItem key={product.pid} product={product} index={index} />
       })}
 
       {/* <PagesBar data={data} /> */}

@@ -8,7 +8,8 @@ import ProductList from '@/components/product/ProductList'
 import { useRouter } from 'next/router'
 import { PRODUCT } from '@/components/my-const'
 import PagesBar from '@/components/PagesBar'
-import { CatLoader } from '@/components/hooks/use-loader/components'
+// import { CatLoader } from '@/components/hooks/use-loader/components'
+import dynamic from 'next/dynamic'
 import { useIntl } from 'react-intl'
 
 export default function List() {
@@ -46,6 +47,17 @@ export default function List() {
     12: intl.formatMessage({ id: 'product.leash' }),
     13: intl.formatMessage({ id: 'product.bag' }),
   }
+
+  // 因F5重整會回到server component, lottie這種三方套件預設是CSR渲染
+  const CatLoader = dynamic(
+  () =>
+    import('@/components/hooks/use-loader/components').then(
+      (mod) => mod.CatLoader
+    ),
+  {
+    ssr: false,
+  }
+)
 
   // 取後端page資料
   const getListData = async () => {
