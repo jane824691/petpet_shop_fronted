@@ -14,39 +14,38 @@ import { Autoplay, FreeMode, Navigation, Thumbs } from 'swiper/modules'
 
 // Props interface
 interface CarouselProps {
-  pid?: string
-  firstImage?: string
-  mainImage?: string
-  secondaryImage?: string
-  additionalImage?: string
+  pid?: string;
+  firstImage: string;
+  mainImage?: string;
+  secondaryImage?: string;
+  additionalImage?: string;
 }
 
-export default function Carousel({ 
+export default function Carousel({
   firstImage,
   mainImage,
   secondaryImage,
   additionalImage,
- }: CarouselProps) {
+}: CarouselProps) {
   const [thumbsSwiper, setThumbsSwiper] = useState<SwiperType | null>(null)
 
-  const imagePath01 = firstImage
-    ? `../image/product/${firstImage}`
-    : '../image/product/638348807730300000 (1).jfif'
+const DEFAULT_IMG = '../image/product/638348807730300000 (1).jfif'
 
-  const imagePath02 = mainImage
-    ? `../image/product/${mainImage}`
-    : '../image/product/638348807730300000 (1).jfif'
+// 商品圖可能存在專案路徑裡，也可能存在Firebase的連結
+const getImagePath = (image?: string | null) => {
+  if (!image) return DEFAULT_IMG
+  if (image.startsWith('http')) return image
+  return `../image/product/${image}`
+}
 
-  const imagePath03 = secondaryImage
-    ? `../image/product/${secondaryImage}`
-    : '../image/product/638348807730300000 (1).jfif'
+const imagePath01 = getImagePath(firstImage)
+const imagePath02 = getImagePath(mainImage)
+const imagePath03 = getImagePath(secondaryImage)
+const imagePath04 = getImagePath(additionalImage)
 
-  const imagePath04 = additionalImage
-    ? `../image/product/${additionalImage}`
-    : '../image/product/638348807730300000 (1).jfif'
   return (
     <>
-    {/* as React.CSSProperties - 告訴 TypeScript 這裡是合法的 CSS 屬性 */}
+      {/* as React.CSSProperties - 告訴 TypeScript 這裡是合法的 CSS 屬性 */}
       <Swiper
         style={{
           '--swiper-navigation-color': '#fff',
