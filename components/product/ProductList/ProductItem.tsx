@@ -4,7 +4,6 @@ import Link from 'next/link'
 import Image from 'next/image'
 import styles from '@/css/ProductItem.module.css'
 import { useLanguage } from '@/components/contexts/LanguageContext'
-
 interface ProductItemProps {
   product: {
     pid: string;
@@ -12,7 +11,7 @@ interface ProductItemProps {
     product_name_en?: string;
     product_price: number;
     category_id: string;
-    product_img?: string;
+    product_img: any;
   },
   index: number;
 }
@@ -23,6 +22,7 @@ function ProductItem(props: ProductItemProps) {
     props.product || {}
   const { index } = props
 
+  const urlImg = product_img.includes('storage.googleapis')
   const imagePath = product_img
     ? `/image/product/${product_img}`
     : '/images/product/638348807730300000 (1).jfif'
@@ -34,12 +34,12 @@ function ProductItem(props: ProductItemProps) {
         <div className="card border-primary h-100">
           <div className={styles.imgContainer}>
             <Image
-              src={imagePath}
+              src={urlImg ? product_img : imagePath}
               alt="product"
               fill
               className="card-img-top object-fit-cover bg-white"
               priority={isAboveTheFold}
-              // loading="lazy" // Next 預設就是lazy load
+            // loading="lazy" // Next 預設就是lazy load
             />
           </div>
           <div className="card-body with-space">
