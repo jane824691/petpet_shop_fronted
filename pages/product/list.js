@@ -169,7 +169,7 @@ export default function List() {
 
     // 預設用id 小至大
     if (sortBy === '' && newProducts.length > 0) {
-      newProducts = [...newProducts].sort((a, b) => a.pid - b.pid)
+      newProducts = [...newProducts].sort((a, b) => b.pid - a.pid)
     }
 
     return newProducts
