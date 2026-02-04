@@ -1,3 +1,5 @@
+'use client'
+
 import styles from '@/css/petpetFooter.module.css'
 import { useIntl } from 'react-intl'
 

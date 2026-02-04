@@ -1,3 +1,5 @@
+'use client'
+
 import React, { createContext, useState } from 'react'
 const GameContext = createContext({})
 export default GameContext

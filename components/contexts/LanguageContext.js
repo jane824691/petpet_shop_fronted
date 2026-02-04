@@ -1,3 +1,5 @@
+'use client'
+
 import React, { createContext, useContext, useState } from 'react'
 import { IntlProvider } from 'react-intl'
 import { zhTW } from '../../locales/zh-TW'

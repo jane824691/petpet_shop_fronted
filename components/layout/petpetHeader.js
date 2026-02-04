@@ -1,5 +1,6 @@
+'use client'
+
 import styles from '@/css/petpetHeader.module.css'
-import Image from 'next/image'
 import Link from 'next/link'
 import Dropdown from 'react-bootstrap/Dropdown'
 import AuthContext from '../contexts/AuthContext'
