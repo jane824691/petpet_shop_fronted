@@ -10,7 +10,8 @@
     "clean-translations": "node scripts/clean-unused-translations.js clean",
     "report-translations": "node scripts/clean-unused-translations.js report",
     "test": "jest --watch",
-    "test:ci": "jest --ci"
+    "test:ci": "jest --ci",
+    "test:coverage": "jest --coverage --watchAll=false"
   },
   "dependencies": {
     "bootstrap": "^5.3.2",
