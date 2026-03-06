@@ -8,6 +8,7 @@ import { BsArrowRight } from 'react-icons/bs'
 import LeftList from '@/components/LeftList'
 import PagesBar from '@/components/PagesBar'
 import styles from '@/css/favorite.module.css'
+import { useLanguage } from '@/components/contexts/LanguageContext'
 
 export default function MemberOrderList() {
   const intl = useIntl()
@@ -33,6 +34,9 @@ export default function MemberOrderList() {
   const { auther } = useContext(AuthContext)
 
   const [sid, setSid] = useState('') //抓到sid後存起來給後面抓取會員訂單資料用
+
+  const { locale } = useLanguage()
+  const isZH = locale === 'zh-TW'
 
   // 去抓後端處理好的單筆資料(顯示在會員中心)
   useEffect(() => {
@@ -62,7 +66,7 @@ export default function MemberOrderList() {
           },
           method: 'POST',
         })
-        
+
         if (response.status === 401) {
           // console.log('未授權，導向到登入頁...')
           router.push('/member/login')
@@ -156,14 +160,17 @@ export default function MemberOrderList() {
                               {v.order_status === 1
                                 ? intl.formatMessage({ id: 'orderList.paid' })
                                 : v.order_status === 0
-                                ? intl.formatMessage({ id: 'orderList.unpaid' })
-                                : ''}
+                                  ? intl.formatMessage({ id: 'orderList.unpaid' })
+                                  : ''}
                             </h5>
                             <h5 className="card-title font-grey-title mb-2 ms-3 ms-sm-0 me-5 pe-5">
-                              {intl.formatMessage({ id: 'orderList.deliveryMethod' })}：{v.delivery_way}
+                              {/* {intl.formatMessage({ id: 'orderList.deliveryMethod' })}：{v.delivery_way} */}
+                              {intl.formatMessage({ id: 'orderList.deliveryMethod' })}：{!isZH ? (v.delivery_way === '宅配' ? 'Home Delivery' : 'In-store Pickup') : (v.delivery_way)}
                             </h5>
                             <h5 className="card-title font-grey-title mb-2 ms-3 ms-sm-0 me-5 pe-5 text-success">
-                              {intl.formatMessage({ id: 'orderList.processingStatus' })}：{v.delivery_status}
+                              {/* {intl.formatMessage({ id: 'orderList.processingStatus' })}：{v.delivery_status} */}
+                              {intl.formatMessage({ id: 'orderList.processingStatus' })}：{!isZH ? (v.delivery_status === '出貨中' ? 'Processing' : 'Recieved') : (v.delivery_status)}
+
                             </h5>
                             <h5 className="card-title font-grey-title mb-2 text-danger ms-3 ms-sm-0 me-5 pe-5">
                               {intl.formatMessage({ id: 'orderList.totalAmount' })}：NT$ {v.total}
