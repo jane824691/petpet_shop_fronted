@@ -152,8 +152,8 @@ export default function MemberOrderList() {
                             <h5 className="card-title font-grey-title mb-2 ms-3 ms-sm-0 me-5 pe-5">
                               {intl.formatMessage({ id: 'orderList.paymentMethod' })}：
                               {v.pay_way === 1
-                                ? intl.formatMessage({ id: 'cart.creditCard' })
-                                : intl.formatMessage({ id: 'cart.cod' })}
+                                ? intl.formatMessage({ id: 'cart.cod' })
+                                : intl.formatMessage({ id: 'cart.creditCard' })}
                             </h5>
                             <h5 className="card-title font-grey-title mb-2 ms-3 ms-sm-0 me-5 pe-5 text-info">
                               {intl.formatMessage({ id: 'orderList.paymentStatus' })}：
