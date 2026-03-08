@@ -75,9 +75,9 @@ function OrderSteps() {
 
   // 進度條使用
   const progressNames = [
-    intl.formatMessage({ id: 'cart.shoppingCart' }), 
-    intl.formatMessage({ id: 'cart.payment' }), 
-    intl.formatMessage({ id: 'cart.orderDetails' })
+    intl.formatMessage({ id: 'cart.shoppingCart' }),
+    intl.formatMessage({ id: 'cart.payment' }),
+    intl.formatMessage({ id: 'cart.orderDetails' }),
   ] // Cart, Payment, OrderDetail
 
   // 上一步 下一步按鈕
@@ -103,9 +103,11 @@ function OrderSteps() {
 
       if (!name) errors.push(intl.formatMessage({ id: 'cart.nameNotFilled' }))
 
-      if (!address) errors.push(intl.formatMessage({ id: 'cart.addressNotFilled' }))
+      if (!address)
+        errors.push(intl.formatMessage({ id: 'cart.addressNotFilled' }))
 
-      if (!postcode) errors.push(intl.formatMessage({ id: 'cart.postcodeNotFilled' }))
+      if (!postcode)
+        errors.push(intl.formatMessage({ id: 'cart.postcodeNotFilled' }))
 
       if (!phone) errors.push(intl.formatMessage({ id: 'cart.phoneNotFilled' }))
 
@@ -165,7 +167,10 @@ function OrderSteps() {
       } else {
         // 信用卡付款
         toast.success(intl.formatMessage({ id: 'cart.orderCompletedPayment' }))
-        sessionStorage.setItem("last_oid", responseData.result.order_list.insertId)
+        sessionStorage.setItem(
+          'last_oid',
+          responseData.result.order_list.insertId
+        )
 
         setTimeout(() => {
           handlePayment(responseData.result.order_list.insertId) // 後端送回前端成功 & 建好的oid
@@ -173,7 +178,6 @@ function OrderSteps() {
           router.push('/')
         }, 3000)
       }
-
     } else {
       toast.error(intl.formatMessage({ id: 'cart.orderCreationFailed' }))
     }
@@ -181,20 +185,19 @@ function OrderSteps() {
 
   // React 按鈕觸發付款
   const handlePayment = async (oid) => {
-    const newWindow = window.open('', '_blank'); // 先開視窗，避免 popup 被攔截
+    const newWindow = window.open('', '_blank') // 先開視窗，避免 popup 被攔截
 
-    const res = await fetch(PAYMENT_CREATE  + `/${oid}`, {
-      method: 'GET',
-    });
-    
-    const html = await res.text();
+    const res = await fetch(PAYMENT_CREATE + `/${oid}`, {
+      method: 'POST',
+    })
+
+    const html = await res.text()
 
     if (newWindow) {
-      newWindow.document.write(html); // 將跳轉 HTML 寫入新視窗
-      newWindow.document.close();     // 必須 close 才能執行內部的 <script>
+      newWindow.document.write(html) // 將跳轉 HTML 寫入新視窗
+      newWindow.document.close() // 必須 close 才能執行內部的 <script>
     }
-  };
-
+  }
 
   return (
     <>
@@ -217,7 +220,9 @@ function OrderSteps() {
           className="btn btn-outline-primary btn-lg btn pro-shadow px-5"
           onClick={prev}
         >
-          {step === 1 ? intl.formatMessage({ id: 'cart.backToShop' }) : intl.formatMessage({ id: 'common.back' })}
+          {step === 1
+            ? intl.formatMessage({ id: 'cart.backToShop' })
+            : intl.formatMessage({ id: 'common.back' })}
         </button>
 
         <button
@@ -225,7 +230,9 @@ function OrderSteps() {
           className="btn btn-danger btn-lg btn pro-shadow px-5 text-white"
           onClick={next}
         >
-          {step === maxSteps ? intl.formatMessage({ id: 'cart.completeOrder' }) : intl.formatMessage({ id: 'cart.confirmCheckout' })}
+          {step === maxSteps
+            ? intl.formatMessage({ id: 'cart.completeOrder' })
+            : intl.formatMessage({ id: 'cart.confirmCheckout' })}
         </button>
       </div>
       <Toaster />
