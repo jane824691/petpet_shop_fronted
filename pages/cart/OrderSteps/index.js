@@ -188,7 +188,7 @@ function OrderSteps() {
     const newWindow = window.open('', '_blank') // 先開視窗，避免 popup 被攔截
 
     const res = await fetch(PAYMENT_CREATE + `/${oid}`, {
-      method: 'POST',
+      method: 'GET',
     })
 
     const html = await res.text()
