@@ -44,16 +44,15 @@ const PaymentStatus = () => {
         const data = snapshot.data()
 
         if (data.status === 'success') {
-          // setPaymentStatus("success");
+          setIsLoading(false)
         }
 
         if (data.status === 'fail') {
-          // setPaymentStatus("fail");
+          setIsLoading(false)
         }
       }
     )
 
-    setIsLoading(false)
     return () => unsubscribe()
   }, [oid])
 
