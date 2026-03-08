@@ -45,10 +45,12 @@ const PaymentStatus = () => {
 
         if (data.status === 'success') {
           setIsLoading(false)
+          unsubscribe()
         }
 
         if (data.status === 'fail') {
           setIsLoading(false)
+          unsubscribe()
         }
       }
     )
