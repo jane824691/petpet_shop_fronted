@@ -2,8 +2,7 @@ import { useEffect, useState } from 'react'
 import Image from 'next/image'
 import OrderUnderMember from '../[oid]'
 import { useIntl } from 'react-intl'
-import { doc, onSnapshot } from 'firebase/firestore'
-import { firestoreDb } from '@/utils/firebase'
+import { doc, firestoreDb, onSnapshot } from '@/utils/firebase'
 import dynamic from 'next/dynamic'
 
 const PaymentStatus = () => {
