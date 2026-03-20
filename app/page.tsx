@@ -21,6 +21,6 @@ async function getProducts(lang = 'zh-TW') {
 
 export default async function Home() {
   const products = await getProducts('zh-TW')
-
   return <HomeContent products={products} />
 }
+

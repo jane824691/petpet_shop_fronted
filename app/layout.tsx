@@ -1,4 +1,5 @@
-import React from 'react'
+import type { Metadata } from 'next'
+import type { ReactNode } from 'react'
 import '@/styles/globals.scss'
 import '@/styles/cart.scss'
 import '@/styles/product.scss'
@@ -11,19 +12,21 @@ import 'swiper/css'
 import 'swiper/css/effect-coverflow'
 import 'swiper/css/pagination'
 
-import BootstrapInit from '@/components/bootstrap/BootstrapInit'
 import ClientProviders from '@/components/providers/ClientProviders'
 
-export const metadata = {
-  title: 'PetPet佩佩星球-模擬電商平台',
-  description: 'PetPet佩佩星球-模擬電商平台',
+export const metadata: Metadata = {
+  title: 'PetPet雿拐蔗??-璅⊥?餃?撟喳',
+  description: 'PetPet雿拐蔗??-璅⊥?餃?撟喳',
 }
 
-export default function RootLayout({ children }) {
+interface RootLayoutProps {
+  children: ReactNode
+}
+
+export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang="zh-TW">
       <body>
-        <BootstrapInit />
         <ClientProviders>{children}</ClientProviders>
       </body>
     </html>

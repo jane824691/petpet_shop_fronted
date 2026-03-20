@@ -1,5 +1,6 @@
 'use client'
 
+import { useEffect } from 'react'
 import { AuthContextProvider } from '@/components/contexts/AuthContext'
 import { GameContextProvider } from '@/components/contexts/GameContext'
 import { CartProvider } from '@/components/hooks/use-cart-state'
@@ -9,6 +10,10 @@ import PetpetHeader from '@/components/layout/petpetHeader'
 import PetpetFooter from '@/components/layout/petpetFooter'
 
 export default function ClientProviders({ children }) {
+  useEffect(() => {
+    import('bootstrap/dist/js/bootstrap')
+  }, [])
+
   return (
     <LanguageProvider>
       <HeaderAnimationProvider>

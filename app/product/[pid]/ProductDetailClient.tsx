@@ -1,73 +1,89 @@
-import { useEffect, useState, useRef } from 'react'
-import { useRouter } from 'next/router'
-import { useCart } from '@/components/hooks/use-cart-state'
-import { useIntl } from 'react-intl'
-import { useLanguage } from '@/components/contexts/LanguageContext'
-import { ONE_PRODUCT, COMMENTS_ONE, COMMENTS_ADD } from '@/components/my-const'
-import Carousel from '@/components/product/carousel'
-import toast, { Toaster } from 'react-hot-toast'
-import { useHeaderAnimation } from '@/components/contexts/HeaderAnimationContext';
-import SecurityUtils from '@/utils/inputCheck'
+'use client'
+
+import { useEffect, useRef, useState } from 'react'
+import { useRouter } from 'next/navigation'
 import dynamic from 'next/dynamic'
+import toast, { Toaster } from 'react-hot-toast'
+import { useIntl } from 'react-intl'
+import { useCart } from '@/components/hooks/use-cart-state'
+import { useLanguage } from '@/components/contexts/LanguageContext'
+import { useHeaderAnimation } from '@/components/contexts/HeaderAnimationContext'
+import { COMMENTS_ADD, COMMENTS_ONE } from '@/components/my-const'
+import Carousel from '@/components/product/carousel'
+import SecurityUtils from '@/utils/inputCheck'
 
-export default function Detail() {
-  const { addItem } = useCart()
-  const { setAddingProductAmount, addingCartAnimation } = useHeaderAnimation();
-  const [productComments, setProductComments] = useState([])
-  const [total, setTotal] = useState(1) // 試帶商品QTY傳給Cart
-  const [page, setPage] = useState(1)
-  const [commentsValue, setCommentsValue] = useState('');
-  const [isLoading, setIsLoading] = useState(false)
-  const [hasMore, setHasMore] = useState(true) // 如滾軸到底頁數, 不再重複呼叫api
-  const [isOverWordsAmounts, setIsOverWordsAmounts] = useState(false)
-  const [hasBadWords, setHasBadWords] = useState(false)
+const CatLoader = dynamic(
+  () =>
+    import('@/components/hooks/use-loader/components').then(
+      (mod) => mod.CatLoader
+    ),
+  { ssr: false }
+)
 
-  const { locale } = useLanguage()
-  const [myProduct, setMyProduct] = useState({
-    pid: '',
-    img: '',
-    name: '',
-    price: '',
-    info: '',
-  })
+export interface ProductData {
+  pid?: number | string
+  product_img?: string
+  photo_content_main?: string
+  photo_content_secondary?: string
+  photo_content?: string
+  product_name?: string
+  product_name_en?: string
+  product_description?: string
+  product_description_en?: string
+  product_price?: number
+}
 
+interface ProductComment {
+  photo?: string
+  account?: string
+  content?: string
+  created_date?: string
+}
 
-  // 跳轉用
+interface ProductDetailClientProps {
+  pid: number
+  initialProduct: ProductData
+}
+
+export default function ProductDetailClient({
+  pid,
+  initialProduct,
+}: ProductDetailClientProps) {
   const router = useRouter()
   const intl = useIntl()
-  const lang = intl.locale
+  const { locale } = useLanguage()
+  const { addItem } = useCart()
+  const { setAddingProductAmount, addingCartAnimation } = useHeaderAnimation()
 
-  // 因F5重整會回到server component, lottie這種三方套件預設是CSR渲染
-  const CatLoader = dynamic(
-    () =>
-      import('@/components/hooks/use-loader/components').then(
-        (mod) => mod.CatLoader
-      ),
-    {
-      ssr: false,
-    }
-  )
+  const [myProduct] = useState<ProductData>(initialProduct)
+  const [productComments, setProductComments] = useState<ProductComment[]>([])
+  const [total, setTotal] = useState(1)
+  const [page, setPage] = useState(1)
+  const [commentsValue, setCommentsValue] = useState('')
+  const [isLoading, setIsLoading] = useState(false)
+  const [hasMore, setHasMore] = useState(true)
+  const [hasBadWords, setHasBadWords] = useState(false)
 
-  // 抓單一商品（只抓一次）
-  const fetchProduct = async () => {
-    const pid = +router.query.pid
-    try {
-      const response = await fetch(ONE_PRODUCT + `/${pid}`, {
-        headers: {
-          'Accept-Language': lang, // 很多後端（尤其是 Express、NestJS、Spring Boot 等）會優先判斷 Accept-Language header，而不是 query string 
-        },
-      })
-      const productData = await response.json()
-      setMyProduct(productData)
-    } catch (error) {
-      console.error('商品資料載入錯誤:', error)
-    }
+  const badWords = [
+    'fuck',
+    'shit',
+    'asshole',
+    'bitch',
+    'wtf',
+    '幹',
+    '靠北',
+    '媽的',
+    '白癡',
+    '智障',
+    '垃圾',
+  ]
+
+  const containsBadWords = (text: string) => {
+    return badWords.some((word) => text.includes(word))
   }
 
-  // 抓留言資料（會無限滾動）
   const fetchComments = async () => {
-    const pid = +router.query.pid
-    if (!hasMore || isLoading) return // 如果正在載入或沒有更多資料，就不繼續呼叫
+    if (!hasMore || isLoading) return
 
     setIsLoading(true)
     try {
@@ -76,95 +92,46 @@ export default function Detail() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ page }), // 改變的頁數放BODY
+        body: JSON.stringify({ page }),
       })
-      const data = await response.json()
 
-      // 若回傳筆數小於 pageSize，就表示最後一頁
-      if (data.length < 3) {
-        setHasMore(false)
-      }
-
+      const data = (await response.json()) as ProductComment[]
+      if (data.length < 3) setHasMore(false)
       setProductComments((prev) => [...prev, ...data])
     } catch (error) {
-      console.error('留言載入錯誤:', error)
+      console.error('Fetch comments failed:', error)
     } finally {
       setIsLoading(false)
     }
   }
 
-  const lastCommentRef = useRef()
+  const lastCommentRef = useRef<HTMLDivElement | null>(null)
+  const observer = useRef<IntersectionObserver | null>(null)
 
-  const observer = useRef()
   useEffect(() => {
     if (isLoading || !hasMore) return
-    if (observer.current) observer.current.disconnect() // 如已有過觀察則停止觀察
-    // if (entry.isIntersecting) observer.unobserve(entry.target) // 無框架js停止觀察寫法, 不拔刷過但使用者當下已離開之可視範圍外的資訊
+    if (observer.current) observer.current.disconnect()
 
-
-    // IntersectionObserver 是 JavaScript（ES6+）的瀏覽器原生 API
-    // IntersectionObserver 該物件接受一個 callback 和一個可選的 options：
-    // 例如 const observer = new IntersectionObserver(callback, options);
-    // 當被觀察的 DOM 元素「出現在畫面中（進入視窗範圍）」時, 就觸發 page+1, 達成無限滾軸
     observer.current = new IntersectionObserver((entries) => {
       if (entries[0].isIntersecting) {
         setPage((prevPage) => prevPage + 1)
       }
     })
 
-    // entries[0] = {
-    //   time: 3412.4,                // 觸發時的時間戳（毫秒）
-    //   target: <div id="target">,   // 被觀察的 DOM 元素
-    //   isIntersecting: true,        // 是否真的有進入觀察區域（最常用）
-    //   intersectionRatio: 0.8,      // 交集比例（0~1，1=完全重疊）
-    //   boundingClientRect: {...},   // 目標元素的邊界（客觀）
-    //   intersectionRect: {...},     // 真的出現在畫面裡的那塊區域
-    //   rootBounds: {...}            // root（預設是 viewport）的邊界
-    // }
-
-    // 教學：https://www.bing.com/videos/riverview/relatedvideo?q=intersectionobserver&mid=63F9AE41BCC1A8B3033863F9AE41BCC1A8B30338&FORM=VAMTRV
-    {
-      // rootMargin: "100px", // 正數值會超越當下看到的視窗大小, 可以在視窗以外就開始帶出資訊
-      // rootMargin: "-50px", // 負數值px則可以壓在視窗內, 為觀察器範圍內
-      // threshold: 0, // 0~1,以觀察的div或指定單位的高度開始觀察
-      // threshold: 1, // 以觀察1個單位的高度, 完全進入該1個單位高度才動作
-    }
-
-
     if (lastCommentRef.current) {
       observer.current.observe(lastCommentRef.current)
     }
   }, [isLoading, hasMore])
 
+  useEffect(() => {
+    fetchComments()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [page, pid, intl.locale])
 
-  //TODO: 是否大於三行評論收合
-  // 每個留言自己控制是否展開
-  const [expandedIndexes, setExpandedIndexes] = useState({})
-
-
-  const toggleExpand = (index) => {
-    setExpandedIndexes((prev) => ({
-      ...prev,
-      [index]: !prev[index],
-    }))
-  }
-
-  const badWords = [
-    'fuck', 'shit', 'asshole', 'bitch', 'wtf', '操你', '幹你', '垃圾', '智障', '白癡', '王八蛋'
-    // 可擴充
-  ]
-
-  const containsBadWords = (text) => {
-    return badWords.some((word) => text.includes(word))
-  }
-
-  const handleCommentChange = (e) => {
+  const handleCommentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const value = e.target.value
-
-    // 即時安全檢查
     const securityCheck = SecurityUtils.securityCheck(value)
 
-    // 如果包含危險內容，阻止輸入
     if (!securityCheck.isValid && securityCheck.errors.invalidInput) {
       toast.error(intl.formatMessage({ id: 'product.commentSecurityError' }))
       return
@@ -175,9 +142,7 @@ export default function Detail() {
   }
 
   const sendComments = async () => {
-    const pid = +router.query.pid
-    const sid = JSON.parse(localStorage.getItem("auther"))?.sid;
-    // 綜合安全檢查
+    const sid = JSON.parse(localStorage.getItem('auther') || '{}')?.sid
     const securityCheck = SecurityUtils.securityCheck(commentsValue)
 
     if (!securityCheck.isValid) {
@@ -191,7 +156,6 @@ export default function Detail() {
       }
       if (securityCheck.errors.invalidLength) {
         toast.error(intl.formatMessage({ id: 'product.commentTooLong' }))
-        setIsOverWordsAmounts(true)
         return
       }
       if (securityCheck.errors.invalidContent) {
@@ -200,7 +164,6 @@ export default function Detail() {
       }
     }
 
-    // 如果內容為空，則阻止送出
     if (commentsValue.length === 0) {
       toast.error(intl.formatMessage({ id: 'product.commentRequired' }))
       return
@@ -216,9 +179,9 @@ export default function Detail() {
       const r = await fetch(COMMENTS_ADD, {
         method: 'POST',
         body: JSON.stringify({
-          sid: sid,
-          pid: pid,
-          content: securityCheck.sanitized, // 使用清理後的內容
+          sid,
+          pid,
+          content: securityCheck.sanitized,
         }),
         headers: {
           'Content-Type': 'application/json',
@@ -228,43 +191,25 @@ export default function Detail() {
       if (responseData.success) {
         setCommentsValue('')
         toast.success(intl.formatMessage({ id: 'product.commentSuccess' }))
-
-        // 重新載入整個留言清單
         setPage(1)
         setHasMore(true)
-        setProductComments([]) // 清空原本的留言列表
-        fetchComments(1) // 加上參數，明確要抓第一頁
+        setProductComments([])
       } else {
         toast.error(intl.formatMessage({ id: 'product.commentNotPurchased' }))
       }
     } catch (error) {
-      console.error('sendComments error')
+      console.error('sendComments error:', error)
     }
   }
 
-  // 初始進來只抓商品資料
-  useEffect(() => {
-    if (router.query.pid) {
-      fetchProduct()
-    }
-  }, [router.query.pid, lang])
-
-  // page 改變時才抓更多留言（第一次 page 預設為 1）
-  useEffect(() => {
-    if (router.query.pid) {
-      fetchComments()
-    }
-  }, [page, router.query.pid, lang])
-
   return (
     <>
-      {/* 商品圖 + 敘述金額 */}
       <div className="row mt-5 mx-3 pt-5 pt-md-0">
         <div className="col-md-7 mx-auto photoWall">
           <div className="position-sticky">
             <Carousel
-              pid={myProduct.pid}
-              firstImage={myProduct.product_img}
+              pid={myProduct.pid ? String(myProduct.pid) : undefined}
+              firstImage={myProduct.product_img || ''}
               mainImage={myProduct.photo_content_main}
               secondaryImage={myProduct.photo_content_secondary}
               additionalImage={myProduct.photo_content}
@@ -273,11 +218,17 @@ export default function Detail() {
         </div>
 
         <div className="col-md-5 ps-4 pt-5 pt-md-0 descriptionPart">
-          <h4 id="name" name="name">
-            {locale === 'zh-TW' ? myProduct.product_name : myProduct.product_name_en}
+          <h4 id="name">
+            {locale === 'zh-TW'
+              ? myProduct.product_name
+              : myProduct.product_name_en}
           </h4>
 
-          <p className="product-desc">{locale === 'zh-TW' ? myProduct.product_description : myProduct.product_description_en}</p>
+          <p className="product-desc">
+            {locale === 'zh-TW'
+              ? myProduct.product_description
+              : myProduct.product_description_en}
+          </p>
 
           <div className="text-center">
             <div className="row align-items-start d-flex amount-btn-group-wide align-items-center justify-content-center">
@@ -291,9 +242,7 @@ export default function Detail() {
                     type="button"
                     className="btn btn-outline-secondary amount-btnL"
                     onClick={() => {
-                      if (total > 1) {
-                        setTotal(total - 1)
-                      }
+                      if (total > 1) setTotal(total - 1)
                     }}
                   >
                     -
@@ -305,9 +254,7 @@ export default function Detail() {
                   <button
                     type="button"
                     className="btn btn-outline-secondary amount-btnR"
-                    onClick={() => {
-                      setTotal(total + 1)
-                    }}
+                    onClick={() => setTotal(total + 1)}
                   >
                     +
                   </button>
@@ -316,23 +263,23 @@ export default function Detail() {
             </div>
           </div>
 
-
           <div className="d-flex gap-4 flex-sm-row flex-column">
             <button
               className="btn btn-outline-primary w-100"
               onClick={() => {
-                const sid = JSON.parse(localStorage.getItem("auther"))?.sid;
+                const sid = JSON.parse(localStorage.getItem('auther') || '{}')
+                  ?.sid
                 if (!sid) {
                   toast.error(intl.formatMessage({ id: 'product.loginForAddCart' }))
                   return
                 }
                 addItem({
-                  pid: myProduct.pid,
-                  name: myProduct.product_name,
-                  name_en: myProduct.product_name_en,
+                  pid: String(myProduct.pid),
+                  name: myProduct.product_name || '',
+                  name_en: myProduct.product_name_en || '',
                   quantity: total,
-                  price: myProduct.product_price,
-                  img: myProduct.product_img,
+                  price: myProduct.product_price || 0,
+                  img: myProduct.product_img || '',
                 })
                 setAddingProductAmount(total)
                 addingCartAnimation(true)
@@ -340,28 +287,30 @@ export default function Detail() {
               }}
             >
               <div className="d-flex justify-content-center m-1 fs-6 ">
-                <i className="bi bi-cart mx-2"></i> <div>{intl.formatMessage({ id: 'product.addToCart' })}</div>
+                <i className="bi bi-cart mx-2"></i>{' '}
+                <div>{intl.formatMessage({ id: 'product.addToCart' })}</div>
               </div>
             </button>
             <button
               className="btn btn-danger text-white w-100 fs-6"
               onClick={() => {
-                const sid = JSON.parse(localStorage.getItem("auther"))?.sid;
+                const sid = JSON.parse(localStorage.getItem('auther') || '{}')
+                  ?.sid
                 if (!sid) {
                   toast.error(intl.formatMessage({ id: 'product.loginForAddCart' }))
                   return
                 }
                 addItem({
-                  pid: myProduct.pid,
-                  name: myProduct.product_name,
-                  name_en: myProduct.product_name_en,
+                  pid: String(myProduct.pid),
+                  name: myProduct.product_name || '',
+                  name_en: myProduct.product_name_en || '',
                   quantity: total,
-                  price: myProduct.product_price,
-                  img: myProduct.product_img,
+                  price: myProduct.product_price || 0,
+                  img: myProduct.product_img || '',
                 })
                 setAddingProductAmount(total)
                 addingCartAnimation(true)
-                router.push('../cart/OrderSteps')
+                router.push('/cart/OrderSteps')
               }}
             >
               {intl.formatMessage({ id: 'product.addAndCheckout' })}
@@ -369,10 +318,7 @@ export default function Detail() {
           </div>
           <Toaster />
           <div className="product-info my-5">
-            <div
-              className="accordion accordion-flush"
-              id="accordionFlushExample"
-            >
+            <div className="accordion accordion-flush" id="accordionFlushExample">
               <div className="accordion-item">
                 <h2 className="accordion-header">
                   <button
@@ -392,45 +338,39 @@ export default function Detail() {
                 >
                   <div className="accordion-body px-1">
                     <p>{intl.formatMessage({ id: 'product.freeShipping1' })}</p>
-                    <p>
-                      {intl.formatMessage({ id: 'product.freeShipping2' })}
-                    </p>
-                    <p>
-                      {intl.formatMessage({ id: 'product.freeShipping3' })}
-                    </p>
+                    <p>{intl.formatMessage({ id: 'product.freeShipping2' })}</p>
+                    <p>{intl.formatMessage({ id: 'product.freeShipping3' })}</p>
                     <p>{intl.formatMessage({ id: 'product.freeShipping4' })}</p>
                     <p>{intl.formatMessage({ id: 'product.freeShipping5' })}</p>
                   </div>
                 </div>
               </div>
-
             </div>
           </div>
         </div>
       </div>
 
-      {/* 商品留言欄 */}
       <div className="mx-5 ps-0 ps-lg-5 mt-3">
         <div className="row">
           <div className="col-9 position-relative">
             <textarea
               className="form-control pe-5"
               placeholder={intl.formatMessage({ id: 'product.commentPlaceholder' })}
-              rows="3"
+              rows={3}
               maxLength={300}
               value={commentsValue}
               onChange={handleCommentChange}
               onPaste={(e) => {
-                // 防止貼上危險內容
                 const pastedText = e.clipboardData.getData('text')
                 const securityCheck = SecurityUtils.securityCheck(pastedText)
                 if (!securityCheck.isValid && securityCheck.errors.invalidInput) {
                   e.preventDefault()
-                  toast.error(intl.formatMessage({ id: 'product.commentSecurityError' }))
+                  toast.error(
+                    intl.formatMessage({ id: 'product.commentSecurityError' })
+                  )
                 }
               }}
               onDrop={(e) => {
-                // 防止拖拽危險內容
                 e.preventDefault()
                 toast.error(intl.formatMessage({ id: 'product.commentSecurityError' }))
               }}
@@ -442,23 +382,27 @@ export default function Detail() {
                 className="position-absolute top-50 translate-middle-y end-0 me-2 text-primary btn no-outline"
                 onClick={() => setCommentsValue('')}
               >
-                Ｘ
+                ×
               </button>
             )}
           </div>
           <div className="col-3">
-            <button className="btn btn-primary w-100 h-100 text-white" onClick={() => { sendComments(commentsValue) }}>
+            <button
+              className="btn btn-primary w-100 h-100 text-white"
+              onClick={sendComments}
+            >
               {intl.formatMessage({ id: 'product.commentSend' })}
             </button>
           </div>
         </div>
         {hasBadWords && (
-          <div className='text-danger'>{intl.formatMessage({ id: 'product.commentHasBadWords' })}</div>
+          <div className="text-danger">
+            {intl.formatMessage({ id: 'product.commentHasBadWords' })}
+          </div>
         )}
       </div>
       <Toaster />
 
-      {/* 商品評論區 */}
       {productComments.length ? (
         <>
           <div className="mx-5 ps-0 ps-lg-5 mt-5">
@@ -467,11 +411,12 @@ export default function Detail() {
 
               return (
                 <div
-                  key={index}
-                  ref={index === productComments.length - 1 ? lastCommentRef : null}
-                  className={`d-flex mb-4 pb-3 align-items-start ${isLast ? '' : 'border-bottom'}`}
+                  key={`${comment.created_date || 'comment'}-${index}`}
+                  ref={isLast ? lastCommentRef : null}
+                  className={`d-flex mb-4 pb-3 align-items-start ${
+                    isLast ? '' : 'border-bottom'
+                  }`}
                 >
-                  {/* 頭像 */}
                   <img
                     src={comment?.photo?.trim?.() ? comment.photo : '/pics/headshot.jpg'}
                     alt="avatar"
@@ -479,22 +424,22 @@ export default function Detail() {
                     style={{ width: '50px', height: '50px', objectFit: 'cover' }}
                   />
 
-                  {/* 右邊內容 */}
                   <div className="flex-grow-1">
-                    <h6 className="mb-1">{comment.account || intl.formatMessage({ id: 'product.commentAnonymous' })}</h6>
+                    <h6 className="mb-1">
+                      {comment.account ||
+                        intl.formatMessage({ id: 'product.commentAnonymous' })}
+                    </h6>
 
-                    {/* 留言內容 */}
-                    <p
-                      className={`mb-1 ${expandedIndexes[index] ? '' : 'text-truncate-3'}`}
-                      style={{ whiteSpace: 'pre-wrap' }}
-                    >
-                      {SecurityUtils.sanitizeHTML(comment.content) || intl.formatMessage({ id: 'product.commentNoContent' })}
+                    <p className="mb-1 text-truncate-3" style={{ whiteSpace: 'pre-wrap' }}>
+                      {SecurityUtils.sanitizeHTML(comment.content || '') ||
+                        intl.formatMessage({ id: 'product.commentNoContent' })}
                     </p>
 
-                    {/* 留言時間 */}
                     <div>
                       <small className="text-muted">
-                        {new Date(comment.created_date).toLocaleString()}
+                        {comment.created_date
+                          ? new Date(comment.created_date).toLocaleString()
+                          : ''}
                       </small>
                     </div>
                   </div>
@@ -504,15 +449,21 @@ export default function Detail() {
           </div>
 
           {isLoading && (
-            <div className="d-flex justify-content-center align-items-center w-100 mb-5" style={{ minHeight: '100px' }}>
+            <div
+              className="d-flex justify-content-center align-items-center w-100 mb-5"
+              style={{ minHeight: '100px' }}
+            >
               <CatLoader />
             </div>
           )}
         </>
       ) : (
-        <div className="mx-5 ps-0 ps-lg-5"><div className="d-flex mb-4 py-4 border-top align-items-start">{intl.formatMessage({ id: 'product.commentNoComment' })}</div></div>
+        <div className="mx-5 ps-0 ps-lg-5">
+          <div className="d-flex mb-4 py-4 border-top align-items-start">
+            {intl.formatMessage({ id: 'product.commentNoComment' })}
+          </div>
+        </div>
       )}
-
     </>
   )
 }
