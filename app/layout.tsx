@@ -15,8 +15,8 @@ import 'swiper/css/pagination'
 import ClientProviders from '@/components/providers/ClientProviders'
 
 export const metadata: Metadata = {
-  title: 'PetPet雿拐蔗??-璅⊥?餃?撟喳',
-  description: 'PetPet雿拐蔗??-璅⊥?餃?撟喳',
+  title: 'PetPet佩佩星球-模擬電商平台',
+  description: 'PetPet佩佩星球-模擬電商平台',
 }
 
 interface RootLayoutProps {
