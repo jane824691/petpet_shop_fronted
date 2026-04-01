@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 // Import Swiper React components
 import { Swiper, SwiperSlide } from 'swiper/react'
 import type { Swiper as SwiperType } from 'swiper'
@@ -12,20 +12,21 @@ import 'swiper/css/thumbs'
 // import required modules
 import { Autoplay, FreeMode, Navigation, Thumbs } from 'swiper/modules'
 
+interface Images {
+  photo_path?: string
+  sort_order?: number
+}
+
 // Props interface
 interface CarouselProps {
   pid?: string;
   firstImage: string;
-  mainImage?: string;
-  secondaryImage?: string;
-  additionalImage?: string;
+  images: Images[];
 }
 
 export default function Carousel({
   firstImage,
-  mainImage,
-  secondaryImage,
-  additionalImage,
+  images,
 }: CarouselProps) {
   const [thumbsSwiper, setThumbsSwiper] = useState<SwiperType | null>(null)
 
@@ -39,10 +40,7 @@ export default function Carousel({
   }
 
   const imagePath01 = getImagePath(firstImage)
-  const imagePath02 = getImagePath(mainImage)
-  const imagePath03 = getImagePath(secondaryImage)
-  const imagePath04 = getImagePath(additionalImage)
-
+  
   return (
     <>
       {/* as React.CSSProperties - 告訴 TypeScript 這裡是合法的 CSS 屬性 */}
@@ -64,21 +62,16 @@ export default function Carousel({
         <SwiperSlide>
           <img src={imagePath01} className="mx-auto img-fluid w-100" />
         </SwiperSlide>
-        {mainImage && (
-          <SwiperSlide>
-            <img src={imagePath02} className="mx-auto img-fluid w-100" />
+
+        {images?.map((v, i) => (
+          <SwiperSlide key={v.sort_order ?? i}>
+            <img
+              src={getImagePath(v.photo_path)}
+              className="mx-auto img-fluid w-100"
+              alt="images in Swiper"
+            />
           </SwiperSlide>
-        )}
-        {secondaryImage && (
-          <SwiperSlide>
-            <img src={imagePath03} className="mx-auto img-fluid w-100" />
-          </SwiperSlide>
-        )}
-        {additionalImage && (
-          <SwiperSlide>
-            <img src={imagePath04} className="mx-auto img-fluid w-100" />
-          </SwiperSlide>
-        )}
+        ))}
       </Swiper>
       <Swiper
         onSwiper={setThumbsSwiper}
@@ -93,23 +86,16 @@ export default function Carousel({
           <img src={imagePath01} className="mx-auto img-fluid w-100" />
         </SwiperSlide>
 
-        {mainImage && (
-          <SwiperSlide>
-            <img src={imagePath02} className="mx-auto img-fluid w-100" />
+        {images?.map((v, i) => (
+          <SwiperSlide key={v.sort_order ?? i}>
+            <img
+              src={getImagePath(v.photo_path)}
+              className="mx-auto img-fluid w-100"
+              alt="images in Swiper"
+            />
           </SwiperSlide>
-        )}
+        ))}
 
-        {secondaryImage && (
-          <SwiperSlide>
-            <img src={imagePath03} className="mx-auto img-fluid w-100" />
-          </SwiperSlide>
-        )}
-
-        {additionalImage && (
-          <SwiperSlide>
-            <img src={imagePath04} className="mx-auto img-fluid w-100" />
-          </SwiperSlide>
-        )}
       </Swiper>
     </>
   )

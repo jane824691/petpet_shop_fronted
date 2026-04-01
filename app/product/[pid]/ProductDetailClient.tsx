@@ -21,9 +21,15 @@ const CatLoader = dynamic(
   { ssr: false }
 )
 
+interface Images {
+    photo_path?: string
+    sort_order?: number
+}
+
 export interface ProductData {
   pid?: number | string
   product_img?: string
+  images: Images[]
   photo_content_main?: string
   photo_content_secondary?: string
   photo_content?: string
@@ -124,6 +130,49 @@ export default function ProductDetailClient({
     }
   }, [isLoading, hasMore])
 
+  
+    // const observer = useRef()
+    // useEffect(() => {
+    //   if (isLoading || !hasMore) return
+    //   if (observer.current) observer.current.disconnect() // 如已有過觀察則停止觀察
+      // if (entry.isIntersecting) observer.unobserve(entry.target) // 無框架js停止觀察寫法, 不拔刷過但使用者當下已離開之可視範圍外的資訊
+  
+  
+      // IntersectionObserver 是 JavaScript（ES6+）的瀏覽器原生 API
+      // IntersectionObserver 該物件接受一個 callback 和一個可選的 options：
+      // 例如 const observer = new IntersectionObserver(callback, options);
+      // 當被觀察的 DOM 元素「出現在畫面中（進入視窗範圍）」時, 就觸發 page+1, 達成無限滾軸
+      // observer.current = new IntersectionObserver((entries) => {
+    //     if (entries[0].isIntersecting) {
+    //       setPage((prevPage) => prevPage + 1)
+    //     }
+    //   })
+  
+      // entries[0] = {
+      //   time: 3412.4,                // 觸發時的時間戳（毫秒）
+      //   target: <div id="target">,   // 被觀察的 DOM 元素
+      //   isIntersecting: true,        // 是否真的有進入觀察區域（最常用）
+      //   intersectionRatio: 0.8,      // 交集比例（0~1，1=完全重疊）
+      //   boundingClientRect: {...},   // 目標元素的邊界（客觀）
+      //   intersectionRect: {...},     // 真的出現在畫面裡的那塊區域
+      //   rootBounds: {...}            // root（預設是 viewport）的邊界
+      // }
+  
+      // 教學：https://www.bing.com/videos/riverview/relatedvideo?q=intersectionobserver&mid=63F9AE41BCC1A8B3033863F9AE41BCC1A8B30338&FORM=VAMTRV
+    //   {
+        // rootMargin: "100px", // 正數值會超越當下看到的視窗大小, 可以在視窗以外就開始帶出資訊
+        // rootMargin: "-50px", // 負數值px則可以壓在視窗內, 為觀察器範圍內
+        // threshold: 0, // 0~1,以觀察的div或指定單位的高度開始觀察
+        // threshold: 1, // 以觀察1個單位的高度, 完全進入該1個單位高度才動作
+    //   }
+  
+  
+    //   if (lastCommentRef.current) {
+    //     observer.current.observe(lastCommentRef.current)
+    //   }
+    // }, [isLoading, hasMore])
+
+
   useEffect(() => {
     fetchComments()
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -146,6 +195,7 @@ export default function ProductDetailClient({
     const sid = JSON.parse(localStorage.getItem('auther') || '{}')?.sid
     const securityCheck = SecurityUtils.securityCheck(commentsValue)
 
+    // 先各種格式檢查，才能送出建立留言
     if (!securityCheck.isValid) {
       if (securityCheck.errors.invalidInput) {
         toast.error(intl.formatMessage({ id: 'product.commentSecurityError' }))
@@ -211,9 +261,7 @@ export default function ProductDetailClient({
             <Carousel
               pid={myProduct.pid ? String(myProduct.pid) : undefined}
               firstImage={myProduct.product_img || ''}
-              mainImage={myProduct.photo_content_main}
-              secondaryImage={myProduct.photo_content_secondary}
-              additionalImage={myProduct.photo_content}
+              images={myProduct.images}
             />
           </div>
         </div>
