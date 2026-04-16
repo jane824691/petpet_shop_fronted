@@ -143,7 +143,7 @@ export default function List() {
     if (searchWord.length) {
       newProducts = products.filter((product) => {
         // includes -> String API
-        return product.product_name.includes(searchWord)
+        return (product.nameZh || '').includes(searchWord)
       })
     }
 
@@ -157,13 +157,13 @@ export default function List() {
     // 以價格排序-由少至多
     if (sortBy === 'cheap') {
       newProducts = [...newProducts].sort(
-        (a, b) => a.product_price - b.product_price
+        (a, b) => a.productPrice - b.productPrice
       )
     }
 
     if (sortBy === 'expensive') {
       newProducts = [...newProducts].sort(
-        (a, b) => b.product_price - a.product_price
+        (a, b) => b.productPrice - a.productPrice
       )
     }
 
@@ -182,13 +182,13 @@ export default function List() {
 
     if (tags.length > 0) {
       newProducts = newProducts.filter((product) => {
-        const productTags = String(product.category_id).split(',').map(Number)
+        const productTags = String(product.categoryId).split(',').map(Number)
         const mappedTags = productTags.map(
           (category_id) => categoryTagMap[category_id] || category_id
         )
 
         if (tags.some((tag) => mappedTags.includes(tag))) {
-          allTags.push(product.category_id)
+          allTags.push(product.categoryId)
           return true
         }
 
@@ -215,28 +215,28 @@ export default function List() {
         newPriceLow = 1
         newPriceHigh = 499
         newProducts = products.filter((p) => {
-          return p.product_price <= 499
+          return p.productPrice <= 499
         })
         break
       case '$500 - $999':
         newPriceLow = 500
         newPriceHigh = 999
         newProducts = products.filter((p) => {
-          return p.product_price >= 500 && p.product_price <= 999
+          return p.productPrice >= 500 && p.productPrice <= 999
         })
         break
       case '$1000 - $1999':
         newPriceLow = 1000
         newPriceHigh = 1999
         newProducts = products.filter((p) => {
-          return p.product_price >= 1000 && p.product_price <= 1999
+          return p.productPrice >= 1000 && p.productPrice <= 1999
         })
         break
       case '$2000 - $2999':
         newPriceLow = 2000
         newPriceHigh = 2999
         newProducts = products.filter((p) => {
-          return p.product_price >= 2000 && p.product_price <= 2999
+          return p.productPrice >= 2000 && p.productPrice <= 2999
         })
         break
       // 指所有的產品都出現
