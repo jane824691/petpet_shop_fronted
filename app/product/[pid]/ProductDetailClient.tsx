@@ -11,6 +11,7 @@ import { useLanguage } from '@/components/contexts/LanguageContext'
 import { useHeaderAnimation } from '@/components/contexts/HeaderAnimationContext'
 import { COMMENTS_ADD, COMMENTS_ONE } from '@/components/my-const'
 import Carousel from '@/components/product/carousel'
+import type { ProductImage } from '@/components/product/carousel'
 import SecurityUtils from '@/utils/inputCheck'
 
 const CatLoader = dynamic(
@@ -21,23 +22,19 @@ const CatLoader = dynamic(
   { ssr: false }
 )
 
-interface Images {
-    photo_path?: string
-    sort_order?: number
-}
-
 export interface ProductData {
-  pid?: number | string
-  product_img?: string
-  images: Images[]
-  photo_content_main?: string
-  photo_content_secondary?: string
-  photo_content?: string
-  product_name?: string
-  product_name_en?: string
-  product_description?: string
-  product_description_en?: string
-  product_price?: number
+  pid: number
+  categoryId: number
+  nameZh: string
+  nameEn: string
+  stock: number
+  salesCondition: string
+  price: number
+  descriptionZh: string
+  descriptionEn: string
+  productImg: string
+  editTime: string
+  images: ProductImage[]
 }
 
 interface ProductComment {
@@ -259,8 +256,8 @@ export default function ProductDetailClient({
         <div className="col-md-7 mx-auto photoWall">
           <div className="position-sticky">
             <Carousel
-              pid={myProduct.pid ? String(myProduct.pid) : undefined}
-              firstImage={myProduct.product_img || ''}
+              pid={myProduct.pid}
+              firstImage={myProduct.productImg}
               images={myProduct.images}
             />
           </div>
@@ -268,22 +265,20 @@ export default function ProductDetailClient({
 
         <div className="col-md-5 ps-4 pt-5 pt-md-0 descriptionPart">
           <h4 id="name">
-            {locale === 'zh-TW'
-              ? myProduct.product_name
-              : myProduct.product_name_en}
+            {locale === 'zh-TW' ? myProduct.nameZh : myProduct.nameEn}
           </h4>
 
           <p className="product-desc">
             {locale === 'zh-TW'
-              ? myProduct.product_description
-              : myProduct.product_description_en}
+              ? myProduct.descriptionZh
+              : myProduct.descriptionEn}
           </p>
 
           <div className="text-center">
             <div className="row align-items-start d-flex amount-btn-group-wide align-items-center justify-content-center">
               <h5 className="text-danger col">
                 <span>NT$ </span>
-                {myProduct.product_price}
+                {myProduct.price}
               </h5>
               <div className="col w-100 pe-3">
                 <div className="d-flex amount-btn-group-wide align-items-center justify-content-center">
@@ -324,11 +319,11 @@ export default function ProductDetailClient({
                 }
                 addItem({
                   pid: String(myProduct.pid),
-                  name: myProduct.product_name || '',
-                  name_en: myProduct.product_name_en || '',
+                  name: myProduct.nameZh,
+                  name_en: myProduct.nameEn,
                   quantity: total,
-                  price: myProduct.product_price || 0,
-                  img: myProduct.product_img || '',
+                  price: myProduct.price,
+                  img: myProduct.productImg,
                 })
                 setAddingProductAmount(total)
                 addingCartAnimation(true)
@@ -351,11 +346,11 @@ export default function ProductDetailClient({
                 }
                 addItem({
                   pid: String(myProduct.pid),
-                  name: myProduct.product_name || '',
-                  name_en: myProduct.product_name_en || '',
+                  name: myProduct.nameZh,
+                  name_en: myProduct.nameEn,
                   quantity: total,
-                  price: myProduct.product_price || 0,
-                  img: myProduct.product_img || '',
+                  price: myProduct.price,
+                  img: myProduct.productImg,
                 })
                 setAddingProductAmount(total)
                 addingCartAnimation(true)

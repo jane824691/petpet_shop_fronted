@@ -12,16 +12,16 @@ import 'swiper/css/thumbs'
 // import required modules
 import { Autoplay, FreeMode, Navigation, Thumbs } from 'swiper/modules'
 
-interface Images {
-  photo_path?: string
-  sort_order?: number
+export interface ProductImage {
+  photoPath?: string
+  sortOrder?: number
 }
 
 // Props interface
 interface CarouselProps {
-  pid?: string;
+  pid?: number;
   firstImage: string;
-  images: Images[];
+  images: ProductImage[];
 }
 
 export default function Carousel({
@@ -64,9 +64,9 @@ export default function Carousel({
         </SwiperSlide>
 
         {images?.map((v, i) => (
-          <SwiperSlide key={v.sort_order ?? i}>
+          <SwiperSlide key={v.sortOrder ?? i}>
             <img
-              src={getImagePath(v.photo_path)}
+              src={getImagePath(v.photoPath)}
               className="mx-auto img-fluid w-100"
               alt="images in Swiper"
             />
@@ -87,9 +87,9 @@ export default function Carousel({
         </SwiperSlide>
 
         {images?.map((v, i) => (
-          <SwiperSlide key={v.sort_order ?? i}>
+          <SwiperSlide key={v.sortOrder ?? i}>
             <img
-              src={getImagePath(v.photo_path)}
+              src={getImagePath(v.photoPath)}
               className="mx-auto img-fluid w-100"
               alt="images in Swiper"
             />
