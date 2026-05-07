@@ -1,7 +1,6 @@
 'use client'
 
 import React, { createContext, useEffect, useState } from 'react'
-import { useCompatibleRouter } from '@/components/utils/use-compatible-router'
 const AuthContext = createContext({})
 
 export default AuthContext
@@ -15,7 +14,6 @@ export const initAuth = {
 
 export const AuthContextProvider = ({ children }) => {
   const [auther, setAuther] = useState(initAuth)
-  const router = useCompatibleRouter()
   useEffect(() => {
     //登入資料放在localstorage,getItem自定義key名稱(auth要改名)
     const str = localStorage.getItem('auther')
@@ -37,7 +35,7 @@ export const AuthContextProvider = ({ children }) => {
     // 登出時, 清除 localStorage 的記錄
     localStorage.removeItem('auther')
     setAuther(initAuth)
-    router.push('/')
+    window.location.href = '/'
   }
 
   return (

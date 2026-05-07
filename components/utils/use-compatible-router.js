@@ -1,19 +1,19 @@
-let useRouterImpl
+let routerHook
 
 try {
   // Pages Router
-  useRouterImpl = require('next/router').useRouter
+  routerHook = require('next/router').useRouter
 } catch (e) {
   try {
     // App Router
-    useRouterImpl = require('next/navigation').useRouter
+    routerHook = require('next/navigation').useRouter
   } catch (e2) {
-    useRouterImpl = null
+    routerHook = null
   }
 }
 
 export function useCompatibleRouter() {
-  if (!useRouterImpl) {
+  if (!routerHook) {
     return {
       push: (path) => {
         if (typeof window !== 'undefined') {
@@ -22,5 +22,5 @@ export function useCompatibleRouter() {
       },
     }
   }
-  return useRouterImpl || { push: () => {} }
+  return routerHook() || { push: () => {} }
 }

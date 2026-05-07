@@ -63,6 +63,7 @@ export default function MemberOrderList() {
           body: JSON.stringify({ sid: sid, token: token }),
           headers: {
             'content-type': 'application/json',
+            authorization: `Bearer ${authData.token}`,
           },
           method: 'POST',
         })
