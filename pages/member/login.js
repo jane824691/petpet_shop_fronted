@@ -72,6 +72,10 @@ export default function Login() {
   }
   const handleShowFailureModal = () => setShowFailureModal(true)
 
+  const fillTestAccount = () => {
+    setUser({ account: 'FANG', password: 'LH123456' })
+  }
+
   return (
     <>
       <h3 className="pt-5 pb-2 mx-auto">{intl.formatMessage({ id: 'login.title', defaultMessage: '會員登入' })}</h3>
@@ -80,6 +84,13 @@ export default function Login() {
         {/* <i className="bi bi-heart-fill text-secondary opacity-25 px-5 d-flex justify-content-center" style={{ fontSize: '280px' }}/> */}
         <form name="form1" onSubmit={postForm}>
           <div className="position-absolute top-50 start-50 translate-middle d-flex flex-column">
+            <button
+              type="button"
+              className="btn btn-sm btn-outline-secondary mb-2 mx-auto"
+              onClick={fillTestAccount}
+            >
+              一鍵帶入
+            </button>
             <div className="input-group mb-2 mb-sm-4 mx-auto">
               <span
                 className="input-group-text border border-danger text-white hintTitle"
@@ -93,7 +104,7 @@ export default function Login() {
                 name="account"
                 aria-label="Account"
                 aria-describedby="basic-addon1"
-                value={user.username}
+                value={user.account}
                 onChange={handleFieldChange}
                 className="form-control input-group-text border border-secondary accountInput"
               />

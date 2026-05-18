@@ -23,7 +23,7 @@ export const COMMENTS_ADD = API_SERVER + '/comments/add' // method: post, 某筆
 //* 會員相關
 
 // --- 登入
-export const LOGIN = API_SERVER + '/login-jwt' // method: POST, 欄位 account, password
+export const LOGIN = API_SERVER + '/login' // method: POST, 欄位 account, password
 export const GET_MEMBER_DATA = API_SERVER + '/member' // 塞入資料到會員中心 (讀取)
 export const REGISTER_ADD = API_SERVER + '/register-list/add' // method: POST, src是後端檔名+router.post("/add")路徑
 export const PUT_MEMBER_DATA = API_SERVER + '/member/edit' // 修改會籍資料
