@@ -157,13 +157,13 @@ export default function List() {
     // 以價格排序-由少至多
     if (sortBy === 'cheap') {
       newProducts = [...newProducts].sort(
-        (a, b) => a.productPrice - b.productPrice
+        (a, b) => a.price - b.price
       )
     }
 
     if (sortBy === 'expensive') {
       newProducts = [...newProducts].sort(
-        (a, b) => b.productPrice - a.productPrice
+        (a, b) => b.price - a.price
       )
     }
 
@@ -215,28 +215,28 @@ export default function List() {
         newPriceLow = 1
         newPriceHigh = 499
         newProducts = products.filter((p) => {
-          return p.productPrice <= 499
+          return p.price <= 499
         })
         break
       case '$500 - $999':
         newPriceLow = 500
         newPriceHigh = 999
         newProducts = products.filter((p) => {
-          return p.productPrice >= 500 && p.productPrice <= 999
+          return p.price >= 500 && p.price <= 999
         })
         break
       case '$1000 - $1999':
         newPriceLow = 1000
         newPriceHigh = 1999
         newProducts = products.filter((p) => {
-          return p.productPrice >= 1000 && p.productPrice <= 1999
+          return p.price >= 1000 && p.price <= 1999
         })
         break
       case '$2000 - $2999':
         newPriceLow = 2000
         newPriceHigh = 2999
         newProducts = products.filter((p) => {
-          return p.productPrice >= 2000 && p.productPrice <= 2999
+          return p.price >= 2000 && p.price <= 2999
         })
         break
       // 指所有的產品都出現

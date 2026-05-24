@@ -9,7 +9,7 @@ interface ProductItemProps {
     pid: string
     nameZh: string
     nameEn?: string
-    productPrice: number
+    price: number
     categoryId: string
     productImg: any
   },
@@ -18,7 +18,7 @@ interface ProductItemProps {
 
 function ProductItem(props: ProductItemProps) {
   const { locale } = useLanguage()
-  const { pid, nameZh, nameEn, productPrice, categoryId, productImg } =
+  const { pid, nameZh, nameEn, price, categoryId, productImg } =
     props.product || {}
   const { index } = props
 
@@ -49,7 +49,7 @@ function ProductItem(props: ProductItemProps) {
             </div>
             <span className="h-currency bold h-now">
               <span>NT$ </span>
-              {productPrice}
+              {price}
             </span>
           </div>
         </div>
