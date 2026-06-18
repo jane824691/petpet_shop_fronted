@@ -55,7 +55,7 @@ function EditProcess() {
       try {
         // 檢查 localStorage 中是否存在 'auther'，以及 'auther' 是否有有效的 sid
         const authDataString = localStorage.getItem('auther')
-        if (!authDataString) {
+        if (!auther.sid && !authDataString) {
           // 未登入會直接跳轉回首頁
           // TODO: needs a loading to prevent show out the member page before jump back to index page
           router.push('/member/login')
@@ -138,7 +138,8 @@ function EditProcess() {
     try {
       const responseSteps = await fetch(PUT_MEMBER_DATA, {
         method: 'PUT',
-        body: formData
+        headers: { Authorization: `Bearer ${authData.token}` },
+        body: formData,
       })
       const responseDataSteps = await responseSteps.json()
       // 後端成功返回的時候，再根據結果決定顯示對應的 modal
