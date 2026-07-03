@@ -17,6 +17,8 @@ import { GameContextProvider } from '@/components/contexts/GameContext'
 import { CartProvider } from '@/components/hooks/use-cart-state'
 import { HeaderAnimationProvider } from '@/components/contexts/HeaderAnimationContext'
 import { LanguageProvider } from '@/components/contexts/LanguageContext'
+import { Provider } from 'react-redux'
+import { store } from '@/utils/store'
 
 export default function MyApp({ Component, pageProps }) {
   useEffect(() => {
@@ -29,15 +31,17 @@ export default function MyApp({ Component, pageProps }) {
     Component.getLayout || ((page) => <DefaultLayout>{page}</DefaultLayout>)
 
   return (
-    <LanguageProvider>
-      <HeaderAnimationProvider>
-        <GameContextProvider>
-          <AuthContextProvider>
-            <CartProvider>{getLayout(<Component {...pageProps} />)}</CartProvider>
-          </AuthContextProvider>
-        </GameContextProvider>
-      </HeaderAnimationProvider>
-    </LanguageProvider>
+    <Provider store={store}>
+      <LanguageProvider>
+        <HeaderAnimationProvider>
+          <GameContextProvider>
+            <AuthContextProvider>
+              <CartProvider>{getLayout(<Component {...pageProps} />)}</CartProvider>
+            </AuthContextProvider>
+          </GameContextProvider>
+        </HeaderAnimationProvider>
+      </LanguageProvider>
+    </Provider>
   )
 
   // <Component {...pageProps} />

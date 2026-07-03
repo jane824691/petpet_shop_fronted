@@ -1,4 +1,3 @@
-import { useCart } from '@/components/hooks/use-cart-state'
 import { useEffect, useState, useCallback } from 'react'
 import Link from 'next/link'
 import { useHeaderAnimation } from '../contexts/HeaderAnimationContext'
@@ -8,24 +7,31 @@ import { useRouter } from 'next/router'
 import dayjs from 'dayjs'
 import { useIntl } from 'react-intl'
 import { useLanguage } from '@/components/contexts/LanguageContext'
+import { useDispatch, useSelector } from 'react-redux'
+import { addItem, increment, decrement, remove } from '@/slice/cartSlice'
+import {
+  selectCartItems,
+  selectCartTotalPrice,
+  selectCartTotalItems,
+} from '@/slice/cartSelectors'
 
 export default function CartList(props) {
   const intl = useIntl()
   const { locale } = useLanguage()
   const { paymentData, setPaymentData } = props
-
-  // 使用hooks 解出所需的狀態與函式(自context)
-  const { cart, items, addItem, decrement, increment, removeItem } = useCart()
+  const dispatch = useDispatch()
+  const cartItems = useSelector(selectCartItems)
+  const cartTotalPrice = useSelector(selectCartTotalPrice)
+  const cartTotalItems = useSelector(selectCartTotalItems)
   const [selectedCouponId, setSelectedCouponId] = useState(0)
   const [netTotal, setNetTotal] = useState(0)
   const [couponData, setCouponData] = useState([])
   const { setAddingProductAmount, addingCartAnimation } = useHeaderAnimation()
 
-  //TODO: need to optimize debounced
   const debouncedAddAmount = useCallback(
     debounce(
       (clickedProduct) => {
-        increment(clickedProduct)
+        dispatch(increment(clickedProduct))
         addingCartAnimation(true) // control whether isAnimate
         setAddingProductAmount(1) // props adding product amount
       },
@@ -64,7 +70,7 @@ export default function CartList(props) {
   useEffect(() => {
     // 一開始沒套用折價券，netTotal和cart.totalPrice一樣
     if (!selectedCouponId) {
-      setNetTotal(cart.totalPrice)
+      setNetTotal(cartTotalPrice)
       return
     }
 
@@ -73,16 +79,16 @@ export default function CartList(props) {
     // type: 'discount'相減
     const newNetTotal =
       coupon.coupon_type === 'discount'
-        ? cart.totalPrice - coupon.discount_coins
-        : Math.round(cart.totalPrice * (1 - coupon.discount_coins))
-    setNetTotal(Number(cart.totalPrice) > 30 ? newNetTotal : 0)
+        ? cartTotalPrice - coupon.discount_coins
+        : Math.round(cartTotalPrice * (1 - coupon.discount_coins))
+    setNetTotal(Number(cartTotalPrice) > 30 ? newNetTotal : 0)
 
     setPaymentData({
       ...paymentData,
       coupon_id: selectedCouponId,
       discount_coins: coupon.discount_coins,
     })
-  }, [cart.totalPrice, selectedCouponId, locale])
+  }, [cartTotalPrice, selectedCouponId, locale])
 
   // 修正 Next hydration 問題
   // https://stackoverflow.com/questions/72673362/error-text-content-does-not-match-server-rendered-html
@@ -120,14 +126,14 @@ export default function CartList(props) {
                         style={{ border: 'none' }}
                         className="btn btn-outline-secondary d-flex"
                         onClick={() => {
-                          addItem({
+                          dispatch(addItem({
                             pid: '204',
                             img: 'd2a9f8e12b76b2aff433f62946427ab895c2de81.jpg',
                             quantity: 5,
                             price: 550,
                             name: 'tails&me 尾巴與我｜經典尼龍帶系列 雙色標準款多功能牽繩',
                             name_en: 'tails&me | Classic Nylon Series - Double-Color Standard Multi-Purpose Leash',
-                          })
+                          }))
                           addingCartAnimation(true)
                           setAddingProductAmount(5)
                         }}
@@ -161,7 +167,7 @@ export default function CartList(props) {
               <hr />
             </div>
 
-            {items.map((v, i) => {
+            {cartItems.map((v, i) => {
               return (
                 <div className="card mb-3 underline" key={v.pid}>
                   <div className="row g-3">
@@ -190,7 +196,7 @@ export default function CartList(props) {
                                 type="button"
                                 className="btn btn-outline-secondary amount-btn-L"
                                 onClick={() => {
-                                  decrement(v.pid)
+                                  dispatch(decrement(v.pid))
                                 }}
                               >
                                 -
@@ -222,7 +228,7 @@ export default function CartList(props) {
                               type="button"
                               className="btn btn-outline-success amount-btn btn-X"
                               onClick={() => {
-                                removeItem(v.pid)
+                                dispatch(remove(v.pid))
                               }}
                             >
                               X
@@ -291,7 +297,7 @@ export default function CartList(props) {
                 {intl.formatMessage({ id: 'cart.totalProducts' })}{' '}
                 <span>
                   <span>{intl.formatMessage({ id: 'cart.totalItems' })}</span>{' '}
-                  {cart.totalItems} {intl.formatMessage({ id: 'cart.items' })}
+                  {cartTotalItems} {intl.formatMessage({ id: 'cart.items' })}
                 </span>
               </h5>
 
