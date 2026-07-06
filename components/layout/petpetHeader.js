@@ -5,18 +5,17 @@ import Link from 'next/link'
 import Dropdown from 'react-bootstrap/Dropdown'
 import AuthContext from '../contexts/AuthContext'
 import { useContext } from 'react'
-import { useCart } from '@/components/hooks/use-cart-state'
 import { useHeaderAnimation } from '@/components/contexts/HeaderAnimationContext'
 import { useLanguage } from '@/components/contexts/LanguageContext'
 import { useIntl } from 'react-intl'
+import { useSelector } from 'react-redux'
+import { selectCartTotalItems } from '@/slice/cartSelectors'
 
 export default function PetpetHeader() {
   const { locale, changeLanguage } = useLanguage()
   const intl = useIntl()
   const { auther, logout } = useContext(AuthContext)
-  const { items } = useCart()
-  const totalQuantity = items.reduce((sum, item) => sum + item.quantity, 0)
-
+  const cartTotalItems = useSelector(selectCartTotalItems)
   const { showAnimation, addingProductAmount } = useHeaderAnimation()
 
   const toggleLanguage = () => {
@@ -80,7 +79,7 @@ export default function PetpetHeader() {
           <div className={styles.headerRight}>
             {auther.account ? (
               <>
-                <div className={styles.totalQuantity}>{totalQuantity || 0}</div>
+                <div className={styles.totalQuantity}>{cartTotalItems || 0}</div>
                 {showAnimation && (
                   <div className={styles.addingAmount}>
                     +{addingProductAmount}

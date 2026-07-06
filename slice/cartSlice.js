@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 import {
   initItems,
+  updateOne,
   addOne,
   incrementOne,
   decrementOne,
@@ -12,9 +13,10 @@ export const cartSlice = createSlice({
   // initialState: [],
   initialState: initItems,
   reducers: {
-    updateOne: (state, action) => {
+    updateItem: (state, action) => {
       console.log('action.payload====', action.payload)
       console.log('action====', action)
+      return updateOne(state, action.payload)
     },
     addItem: (state, action) => {
       return addOne(state, action.payload)
@@ -37,7 +39,7 @@ export const cartSlice = createSlice({
   // },
 })
 
-export const { updateOne, addItem, increment, decrement, remove, clearCart } =
+export const { updateItem, addItem, increment, decrement, remove, clearCart } =
   cartSlice.actions
 
 export default cartSlice.reducer

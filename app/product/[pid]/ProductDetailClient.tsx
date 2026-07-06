@@ -6,13 +6,14 @@ import { useRouter } from 'next/navigation'
 import dynamic from 'next/dynamic'
 import toast, { Toaster } from 'react-hot-toast'
 import { useIntl } from 'react-intl'
-import { useCart } from '@/components/hooks/use-cart-state'
 import { useLanguage } from '@/components/contexts/LanguageContext'
 import { useHeaderAnimation } from '@/components/contexts/HeaderAnimationContext'
 import { COMMENTS_ADD, COMMENTS_ONE } from '@/components/my-const'
 import Carousel from '@/components/product/carousel'
 import type { ProductImage } from '@/components/product/carousel'
 import SecurityUtils from '@/utils/inputCheck'
+import { useDispatch } from 'react-redux'
+import { addItem } from '@/slice/cartSlice'
 
 const CatLoader = dynamic(
   () =>
@@ -56,7 +57,7 @@ export default function ProductDetailClient({
   const router = useRouter()
   const intl = useIntl()
   const { locale } = useLanguage()
-  const { addItem } = useCart()
+  const dispatch = useDispatch()
   const { setAddingProductAmount, addingCartAnimation } = useHeaderAnimation()
 
   const [myProduct] = useState<ProductData>(initialProduct)
@@ -313,14 +314,15 @@ export default function ProductDetailClient({
                   toast.error(intl.formatMessage({ id: 'product.loginForAddCart' }))
                   return
                 }
-                addItem({
+                dispatch(
+                  addItem({
                   pid: String(myProduct.pid),
                   name: myProduct.nameZh,
                   name_en: myProduct.nameEn,
                   quantity: total,
                   price: myProduct.price,
                   img: myProduct.productImg,
-                })
+                }))
                 setAddingProductAmount(total)
                 addingCartAnimation(true)
                 toast.success(intl.formatMessage({ id: 'product.addToCartSuccess' }))
@@ -340,14 +342,15 @@ export default function ProductDetailClient({
                   toast.error(intl.formatMessage({ id: 'product.loginForAddCart' }))
                   return
                 }
-                addItem({
+                dispatch(
+                  addItem({
                   pid: String(myProduct.pid),
                   name: myProduct.nameZh,
                   name_en: myProduct.nameEn,
                   quantity: total,
                   price: myProduct.price,
                   img: myProduct.productImg,
-                })
+                }))
                 setAddingProductAmount(total)
                 addingCartAnimation(true)
                 router.push('/cart/OrderSteps')

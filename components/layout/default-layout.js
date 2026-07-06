@@ -1,3 +1,5 @@
+'use client'
+
 import PetpetHeader from './petpetHeader'
 import PetpetFooter from './petpetFooter'
 import Head from 'next/head'
