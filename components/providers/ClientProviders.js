@@ -8,8 +8,7 @@ import { HeaderAnimationProvider } from '@/components/contexts/HeaderAnimationCo
 import { LanguageProvider } from '@/components/contexts/LanguageContext'
 import PetpetHeader from '@/components/layout/petpetHeader'
 import PetpetFooter from '@/components/layout/petpetFooter'
-import { Provider } from 'react-redux'
-import { store } from '@/utils/store'
+import ReduxProvider from '@/components/providers/ReduxProvider'
 
 export default function ClientProviders({ children }) {
   useEffect(() => {
@@ -17,7 +16,7 @@ export default function ClientProviders({ children }) {
   }, [])
 
   return (
-    <Provider store={store}>
+    <ReduxProvider>
       <LanguageProvider>
         <HeaderAnimationProvider>
           <GameContextProvider>
@@ -31,6 +30,6 @@ export default function ClientProviders({ children }) {
           </GameContextProvider>
         </HeaderAnimationProvider>
       </LanguageProvider>
-    </Provider>
+    </ReduxProvider>
   )
 }
