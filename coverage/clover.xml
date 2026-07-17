@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1772611448823" clover="3.2.0">
-  <project timestamp="1772611448823" name="All files">
+<coverage generated="1783917191312" clover="3.2.0">
+  <project timestamp="1783917191312" name="All files">
     <metrics statements="412" coveredstatements="383" conditionals="52" coveredconditionals="40" methods="23" coveredmethods="17" elements="487" coveredelements="440" complexity="0" loc="412" ncloc="412" packages="1" files="3" classes="3"/>
     <file name="cart-reducer-state.ts" path="C:\Users\shin1\Desktop\MyProject\petpet_shop_fronted\components\hooks\cart-reducer-state.ts">
       <metrics statements="169" coveredstatements="169" conditionals="27" coveredconditionals="27" methods="11" coveredmethods="11"/>
