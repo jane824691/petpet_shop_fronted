@@ -4,9 +4,9 @@ import { ONE_PRODUCT } from '@/components/my-const'
 import ProductDetailClient, { ProductData } from './ProductDetailClient'
 
 interface ProductDetailPageProps {
-  params: {
+  params: Promise<{
     pid: string
-  }
+  }>
 }
 
 async function fetchProduct(
@@ -32,12 +32,14 @@ async function fetchProduct(
 export default async function ProductDetailPage({
   params,
 }: ProductDetailPageProps) {
-  const pid = Number(params.pid)
+  const { pid: productId } = await params
+  const pid = Number(productId)
   if (!Number.isFinite(pid)) {
     notFound()
   }
 
-  const acceptLanguage = headers().get('accept-language') ?? 'zh-TW'
+  const requestHeaders = await headers()
+  const acceptLanguage = requestHeaders.get('accept-language') ?? 'zh-TW'
   const product = await fetchProduct(pid, acceptLanguage)
 
   if (!product) {
