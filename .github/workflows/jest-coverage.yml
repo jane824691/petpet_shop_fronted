@@ -1,0 +1,44 @@
+name: Jest coverage
+
+on:
+  push:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24.22.2
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Detect Jest tests
+        id: jest-tests
+        shell: bash
+        run: |
+          test_list="$RUNNER_TEMP/jest-test-files.txt"
+          npx jest --listTests > "$test_list"
+
+          if [[ -s "$test_list" ]]; then
+            echo "has_tests=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "has_tests=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Run Jest coverage
+        if: steps.jest-tests.outputs.has_tests == 'true'
+        run: npm run test:coverage
+
+      - name: Skip Jest coverage
+        if: steps.jest-tests.outputs.has_tests != 'true'
+        run: echo "No Jest tests found; skipping coverage."
