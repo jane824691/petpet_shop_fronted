@@ -35,10 +35,19 @@ jobs:
             echo "has_tests=false" >> "$GITHUB_OUTPUT"
           fi
 
-      - name: Run Jest coverage
+      - name: Run Jest coverage and generate test results
         if: steps.jest-tests.outputs.has_tests == 'true'
-        run: npm run test:coverage
+        run: npm run test:ci -- --coverage --json --outputFile=test-results.json
 
       - name: Skip Jest coverage
         if: steps.jest-tests.outputs.has_tests != 'true'
         run: echo "No Jest tests found; skipping coverage."
+
+      - name: Upload Jest Results
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: petpet-test-results
+          path: test-results.json
+          if-no-files-found: warn
+          retention-days: 10
