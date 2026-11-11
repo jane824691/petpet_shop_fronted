@@ -20,7 +20,7 @@ const sampleItems: CartItem[] = [
 
 describe('cart-reducer-state: findOneById function', () => {
   // 測試案例 1: 成功找到存在的商品
-  it('should return the correct item when pid exists', () => {
+  it('[TC-PET-CART-005] returns the correct item when pid exists', () => {
     const pidToFind = 'p001';
     const itemsAfterAdd = findOneById(sampleItems, pidToFind);
 
@@ -38,7 +38,7 @@ describe('cart-reducer-state: findOneById function', () => {
   })
 
   // 測試案例 3: 在「空」的陣列中，找不到目標
-  it('should return undefined when searching in an empty array', () => {
+  it('[TC-PET-CART-006] returns undefined when searching an empty cart', () => {
     const emptyItem: CartItem[] = [];
     const pidToFind = 'p001'
     const foundItem = findOneById(emptyItem, pidToFind)
