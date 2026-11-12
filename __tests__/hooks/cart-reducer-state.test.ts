@@ -30,7 +30,7 @@ describe('cart-reducer-state: findOneById function', () => {
   })
 
   // 測試案例 2: 在「有東西」的陣列中，找不到目標
-  it('should return undefined when pid does not exist', () => {
+  it('[TC-PET-CART-006] should return undefined when pid does not exist', () => {
     const pidToFind = '333';
     const foundItem = findOneById(sampleItems, pidToFind);
 
@@ -38,7 +38,7 @@ describe('cart-reducer-state: findOneById function', () => {
   })
 
   // 測試案例 3: 在「空」的陣列中，找不到目標
-  it('[TC-PET-CART-006] returns undefined when searching an empty cart', () => {
+  it('[TC-PET-CART-007] returns undefined when searching an empty cart', () => {
     const emptyItem: CartItem[] = [];
     const pidToFind = 'p001'
     const foundItem = findOneById(emptyItem, pidToFind)
