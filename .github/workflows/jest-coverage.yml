@@ -2,6 +2,8 @@ name: Jest coverage
 
 on:
   push:
+    paths:
+      - '__tests__/**'
 
 permissions:
   contents: read
